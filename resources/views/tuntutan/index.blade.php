@@ -104,12 +104,12 @@
                       <th scope="col" class="sort" data-sort="budget">Status</th>
                       <th scope="col" class="sort" data-sort="status">Jenis Permohonan</th>
                          <!-- eKedatangan -->
-                      {{-- <th scope="col" class="sort" data-sort="name">No</th>
-                      <th scope="col" class="sort" data-sort="budget">Tarikh Mohon</th>
-                      <th scope="col" class="sort" data-sort="status">Waktu Kerja</th> 
-                      <th scope="col" class="sort" data-sort="budget">Perkara</th>
-                      <th scope="col" class="sort" data-sort="budget">Status</th>
-                      <th scope="col" class="sort" data-sort="status">Jenis Permohonan</th> --}}
+                      <th scope="col" class="sort" data-sort="budget">clockintime</th>
+                      <th scope="col" class="sort" data-sort="status">clockouttime</th> 
+                      <th scope="col" class="sort" data-sort="budget">totalworkinghour</th>
+                      <th scope="col" class="sort" data-sort="budget">otstarttime1</th>
+                      <th scope="col" class="sort" data-sort="status">otendtime1</th>
+                      <th scope="col" class="sort" data-sort="status">otdurationt1</th>
                     </tr>        
               </thead>
               <tbody class="list">

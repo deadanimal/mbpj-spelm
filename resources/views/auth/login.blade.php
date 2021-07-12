@@ -1,4 +1,4 @@
-<x-guest-layout >
+<x-guest-layout>
     <x-auth-card >
 
         <x-slot name="logo">
@@ -10,14 +10,17 @@
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <!-- Validation Errors -->
+        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+         <!-- Modified  Logo -->
         <section class="hero container max-w-screen-lg mx-auto mb-7 mt-3 ">
             <img style="width:50% ; height:50%" class="mx-auto" src="{{ asset('argon') }}/img/mbpj.png" alt="screenshot" >
         </section>
-        <section >
+        <section>
             <p class="text-lg font-bold md:text-center ...">Sistem Pengurusan Elaun Lebih Masa. </p>
             <p class="text-lg font-bold md:text-center ...">Majlis Bandaraya Petaling Jaya. </p>
 
-        </section >
+        </section>
+         <!-- Form  Register -->
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
@@ -47,17 +50,30 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                {{-- @if (Route::has('password.request'))
+                @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+                        {{-- {{ __('Forgot your password?') }} --}}
                     </a>
-                @endif --}}
+                @endif
 
                 <x-button class="ml-3">
                     {{ __('Log in') }}
                 </x-button>
             </div>
         </form>
+        </div>
+
+        <footer class="footer pt-5">
+            <div class="row align-items-center justify-content-lg-between">
+              <div class="col-lg-6">
+                <div class="copyright text-center  text-lg-left  text-muted">
+                  &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem Pengurusan Elaun Lebih Masa</a>
+                </div>
+              </div>
+            </div>
+          </footer>
+        <div class="mt-4">
+                <h1>Best viewed using Internet Explorer 9.0 / Mozilla Firefox 12.0 / Google Chrome 13.0 and above with 1024 x 768 resolution<h1>
         </div>
         
     </x-auth-card>

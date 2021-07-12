@@ -8,7 +8,15 @@
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
+        <!-- Modified  Logo -->
+        <section class="hero container max-w-screen-lg mx-auto mb-7 mt-3 ">
+            <img style="width:50% ; height:50%" class="mx-auto" src="{{ asset('argon') }}/img/mbpj.png" alt="screenshot" >
+        </section>
+        <section >
+            <p class="text-lg font-bold md:text-center ...">Sistem Pengurusan Elaun Lebih Masa. </p>
+            <p class="text-lg font-bold md:text-center ...">Majlis Bandaraya Petaling Jaya. </p>
+        </section >
+        <!-- Form  Register -->
         <form method="POST" action="{{ route('register') }}">
             @csrf
 

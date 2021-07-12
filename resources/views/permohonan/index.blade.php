@@ -4,7 +4,7 @@
 
 <div>
   <div class="header bg-primary pb-6">
-    <div class="container-fluid">
+    <div class="container-fluid ">
       <div class="header-body">
         <div class="row align-items-center py-4">
           <div class="col-lg-6 col-7">
@@ -136,11 +136,108 @@
 <div class="row">
   <div class="col-md-12">
       <div class="card">
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-5">
+          <div class="form-group">
+              <h6 class="heading-small text-muted">Maklumat Peribadi</h6>
+              <select id="selectJenisPermohonan" class="form-select form-select-sm col-8" aria-label=".form-select-sm example">
+                  <option selected value="out">Pilih Jenis Permohonan</option>
+                  <option value="individu">Permohonan Individu</option>
+                  <option value="berkumpulan">Permohonan Berkumpulan</option>
+              </select>
+          </div>
+      </div>
+      <div class="col-7">
+          <div class="row">
+              <div class="col">
+                  <div class="form-group">
+                      <label class="form-control-label" for="input-email">Nama</label>
+                      <input type="text" name="nama" id="nama-semakan" class="form-control form-control-sm" value="" disabled>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row"> 
+      <div class="col-5">
+          <div class="row">
+              <div class="form-group">
+                  <label class="form-control-label" for="input-name">No Pekerja</label>
+                  <input type="text" name="noPekerja" id="noPekerja" class="form-control form-control-sm" value="" required autofocus>
+              </div>
+          </div>
+      </div>
+      <div class="col-7">
+          <div class="row">
+              <div class="col">
+                  <div class="form-group">
+                      <label class="form-control-label" for="input-email">No. KP Baru</label>
+                      <input type="text" name="noKPbaru" id="noKPBaru-semakan" class="form-control form-control-sm" value="" disabled>
+                  </div>
+              </div>
+              <div class="col">
+                  <div class="form-group">
+                      <label class="form-control-label" for="input-email">Jawatan</label>
+                      <input type="text" name="jawatan" id="jawatan-semakan" class="form-control form-control-sm" value="" disabled>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-5">
+          <div class="form-row justify-content-end align-items-end">
+              <div class="col">
+                  <label class="form-control-label" for="min">Dari</label>
+                  <input id="min" class="form-control form-control-sm" placeholder="DD-MM-YYYY" autocomplete="off">
+              </div>
+              <div class="col">
+                  <label class="form-control-label" for="max">Ke</label>
+                  <input id="max" class="form-control form-control-sm" placeholder="DD-MM-YYYY" autocomplete="off">
+              </div>
+          </div>         
+      </div>
+      <div class="col-7">
+          <div class="row">
+              <div class="col">
+                  <div class="form-group">
+                      <label class="form-control-label" for="input-email">Bahagian</label>
+                      <input type="text" name="bahagian" id="bahagian-semakan" class="form-control form-control-sm" value="" disabled>
+                  </div>
+              </div>
+              <div class="col">
+                  <div class="form-group">
+                      <label class="form-control-label" for="input-email">Jabatan</label>
+                      <input type="text" name="jabatan" id="jabatan-semakan" class="form-control form-control-sm" value="" disabled>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row justify-content-end align-items-end">
+      <div class="col-md-auto">
+          <button type="button" onclick="event.preventDefault();" id="padamCarian" class="btn btn-sm btn-danger">Padam Carian</button>
+      </div>
+      <div class="col-md-auto">
+          <button type="button" onclick="checkUser()" id="semakPenyelia" class="btn btn-sm btn-success mt-4">Semak</button>
+      </div>
+  </div>    
+</div> 
+
+      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+      <div class="card">
           <!-- Card header -->
           <div class="card-header border-0">
             <h3 class="mb-0">Semak Permohonan</h3>
           </div>
           <!-- Light table -->
+
+          
           <div class="table-responsive">
             <table class="table align-items-center table-flush">
               <thead class="thead-light">                
@@ -152,12 +249,12 @@
                       <th scope="col" class="sort" data-sort="budget">Status</th>
                       <th scope="col" class="sort" data-sort="status">Jenis Permohonan</th>
                          <!-- eKedatangan -->
-                      {{-- <th scope="col" class="sort" data-sort="name">No</th>
-                      <th scope="col" class="sort" data-sort="budget">Tarikh Mohon</th>
-                      <th scope="col" class="sort" data-sort="status">Waktu Kerja</th> 
-                      <th scope="col" class="sort" data-sort="budget">Perkara</th>
-                      <th scope="col" class="sort" data-sort="budget">Status</th>
-                      <th scope="col" class="sort" data-sort="status">Jenis Permohonan</th> --}}
+                         <th scope="col" class="sort" data-sort="budget">clockintime</th>
+                         <th scope="col" class="sort" data-sort="status">clockouttime</th> 
+                         <th scope="col" class="sort" data-sort="budget">totalworkinghour</th>
+                         <th scope="col" class="sort" data-sort="budget">otstarttime1</th>
+                         <th scope="col" class="sort" data-sort="status">otendtime1</th>
+                         <th scope="col" class="sort" data-sort="status">otdurationt1</th>
                     </tr>        
               </thead>
               <tbody class="list">

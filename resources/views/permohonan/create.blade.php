@@ -1,33 +1,52 @@
 @extends('base')
 
 @section('content')
-<div class="container-fluid mt-6">
-    <div class="header-body">
-      <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
-          <h6 class="h2 d-inline-block mb-0">Permohonan</h6>
-        </div>
-        <div class="col-lg-6 col-5 text-right">
-          {{-- <a href="/permohonans/create" class="btn btn-lg btn-neutral">Cipta</a> --}}
-          {{-- <a href="#" class="btn btn-sm btn-neutral">Filters</a> --}}
+
+<div>
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Permohonan</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="#">Permohonan</a></li>
+                <li class="breadcrumb-item active" aria-current="page">create</li>
+              </ol>
+            </nav>
+          </div>
         </div>
       </div>
     </div>
   </div>
-<div class="container-fluid">
-    <div class="col-lg-6">
+    <div class="container-fluid mt--6">
+      <div class="row">
+    <div class="col-lg-12">
         <div class="card-wrapper">
           <!-- Input groups -->
           <div class="card">
             <!-- Card header -->
             <div class="card-header">
-              <h3 class="mb-0">Input groups</h3>
+              <h3 class="mb-0">Kemaskini Borang Permohonan</h3>
             </div>
             <!-- Card body -->
             <div class="card-body">
               <form method="POST" action="/permohonans/">
                 @csrf
                 <!-- Input groups with icon -->
+                <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-merge">
+                      <input class="form-control" name="jenis_permohonan" placeholder="jenis_permohonan" type="password">
+                      <div class="input-group-append">
+                        <span class="input-group-text"></span>
+                      </div>
+                    </div>
+                  </div>          
+                   </div>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -76,27 +95,18 @@
                       <div class="input-group input-group-merge">
                         <input class="form-control" name="tujuan" placeholder="Tujuan" type="text">
                         <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-eye"></i></span>
+                          <span class="input-group-text"><i class="fa fa-address-book"></i></span>
                         </div>
                       </div>
                     </div>
                    </div>
-                   <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="input-group input-group-merge">
-                      <input class="form-control" name="jenis_permohonan" placeholder="jenis_permohonan" type="password">
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="fas fa-eye"></i></span>
-                      </div>
-                    </div>
-                  </div>          
-                   </div>
+
                    <div class="col-md-6">
                   <div class="form-group">
                     <div class="input-group input-group-merge">
                       <input class="form-control" name="pegawai_sokong_id"  placeholder="pegawai_sokong_id" type="password">
                       <div class="input-group-append">
-                        <span class="input-group-text"><i class="fas fa-eye"></i></span>
+                        <span class="input-group-text"><i class="fa fa-address-book"></i></span>
                       </div>
                     </div>
                   </div>      
@@ -106,22 +116,33 @@
                     <div class="input-group input-group-merge">
                       <input class="form-control" name="pegawai_lulus_id" placeholder="pegawai_lulus_id" type="password">
                       <div class="input-group-append">
-                        <span class="input-group-text"><i class="fas fa-eye"></i></span>
+                        <span class="input-group-text"><i class="fa fa-address-book"></i></span>
                       </div>
                     </div>                 
                   </div>  
-                  <button type="submit">Submit</button>
+                  <button  type="submit" class="btn btn-primary float-right">Submit</button>
                 </div>                
                 </div>              
             </div>
           </div>
         </div>
+
+        <footer class="footer pt-0">
+          <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6">
+              <div class="copyright text-center  text-lg-left  text-muted">
+                &copy; 2021 <a href="#" class="font-weight-bold ml-1" target="_blank">Sistem Pengurusan Elaun Lebih Masa</a>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
-</div>
+    <div>
+
 @endsection
 
 
-
+{{-- Script --}}
 @section('script')
 <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/select2/dist/js/select2.min.js"></script>

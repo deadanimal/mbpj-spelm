@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
@@ -58,7 +59,9 @@
         'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
       f.parentNode.insertBefore(j, f);
     })(window, document, 'script', 'dataLayer', 'GTM-NKDMSK6');
+    
   </script>
+  
   <!-- End Google Tag Manager -->
 </head>
 
@@ -67,9 +70,9 @@
   <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
     <div class="scrollbar-inner">
       <!-- Brand -->
-      <div class="sidenav-header  d-flex  align-items-center">
+      <div class="sidenav-header  d-flex  align-items-center  ">
         <a class="navbar-brand" href="javascript:void(0)">
-          <img src="{{ asset('argon') }}/img/mbpj.png" class="navbar-brand-img" alt="..." style="height: 300%; ">
+          <img src="{{ asset('argon') }}/img/mbpj.png"  >
         </a>
         <div class=" ml-auto ">
           <!-- Sidenav toggler -->
@@ -102,7 +105,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/tuntutans">
                 <i class="ni ni-calendar-grid-58 text-red"></i>
-                <span class="nav-link-text">Tuntutans</span>
+                <span class="nav-link-text">Tuntutan</span>
               </a>
             </li>
             <li class="nav-item">
@@ -138,7 +141,7 @@
               <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="media align-items-center">
                   <span class="avatar avatar-sm rounded-circle">
-                    <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
+                    <img alt="Image placeholder" src="{{ asset('argon') }}/img/person.png">
                   </span>
                   <div class="media-body  ml-2  d-none d-lg-block">
                     <span class="mb-0 text-sm  font-weight-bold">Name</span>
@@ -149,14 +152,11 @@
                 <div class="dropdown-header noti-title">
                   <h6 class="text-overflow m-0">Welcome!</h6>
                 </div>
-                <a href="#!" class="dropdown-item">
+                <a href="/profiles" class="dropdown-item">
                   <i class="ni ni-single-02"></i>
                   <span>My profile</span>
                 </a>
-                <a href="#!" class="dropdown-item">
-                  <i class="ni ni-settings-gear-65"></i>
-                  <span>Settings</span>
-                </a>
+    
                 <div class="dropdown-divider"></div>
                 <a href="#!" class="dropdown-item">
                   <i class="ni ni-user-run"></i>
