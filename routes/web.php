@@ -5,6 +5,8 @@ use App\Http\Controllers\AduanController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\TuntutanController;
+use App\Http\Controllers\LaporanController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,7 @@ Route::resource('aduans',AduanController::class)->middleware(['auth']);
 Route::resource('faqs',FaqController::class)->middleware(['auth']);
 Route::resource('permohonans',PermohonanController::class)->middleware(['auth']);
 Route::resource('tuntutans',TuntutanController::class)->middleware(['auth']);
+Route::resource('laporans',LaporanController::class)->middleware(['auth']);
 
 
 require __DIR__.'/auth.php';

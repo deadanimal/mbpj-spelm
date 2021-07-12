@@ -1,8 +1,8 @@
-<x-guest-layout>
-    <x-auth-card>
+<x-guest-layout >
+    <x-auth-card >
+
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            <a href="/"> 
             </a>
         </x-slot>
 
@@ -10,8 +10,14 @@
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        <section class="hero container max-w-screen-lg mx-auto mb-7 mt-3 ">
+            <img style="width:50% ; height:50%" class="mx-auto" src="{{ asset('argon') }}/img/mbpj.png" alt="screenshot" >
+        </section>
+        <section >
+            <p class="text-lg font-bold md:text-center ...">Sistem Pengurusan Elaun Lebih Masa. </p>
+            <p class="text-lg font-bold md:text-center ...">Majlis Bandaraya Petaling Jaya. </p>
 
+        </section >
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
@@ -41,16 +47,18 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
+                {{-- @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
-                @endif
+                @endif --}}
 
                 <x-button class="ml-3">
                     {{ __('Log in') }}
                 </x-button>
             </div>
         </form>
+        </div>
+        
     </x-auth-card>
 </x-guest-layout>
