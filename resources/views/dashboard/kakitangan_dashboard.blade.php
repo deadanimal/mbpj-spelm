@@ -1,12 +1,125 @@
 @extends('base')
 
+<!-- Styles -->
+<style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
+
+</style>
+
+<!-- Resources -->
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!-- Chart code -->
+<script>
+am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+ // Create chart instance
+var chart = am4core.create("chartdiv", am4charts.XYChart);
+
+// Add data
+chart.data = [{
+  "year": 2005,
+  "Permohonan": 23.5,
+  "Tuntutan": 18.1
+},{
+  "year": 2006,
+  "Permohonan": 26.2,
+  "Tuntutan": 22.8
+},{
+  "year": 2007,
+  "Permohonan": 30.1,
+  "Tuntutan": 23.9
+},{
+  "year": 2008,
+  "Permohonan": 29.5,
+  "Tuntutan": 25.1
+},{
+  "year": 2009,
+  "Permohonan": 24.6,
+  "Tuntutan": 25
+}];
+
+// Create axes
+var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "year";
+categoryAxis.numberFormatter.numberFormat = "#";
+categoryAxis.renderer.inversed = true;
+categoryAxis.renderer.grid.template.location = 0;
+categoryAxis.renderer.cellStartLocation = 0.1;
+categoryAxis.renderer.cellEndLocation = 0.9;
+
+var  valueAxis = chart.xAxes.push(new am4charts.ValueAxis()); 
+valueAxis.renderer.opposite = true;
+
+// Create series
+function createSeries(field, name) {
+  var series = chart.series.push(new am4charts.ColumnSeries());
+  series.dataFields.valueX = field;
+  series.dataFields.categoryY = "year";
+  series.name = name;
+  series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
+  series.columns.template.height = am4core.percent(100);
+  series.sequencedInterpolation = true;
+
+// // Title
+
+//   var title = chart.titles.create();
+//   title.text = "";
+//   title.fontSize = 20;
+//   title.marginBottom = 20;
+
+// Print Chart
+
+  chart.exporting.menu = new am4core.ExportMenu();
+  chart.exporting.menu.align = "right";
+  chart.exporting.menu.verticalAlign = "top";
+
+  var valueLabel = series.bullets.push(new am4charts.LabelBullet());
+  valueLabel.label.text = "{valueX}";
+  valueLabel.label.horizontalCenter = "left";
+  valueLabel.label.dx = 10;
+  valueLabel.label.hideOversized = false;
+  valueLabel.label.truncate = false;
+
+  var categoryLabel = series.bullets.push(new am4charts.LabelBullet());
+  categoryLabel.label.text = "{name}";
+  categoryLabel.label.horizontalCenter = "right";
+  categoryLabel.label.dx = -10;
+  categoryLabel.label.fill = am4core.color("#fff");
+  categoryLabel.label.hideOversized = false;
+  categoryLabel.label.truncate = false;
+}
+
+createSeries("Permohonan", "Permohonan");
+createSeries("Tuntutan", "Tuntutan");
+
+}); // end am4core.ready()
+</script>
+
 @section('content')
 
 
 <div>
 
   <div class="header bg-primary pb-6">
-    
+    <div class="container-fluid">
+
+    <div class="row align-items-center py-4">
+      <div class="col-lg-6 col-7">
+    <h1 class="h1 text-white "> Selamat Datang {{Auth()->user()->name}} ke Modul kakitangan </h1>
+    <h1 class="h2 text-white "> Sistem Pengurusan Elaun Lebih Masa</h1>
+      </div>
+    </div>
+    </div>
     <div class="container-fluid">
       <div class="header-body">
         <div class="row align-items-center py-4">
@@ -111,37 +224,16 @@
       <div class="row">
         <div class="col-xl-12">
           <div class="card bg-default">
-            <div class="card-header bg-transparent">
+            <div class="card-header ">
               <div class="row align-items-center">
                 <div class="col">
-                  
-                  <h6 class="text-light text-uppercase ls-1 mb-1">Statistik</h6>
-                  <h5 class="h3 text-white mb-0">Pengurusan Elaun Lebih Masa</h5>
-                </div>
-                <div class="col">
-                  <ul class="nav nav-pills justify-content-end">
-                    <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales-dark" data-update='{"data":{"datasets":[{"data":[0, 20, 10, 30, 15, 40, 20, 60, 60]}]}}' data-prefix="$" data-suffix="k">
-                      <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
-                        <span class="d-none d-md-block">Bulanan</span>
-                        <span class="d-md-none">M</span>
-                      </a>
-                    </li>
-                    <li class="nav-item" data-toggle="chart" data-target="#chart-sales-dark" data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}' data-prefix="$" data-suffix="k">
-                      <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
-                        <span class="d-none d-md-block">Tahunan</span>
-                        <span class="d-md-none">W</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+
+
               </div>
             </div>
             <div class="card-body">
-              <!-- Chart -->
-              <div class="chart">
-                <!-- Chart wrapper -->
-                <canvas id="chart-sales-dark" class="chart-canvas"></canvas>
-              </div>
+              <div id="chartdiv"></div>
+
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title>Argon Dashboard PRO - Premium Bootstrap 4 Admin Template</title>
+  <title>Sistem Pengurusan Elaun Lebih Masa</title>
   <!-- Extra details for Live View on GitHub Pages -->
   <!-- Canonical SEO -->
   <link rel="canonical" href="https://www.creative-tim.com/product/argon-dashboard-pro" />
@@ -34,7 +34,7 @@
   <meta property="og:description" content="Start your development with a Dashboard for Bootstrap 4." />
   <meta property="og:site_name" content="Creative Tim" />
   <!-- Favicon -->
-  <link rel="icon" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/brand/favicon.png" type="image/png">
+  <link rel="icon" href="{{ asset('argon') }}/img/mbpj.png ">
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <!-- Icons -->
@@ -144,7 +144,7 @@
                     <img alt="Image placeholder" src="{{ asset('argon') }}/img/person.png">
                   </span>
                   <div class="media-body  ml-2  d-none d-lg-block">
-                    <span class="mb-0 text-sm  font-weight-bold">Name</span>
+                    <span class="mb-0 text-sm  font-weight-bold">{{Auth()->user()->name}}</span>
                   </div>
                 </div>
               </a>
@@ -158,7 +158,7 @@
                 </a>
     
                 <div class="dropdown-divider"></div>
-                <a href="#!" class="dropdown-item">
+                <a href="/logout" class="dropdown-item">
                   <i class="ni ni-user-run"></i>
                   <span>Logout</span>
                 </a>
@@ -169,6 +169,32 @@
       </div>
     </nav>
 
+    {{-- Modified user dashboard ---------}}
+        {{-- @if (Auth::user()->role == 'kakitangan')
+        <div class="header bg-primary pb-3">
+        <div class="container-fluid">
+              <div class="col-lg-6 col-7">
+                <h1 class="h2 text-black "> Selamat Datang {{Auth()->user()->name}} ke Modul kakitangan </h1>
+              </div>
+          </div>
+       </div>
+        @elseif (Auth::user()->role == 'pentadbir_sistem')   
+        <div class="header bg-primary pb-3">
+          <div class="container-fluid">
+                <div class="col-lg-6 col-7">
+                  <h1 class="h2 text-black "> Selamat Datang {{Auth()->user()->name}} ke Modul kakitangan </h1>
+                </div>
+            </div>
+         </div>
+        @elseif (Auth::user()->role == 'penyelia')
+        Penyelia
+        @elseif (Auth::user()->role == 'ketua_bahagian')
+        Ketua bahagian
+        @elseif (Auth::user()->role == 'ketua_jabatan')
+        Ketua jabatan
+        @else
+            
+        @endif --}}
 
         @yield('content')
   </div>

@@ -52,15 +52,15 @@
                     </div>
                     <div class="text-center">
                       <h5 class="h3">
-                        Jessica Jones<span class="font-weight-light"></span>
+                        {{Auth()->user()->name}}<span class="font-weight-light"></span>
                       </h5>
                       <div class="h5 font-weight-300">
                       </div>
                       <div class="h5 mt-4">
-                        <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
+                        <i class="ni business_briefcase-24 mr-2"></i>{{Auth()->user()->department_code}}
                       </div>
                       <div>
-                        <i class="ni education_hat mr-2"></i>University of Computer Science
+                        <i class="ni education_hat mr-2"></i>{{Auth()->user()->user_code}}
                       </div>
                     </div>
                   </div>
@@ -97,13 +97,13 @@
                           <div class="col-lg-6">
                             <div class="form-group">
                               <label class="form-control-label" for="input-username">No. K/P Baru</label>
-                              <input type="text" id="input-username" class="form-control" placeholder="Username" value="" disabled>
+                              <input type="text" id="input-username" class="form-control" placeholder="{{Auth()->user()->nric}}" value="" disabled>
                             </div>
                           </div>
                           <div class="col-lg-6">
                             <div class="form-group">
                               <label class="form-control-label" for="input-email">Alamat Email </label>
-                              <input type="email" id="input-email" class="form-control" placeholder="jesse@example.com" value="" disabled>
+                              <input type="email" id="input-email" class="form-control" placeholder="{{Auth()->user()->email}}" value="" disabled>
                             </div>
                           </div>
                         </div>
@@ -111,27 +111,42 @@
                           <div class="col-lg-6">
                             <div class="form-group">
                               <label class="form-control-label" for="input-first-name">No Pekerja</label>
-                              <input type="text" id="input-first-name" class="form-control" placeholder="First name" value="" disabled>
+                              <input type="text" id="input-first-name" class="form-control" placeholder="{{Auth()->user()->user_code}}" value="" disabled>
                             </div>
                           </div>
                           <div class="col-lg-6">
                             <div class="form-group">
                               <label class="form-control-label" for="input-last-name">No. Tel. Bimbit</label>
-                              <input type="text" id="input-last-name" class="form-control" placeholder="Last name" value="" disabled>
+                              <input type="text" id="input-last-name" class="form-control" placeholder="{{Auth()->user()->phone}}" value="" disabled>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-first-name">Role</label>
+                              <input type="text" id="input-first-name" class="form-control" placeholder="{{Auth()->user()->role}}" value="" disabled>
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-last-name">bahagian</label>
+                              <input type="text" id="input-last-name" class="form-control" placeholder="{{Auth()->user()->department_code}}" value="" disabled>
                             </div>
                           </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                               <div class="form-group">
-                                <label class="form-control-label" for="input-first-name">Tukar Kata laluan</label>
-                                <input type="text" id="input-first-name" class="form-control" placeholder="First name" value="Kata laluan">
+                                <label class="form-control-label" for="input-first-name">Kemaskini Kata Laluan
+                                </label>
+                                <input type="text" id="input-first-name" class="form-control" placeholder="{{Auth()->user()->password}}" value="Kata Laluan Baru">
                               </div>
                             </div>
                             <div class="col-lg-6">
                               <div class="form-group">
-                                <label class="form-control-label" for="input-last-name">Tukar Kata laluan</label>
-                                <input type="text" id="input-last-name" class="form-control" placeholder="Last name" value="Kata laluan">
+                                <label class="form-control-label" for="input-last-name">Ulang Kata Laluan Baru</label>
+                                <input type="text" id="input-last-name" class="form-control" placeholder="{{Auth()->user()->password}}" value="Ulang Kata Laluan Baru">
                               </div>
                             </div>
                           </div>
@@ -148,7 +163,7 @@
               <div class="row align-items-center justify-content-lg-between">
                 <div class="col-lg-6">
                   <div class="copyright text-center  text-lg-left  text-muted">
-                    &copy; 2021 <a href="#" class="font-weight-bold ml-1" target="_blank">Sistem Pengurusan Elaun Lebih Masa</a>
+                    &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem Pengurusan Elaun Lebih Masa</a>
                   </div>
                 </div>
         
