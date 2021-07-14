@@ -88,39 +88,91 @@
       <div class="navbar-inner">
         <!-- Collapse -->
         <div class="collapse navbar-collapse" id="sidenav-collapse-main">
-          <!-- Nav items -->
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="/dashboard">
-                <i class="ni ni-archive-2 text-green"></i>
-                <span class="nav-link-text">Dashboard</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/permohonans">
-                <i class="ni ni-chart-pie-35 text-info"></i>
-                <span class="nav-link-text">Permohonan</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/tuntutans">
-                <i class="ni ni-calendar-grid-58 text-red"></i>
-                <span class="nav-link-text">Tuntutan</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/faqs">
-                <i class="ni ni-chat-round text-red"></i>
-                <span class="nav-link-text">Bantuan</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/laporans">
-                <i class="ni ni-chart-bar-32 text-green"></i>
-                <span class="nav-link-text">Laporan</span>
-              </a>
-            </li>
-   
+                <!-- Nav items pentadbir -->
+      @if(auth()->user()->role == 'pentadbir_sistem')
+      
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="/dashboard">
+                    <i class="ni ni-archive-2 text-green"></i>
+                    <span class="nav-link-text">Dashboard</span>
+                  </a>
+                </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/pengurusanpenggunas">
+                      <i class="ni ni-archive-2 text-green"></i>
+                      <span class="nav-link-text">Pengurusan Pengguna</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/faqs">
+                      <i class="ni ni-chat-round text-red"></i>
+                      <span class="nav-link-text">Bantuan</span>
+                    </a>
+                  </li>
+                  
+                <!-- Nav items lain-lain custom -->
+      @elseif(auth()->user()->role == 'datuk_bandar'or auth()->user()->role =='kerani_semakan'or auth()->user()->role =='kerani_pemeriksa' or auth()->user()->role == 'pelulus_pindaan')
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                      <i class="ni ni-archive-2 text-green"></i>
+                      <span class="nav-link-text">Dashboard</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/tuntutans">
+                      <i class="ni ni-calendar-grid-58 text-red"></i>
+                      <span class="nav-link-text">Tuntutan</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/faqs">
+                      <i class="ni ni-chat-round text-red"></i>
+                      <span class="nav-link-text">Bantuan</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/laporans">
+                      <i class="ni ni-chart-bar-32 text-green"></i>
+                      <span class="nav-link-text">Laporan</span>
+                    </a>
+                  </li>
+                <!-- Nav items dalaman -->
+      @else
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                      <i class="ni ni-archive-2 text-green"></i>
+                      <span class="nav-link-text">Dashboard</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/permohonans">
+                      <i class="ni ni-chart-pie-35 text-info"></i>
+                      <span class="nav-link-text">Permohonan</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/tuntutans">
+                      <i class="ni ni-calendar-grid-58 text-red"></i>
+                      <span class="nav-link-text">Tuntutan</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/faqs">
+                      <i class="ni ni-chat-round text-red"></i>
+                      <span class="nav-link-text">Bantuan</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/laporans">
+                      <i class="ni ni-chart-bar-32 text-green"></i>
+                      <span class="nav-link-text">Laporan</span>
+                    </a>
+                  </li>
+
+      @endif
         </div>
       </div>
     </div>

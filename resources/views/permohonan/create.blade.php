@@ -39,6 +39,12 @@
                 <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
+                    {{-- <select class="form-select form-select-sm col-8"
+                    aria-label=".form-select-sm example">
+                    <option selected value="out">Pilih Jenis Permohonan</option>
+                    <option value="individu">Permohonan Individu</option>
+                    <option value="berkumpulan">Permohonan Berkumpulan</option>
+                </select> --}}
                     <div class="input-group input-group-merge">
                       <input class="form-control" name="jenis_permohonan" placeholder="jenis_permohonan" type="password">
                       <div class="input-group-append">

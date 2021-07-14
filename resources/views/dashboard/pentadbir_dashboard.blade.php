@@ -85,9 +85,9 @@
   ]
   
   
-  createSeries('first', 'The First');
-  createSeries('second', 'The Second');
-  createSeries('third', 'The Third');
+  createSeries('first', 'PERMOHONAN');
+  createSeries('second', 'PENGESAHAN');
+  createSeries('third', 'TUNTUTAN');
   
   function arrangeColumns() {
   
@@ -161,13 +161,13 @@
         </div>
         <!-- Card stats -->
         <div class="row">
-          <div class="col-xl-3 col-md-6">
+          <div class="col-xl-4 col-md-6">
             <div class="card card-stats">
               <!-- Card body -->
               <div class="card-body">
                 <div class="row">
                   <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PERMOHONAN LEBIH MASA
+                    <h5 class="card-title text-uppercase text-muted mb-0">PERMOHONAN KERJA LEBIH MASA
                     </h5>
                     <span class="h2 font-weight-bold mb-0">350,897</span>
                   </div>
@@ -180,13 +180,13 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-md-6">
+          <div class="col-xl-4 col-md-6">
             <div class="card card-stats">
               <!-- Card body -->
               <div class="card-body">
                 <div class="row">
                   <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0"> PERMOHONAN KERJA LEBIH MASA LULUS
+                    <h5 class="card-title text-uppercase text-muted mb-0"> PENGESAHAN KERJA LEBIH MASA
                     </h5>
                     <span class="h2 font-weight-bold mb-0">2,356</span>
                   </div>
@@ -200,13 +200,13 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-md-6">
+          <div class="col-xl-4 col-md-6">
             <div class="card card-stats">
               <!-- Card body -->
               <div class="card-body">
                 <div class="row">
                   <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA 
+                    <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
                     </h5>
                     <span class="h2 font-weight-bold mb-0">924</span>
                   </div>
@@ -217,107 +217,6 @@
                   </div>
                 </div>
  
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
-              <!-- Card body -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA (RM)
-                    </h5>
-                    <span class="h2 font-weight-bold mb-0">RM 49,65</span>
-                  </div>
-                  <div class="col-auto">
-                    <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
-                      <i class="ni ni-chart-bar-32"></i>
-                    </div>
-                  </div>
-                </div>
-       
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
-              <!-- Card body -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PERMOHONAN LEBIH MASA
-                    </h5>
-                    <span class="h2 font-weight-bold mb-0">350,897</span>
-                  </div>
-                  <div class="col-auto">
-                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                      <i class="ni ni-active-40"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
-              <!-- Card body -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0"> PERMOHONAN KERJA LEBIH MASA LULUS
-                    </h5>
-                    <span class="h2 font-weight-bold mb-0">2,356</span>
-                  </div>
-                  <div class="col-auto">
-                    <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                      <i class="ni ni-chart-pie-35"></i>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
-              <!-- Card body -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA 
-                    </h5>
-                    <span class="h2 font-weight-bold mb-0">924</span>
-                  </div>
-                  <div class="col-auto">
-                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                      <i class="ni ni-money-coins"></i>
-                    </div>
-                  </div>
-                </div>
- 
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
-              <!-- Card body -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA (RM)
-                    </h5>
-                    <span class="h2 font-weight-bold mb-0">RM 49,65</span>
-                  </div>
-                  <div class="col-auto">
-                    <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
-                      <i class="ni ni-chart-bar-32"></i>
-                    </div>
-                  </div>
-                </div>
-       
               </div>
             </div>
           </div>

@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tuntutan;
-use App\Models\User;
+use App\Models\Pengurusanpengguna;
 use Illuminate\Http\Request;
 
-class TuntutanController extends Controller
+class PengurusanpenggunaController extends Controller
 {
     /**
-     * Display a listing of the resource. 
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $user = User::get('role');
-         return view ('tuntutan.index');
-            // 'user'=> $user    
+
         
+        return view ('pentadbir_sistem.pengurusanpengguna');
     }
 
     /**
@@ -45,10 +43,10 @@ class TuntutanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tuntutan  $tuntutan
+     * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function show(Tuntutan $tuntutan)
+    public function show(Profile $profile)
     {
         //
     }
@@ -56,10 +54,10 @@ class TuntutanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Tuntutan  $tuntutan
+     * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tuntutan $tuntutan)
+    public function edit(Profile $profile)
     {
         //
     }
@@ -68,10 +66,10 @@ class TuntutanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tuntutan  $tuntutan
+     * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tuntutan $tuntutan)
+    public function update(Request $request, Profile $profile)
     {
         //
     }
@@ -79,10 +77,10 @@ class TuntutanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Tuntutan  $tuntutan
+     * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tuntutan $tuntutan)
+    public function destroy(Profile $profile)
     {
         //
     }
