@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use App\Models\Permohonan;
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -40,4 +42,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function permohonans()
+    {
+        return $this->belongsToMany(Permohonan::class, 'user_permohonans', 'user_id', 'permohonan_id');
+    }    
 }

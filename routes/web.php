@@ -9,6 +9,8 @@ use App\Http\Controllers\TuntutanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PengurusanpenggunaController;
+use App\Http\Controllers\UserController;
+
 
 
 /*
@@ -35,7 +37,7 @@ Route::resource('permohonans',PermohonanController::class)->middleware(['auth'])
 Route::resource('tuntutans',TuntutanController::class)->middleware(['auth']);
 Route::resource('laporans',LaporanController::class)->middleware(['auth']);
 Route::resource('profiles',ProfileController::class)->middleware(['auth']);
-Route::resource('pengurusanpenggunas',PengurusanpenggunaController::class)->middleware(['auth']);
+Route::resource('users',UserController::class)->middleware(['auth']);
 
 
 require __DIR__.'/auth.php';

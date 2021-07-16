@@ -11,8 +11,8 @@
             <h6 class="h2 text-white d-inline-block mb-0">Permohonan</h6>
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
               <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="#">Permohonan</a></li>
+                <li class="breadcrumb-item"><a href="/permohonans"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="/permohonans/create">Permohonan</a></li>
                 <li class="breadcrumb-item active" aria-current="page">create</li>
               </ol>
             </nav>
@@ -37,25 +37,17 @@
                 @csrf
                 <!-- Input groups with icon -->
                 <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-group">
-                    {{-- <select class="form-select form-select-sm col-8"
-                    aria-label=".form-select-sm example">
-                    <option selected value="out">Pilih Jenis Permohonan</option>
-                    <option value="individu">Permohonan Individu</option>
-                    <option value="berkumpulan">Permohonan Berkumpulan</option>
-                </select> --}}
-                    <div class="input-group input-group-merge">
-                      <input class="form-control" name="jenis_permohonan" placeholder="jenis_permohonan" type="password">
-                      <div class="input-group-append">
-                        <span class="input-group-text"></span>
-                      </div>
-                    </div>
+                    <select class="form-select form-select-sm col-8" name="jenis_permohonan" aria-label=".form-select-sm example">
+                    <option value="individu">Permohonan Individu / Borang A1</option>
+                    <option value="berkumpulan">Permohonan Berkumpulan / Borang A2</option></select>
                   </div>          
-                   </div>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
+                      <label for="mohon_mula_kerja">Pilih waktu mula</label>
+
                         <div class="input-group date" id="datetimepicker1">
                           <input type="text" class="form-control" name="mohon_mula_kerja">
                           <span class="input-group-addon input-group-append">
@@ -66,6 +58,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
+                      <label for="mohon_akhir_kerja">Pilih waktu akhir</label>
+
                         <div class="input-group date" id="datetimepicker2">
                           <input type="text" class="form-control" name="mohon_akhir_kerja">
                           <span class="input-group-addon input-group-append">
@@ -78,6 +72,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
+                      <label for="lokasi">Lokasi kerja lebih masa</label>
                       <div class="input-group input-group-merge">
                         <input class="form-control"name="lokasi"  placeholder="lokasi" type="text">
                         <div class="input-group-append">
@@ -88,29 +83,22 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
+                      <label for="Perkara">Sebab kerja lebih masa</label>
+
                       <div class="input-group input-group-merge">
-                        <input class="form-control" name="Perkara" placeholder="Perkara" type="text">
+                        <input class="form-control" name="tujuan" placeholder="tujuan" type="text">
                         <div class="input-group-append">
                           <span class="input-group-text"><i class="fas fa-eye"></i></span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group input-group-merge">
-                        <input class="form-control" name="tujuan" placeholder="Tujuan" type="text">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fa fa-address-book"></i></span>
-                        </div>
-                      </div>
-                    </div>
-                   </div>
-
                    <div class="col-md-6">
                   <div class="form-group">
+                    <label for="pegawai_sokong_id">Pilih pegawai sokong</label>
+
                     <div class="input-group input-group-merge">
-                      <input class="form-control" name="pegawai_sokong_id"  placeholder="pegawai_sokong_id" type="password">
+                      <input class="form-control" name="pegawai_sokong_id"  placeholder="pegawai_sokong_id" >
                       <div class="input-group-append">
                         <span class="input-group-text"><i class="fa fa-address-book"></i></span>
                       </div>
@@ -119,8 +107,10 @@
                 </div>
                   <div class="col-md-6">
                   <div class="form-group">
+                    <label for="pegawai_lulus_id">Pilih pegawai lulus</label>
+
                     <div class="input-group input-group-merge">
-                      <input class="form-control" name="pegawai_lulus_id" placeholder="pegawai_lulus_id" type="password">
+                      <input class="form-control" name="pegawai_lulus_id" placeholder="pegawai_lulus_id" >
                       <div class="input-group-append">
                         <span class="input-group-text"><i class="fa fa-address-book"></i></span>
                       </div>
