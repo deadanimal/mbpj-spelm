@@ -8,11 +8,7 @@ use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         // $faqs = Faq::find($faq)->faqs()->get();
@@ -21,12 +17,7 @@ class FaqController extends Controller
             'faqs'=>$faqs
             ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
         return view('faq.create');
@@ -87,15 +78,14 @@ class FaqController extends Controller
      */
     public function update(Request $request, Faq $faq)
     {
-        //
+        $faq->tajuk_aduan = $request-> tajuk_aduan;
+        $faq->maklumat = $request-> maklumat; 
+        $faq->save();
+
+        $redirected_url= '/faqs/';
+        return redirect($redirected_url);        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Faq  $faq
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Faq $faq)
     {
         //

@@ -53,7 +53,7 @@
                         <a href="/faqs/create" class="btn btn-sm btn-neutral">Tambah FAQ</a>
                     </div>
                     @elseif(auth()->user()->role == 'penyelia')
-            
+
                     @else
                     @endif
                 </div>
@@ -64,511 +64,123 @@
     {{-- user first --}}
     @if(auth()->user()->role == 'kakitangan')
     <!-- Page content -->
-        @foreach ($faqs as $faq)
-                
-        <div class="container-fluid mt--6">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="card">
-                        <div class="card-header">
-                            {{-- <h5 class="h3 mb-3">Soalan Lazim </h5> --}}
-                            <button class="accordion"> {{$faq->tajuk_aduan}}</button> 
-                            <div class="panel"><p>{{$faq->maklumat}}</p></div>
+    @foreach ($faqs as $faq)
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        {{-- <h5 class="h3 mb-3">Soalan Lazim </h5> --}}
+                        <button class="accordion"> {{$faq->tajuk_aduan}}</button>
+                        <div class="panel">
+                            <p>{{$faq->maklumat}}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @endforeach
-
-        {{--  --}}
-        <div class="container-fluid mt--12">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="h3 mb-3">Manual Pengguna</h5>
-                            <button type="button" class="btn btn-primary">Manual Pengguna</button>
-                        </div>
+    </div>
+    @endforeach
+    {{--  --}}
+    <div class="container-fluid mt--12">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="h3 mb-3">Manual Pengguna</h5>
+                        <button type="button" class="btn btn-primary">Manual Pengguna</button>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="h3 mb-3">Bantuan Helpdesk</h5>
-
-                            <div class="media align-items-center">
-                                <div class="media-body">
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle  " type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Jenis Aduan
-                                        </button><br><br>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Sistem</a>
-                                            <a class="dropdown-item" href="#">Permohonan Kerja Lebih Masa</a>
-                                            <a class="dropdown-item" href="#">Tuntutan Elaun Lebih Masa</a>
-                                        </div>
-                                    </div>
-                                    <form>
-                                        <textarea class="form-control" placeholder="Write your comment"
-                                            rows="3"></textarea><br>
-
-                                        <button type="submit" class="btn btn-primary float-right">Hantar Aduan</button>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        </div>
         {{-- user Lain --}}
     @elseif(auth()->user()->role == 'pentadbir_sistem')
-
-        @foreach ($faqs as $faq)
-            
         <div class="container-fluid mt--6">
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card">
-                        <div class="card-header">
-                            {{-- <h5 class="h3 mb-3">Soalan Lazim </h5> --}}
-                            <button class="accordion"> {{$faq->tajuk_aduan}}</button> 
-                            <div class="panel"><p>{{$faq->maklumat}}</p></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endforeach
-        {{-- user Lain --}}
-    @elseif(auth()->user()->role == 'penyelia')
-        <div class="container-fluid mt--6">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="h3 mb-3">Soalan Lazim </h5>
-
-                            <button class="accordion"> Permohonan Kerja Lebih Masa</button>
-                            <div class="panel">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-
-                            <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                            <div class="panel">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-                            <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                            <div class="panel">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-                            <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                            <div class="panel">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid mt--12">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="h3 mb-3">Bantuan Helpdesk</h5>
-
-                            <div class="media align-items-center">
-                                <div class="media-body">
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Jenis Aduan
-                                        </button><br><br>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Sistem</a>
-                                            <a class="dropdown-item" href="#">Permohonan Kerja Lebih Masa</a>
-                                            <a class="dropdown-item" href="#">Tuntutan Elaun Lebih Masa</a>
-                                        </div>
-                                    </div>
-                                    <form>
-                                        <textarea class="form-control" placeholder="Write your comment"
-                                            rows="3"></textarea>
-
-                                        <button type="submit" class="btn btn-primary float-right">Hantar
-                                            Aduan</button>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{-- user Lain --}}
-
-            @elseif(auth()->user()->role == 'ketua_jabatan')
-            <!-- Page content -->
-            <div class="container-fluid mt--6">
-                <div class="row">
-                    <div class="col-xl-12">
                         <div class="card">
+                            <!-- Card header -->
                             <div class="card-header">
-                                <h5 class="h3 mb-3">Soalan Lazim </h5>
-
-                                <button class="accordion"> Permohonan Kerja Lebih Masa</button>
-                                <div class="panel">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat.</p>
-                                </div>
-
-                                <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                                <div class="panel">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat.</p>
-                                </div>
-                                <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                                <div class="panel">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat.</p>
-                                </div>
-                                <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                                <div class="panel">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat.</p>
-                                </div>
-
+                                <h3 class="mb-0">Kemaskini Soalan Lazim</h3>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid mt--12">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="h3 mb-3">Bantuan Helpdesk</h5>
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <form method="POST" action="/faqs/{{$faq->id}}">
+                                    @csrf
+                                    @method('PUT')
+                                    <!-- Input groups with icon -->
 
-                                <div class="media align-items-center">
-                                    <div class="media-body">
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                Jenis Aduan
-                                            </button><br><br>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">Sistem</a>
-                                                <a class="dropdown-item" href="#">Permohonan Kerja Lebih Masa</a>
-                                                <a class="dropdown-item" href="#">Tuntutan Elaun Lebih Masa</a>
-                                            </div>
-                                        </div>
-                                        <form>
-                                            <textarea class="form-control" placeholder="Write your comment"
-                                                rows="3"></textarea>
-
-                                            <button type="submit" class="btn btn-primary float-right">Hantar
-                                                Aduan</button>
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="h3 mb-3">Bantuan Helpdesk</h5>
-
-                                <div class="media align-items-center">
-                                    <div class="media-body">
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                Jenis Aduan
-                                            </button><br><br>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">Sistem</a>
-                                                <a class="dropdown-item" href="#">Permohonan Kerja Lebih Masa</a>
-                                                <a class="dropdown-item" href="#">Tuntutan Elaun Lebih Masa</a>
-                                            </div>
-                                        </div>
-                                        <form>
-                                            <textarea class="form-control" placeholder="Write your comment"
-                                                rows="3"></textarea>
-
-                                            <button type="submit" class="btn btn-primary float-right">Hantar
-                                                Aduan</button>
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- user Lain --}}
-
-    @elseif(auth()->user()->role == 'ketua_bahagian')
-                <!-- Page content -->
-                <div class="container-fluid mt--6">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="h3 mb-3">Soalan Lazim </h5>
-
-                                    <button class="accordion"> Permohonan Kerja Lebih Masa</button>
-                                    <div class="panel">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor
-                                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                            consequat.
-                                        </p>
-                                    </div>
-
-                                    <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                                    <div class="panel">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor
-                                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                            consequat.
-                                        </p>
-                                    </div>
-                                    <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                                    <div class="panel">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor
-                                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                            consequat.
-                                        </p>
-                                    </div>
-                                    <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                                    <div class="panel">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor
-                                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                            consequat.
-                                        </p>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container-fluid mt--12">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="h3 mb-3">Bantuan Helpdesk</h5>
-
-                                    <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    Jenis Aduan
-                                                </button><br><br>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">Sistem</a>
-                                                    <a class="dropdown-item" href="#">Permohonan Kerja Lebih Masa</a>
-                                                    <a class="dropdown-item" href="#">Tuntutan Elaun Lebih Masa</a>
-                                                </div>
-                                            </div>
-                                            <form>
-                                                <textarea class="form-control" placeholder="Write your comment"
-                                                    rows="3"></textarea>
-
-                                                <button type="submit" class="btn btn-primary float-right">Hantar
-                                                    Aduan</button>
-
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- user Lain --}}
-
-                    @elseif(auth()->user()->role == 'ketua_jabatan')
-                    <!-- Page content -->
-                    <div class="container-fluid mt--6">
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="h3 mb-3">Soalan Lazim </h5>
-
-                                        <button class="accordion"> Permohonan Kerja Lebih Masa</button>
-                                        <div class="panel">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                veniam,
-                                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                                consequat.</p>
-                                        </div>
-
-                                        <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                                        <div class="panel">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                veniam,
-                                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                                consequat.</p>
-                                        </div>
-                                        <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                                        <div class="panel">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                veniam,
-                                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                                consequat.</p>
-                                        </div>
-                                        <button class="accordion">Tuntutan Elaun Lebih Masa</button>
-                                        <div class="panel">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                veniam,
-                                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                                consequat.</p>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid mt--12">
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="h3 mb-3">Bantuan Helpdesk</h5>
-
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                        Jenis Aduan
-                                                    </button><br><br>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Sistem</a>
-                                                        <a class="dropdown-item" href="#">Permohonan Kerja Lebih
-                                                            Masa</a>
-                                                        <a class="dropdown-item" href="#">Tuntutan Elaun Lebih Masa</a>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="lokasi">Lokasi kerja lebih masa</label>
+                                                <div class="input-group input-group-merge">
+                                                    <input class="form-control" name="tajuk_aduan"
+                                                        value="{{$faq->tajuk_aduan}}" >
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"><i
+                                                                class=""></i></span>
                                                     </div>
                                                 </div>
-                                                <form>
-                                                    <textarea class="form-control" placeholder="Write your comment"
-                                                        rows="3"></textarea>
-
-                                                    <button type="submit" class="btn btn-primary float-right">Hantar
-                                                        Aduan</button>
-
-                                                </form>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="Perkara">Maklumat soalan</label>
+                                                <div class="input-group input-group-merge">
+                                                    <input class="form-control" name="maklumat"
+                                                        value="{{$faq->maklumat}}" >
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"><i class=""></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary float-right">Kemaskini</button>
 
-                        {{-- Error --}}
-                        @else
-                        <div class="container-fluid mt--12">
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <!-- Card header -->
-                                        <div class="card-header border-0">
-                                            <h3 class="mb-0">Modul ini tidak dibekalkan kepada anda. Sila hubungi
-                                                pentadbir
-                                                sistem anda.</h3>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            @endif
-
-                            <footer class="footer pt-0">
-                                <div class="row align-items-center justify-content-lg-between">
-                                    <div class="col-lg-6">
-                                        <div class="copyright text-center  text-lg-left  text-muted">
-                                            &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem
-                                                Pengurusan Elaun Lebih
-                                                Masa</a>
                                         </div>
                                     </div>
-                                </div>
-                            </footer>
+                                </form>
+                               
+                            </div>
                         </div>
-                        <div>
-                            <!-- Accordion Script -->
-                            <script>
-                                var acc = document.getElementsByClassName("accordion");
-                                var i;
+                    </div>
+                </div>
+            </div>
+    
+        {{-- user Lain --}}
+        {{-- Error --}}
+        @else
+        <div class="container-fluid mt--12">
 
-                                for (i = 0; i < acc.length; i++) {
-                                    acc[i].addEventListener("click", function () {
-                                        this.classList.toggle("active");
-                                        var panel = this.nextElementSibling;
-                                        if (panel.style.maxHeight) {
-                                            panel.style.maxHeight = null;
-                                        } else {
-                                            panel.style.maxHeight = panel.scrollHeight + "px";
-                                        }
-                                    });
-                                }
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <!-- Card header -->
+                        <div class="card-header border-0">
+                            <h3 class="mb-0">Modul ini tidak dibekalkan kepada anda. Sila hubungi
+                                pentadbir
+                                sistem anda.</h3>
+                        </div>
 
-                            </script>
+                    </div>
+                </div>
+            </div>
 
-                            @endsection
+
+            @endif
+
+            <footer class="footer pt-0">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6">
+                        <div class="copyright text-center  text-lg-left  text-muted">
+                            &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem
+                                Pengurusan Elaun Lebih
+                                Masa</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <div>
+            @endsection

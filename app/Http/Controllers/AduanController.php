@@ -7,15 +7,17 @@ use Illuminate\Http\Request;
 
 class AduanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        return view ('aduan.index');
-
+        {
+            // $faqs = Faq::find($faq)->faqs()->get();
+             $aduans = Aduan::all();
+            return view ('aduan.index',[
+                'aduans'=>$aduans
+                ]);
+        }
+        
     }
 
     /**
@@ -25,7 +27,8 @@ class AduanController extends Controller
      */
     public function create()
     {
-        //
+        return view('aduan.create');
+
     }
 
     /**
@@ -36,49 +39,39 @@ class AduanController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $aduan = new Aduan;     
+        $aduan->jenis_aduan = $request-> jenis_aduan;
+        $aduan->aduan = $request-> aduan;
+        $aduan->jawab_aduan = $request-> jawab_aduan;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Aduan  $aduan
-     * @return \Illuminate\Http\Response
-     */
+        $aduan->save();
+        $redirected_url= '/aduans/';
+        return redirect($redirected_url);
+    }
     public function show(Aduan $aduan)
     {
-        //
+        return view('aduan.show',[
+            'aduan'=> $aduan,
+        ]);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Aduan  $aduan
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Aduan $aduan)
     {
-        //
+        return view('aduan.edit',[
+            'aduan'=> $aduan,
+        ]);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Aduan  $aduan
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Aduan $aduan)
     {
-        //
-    }
+        $aduan->jenis_aduan = $request-> jenis_aduan;
+        $aduan->aduan = $request-> aduan;
+        $aduan->jawab_aduan = $request-> jawab_aduan;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Aduan  $aduan
-     * @return \Illuminate\Http\Response
-     */
+        $aduan->save();
+
+        $redirected_url= '/aduans/';
+        return redirect($redirected_url);  
+
+     }
     public function destroy(Aduan $aduan)
     {
         //

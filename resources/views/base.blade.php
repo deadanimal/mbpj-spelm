@@ -53,6 +53,11 @@
     <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/argon.min.css?v=1.2.1"
         type="text/css">
     <!-- Google Tag Manager -->
+    <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-select-bs4/css/select.bootstrap4.min.css">
+
+    {{--  --}}
     <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -118,6 +123,16 @@
                                 <i class="ni ni-chat-round text-red"></i>
                                 <span class="nav-link-text">Bantuan</span>
                             </a>
+                            <div class="collapse show" id="navbar-dashboards">
+                                <ul class="nav nav-sm flex-column">
+                                  <li class="nav-item">
+                                    <a href="/aduans" class="nav-link">
+                                      <span class="sidenav-mini-icon"> D </span>
+                                      <span class="sidenav-normal"> Aduan Sistem </span>
+                                    </a>
+                                  </li>
+                                </ul>
+                            </div>
                         </li>
 
                         <!-- Nav items lain-lain custom -->
@@ -173,6 +188,16 @@
                                         <i class="ni ni-chat-round text-red"></i>
                                         <span class="nav-link-text">Bantuan</span>
                                     </a>
+                                    <div class="collapse show" id="navbar-dashboards">
+                                        <ul class="nav nav-sm flex-column">
+                                          <li class="nav-item">
+                                            <a href="/aduans" class="nav-link">
+                                              <span class="sidenav-mini-icon"> D </span>
+                                              <span class="sidenav-normal"> Aduan </span>
+                                            </a>
+                                          </li>
+                                        </ul>
+                                    </div>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/laporans">
@@ -280,6 +305,15 @@
     <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/js/argon.min.js?v=1.2.1"></script>
     <!-- Demo JS - remove this in your project -->
     <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/js/demo.min.js"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+
     <script>
         // Facebook Pixel Code Don't Delete
         ! function (f, b, e, v, n, t, s) {

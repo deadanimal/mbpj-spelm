@@ -13,7 +13,15 @@ class AduanTambah extends Migration
      */
     public function up()
     {
-        //
+    
+            Schema::create('aduans', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+                $table->enum('jenis_aduan',['Permohonan','Pengesahan','Tuntutan','Sistem','lain_lain']);
+                $table->char('aduan',255) -> nullable();
+                $table->char('jawab_aduan',255) -> nullable();
+
+        });
     }
 
     /**
