@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faq;
+
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
@@ -14,7 +15,11 @@ class FaqController extends Controller
      */
     public function index()
     {
-        return view ('faq.index');
+        // $faqs = Faq::find($faq)->faqs()->get();
+         $faqs = Faq::all();
+        return view ('faq.index',[
+            'faqs'=>$faqs
+            ]);
     }
 
     /**
@@ -24,7 +29,7 @@ class FaqController extends Controller
      */
     public function create()
     {
-        //
+        return view('faq.create');
     }
 
     /**
@@ -35,7 +40,16 @@ class FaqController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $faq = new Faq;
+        $faq->tajuk_aduan = $request-> tajuk_aduan;
+        $faq->maklumat = $request-> maklumat; 
+        $faq->save();
+        return view('faq.show');
+            
+
+        // $redirected_url= '/permohonans/';
+        // return redirect($redirected_url);
     }
 
     /**
@@ -46,7 +60,9 @@ class FaqController extends Controller
      */
     public function show(Faq $faq)
     {
-        //
+        return view('faq.show',[
+            'faq'=> $faq,
+        ]);
     }
 
     /**
@@ -57,7 +73,9 @@ class FaqController extends Controller
      */
     public function edit(Faq $faq)
     {
-        //
+        return view('faq.edit',[
+            'faq'=> $faq,
+        ]);
     }
 
     /**

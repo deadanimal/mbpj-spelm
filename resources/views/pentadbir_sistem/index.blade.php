@@ -96,7 +96,7 @@
                                     <th>No. </th>
                                     <th>No. Pekerja</th>
                                     <th>Name</th>
-                                    {{-- <th>Tarikh Daftar</th> --}}
+                                    <th>Email</th>
                                     <th>Peranan</th>
                                     {{-- <th>Emel</th> --}}
                                     <th>Status</th>
@@ -104,6 +104,49 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                    @forelse ($users as $user)
+                                    <tr>
+                                        <th scope="row">
+                                            <div class="media align-items-center">
+                                                <div class="media-body">
+                                                    <span class="name mb-0 text-sm">
+                                                        <a>{{$user->id}}</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td class="No. Pekerja">
+                                            {{$user->user_code}}
+                                        </td>     
+                                        <td class="Name">
+                                            {{$user->name}}
+                                        </td>   
+                                        <td class="Email">
+                                            {{$user->email}}
+                                        </td>   
+                                        <td class="Peranan">
+                                            <div class="form-group">
+                                                <select class="form-select form-select-sm col-8" name="pengurusan" aria-label=".form-select-sm example">
+                                                <option value="individu">{{$user->role}}</option>
+                                              </div> 
+                                            {{-- {{$user->role}} --}}
+                                        </td>    
+                                        <td class="Status">
+                                            <div class="form-group">
+                                                <select class="form-select form-select-sm col-8" name="pengurusan" aria-label=".form-select-sm example">
+                                                <option value="individu">Aktif</option>
+                                                <option value="berkumpulan">Nyahaktif</option></select>
+                                              </div>  
+                                        </td>          
+                                        <td class="Tindakan">
+                                            <a href="#"class="btn btn-success">Kemaskini</a>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    Tiada Rekod
+                                    @endforelse
+                                  
+
                             </tbody>
                         </table>
                     </div>

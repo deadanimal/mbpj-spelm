@@ -21,11 +21,13 @@ class PermohonanController extends Controller
             
         // }    
                 //kakitangan,penyelia,kerani semakan,kerani pemeriksa,pentadbir sistem nampak yang permohonan yang dia mohon individu/kumpulan  
-                //penyelia/kb/kj boleh nampak permohonan yang dia pegawai sokong/lulus  
-        $user_id = $request->user()->id;   
+                //penyelia/kb/kj boleh nampak permohonan yang dia pegawai sokong/lulus 
 
+        // Kakitangan 
+        $user_id = $request->user()->id;   
         $permohonans = User::find($user_id)->permohonans()->get();
-        // $permohonans = UserPermohonan::where('user_id', $user_id)->get();
+
+        // Sokongan permohonan
         $permohonan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)->get();
 
         $user = User::where('id', $user_id)->get();

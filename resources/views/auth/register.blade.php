@@ -13,7 +13,8 @@
             <img style="width:50% ; height:50%" class="mx-auto" src="{{ asset('argon') }}/img/mbpj.png" alt="screenshot" >
         </section>
         <section >
-            <p class="text-lg font-bold md:text-center ...">Sistem Pengurusan Elaun Lebih Masa. </p>
+            <p class="text-lg font-bold md:text-center ...">Sistem Pengurusan Elaun Lebih Masa
+. </p>
             <p class="text-lg font-bold md:text-center ...">Majlis Bandaraya Petaling Jaya. </p>
         </section >
         <!-- Form  Register -->

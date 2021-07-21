@@ -28,8 +28,21 @@ class UserController extends Controller
         //     'permohonan_disokongs'=> $permohonan_disokongs,
         //     'user'=>$user
         // ]);
+
+        // $user_id = $request->user()->id;   
+        // $users = User::find($user_id)->users()->get();
+        // $user = User::where('id', $user_id)->get();
+
+        // return view('pentadbir_sistem.index',[
+        //     'users'=> $users,
+        //     'user'=>$user,
+        //     'user_id'=>$user_id
+        //]);
         
-        return view ('pentadbir_sistem.index');
+        $users = User::all();
+        return view ('pentadbir_sistem.index',[
+            'users'=>$users
+            ]);
 
     }
     public function kemaskini() {
