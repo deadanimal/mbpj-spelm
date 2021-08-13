@@ -8,8 +8,22 @@ use Illuminate\Http\Request;
 class AduanController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
+        //    $user = $request->user();
+        //    $role = $user->role;
+        //    if($role == 'pentadbir_sistem'){
+        //          $aduans = Aduan::all();
+
+        //    }else {
+        //        $aduans = Aduan::where('pengadu_id', $user->id);
+        //    }
+        //    return view ('aduan.index',[
+        //             'aduans'=>$aduans
+        //    ]);
+
+        //    $aduan ->pengadu_id = $request -> user()->id;
+
         {
             // $faqs = Faq::find($faq)->faqs()->get();
              $aduans = Aduan::all();
@@ -30,17 +44,11 @@ class AduanController extends Controller
         return view('aduan.create');
 
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $aduan = new Aduan;     
         $aduan->jenis_aduan = $request-> jenis_aduan;
+        // 
         $aduan->aduan = $request-> aduan;
         $aduan->jawab_aduan = $request-> jawab_aduan;
 

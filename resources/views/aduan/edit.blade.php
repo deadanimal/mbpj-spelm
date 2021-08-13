@@ -78,7 +78,11 @@ or auth()->user()->role == 'kerani_pemeriksa' )
                                 </td> --}}
                             </tr>
                             @empty
-                            Tiada rekod
+                            <div style="text-align:center;">
+                                <td  >
+                                    <h5>  Tiada rekod </h5>
+                                  </td>   
+                            </div> 
                             @endforelse
                         </tbody>
                     </table>

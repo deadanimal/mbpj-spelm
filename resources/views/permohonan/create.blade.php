@@ -47,7 +47,6 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="mohon_mula_kerja">Pilih waktu mula</label>
-
                         <div class="input-group date" id="datetimepicker1">
                           <input type="text" class="form-control" name="mohon_mula_kerja">
                           <span class="input-group-addon input-group-append">
@@ -59,7 +58,6 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="mohon_akhir_kerja">Pilih waktu akhir</label>
-
                         <div class="input-group date" id="datetimepicker2">
                           <input type="text" class="form-control" name="mohon_akhir_kerja">
                           <span class="input-group-addon input-group-append">
@@ -104,7 +102,7 @@
                       </div>
                     </div>
                   </div>      
-                </div>
+                 </div>
                   <div class="col-md-6">
                   <div class="form-group">
                     <label for="pegawai_lulus_id">Pilih pegawai lulus</label>

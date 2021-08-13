@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="header bg-primary pb-6">
     <div class="container-fluid">
         <div class="header-body">
@@ -47,6 +48,7 @@ or auth()->user()->role == 'kerani_pemeriksa' )
                                 <th scope="col" class="sort" data-sort="no">No</th>
                                 <th scope="col" class="sort" data-sort="tajuk_aduan">Berkaitan</th>
                                 <th scope="col" class="sort" data-sort="maklumat">Aduan</th>
+
                                 <th scope="col" class="sort">Jawapan</th>
                             </tr>
                         </thead>
@@ -69,16 +71,30 @@ or auth()->user()->role == 'kerani_pemeriksa' )
                                 <td class="maklumat">
                                     {{$aduan->aduan}}
                                 </td>
-                                <td class="maklumat">
-                                    {{$aduan->jawab_aduan}}
+                                @if($aduan->jawab_aduan =='')
+                                <td>
+                                    <div class="alert alert-primary" role="alert">
+                                        Dalam Proses
+                                    </div>
                                 </td>
+                                @else
+                                {{-- <div class="alert alert-success" role="alert">
+                                        Selesai
+                                      </div> --}}
+
+                                <td>{{$aduan->jawab_aduan}}</td>
+                                @endif
 
                                 {{-- <td class="kemaskini">
                                     <a href="/aduans/{{$aduan->id}}/edit"class="btn btn-success">Kemaskini</a>
                                 </td> --}}
                             </tr>
                             @empty
-                            Tiada rekod
+                            <div style="text-align:center;">
+                                <td  >
+                                    <h5>  Tiada rekod </h5>
+                                  </td>   
+                            </div> 
                             @endforelse
                         </tbody>
                     </table>
@@ -133,12 +149,25 @@ or auth()->user()->role == 'kerani_pemeriksa' )
                                 <td class="maklumat">
                                     {{$aduan->aduan}}
                                 </td>
-                                <td class="maklumat">
-                                    {{$aduan->jawab_aduan}}
+                                @if($aduan->jawab_aduan =='')
+                                <td>
+                                    <div class="alert alert-danger" role="alert">
+                                        Belum dijawab
+                                    </div>
                                 </td>
+                                @else
+                                {{-- <div class="alert alert-success" role="alert">
+                                        Selesai
+                                      </div> --}}
+
+                                <td>{{$aduan->jawab_aduan}}</td>
+                                @endif
+                                {{-- <td class="maklumat">
+                                    {{$aduan->jawab_aduan}}
+                                </td> --}}
 
                                 <td class="kemaskini">
-                                    <a href="/aduans/{{$aduan->id}}/edit"class="btn btn-success">Kemaskini</a>
+                                    <a href="/aduans/{{$aduan->id}}/edit" class="btn btn-success">Kemaskini</a>
                                 </td>
                             </tr>
                             @empty
@@ -151,6 +180,8 @@ or auth()->user()->role == 'kerani_pemeriksa' )
         </div>
     </div>
 </div>
+
+
 
 @else
 <div class="container-fluid mt--12">
@@ -167,5 +198,23 @@ or auth()->user()->role == 'kerani_pemeriksa' )
             </div>
         </div>
     </div>
-@endif
-@endsection
+    @endif
+
+    {{--  --}}
+    <footer class="footer pt-0">
+        <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6">
+                <div class="copyright text-center  text-lg-left  text-muted">
+                    &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem
+                        Pengurusan Elaun Lebih
+                        Masa</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<div>
+
+
+
+    @endsection
