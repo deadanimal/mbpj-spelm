@@ -104,7 +104,7 @@
                 <!-- Collapse -->
                 <div class="collapse navbar-collapse" id="sidenav-collapse-main">
                     <!-- Nav items pentadbir -->
-                    @if(auth()->user()->role == 'pentadbir_sistem'or auth()->user()->role == 'kakitangan')
+                    @if(auth()->user()->role == 'pentadbir_sistem')
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="/dashboard">
