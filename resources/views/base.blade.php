@@ -8,56 +8,21 @@
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
     <meta name="author" content="Creative Tim">
     <title>Sistem Pengurusan Elaun Lebih Masa
-</title>
-    <!-- Extra details for Live View on GitHub Pages -->
-    <!-- Canonical SEO -->
-    <link rel="canonical" href="https://www.creative-tim.com/product/argon-dashboard-pro" />
-    <!--  Social tags      -->
-    <meta name="keywords"
-        content="dashboard, bootstrap 4 dashboard, bootstrap 4 design, bootstrap 4 system, bootstrap 4, bootstrap 4 uit kit, bootstrap 4 kit, argon, argon ui kit, creative tim, html kit, html css template, web template, bootstrap, bootstrap 4, css3 template, frontend, responsive bootstrap template, bootstrap ui kit, responsive ui kit, argon dashboard">
-    <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-    <!-- Schema.org markup for Google+ -->
-    <meta itemprop="name" content="Argon - Premium Dashboard for Bootstrap 4 by Creative Tim">
-    <meta itemprop="description" content="Start your development with a Dashboard for Bootstrap 4.">
-    <meta itemprop="image"
-        content="https://s3.amazonaws.com/creativetim_bucket/products/137/original/opt_adp_thumbnail.jpg">
-    <!-- Twitter Card data -->
-    <meta name="twitter:card" content="product">
-    <meta name="twitter:site" content="@creativetim">
-    <meta name="twitter:title" content="Argon - Premium Dashboard for Bootstrap 4 by Creative Tim">
-    <meta name="twitter:description" content="Start your development with a Dashboard for Bootstrap 4.">
-    <meta name="twitter:creator" content="@creativetim">
-    <meta name="twitter:image"
-        content="https://s3.amazonaws.com/creativetim_bucket/products/137/original/opt_adp_thumbnail.jpg">
-    <!-- Open Graph data -->
-    <meta property="fb:app_id" content="655968634437471">
-    <meta property="og:title" content="Argon - Premium Dashboard for Bootstrap 4 by Creative Tim" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://demos.creative-tim.com/argon-dashboard/index.html" />
-    <meta property="og:image"
-        content="https://s3.amazonaws.com/creativetim_bucket/products/137/original/opt_adp_thumbnail.jpg" />
-    <meta property="og:description" content="Start your development with a Dashboard for Bootstrap 4." />
-    <meta property="og:site_name" content="Creative Tim" />
-    <!-- Favicon -->
-    <link rel="icon" href="{{ asset('argon') }}/img/mbpj.png ">
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-    <!-- Icons -->
+    </title>
+
     <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/nucleo/css/nucleo.css"
         type="text/css">
     <link rel="stylesheet"
         href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
         type="text/css">
     <!-- Page plugins -->
+    <link rel="stylesheet"
+        href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/fullcalendar/dist/fullcalendar.min.css">
+    <link rel="stylesheet"
+        href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/sweetalert2/dist/sweetalert2.min.css">
     <!-- Argon CSS -->
-    <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/argon.min.css?v=1.2.1"
-        type="text/css">
-    <!-- Google Tag Manager -->
-    <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-select-bs4/css/select.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('assets') }}//css/argon.min.css?v=1.2.1" type="text/css">
 
-    {{--  --}}
     <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -123,20 +88,16 @@
                                 <i class="ni ni-chat-round text-red"></i>
                                 <span class="nav-link-text">Bantuan</span>
                             </a>
-                            <div class="collapse show" id="navbar-dashboards">
-                                <ul class="nav nav-sm flex-column">
-                                  <li class="nav-item">
-                                    <a href="/aduans" class="nav-link">
-                                      <span class="sidenav-mini-icon"> D </span>
-                                      <span class="sidenav-normal"> Aduan Sistem </span>
-                                    </a>
-                                  </li>
-                                </ul>
-                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/aduans">
+                                <i class="ni ni-calendar-grid-58 text-red"></i>
+                                <span class="nav-link-text">Aduan Sistem</span>
+                            </a>
                         </li>
 
                         <!-- Nav items lain-lain custom -->
-                    @elseif(auth()->user()->role == 'datuk_bandar'or auth()->user()->role =='kerani_semakan'or auth()->user()->role =='kerani_pemeriksa' or auth()->user()->role == 'pelulus_pindaan')
+                        @elseif(auth()->user()->role == 'datuk_bandar'or auth()->user()->role == 'pelulus_pindaan')
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="/dashboard">
@@ -147,7 +108,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/tuntutans">
                                     <i class="ni ni-calendar-grid-58 text-red"></i>
-                                    <span class="nav-link-text">Tuntutan</span>
+                                    <span class="nav-link-text">Semakan Tuntutan</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -174,13 +135,13 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/permohonans">
                                         <i class="ni ni-chart-pie-35 text-info"></i>
-                                        <span class="nav-link-text">Permohonan</span>
+                                        <span class="nav-link-text">Semakan Permohonan</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/tuntutans">
                                         <i class="ni ni-calendar-grid-58 text-red"></i>
-                                        <span class="nav-link-text">Tuntutan</span>
+                                        <span class="nav-link-text">Semakan Tuntutan</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -188,16 +149,12 @@
                                         <i class="ni ni-chat-round text-red"></i>
                                         <span class="nav-link-text">Bantuan</span>
                                     </a>
-                                    <div class="collapse show" id="navbar-dashboards">
-                                        <ul class="nav nav-sm flex-column">
-                                          <li class="nav-item">
-                                            <a href="/aduans" class="nav-link">
-                                              <span class="sidenav-mini-icon"> D </span>
-                                              <span class="sidenav-normal"> Aduan </span>
-                                            </a>
-                                          </li>
-                                        </ul>
-                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/aduans">
+                                        <i class="ni ni-calendar-grid-58 text-red"></i>
+                                        <span class="nav-link-text">Aduan Sistem</span>
+                                    </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/laporans">
@@ -205,7 +162,7 @@
                                         <span class="nav-link-text">Laporan</span>
                                     </a>
                                 </li>
-                        @endif
+                                @endif
                 </div>
             </div>
         </div>
@@ -254,38 +211,9 @@
                 </div>
             </div>
         </nav>
-
-        {{-- Modified user dashboard ---------}}
-        {{-- @if (Auth::user()->role == 'kakitangan')
-        <div class="header bg-primary pb-3">
-        <div class="container-fluid">
-              <div class="col-lg-6 col-7">
-                <h1 class="h2 text-black "> Selamat Datang {{Auth()->user()->name}} ke Modul kakitangan </h1>
-    </div>
-    </div>
-    </div>
-    @elseif (Auth::user()->role == 'pentadbir_sistem')
-    <div class="header bg-primary pb-3">
-        <div class="container-fluid">
-            <div class="col-lg-6 col-7">
-                <h1 class="h2 text-black "> Selamat Datang {{Auth()->user()->name}} ke Modul kakitangan </h1>
-            </div>
-        </div>
-    </div>
-    @elseif (Auth::user()->role == 'penyelia')
-    Penyelia
-    @elseif (Auth::user()->role == 'ketua_bahagian')
-    Ketua bahagian
-    @elseif (Auth::user()->role == 'ketua_jabatan')
-    Ketua jabatan
-    @else
-
-    @endif --}}
-
-    @yield('content')
+        @yield('content')
     </div>
     <!-- Argon Scripts -->
-    <!-- Core -->
     <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script
         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js">
@@ -298,23 +226,31 @@
         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js">
     </script>
     <!-- Optional JS -->
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/chart.js/dist/Chart.min.js"></script>
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/chart.js/dist/Chart.extension.js">
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/moment/min/moment.min.js"></script>
+    <script
+        src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/fullcalendar/dist/fullcalendar.min.js">
+    </script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/sweetalert2/dist/sweetalert2.min.js">
     </script>
     <!-- Argon JS -->
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/js/argon.min.js?v=1.2.1"></script>
-    <!-- Demo JS - remove this in your project -->
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/js/argon.min.js?v=17"></script>
     <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/js/demo.min.js"></script>
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
 
+    <script src="{{ asset('assets') }}/vendor/chart.js/dist/Chart.min.js"></script>
+    <script src="{{ asset('assets') }}/vendor/chart.js/dist/Chart.extension.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
+
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.25/pagination/select.js"></script>
     <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable({});
+        });
         // Facebook Pixel Code Don't Delete
         ! function (f, b, e, v, n, t, s) {
             if (f.fbq) return;
@@ -344,7 +280,6 @@
         }
 
     </script>
-
 
     @yield('script')
 

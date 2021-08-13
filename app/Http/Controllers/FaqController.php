@@ -88,6 +88,20 @@ class FaqController extends Controller
 
     public function destroy(Faq $faq)
     {
-        //
+     
+        if($faq)
+        {
+            if($faq->delete()){
+              $redirected_url= '/faqs/';
+              return redirect($redirected_url)->with('buang');;  
+              }
+         else{
+            return "something wrong";
+             }     
+                }
+            else{
+                return "roll call not exist";
+                }       
     }
+
 }

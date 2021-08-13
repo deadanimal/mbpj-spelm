@@ -101,7 +101,7 @@
                                     <div class="col-md-6 ">
                                         <div class="form-group">
                                             <label for="role">Peranan</label>
-                                            <select name="role" >
+                                            <select name="role">
                                                 @foreach ($roles as $key => $value)
                                                 <option value="{{ $key }}">{{ $value }}</option>
                                                 @endforeach
@@ -114,8 +114,8 @@
                                             <td><a href="/users/ " class="btn btn-success ">Kembali</a></td>
                                             <button type="button" class="btn btn-primary " data-toggle="modal"
                                                 data-target="#exampleModalLong">
-                                                    Kemaskini    
-                                           </button>
+                                                Kemaskini
+                                            </button>
                                         </div>
                                     </div>
                                     <!-- Button trigger modal -->
@@ -137,7 +137,8 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <input type="submit" class="btn btn-success">
-                                                    <button type="button" class="btn btn-danger"data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,6 +152,21 @@
         </div>
     </div>
     @elseif(auth()->user()->role == '')
+    @else
+    <div class="container-fluid mt--12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <h3 class="mb-0">Modul ini tidak dibekalkan kepada anda. Sila hubungi
+                            pentadbir
+                            sistem anda.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @endif
     <footer class="footer pt-0">

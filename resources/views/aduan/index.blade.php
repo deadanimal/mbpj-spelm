@@ -18,11 +18,12 @@
                     </nav>
                 </div>
 
-                @if(auth()->user()->role == 'kakitangan')
+                @if(auth()->user()->role == 'kakitangan'or auth()->user()->role == 'penyelia'or auth()->user()->role == 'kerani_semakan'
+                or auth()->user()->role == 'kerani_pemeriksa' )
                 <div class="col-lg-6 col-5 text-right">
                     <a href="/aduans/create" class="btn btn-sm btn-neutral">Bantuan Helpdesk</a>
                 </div>
-                @elseif(auth()->user()->role == 'penyelia')
+                @elseif(auth()->user()->role == 'pentadbir_sistem')
 
                 @else
                 @endif
@@ -41,8 +42,9 @@ or auth()->user()->role == 'kerani_pemeriksa' )
                     <h3 class="mb-0">Senarai Aduan</h3>
                 </div>
                 <!-- Light table -->
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
+                <div class="table-responsive py-4">
+                    <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                        style="width:100%">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col" class="sort" data-sort="no">No</th>
@@ -73,9 +75,9 @@ or auth()->user()->role == 'kerani_pemeriksa' )
                                 </td>
                                 @if($aduan->jawab_aduan =='')
                                 <td>
-                                    <div class="alert alert-primary" role="alert">
-                                        Dalam Proses
-                                    </div>
+                                    <span class="badge badge-pill badge-info ">Dalam Proses</span>
+
+                                
                                 </td>
                                 @else
                                 {{-- <div class="alert alert-success" role="alert">
@@ -113,47 +115,30 @@ or auth()->user()->role == 'kerani_pemeriksa' )
                     <h3 class="mb-0">Senarai Aduan</h3>
                 </div>
                 <!-- Light table -->
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
+                <div class="table-responsive py-4">
+                    <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                        style="width:100%">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col" class="sort" data-sort="no">No</th>
-                                <th scope="col" class="sort" data-sort="maklumat">nama pengguna</th>
-                                {{-- <th scope="col" class="sort" data-sort="maklumat">alamat email</th> --}}
-                                <th scope="col" class="sort" data-sort="tajuk_aduan">Aduan Berkaitan</th>
-                                <th scope="col" class="sort" data-sort="maklumat">Aduan</th>
-                                <th scope="col" class="sort" data-sort="maklumat">Jawapan</th>
-
+                                <th >No</th>
+                                <th >nama pengguna</th>
+                                <th >Aduan Berkaitan</th>
+                                <th >Aduan</th>
+                                <th >Jawapan</th>
                                 <th scope="col" class="sort">Tindakan</th>
                             </tr>
                         </thead>
 
-                        <tbody class="list">
+                        <tbody >
                             @forelse($aduans as $aduan)
                             <tr>
-                                <th scope="row">
-                                    <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <span class="name mb-0 text-sm">
-                                                <a> {{$aduan->id}}</a>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </th>
-                                <td class="Nama pengguna">
-                                    {{-- {{$aduan->jawab_aduan}} --}}
-                                </td>
-                                <td class="tajuk_aduan">
-                                    {{$aduan->jenis_aduan}}
-                                </td>
-                                <td class="maklumat">
-                                    {{$aduan->aduan}}
-                                </td>
+                                <td >{{$aduan->id}}</td>
+                                <td ></td>
+                                <td >{{$aduan->jenis_aduan}}</td>
+                                <td >{{$aduan->aduan}}</td>
                                 @if($aduan->jawab_aduan =='')
                                 <td>
-                                    <div class="alert alert-danger" role="alert">
-                                        Belum dijawab
-                                    </div>
+                                    <span class="badge badge-pill badge-danger">Belum dijawab</span>
                                 </td>
                                 @else
                                 {{-- <div class="alert alert-success" role="alert">
@@ -171,7 +156,7 @@ or auth()->user()->role == 'kerani_pemeriksa' )
                                 </td>
                             </tr>
                             @empty
-                            Tiada rekod
+                            
                             @endforelse
                         </tbody>
                     </table>
@@ -180,9 +165,6 @@ or auth()->user()->role == 'kerani_pemeriksa' )
         </div>
     </div>
 </div>
-
-
-
 @else
 <div class="container-fluid mt--12">
     <div class="row">

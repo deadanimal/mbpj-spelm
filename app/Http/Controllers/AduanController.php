@@ -10,20 +10,7 @@ class AduanController extends Controller
     
     public function index(Request $request)
     {
-        //    $user = $request->user();
-        //    $role = $user->role;
-        //    if($role == 'pentadbir_sistem'){
-        //          $aduans = Aduan::all();
-
-        //    }else {
-        //        $aduans = Aduan::where('pengadu_id', $user->id);
-        //    }
-        //    return view ('aduan.index',[
-        //             'aduans'=>$aduans
-        //    ]);
-
-        //    $aduan ->pengadu_id = $request -> user()->id;
-
+    
         {
             // $faqs = Faq::find($faq)->faqs()->get();
              $aduans = Aduan::all();

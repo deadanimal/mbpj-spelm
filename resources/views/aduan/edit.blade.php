@@ -161,5 +161,5 @@ or auth()->user()->role == 'kerani_pemeriksa' )
             </div>
         </div>
     </div>
-    @endif
-    @endsection
+@endif
+@endsection
