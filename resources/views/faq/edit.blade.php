@@ -114,7 +114,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="lokasi">Lokasi kerja lebih masa</label>
+                                                <label for="lokasi">Tajuk FAQ </label>
                                                 <div class="input-group input-group-merge">
                                                     <input class="form-control" name="tajuk_aduan"
                                                         value="{{$faq->tajuk_aduan}}" >
@@ -125,19 +125,23 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="Perkara">Maklumat soalan</label>
+                                                <label for="Perkara">Jawapan Soalan Lazim</label>
                                                 <div class="input-group input-group-merge">
-                                                    <input class="form-control" name="maklumat"
-                                                        value="{{$faq->maklumat}}" >
+                                                    {{-- <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="maklumat" placeholder="{{$faq->maklumat}} " ></textarea> --}}
+
+                                                    {{-- <textarea class="form-control" id="exampleFormControlTextarea1" name="maklumat" rows="3" placeholder="butiran soalan ..."></textarea>                                                     --}}
+                                                    <input class="form-control " name="maklumat"
+                                                        value="{{$faq->maklumat}}"  >
                                                     <div class="input-group-append">
                                                         <span class="input-group-text"><i class=""></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary float-right">Kemaskini</button>
-
                                         </div>
                                     </div>
                                 </form>

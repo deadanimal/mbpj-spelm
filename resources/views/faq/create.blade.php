@@ -51,13 +51,16 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
+
                                             <label for="lokasi">Soalan Lazim</label>
                                             <div class="input-group input-group-merge">
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" name="maklumat" rows="3" placeholder="butiran soalan ..."></textarea>
+{{-- 
                                                 <input class="form-control" name="maklumat" placeholder="butiran soalan"
-                                                    type="text">
-                                                <div class="input-group-append">
+                                                    type="text"> --}}
+                                                {{-- <div class="input-group-append">
                                                     <span class="input-group-text"><i class=""></i></span>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>

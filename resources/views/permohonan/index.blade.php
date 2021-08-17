@@ -29,8 +29,7 @@
                             <li class="nav-item">
                                 <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
                                     href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1"
-                                    aria-selected="true"><i class="ni ni-bell-55 mr-2"></i>Permohonan Kerja Lebih Masa
-                                    {{Auth()->user()->name}}</a>
+                                    aria-selected="true"><i class="ni ni-bell-55 mr-2"></i>Permohonan Kerja Lebih Masa</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
