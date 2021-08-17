@@ -29,19 +29,19 @@
                             <li class="nav-item">
                                 <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
                                     href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1"
-                                    aria-selected="true"><i class="ni ni-bell-55 mr-2"></i>Permohonan Kerja Lebih Masa</a>
+                                    aria-selected="true"><i class="ni ni-bell-55 mr-2"></i>Permohonan Kerja Lebih Masa Penyelia</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
                                     href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2"
                                     aria-selected="false"><i class="ni ni-calendar-grid-58 mr-2"></i>Permohonan Kerja
-                                    Lebih Masa kakitangan</a>
+                                    Lebih Masa Kakitangan</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab"
                                     href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3"
                                     aria-selected="false"><i class="ni ni-calendar-grid-58 mr-2"></i>Pengesahan Kerja
-                                    Lebih Masa kakitangan</a>
+                                    Lebih Masa Kakitangan</a>
                             </li>
                         </ul>
                     </div>
@@ -177,7 +177,7 @@
                                     <div class="card">
                                         <!-- Card header -->
                                         <div class="card-header border-0">
-                                            <h3 class="mb-0">Mohon Kerja Lebih Masa</h3>
+                                            <h3 class="mb-0">Mohon Kerja Lebih Masa Penyelia</h3>
                                         </div>
                                         <!-- Light table -->
                                         <div class="table-responsive py-4">
