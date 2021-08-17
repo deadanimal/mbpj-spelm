@@ -21,11 +21,13 @@ class UserController extends Controller
             "kakitangan" => "Kakitangan",
             "penyelia" => "Penyelia",
             "ketua_bahagian" => "Ketua Bahagian",
-            "ketua_jabatan" => "Ketua jabatan",
+            "ketua_jabatan" => "Ketua Jabatan",
             "kerani_semakan" => "Kerani Semakan",
             "kerani_pemeriksa" => "Kerani Pemeriksa",
             "datuk_bandar" => "Datuk Bandar",
-            "pentadbir_sistem" => "Pentadbir Sistem"
+            "pentadbir_sistem" => "Pentadbir Sistem",
+            "pelulus_pindaan" => "Pelulus Pindaan"
+
         ];
         $status = [
             "aktif" => "Aktif",
