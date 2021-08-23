@@ -126,24 +126,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="Perkara">Jawapan Soalan Lazim</label>
-                                                <div class="input-group input-group-merge">
-                                                    {{-- <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="maklumat" placeholder="{{$faq->maklumat}} " ></textarea> --}}
-
-                                                    {{-- <textarea class="form-control" id="exampleFormControlTextarea1" name="maklumat" rows="3" placeholder="butiran soalan ..."></textarea>                                                     --}}
-                                                    <input class="form-control " name="maklumat"
-                                                        value="{{$faq->maklumat}}"  >
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text"><i class=""></i></span>
-                                                    </div>
+                    
+                                                        <div class="form-group">
+                                                            <textarea class="form-control"
+                                                            id="maklumat" name="maklumat" value="{{$faq->maklumat}}"></textarea>
+                                                        </div>
+                                                
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary float-right">Kemaskini</button>
                                         </div>
-                                    </div>
                                 </form>
                                
                             </div>
@@ -187,4 +182,42 @@
             </footer>
         </div>
         <div>
-            @endsection
+
+
+@endsection
+
+@section('script')
+
+{{-- <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script> --}}
+<script type="text/javascript">
+
+$(window).on('load', function(){
+    // $('ckeditor').ckeditor();
+    var lol = CKEDITOR.replace('maklumat');
+    lol.setData({!! json_encode($faq->maklumat) !!});
+})
+// $(document).ready(function () {
+//    console.log('jsda');
+//    var lol = CKEDITOR.replace('husinhensem');
+//    lol.setData('k');
+//    //var editor = CKEDITOR.instances['husinhensem'];
+// });
+
+// CKEDITOR.replace('ckeditor');
+//         var editor = CKEDITOR.instances['husinhensem'];
+//         console.log(editor);  
+//         editor.setData('<p>Hello </p>');      
+    // $(document).ready(function () {
+    //     // $('.ckeditor').ckeditor();
+    //     CKEDITOR.replace('ckeditor');
+    //     var editor = CKEDITOR.instances['husinhensem'];
+    //     console.log(editor);
+    // });
+
+    // $(document).ready(function () {
+    //     // $('.ckeditor').ckeditor();
+    //     CKEDITOR.instances['husinhensem'].setData('<p>Hello </p>');
+    // });            
+
+</script>
+@endsection

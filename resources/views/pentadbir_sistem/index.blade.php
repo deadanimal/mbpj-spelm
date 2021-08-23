@@ -114,7 +114,7 @@
                                     @forelse ($users as $user)
                                     <tr>
                                         <td>{{$user->id}}</td>
-                                        <td>{{$user->user_code}}</td>
+                                        <td>{{$user->nric}}</td>
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>{{$user->role}}</td>

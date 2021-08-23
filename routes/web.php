@@ -10,6 +10,8 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PengurusanpenggunaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MaklumanController;
+
 
 
 
@@ -32,6 +34,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
 
 
 Route::resource('aduans',AduanController::class)->middleware(['auth']);
+Route::resource('maklumans',MaklumanController::class)->middleware(['auth']);
+
 Route::resource('faqs',FaqController::class)->middleware(['auth']);
 Route::resource('permohonans',PermohonanController::class)->middleware(['auth']);
 Route::resource('tuntutans',TuntutanController::class)->middleware(['auth']);

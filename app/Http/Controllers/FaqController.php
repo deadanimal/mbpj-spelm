@@ -82,7 +82,7 @@ class FaqController extends Controller
         $faq->maklumat = $request-> maklumat; 
         $faq->save();
 
-        $redirected_url= '/faqs/';
+        $redirected_url= '/faqs';
         return redirect($redirected_url);        
     }
 

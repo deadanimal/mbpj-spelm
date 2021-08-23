@@ -23,7 +23,7 @@
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{{ asset('assets') }}//css/argon.min.css?v=1.2.1" type="text/css">
 
-    <script>
+    {{-- <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({
@@ -39,9 +39,10 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-NKDMSK6');
 
-    </script>
+    </script> --}}
 
     <!-- End Google Tag Manager -->
+    <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 </head>
 
 <body>
@@ -90,7 +91,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/aduans">
+                            <a class="nav-link" href="/maklumans">
                                 <i class="ni ni-calendar-grid-58 text-red"></i>
                                 <span class="nav-link-text">Aduan Sistem</span>
                             </a>
@@ -151,7 +152,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/aduans">
+                                    <a class="nav-link" href="/maklumans">
                                         <i class="ni ni-calendar-grid-58 text-red"></i>
                                         <span class="nav-link-text">Aduan Sistem</span>
                                     </a>

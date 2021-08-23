@@ -1,7 +1,7 @@
 @extends('base')
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <style>
         .accordion {
             background-color: #eee;
@@ -74,7 +74,7 @@
                     <div class="card-header">
                         <button class="accordion"> {{$faq->tajuk_aduan}}</button>
                         <div class="panel">
-                            <p>{{$faq->maklumat}}</p>
+                            <p>{!!$faq->maklumat!!}</p>
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,8 @@
                     </div>
                     <!-- Light table -->
                     <div class="table-responsive py-4">
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap">
+                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                            style="width:100%">
                             <thead class="thead-light">
                                 <tr>
                                     <th>No</th>
@@ -127,7 +128,7 @@
                                         {{$faq->tajuk_aduan}}
                                     </td>
                                     <td >
-                                        {{$faq->maklumat}}
+                                        {!!$faq->maklumat!!}
                                     </td>
 
                                     <td class="kemaskini">
@@ -182,6 +183,15 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
     {{-- user Lain --}}
     @elseif(auth()->user()->role == 'ketua_jabatan' or auth()->user()->role == 'ketua_bahagian' or
     auth()->user()->role == 'pelulus_pindaan')
@@ -252,4 +262,7 @@
         }
 
     </script>
+
+
+     
 @endsection

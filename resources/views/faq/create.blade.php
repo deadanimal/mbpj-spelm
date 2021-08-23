@@ -2,6 +2,9 @@
 
 @section('content')
 
+<head>
+</head>
+
 <div>
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
@@ -36,7 +39,7 @@
                             <form method="POST" action="/faqs">
                                 @csrf
                                 <!-- Input groups with icon -->
-                               <div class="row">
+                                <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="lokasi">Tajuk Soalan</label>
@@ -49,13 +52,19 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-12">
                                         <div class="form-group">
-
                                             <label for="lokasi">Soalan Lazim</label>
-                                            <div class="input-group input-group-merge">
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" name="maklumat" rows="3" placeholder="butiran soalan ..."></textarea>
-{{-- 
+                                            <div class="form-group">
+                                                <textarea class="ckeditor form-control"
+                                                    name="maklumat"></textarea>
+                                            </div>
+                                            {{-- <div class="input-group input-group-merge">
+                                                <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                    name="maklumat" rows="3"
+                                                    placeholder="butiran soalan ..."></textarea> --}}
+                                                {{-- 
                                                 <input class="form-control" name="maklumat" placeholder="butiran soalan"
                                                     type="text"> --}}
                                                 {{-- <div class="input-group-append">
@@ -76,14 +85,15 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Kemaskini Soalan Lazim (FAQ)</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Kemaskini Soalan Lazim
+                                                    (FAQ)</h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                              Simpan Soalan Lazim (FAQ)
+                                                Simpan Soalan Lazim (FAQ)
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
@@ -113,5 +123,14 @@
         </footer>
     </div>
     <div>
+
+        <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.ckeditor').ckeditor();
+            });
+
+        </script>
+
 
         @endsection

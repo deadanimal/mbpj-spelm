@@ -20,10 +20,13 @@
 
                 @if(auth()->user()->role == 'kakitangan'or auth()->user()->role == 'penyelia'or auth()->user()->role == 'kerani_semakan'
                 or auth()->user()->role == 'kerani_pemeriksa' )
-                <div class="col-lg-6 col-5 text-right">
+                {{-- <div class="col-lg-6 col-5 text-right">
                     <a href="/aduans/create" class="btn btn-sm btn-neutral">Bantuan Helpdesk</a>
-                </div>
+                </div> --}}
                 @elseif(auth()->user()->role == 'pentadbir_sistem')
+                 <div class="col-lg-6 col-5 text-right">
+                    <a href="/aduans/create" class="btn btn-sm btn-neutral">Kemaskini</a>
+                </div>
 
                 @else
                 @endif
@@ -31,8 +34,8 @@
         </div>
     </div>
 </div>
-@if(auth()->user()->role == 'kakitangan'or auth()->user()->role == 'penyelia'or auth()->user()->role == 'kerani_semakan'
-or auth()->user()->role == 'kerani_pemeriksa' )
+{{-- @if(auth()->user()->role == 'kakitangan'or auth()->user()->role == 'penyelia'or auth()->user()->role == 'kerani_semakan'
+or auth()->user()->role == 'kerani_pemeriksa' ) --}}
 <div class="container-fluid mt--6">
     <div class="row ">
         <div class="col-md-12">
@@ -76,20 +79,15 @@ or auth()->user()->role == 'kerani_pemeriksa' )
                                 @if($aduan->jawab_aduan =='')
                                 <td>
                                     <span class="badge badge-pill badge-info ">Dalam Proses</span>
-
-                                
+           
                                 </td>
                                 @else
-                                {{-- <div class="alert alert-success" role="alert">
-                                        Selesai
-                                      </div> --}}
+                            
 
                                 <td>{{$aduan->jawab_aduan}}</td>
                                 @endif
 
-                                {{-- <td class="kemaskini">
-                                    <a href="/aduans/{{$aduan->id}}/edit"class="btn btn-success">Kemaskini</a>
-                                </td> --}}
+                        
                             </tr>
                             @empty
                             <div style="text-align:center;">
@@ -105,7 +103,7 @@ or auth()->user()->role == 'kerani_pemeriksa' )
         </div>
     </div>
 </div>
-@elseif(auth()->user()->role == 'pentadbir_sistem')
+{{-- @elseif(auth()->user()->role == 'pentadbir_sistem')
 <div class="container-fluid mt--6">
     <div class="row ">
         <div class="col-md-12">
@@ -141,16 +139,11 @@ or auth()->user()->role == 'kerani_pemeriksa' )
                                     <span class="badge badge-pill badge-danger">Belum dijawab</span>
                                 </td>
                                 @else
-                                {{-- <div class="alert alert-success" role="alert">
-                                        Selesai
-                                      </div> --}}
+                               
 
                                 <td>{{$aduan->jawab_aduan}}</td>
                                 @endif
-                                {{-- <td class="maklumat">
-                                    {{$aduan->jawab_aduan}}
-                                </td> --}}
-
+                            
                                 <td class="kemaskini">
                                     <a href="/aduans/{{$aduan->id}}/edit" class="btn btn-success">Kemaskini</a>
                                 </td>
@@ -164,8 +157,8 @@ or auth()->user()->role == 'kerani_pemeriksa' )
             </div>
         </div>
     </div>
-</div>
-@else
+</div> --}}
+{{-- @else
 <div class="container-fluid mt--12">
     <div class="row">
         <div class="col-md-12">
@@ -180,7 +173,7 @@ or auth()->user()->role == 'kerani_pemeriksa' )
             </div>
         </div>
     </div>
-    @endif
+    @endif --}}
 
     {{--  --}}
     <footer class="footer pt-0">
