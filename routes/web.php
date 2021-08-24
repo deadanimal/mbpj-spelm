@@ -11,9 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PengurusanpenggunaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MaklumanController;
-
-
-
+use App\Http\Controllers\AuditController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +40,10 @@ Route::resource('tuntutans',TuntutanController::class)->middleware(['auth']);
 Route::resource('laporans',LaporanController::class)->middleware(['auth']);
 Route::resource('profiles',ProfileController::class)->middleware(['auth']);
 Route::resource('users',UserController::class)->middleware(['auth']);
+
+Route::resource('/log_pengguna', AuditController::class);
+Route::get('/log_pemohon', [AuditController::class, 'log_pemohon']);
+Route::get('/log_pemohon/{id}', [AuditController::class, 'lihat_log_pemohon']);
 
 
 require __DIR__.'/auth.php';

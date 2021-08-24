@@ -1,4 +1,5 @@
 @extends('base')
+
 @section('content')
 <div>
     <div class="header bg-primary pb-6">
@@ -79,6 +80,7 @@
             @if(auth()->user()->role == 'kakitangan'or auth()->user()->role == 'kerani_semakan'or auth()->user()->role
             == 'kerani_pemeriksa')
             {{-- kakitangan Mohon --}}
+            
             <div class="row ">
                 <div class="col-md-12">
                     <div class="card">
@@ -87,10 +89,27 @@
                             <h3 class="mb-0">Permohonan Kerja Lebih Masa</h3>
                         </div>
                         <!-- Light table -->
+                        
+                            {{-- <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+
+                            <script>
+                            $(function() {
+                            $('input[name="daterange"]').daterangepicker({
+                                opens: 'left'
+                            }, function(start, end, label) {
+                                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                            });
+                            });
+                            </script>
+                         --}}
+                        {{--  --}}
                         <div class="table-responsive py-4">
+                            
+                            
                             <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                                 style="width:100%">
                                 <thead class="thead-light">
+                                    
                                     <tr>
                                         <th scope="col" class="sort" data-sort="no">No</th>
                                         <th scope="col" class="sort" data-sort="tarikh">Tarikh Mohon</th>
@@ -779,3 +798,4 @@
     </div>
 </div>
  @endsection
+

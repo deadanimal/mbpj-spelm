@@ -11,8 +11,8 @@
                     <h6 class="h2 text-white d-inline-block mb-0">Aduan</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="#">Aduan</a></li>
+                            <li class="breadcrumb-item"><a href="/maklumans"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/maklumans">Aduan</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Bantuan</li>
                         </ol>
                     </nav>
@@ -27,7 +27,7 @@
                         <li class="nav-item">
                             <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
                                 href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1"
-                                aria-selected="true"></i>Makluman Pengguna</a>
+                                aria-selected="true"></i>Makluman Aduan Pengguna</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"

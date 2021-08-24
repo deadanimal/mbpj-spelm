@@ -136,13 +136,9 @@
 
 </script>
 @section('content')
-
-
 <div>
-
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
-
             <div class="row align-items-center py-4">
                 <div class="col-lg-12 col-7">
                     <h1 class="h1 text-white "> Selamat Datang {{Auth()->user()->email}} ke Modul Pentadbir Sistem </h1>
@@ -170,39 +166,42 @@
                 </div>
             </div>
             <div class="row">
-              <div class="col-xl-12">
-                  <div class="card bg-default">
-                      <div class="card-header ">
-                        <div class="table-responsive py-4">
-                          <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                              style="width:100%">
-                              <thead class="thead-light">
-                                  <tr>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Tarikh</th>
-                                    <th>Status</th>
-                                  
-                                  </tr>
-                              </thead>
-                              <tbody >
-                                  
-                                  <tr>
-                                      <td >{{Auth()->user()->name}}</td>
-                                      <td >{{Auth()->user()->email}}</td>
-                                      <td >{{Auth()->user()->updated_at}}</td>
-                                      <td >{{Auth()->user()->status}}</td>
+                <div class="col-xl-12">
+                    <div class="card bg-default">
+                        <div class="card-header ">
+                            <div class="table-responsive py-4">
+                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                                    style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>No</th>
+                                            {{-- <th>Id</th> --}}
+                                            <th>User ID</th>
+                                            {{-- <th>Model</th> --}}
+                                            <th>Tarikh</th>
+                                            <th>Description</th>
 
-                                  </tr>
-                                  
-                              </tbody>
-                          </table>
-                      </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
+                                        @foreach ($audits as $audit)
+                                            <tr>
+                                                <td>{{ $loop->index + 1 }}</td>
+                                                {{-- <td>{{ $audit->id }}</td> --}}
+                                                <td>{{ $audit->name}}</td>
+                                                {{-- <td>{{ $audit->model_name }}</td> --}}
+                                                <td>{{ $audit->created_at }}</td>
+                                                <td>{{ $audit->description }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Footer -->
             <footer class="footer pt-0">
                 <div class="row align-items-center justify-content-lg-between">
@@ -216,4 +215,6 @@
                 </div>
             </footer>
         </div>
-        @endsection
+    </div>
+</div>
+@endsection

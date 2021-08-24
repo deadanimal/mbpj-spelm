@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Audit;
 
 
 class DashboardController extends Controller
@@ -16,7 +17,13 @@ class DashboardController extends Controller
         if ($role == 'kakitangan') {
             return view ('dashboard.kakitangan_dashboard');
         } elseif ($role == 'pentadbir_sistem') {
-            return view ('dashboard.pentadbir_dashboard');
+
+            $audit = Audit::all();
+
+            return view ('dashboard.pentadbir_dashboard',[
+                'audits' => $audit
+            ]);            
+
         } elseif ($role == 'penyelia') {
             return view ('dashboard.penyelia_dashboard');
         } elseif ($role == 'ketua_bahagian') {
