@@ -6,6 +6,7 @@ use App\Models\Permohonan;
 use App\Models\User;
 use App\Models\UserPermohonan;
 use Illuminate\Http\Request;
+use App\Models\Audit;
 
 class PermohonanController extends Controller
 {
@@ -59,6 +60,13 @@ class PermohonanController extends Controller
         $permohonan->pegawai_lulus_id = $request-> pegawai_lulus_id;
 
         $permohonan->save();
+
+        $audit = new Audit;
+        $audit->user_id = $request->user()->id;
+        $audit->name = $request->user()->name;
+        $audit->peranan = $request->user()->role;
+        $audit->description =  'Tambah Permohonan Jenis: '.$permohonan->jenis_permohonan;
+        $audit->save(); 
 
         if ($permohonan->jenis_permohonan == 'individu') {
 

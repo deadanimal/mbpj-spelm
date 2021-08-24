@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faq;
+use App\Models\Audit;
+
 
 use Illuminate\Http\Request;
 
@@ -20,6 +22,7 @@ class FaqController extends Controller
     
     public function create()
     {
+         
         return view('faq.create');
     }
 
@@ -31,14 +34,27 @@ class FaqController extends Controller
      */
     public function store(Request $request)
     {
-
+        // $audit = new Audit;
+        // $audit->user_id = $user->id;
+        // $audit->name = $user->name;
+        // $audit->description =  'Senarai FAQ Ditambah';
+        // $audit->save();
+         
         $faq = new Faq;
         $faq->tajuk_aduan = $request-> tajuk_aduan;
         $faq->maklumat = $request-> maklumat; 
         $faq->save();
-        return view('faq.show');
-            
 
+        $audit = new Audit;
+        $audit->user_id = $request->user()->id;
+        $audit->name = $request->user()->name;
+        $audit->peranan = $request->user()->role;
+
+        $audit->description =  'Senarai FAQ Ditambah. Tajuk: '.$faq->tajuk_aduan;
+        $audit->save();        
+
+        return view('faq.show');
+        
         // $redirected_url= '/permohonans/';
         // return redirect($redirected_url);
     }
@@ -82,16 +98,39 @@ class FaqController extends Controller
         $faq->maklumat = $request-> maklumat; 
         $faq->save();
 
+        $audit = new Audit;
+        $audit->user_id = $request->user()->id;
+        $audit->name = $request->user()->name;
+        $audit->peranan = $request->user()->role;
+
+        $audit->description =  'Senarai FAQ Dikemaskini. Tajuk: '.$faq->tajuk_aduan;
+        $audit->save();   
+
         $redirected_url= '/faqs';
         return redirect($redirected_url);        
     }
 
-    public function destroy(Faq $faq)
+    public function destroy(Request $request,Faq $faq)
     {
-     
+        
         if($faq)
         {
             if($faq->delete()){
+
+                 $audit = new Audit;
+                 $audit->user_id = $request->user()->id;
+                 $audit->name = $request->user()->name;
+                 $audit->peranan = $request->user()->role;
+                 $audit->description =  'Senarai FAQ Dibuang. Tajuk: '.$faq->tajuk_aduan;
+                 $audit->save(); 
+
+                // $user = $request->user();
+                // $audit = new Audit;
+                // $audit->user_id = $user->id;
+                // $audit->name = $user->name;
+                // $audit->description =  'Senarai FAQ dibuang';
+                // $audit->save();
+            
               $redirected_url= '/faqs/';
               return redirect($redirected_url)->with('buang');;  
               }

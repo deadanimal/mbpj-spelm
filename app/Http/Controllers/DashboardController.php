@@ -18,10 +18,15 @@ class DashboardController extends Controller
             return view ('dashboard.kakitangan_dashboard');
         } elseif ($role == 'pentadbir_sistem') {
 
-            $audit = Audit::all();
+            // $audit = Audit::all();
+            $harini = date("Y-m-d");
+            $harini =date_create($harini);
+
+            $limabelasharisebelum = date_sub($harini, date_interval_create_from_date_string("3 days"));
+            $audits = Audit::where('created_at', '>=', $limabelasharisebelum)->orderBy('created_at','DESC')->get();
 
             return view ('dashboard.pentadbir_dashboard',[
-                'audits' => $audit
+                'audits' => $audits
             ]);            
 
         } elseif ($role == 'penyelia') {

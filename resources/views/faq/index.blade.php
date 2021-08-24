@@ -244,13 +244,13 @@
     @elseif(auth()->user()->role == 'ketua_jabatan' or auth()->user()->role == 'ketua_bahagian' or
     auth()->user()->role == 'pelulus_pindaan')
     <!-- Page content -->
-    @foreach ($faqs as $faq)
+    {{-- @foreach ($faqs as $faq)
     <div class="container-fluid mt--6">
         <div class="row">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        {{-- <h5 class="h3 mb-3">Soalan Lazim </h5> --}}
+                        
                         <button class="accordion"> {{$faq->tajuk_aduan}}</button>
                         <div class="panel">
                             <p>{{$faq->maklumat}}</p>
@@ -261,7 +261,25 @@
             </div>
         </div>
     </div>
-    @endforeach
+    @endforeach --}}
+    <div class="container-fluid mt--6">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Soalan Lazim (FAQ)</h3>
+                </div>
+                <div class="card">
+                    @foreach ($faqs as $faq)       
+                    <button class="accordion"> {{$faq->tajuk_aduan}}</button>
+                    <div class="panel">
+                        <p>{!!$faq->maklumat!!}</p>
+                    </div>                               
+                    @endforeach                          
+                </div>
+                
+            </div>
+        </div>
+    </div>
     @else
     <div class="container-fluid mt--12">
         <div class="row">

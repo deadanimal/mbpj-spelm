@@ -40,7 +40,10 @@ class AuthenticatedSessionController extends Controller
         $audit = new Audit;
         $audit->user_id = $user->id;
         $audit->name = $user->name;
-        $audit->description =  'log Masuk';
+        $audit->peranan = $user->role;
+
+        $audit->description =  'Log Masuk';
+        
         $audit->save();
 
         return redirect()->intended(RouteServiceProvider::HOME);
@@ -58,7 +61,9 @@ class AuthenticatedSessionController extends Controller
          $audit = new Audit;
          $audit->user_id = $user->id;
          $audit->name = $user->name;
-         $audit->description =  'log keluar';
+         $audit->peranan = $user->role;
+
+         $audit->description =  'Log Keluar';
          $audit->save();
 
         Auth::guard('web')->logout();
@@ -66,15 +71,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
-         // setup audit trail
-
-        //  $user = $request->user();
-        //  $audit = new Audit;
-        //  $audit->user_id = $user->id;
-        //  $audit->name = $user->name;
-        //  $audit->description = $user->name. 'logged out';
-        //  $audit->save();
 
         return redirect('/');
     }

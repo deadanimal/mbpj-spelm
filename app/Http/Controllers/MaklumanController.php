@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Makluman;
+use App\Models\Audit;
+
 use Illuminate\Http\Request;
 
 class MaklumanController extends Controller
@@ -28,11 +30,18 @@ class MaklumanController extends Controller
     public function store(Request $request)
     {
         {
-            $makluman = new Makluman;     
-           
+            $makluman = new Makluman;           
             $makluman->maklumat = $request-> maklumat;
-    
             $makluman->save();
+
+            $audit = new Audit;
+            $audit->user_id = $request->user()->id;
+            $audit->name = $request->user()->name;
+            $audit->peranan = $request->user()->role;
+
+            $audit->description =  'Senarai Helpdesk Ditambah.';
+            $audit->save(); 
+
             $redirected_url= '/maklumans/';
             return redirect($redirected_url);
         }
@@ -59,20 +68,36 @@ class MaklumanController extends Controller
     {
        
         $makluman->maklumat = $request-> maklumat;
-
         $makluman->save();
+
+        $audit = new Audit;
+        $audit->user_id = $request->user()->id;
+        $audit->name = $request->user()->name;
+        $audit->peranan = $request->user()->role;
+
+        $audit->description =  'Senarai Helpdesk Dikemaskini.';
+        $audit->save(); 
 
         $redirected_url= '/maklumans/';
         return redirect($redirected_url);  
     }
 
    
-    public function destroy(Makluman $makluman)
+    public function destroy(Request $request,Makluman $makluman)
     {
      
         if($makluman)
         {
             if($makluman->delete()){
+
+                $audit = new Audit;
+                $audit->user_id = $request->user()->id;
+                $audit->name = $request->user()->name;
+                $audit->peranan = $request->user()->role;
+
+                $audit->description =  'Senarai Helpdesk Dibuang.';
+                $audit->save(); 
+
               $redirected_url= '/maklumans/';
               return redirect($redirected_url)->with('buang');;  
               }
