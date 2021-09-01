@@ -12,6 +12,8 @@ use App\Http\Controllers\PengurusanpenggunaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MaklumanController;
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\ManualController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,9 +43,14 @@ Route::resource('laporans',LaporanController::class)->middleware(['auth']);
 Route::resource('profiles',ProfileController::class)->middleware(['auth']);
 Route::resource('users',UserController::class)->middleware(['auth']);
 
-Route::resource('/log_pengguna', AuditController::class);
-Route::get('/log_pemohon', [AuditController::class, 'log_pemohon']);
-Route::get('/log_pemohon/{id}', [AuditController::class, 'lihat_log_pemohon']);
+Route::resource('manuals',ManualController::class)->middleware(['auth']);
+Route::get('/upload-file', [ManualController::class, 'createForm']);
+Route::post('/upload-file', [ManualController::class, 'fileUpload'])->name('fileUpload');
+
+
+// Route::resource('/log_pengguna', AuditController::class);
+// Route::get('/log_pemohon', [AuditController::class, 'log_pemohon']);
+// Route::get('/log_pemohon/{id}', [AuditController::class, 'lihat_log_pemohon']);
 
 
 require __DIR__.'/auth.php';

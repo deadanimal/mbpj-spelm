@@ -57,7 +57,9 @@
     chart.scrollbarX = new am4core.Scrollbar();
     
     }); // end am4core.ready()
-    </script>
+
+    
+</script>
 @section('content')
 <div>
     <div class="header bg-primary pb-6">
@@ -116,7 +118,6 @@
                                                 {{-- <td>{{ $audit->id }}</td> --}}
                                                 <td>{{ $audit->name}}</td>
                                                 <td>{{ $audit->peranan}}</td>
-
                                                 {{-- <td>{{ $audit->model_name }}</td> --}}
                                                 <td>{{ $audit->created_at }}</td>
                                                 {{-- <td>{{ $audit->description }}</td> --}}
@@ -158,4 +159,19 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+{{-- <script>
+    $(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    } );
+} ); 
+</script>     --}}
 @endsection

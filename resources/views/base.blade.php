@@ -282,6 +282,8 @@
 
     </script>
 
+    
+
     @yield('script')
 
 </body>

@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">No Pengenalan</label>
+                                            <label for="">No. Kad Pengenalan</label>
                                             <div class="input-group input-group-merge">
                                                 <input class="form-control" value="{{$user->nric}}" disabled>
                                             </div>

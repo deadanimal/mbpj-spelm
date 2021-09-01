@@ -84,8 +84,7 @@ class MaklumanController extends Controller
 
    
     public function destroy(Request $request,Makluman $makluman)
-    {
-     
+    {   
         if($makluman)
         {
             if($makluman->delete()){

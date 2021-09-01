@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Faq;
 use App\Models\Audit;
+use App\Models\Manual;
+
 
 
 use Illuminate\Http\Request;
@@ -14,9 +16,15 @@ class FaqController extends Controller
     public function index()
     {
         // $faqs = Faq::find($faq)->faqs()->get();
+
+        $manuals = Manual::all();
          $faqs = Faq::all();
+
         return view ('faq.index',[
-            'faqs'=>$faqs
+
+            'faqs'=>$faqs,
+            'manuals'=>$manuals
+
             ]);
     }
     

@@ -102,7 +102,7 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>No.Pekerja</th>
+                                        <th>No. Kad Pengenalan</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Peranan</th>
