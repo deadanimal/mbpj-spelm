@@ -115,11 +115,23 @@
                     @foreach ($manuals as $manual)
                     <button class="accordion"> Muat Turun Panduan Pengguna </button>
                     <div class="panel">
-                        <p>{!!$manual->notis!!}</p>
-                        <button class="btn-primary btn-lg fa fa-download" target="_blank" ></i> Download {!!$manual->name!!}</button>
+                        <p>{!!$manual->notis!!} </p>
+                        
+                    {{-- <button class="btn-primary btn-lg fa fa-download" target="_blank" ></i> Download {!!$manual->name!!}</button> --}}
                     {{-- <a href="storage/uploads/{{$manual->name}}" download="{{$manual->name}}">{{$manual->name}}</a> --}}
+
+                      <button  class="btn-primary btn-lg fa fa-download" onclick="muatturun()"> 
+                                        </i> Download {!!$manual->name!!}
+                                        </button>
+                                        {{-- <a href="/storage/app/public/uploads/1630474808_husin sept.pdf">Continue</a> --}}
+                                         <script>
+                                        function muatturun() {
+                                        window.open("publlic/storage/uploads/{{$manual->name}}");
+                                        }
+                                        </script>
                     </div>
                     @endforeach
+                    
                 </div>
             </div>
         </div>
@@ -173,10 +185,16 @@
                                     <button class="accordion"> Muat Turun Panduan Pengguna </button>
                                     <div class="panel">
                                         <p>{!!$manual->notis!!}</p>
-                                        <button class="btn-primary btn-lg fa fa-download" target="_blank" ></i> Download {!!$manual->name!!}</button>
-                                    {{-- <a href="storage/uploads/{{$manual->name}}" download="{{$manual->name}}">{{$manual->name}}</a> --}}
-
-
+        
+                                        <button  class="btn-primary btn-lg fa fa-download" onclick="muatturun()"> 
+                                        </i> Download {!!$manual->name!!}
+                                        </button>
+                                        {{-- <a href="/storage/app/public/uploads/1630474808_husin sept.pdf">Continue</a> --}}
+                                         <script>
+                                        function muatturun() {
+                                            window.open("/storage/uploads/{{$manual->name}}");
+                                        }
+                                        </script>
 
                                     </div>
                                     @endforeach

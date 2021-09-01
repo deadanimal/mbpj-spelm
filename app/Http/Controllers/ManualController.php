@@ -112,7 +112,7 @@ class ManualController extends Controller
     
       public function fileUpload(Request $req){
             $req->validate([
-                'file' => 'required|mimes:csv,txt,xlx,xls,pdf|max:2048'
+                'file' => 'required|mimes:png,PNG,jpg,PDF,pdf|max:2048'
             ]);
     
             $fileModel = new Manual;
@@ -137,5 +137,10 @@ class ManualController extends Controller
                 ->with('success','File has been uploaded.')
                 ->with('file', $fileName);
             }
+       }
+       public function download($id)
+       {
+        $path = storage_path('app/public/uploads/file.pdf');
+        return response()->download($path);
        }
 }
