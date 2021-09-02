@@ -134,7 +134,7 @@ class ManualController extends Controller
                 $fileModel->save();
     
                 return back()
-                ->with('success','File has been uploaded.')
+                ->with('success','Panduan Pengguna Selesai Dikemasini.')
                 ->with('file', $fileName);
             }
        }

@@ -116,20 +116,10 @@
                     <button class="accordion"> Muat Turun Panduan Pengguna </button>
                     <div class="panel">
                         <p>{!!$manual->notis!!} </p>
-
-                        {{-- <button class="btn-primary btn-lg fa fa-download" target="_blank" ></i> Download {!!$manual->name!!}</button> --}}
-                        {{-- <a href="storage/uploads/{{$manual->name}}"
-                        download="{{$manual->name}}">{{$manual->name}}</a> --}}
-
-                        <button class="btn-primary btn-lg fa fa-download" onclick="muatturun()">
-                            </i> Download {!!$manual->name!!}
+                        <button class="btn btn-info btn-lg fa fa-download">
+                            <a href="/storage/uploads/{{$manual->name}}" target="_blank">Muat Turun Panduan Pengguna
+                            </a>
                         </button>
-                        {{-- <a href="/storage/app/public/uploads/1630474808_husin sept.pdf">Continue</a> --}}
-                        <script>
-                            function muatturun() {
-                                window.open("/storage/uploads/{{$manual->name}}");
-                            }
-                        </script>
                     </div>
                     @endforeach
 
@@ -137,19 +127,7 @@
             </div>
         </div>
     </div>
-    {{-- <div class="container-fluid mt--12">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="h3 mb-3">Manual Pengguna</h5>
-                        <button type="submit" onclick="window.open('file.pdf')" class="btn btn-primary">Manual
-                            Pengguna!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
+
     {{-- user Lain --}}
     @elseif(auth()->user()->role == 'pentadbir_sistem')
 
@@ -186,18 +164,10 @@
                                     <button class="accordion"> Muat Turun Panduan Pengguna </button>
                                     <div class="panel">
                                         <p>{!!$manual->notis!!}</p>
-
-                                        <button class="btn-primary btn-lg fa fa-download" onclick="muatturun()">
-                                            </i> Download {!!$manual->name!!}
+                                        <button class="btn btn-info btn-lg fa fa-download">
+                                            <a href="/storage/uploads/{{$manual->name}}" target="_blank">Muat Turun
+                                                Panduan Pengguna </a>
                                         </button>
-                                        {{-- <a href="/storage/app/public/uploads/1630474808_husin sept.pdf">Continue</a> --}}
-                                        <script>
-                                            function muatturun() {
-                                                window.open("/storage/uploads/{{$manual->name}}");
-                                            }
-
-                                        </script>
-
                                     </div>
                                     @endforeach
                                 </div>
