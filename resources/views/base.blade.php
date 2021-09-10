@@ -2,11 +2,7 @@
 <html>
 
 <head>
-
     <meta charset="utf-8">
-    {{-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-    <meta name="author" content="Creative Tim"> --}}
     <title>Sistem Pengurusan Elaun Lebih Masa
     </title>
 
@@ -22,25 +18,6 @@
         href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/sweetalert2/dist/sweetalert2.min.css">
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{{ asset('assets') }}//css/argon.min.css?v=1.2.1" type="text/css">
-
-    {{-- <script>
-        (function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({
-                'gtm.start': new Date().getTime(),
-                event: 'gtm.js'
-            });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-NKDMSK6');
-
-    </script> --}}
-
     <!-- End Google Tag Manager -->
     <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 </head>
@@ -52,7 +29,7 @@
             <!-- Brand -->
             <div class="sidenav-header  d-flex  align-items-center  ">
                 <a class="navbar-brand" href="javascript:void(0)">
-                    <img src="{{ asset('argon') }}/img/mbpj.png"  style="padding:20px 0px 0px 45px;">
+                    <img src="{{ asset('argon') }}/img/mbpj.png" style="padding:20px 0px 0px 45px;">
                 </a>
                 <div class=" ml-auto ">
                     <!-- Sidenav toggler -->
@@ -86,84 +63,84 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/faqs">
-                                <i class="ni ni-chat-round text-red"></i>
+                                <i class="ni ni-chat-round text-green"></i>
                                 <span class="nav-link-text">Bantuan</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/maklumans">
-                                <i class="ni ni-calendar-grid-58 text-red"></i>
+                                <i class="ni ni-calendar-grid-58 text-green"></i>
                                 <span class="nav-link-text">Aduan Sistem</span>
                             </a>
                         </li>
-
-                        <!-- Nav items lain-lain custom -->
-                        @elseif(auth()->user()->role == 'datuk_bandar'or auth()->user()->role == 'pelulus_pindaan')
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/dashboard">
-                                    <i class="ni ni-archive-2 text-green"></i>
-                                    <span class="nav-link-text">Dashboard</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/tuntutans">
-                                    <i class="ni ni-calendar-grid-58 text-red"></i>
-                                    <span class="nav-link-text">Semakan Tuntutan</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/faqs">
-                                    <i class="ni ni-chat-round text-red"></i>
-                                    <span class="nav-link-text">Bantuan</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/laporans">
-                                    <i class="ni ni-chart-bar-32 text-green"></i>
-                                    <span class="nav-link-text">Laporan</span>
-                                </a>
-                            </li>
-                            <!-- Nav items dalaman -->
-                            @else
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/dashboard">
-                                        <i class="ni ni-archive-2 text-green"></i>
-                                        <span class="nav-link-text">Dashboard</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/permohonans">
-                                        <i class="ni ni-chart-pie-35 text-info"></i>
-                                        <span class="nav-link-text">Semakan Permohonan</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/tuntutans">
-                                        <i class="ni ni-calendar-grid-58 text-red"></i>
-                                        <span class="nav-link-text">Semakan Tuntutan</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/faqs">
-                                        <i class="ni ni-chat-round text-red"></i>
-                                        <span class="nav-link-text">Bantuan</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/maklumans">
-                                        <i class="ni ni-calendar-grid-58 text-red"></i>
-                                        <span class="nav-link-text">Aduan Sistem</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/laporans">
-                                        <i class="ni ni-chart-bar-32 text-green"></i>
-                                        <span class="nav-link-text">Laporan</span>
-                                    </a>
-                                </li>
-                                @endif
+                    </ul>
+                    @elseif(auth()->user()->role == 'datuk_bandar'or auth()->user()->role == 'pelulus_pindaan')
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboard">
+                                <i class="ni ni-archive-2 text-red"></i>
+                                <span class="nav-link-text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tuntutans">
+                                <i class="ni ni-calendar-grid-58 text-red"></i>
+                                <span class="nav-link-text">Semakan Tuntutan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/faqs">
+                                <i class="ni ni-chat-round text-red"></i>
+                                <span class="nav-link-text">Bantuan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/laporans">
+                                <i class="ni ni-chart-bar-32 text-red"></i>
+                                <span class="nav-link-text">Laporan</span>
+                            </a>
+                        </li>
+                    </ul>
+                    @else
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboard">
+                                <i class="ni ni-archive-2 text-info"></i>
+                                <span class="nav-link-text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/permohonans">
+                                <i class="ni ni-chart-pie-35 text-info"></i>
+                                <span class="nav-link-text">Semakan Permohonan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tuntutans">
+                                <i class="ni ni-calendar-grid-58 text-info"></i>
+                                <span class="nav-link-text">Semakan Tuntutan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/faqs">
+                                <i class="ni ni-chat-round text-info"></i>
+                                <span class="nav-link-text">Bantuan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/maklumans">
+                                <i class="ni ni-calendar-grid-58 text-info"></i>
+                                <span class="nav-link-text">Aduan Sistem</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/laporans">
+                                <i class="ni ni-chart-bar-32 text-info"></i>
+                                <span class="nav-link-text">Laporan</span>
+                            </a>
+                        </li>
+                    </ul>
+                    @endif
                 </div>
             </div>
         </div>
@@ -281,9 +258,6 @@
         }
 
     </script>
-
-    
-
     @yield('script')
 
 </body>

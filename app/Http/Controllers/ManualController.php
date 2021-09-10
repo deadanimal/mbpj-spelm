@@ -91,7 +91,7 @@ class ManualController extends Controller
                 // $audit->name = $request->user()->name;
                 // $audit->peranan = $request->user()->role;
 
-                // $audit->description =  'Senarai Helpdesk Dibuang.';
+                // $audit->description =  'Panduan Pengguna Dibuang.';
                 // $audit->save(); 
 
               $redirected_url= '/manuals/';

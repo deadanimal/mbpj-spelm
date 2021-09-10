@@ -203,8 +203,8 @@
                         <span class="h2 font-weight-bold mb-0">0</span>
                       </div>
                       <div class="col-auto">
-                        <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                          <i class="ni ni-chart-pie-35"></i>
+                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                          <i class="ni ni-active-40"></i>
                         </div>
                       </div>
                     </div>
@@ -222,8 +222,8 @@
                         <span class="h2 font-weight-bold mb-0">0</span>
                       </div>
                       <div class="col-auto">
-                        <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                          <i class="ni ni-money-coins"></i>
+                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                          <i class="ni ni-active-40"></i>
                         </div>
                       </div>
                     </div>
@@ -241,8 +241,8 @@
                         <span class="h2 font-weight-bold mb-0">0</span>
                       </div>
                       <div class="col-auto">
-                        <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
-                          <i class="ni ni-chart-bar-32"></i>
+                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                          <i class="ni ni-active-40"></i>
                         </div>
                       </div>
                     </div>

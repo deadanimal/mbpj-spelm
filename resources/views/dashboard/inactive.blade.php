@@ -528,7 +528,7 @@
         <a href="{{URL('/')}}" class="btn btn-primary" role="button">Kembali ke Laman Utama</a>
 
     </h1>
-    <h2>​Sebarang pertanyaan atau masalah sila hubungi kami melalui : Emelkan pertanyaan, cadangan, komen atau masalah teknikal semasa melayari laman portal sila rujuk
+    <h2>​Sebarang pertanyaan, cadangan, komen atau masalah teknikal semasa melayari laman portal sila rujuk
         <a href="https://helpdesk.mbpj.gov.my/login" target="_blank">https://helpdesk.mbpj.gov.my/login</a>
     </h2>
 

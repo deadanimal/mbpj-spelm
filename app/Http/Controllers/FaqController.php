@@ -18,7 +18,7 @@ class FaqController extends Controller
         // $faqs = Faq::find($faq)->faqs()->get();
 
         $manuals = Manual::all();
-         $faqs = Faq::all();
+        $faqs = Faq::all();
 
         return view ('faq.index',[
 
@@ -61,7 +61,8 @@ class FaqController extends Controller
         $audit->description =  'Senarai FAQ Ditambah. Tajuk: '.$faq->tajuk_aduan;
         $audit->save();        
 
-        return view('faq.show');
+        $redirected_url= '/faqs';
+        return redirect($redirected_url); 
         
         // $redirected_url= '/permohonans/';
         // return redirect($redirected_url);

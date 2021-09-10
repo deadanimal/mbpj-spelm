@@ -57,12 +57,12 @@
                             <li class="nav-item">
                                 <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
                                     href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1"
-                                    aria-selected="true"></i>Makluman FAQ Pengguna</a>
+                                    aria-selected="true"></i>Makluman Soalan Lazim (FAQ) Pengguna</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
                                     href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2"
-                                    aria-selected="false"></i>Kemaskini FAQ</a>
+                                    aria-selected="false"></i>Kemaskini Soalan Lazim (FAQ)</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab"
@@ -115,11 +115,12 @@
                     @foreach ($manuals as $manual)
                     <button class="accordion"> Muat Turun Panduan Pengguna </button>
                     <div class="panel">
-                        <p>{!!$manual->notis!!} </p>
+                        <p>{!!$manual->notis!!} 
                         <button class="btn btn-info btn-lg fa fa-download">
                             <a href="/storage/uploads/{{$manual->name}}" target="_blank">Muat Turun Panduan Pengguna
                             </a>
                         </button>
+                    </p>
                     </div>
                     @endforeach
 
@@ -143,7 +144,7 @@
                             <div class="card">
                                 @foreach ($faqs as $faq)
                                 <button class="accordion"> {{$faq->tajuk_aduan}}</button>
-                                <div class="panel">
+                                <div class="panel"  >
                                     <p>{!!$faq->maklumat!!}</p>
                                 </div>
                                 @endforeach
@@ -161,11 +162,12 @@
                                 @foreach ($manuals as $manual)
                                 <button class="accordion"> Muat Turun Panduan Pengguna </button>
                                 <div class="panel">
-                                    <p>{!!$manual->notis!!}</p>
-                                    <button class="btn btn-info btn-lg fa fa-download">
+                                <p>{!!$manual->notis!!}
+                                    <button class="btn btn-info btn-lg fa fa-download" >
                                         <a href="/storage/uploads/{{$manual->name}}" target="_blank">Muat Turun
                                             Panduan Pengguna </a>
                                     </button>
+                                </p>
                                 </div>
                                 @endforeach
                             </div>
@@ -182,7 +184,7 @@
                             <div class="card">
                                 <!-- Card header -->
                                 <div class="card-header border-0">
-                                    <h3 class="mb-0">Soalan Lazim</h3>
+                                    <h3 class="mb-0">Kemaskini Soalan Lazim (FAQ)</h3>
                                 </div>
                                 <!-- Light table -->
                                 <div class="table-responsive py-4">
@@ -213,12 +215,12 @@
                                                 <td class="kemaskini">
                                                     <a href="/faqs/{{$faq->id}}/edit"
                                                         class="btn btn-success btn-sm">Kemaskini</a>
-                                                    <button onclick="buang({{ $faq->id }})"
+                                                    <button onclick="buangfaq({{ $faq->id }})"
                                                         class="btn btn-danger btn-sm">Buang</button> </td>
 
                                             </tr>
                                             <script>
-                                                function buang(id) {
+                                                function buangfaq(id) {
                                                     swal({
                                                         title: 'Makluman?',
                                                         text: "Buang butiran Faq?!",
@@ -273,10 +275,10 @@
                             <div class="card">
 
                                 <body>
-                                    <div class="container mt-5">
+                                    <div class="container mt-3">
                                         <form action="{{route('fileUpload')}}" method="post"
                                             enctype="multipart/form-data">
-                                            <h3 class="text-center mb-5">Kemaskini Panduan Pengguna</h3>
+                                            <h3 class="text-left mb-3">Kemaskini Panduan Pengguna</h3>
                                             @csrf
                                             @if ($message = Session::get('success'))
                                             <div class="alert alert-success">
@@ -361,16 +363,16 @@
                                                 <td class="kemaskini">
                                                     {{-- <a href="/manuals/{{$manual->id}}/edit"
                                                     class="btn btn-success btn-sm">Kemaskini</a> --}}
-                                                    <button onclick="buang({{ $manual->id }})"
+                                                    <button onclick="buangmanual({{ $manual->id }})"
                                                         class="btn btn-danger btn-sm">Buang</button>
                                                 </td>
 
                                             </tr>
                                             <script>
-                                                function buang(id) {
+                                                function buangmanual(id) {
                                                     swal({
-                                                        title: 'Makluman?',
-                                                        text: "Buang butiran ?!",
+                                                        title: 'Makluman !!',
+                                                        text: "Buang Panduan Penguna ?",
                                                         type: 'warning',
                                                         showCancelButton: true,
                                                         confirmButtonColor: '#3085d6',
@@ -418,7 +420,7 @@
 
     {{-- user Lain --}}
     @elseif(auth()->user()->role == 'ketua_jabatan' or auth()->user()->role == 'ketua_bahagian' or
-    auth()->user()->role == 'pelulus_pindaan')
+    auth()->user()->role == 'pelulus_pindaan'or auth()->user()->role == 'datuk_bandar')
 
     <div class="container-fluid mt--6">
         <div class="row ">
@@ -434,28 +436,35 @@
                     </div>
                     @endforeach
                 </div>
-
             </div>
         </div>
     </div>
     @else
-    <div class="container-fluid mt--12">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header border-0">
-                        <h3 class="mb-0">Modul ini tidak dibekalkan kepada anda. Sila hubungi
-                            pentadbir
-                            sistem anda.</h3>
-                    </div>
+    <div class="container-fluid mt--6">
 
+    <div class="row">
+        <div class="col-xl-12 col-md-6">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                              <i class="ni ni-lock-circle-open"></i>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h1 class="card-title  text-muted mb-0">Modul ini tidak dibekalkan kepada anda. Sila hubungi
+                                pentadbir sistem pengurusan elaun lebih masa.
+                            </h1>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
     @endif
-
 </div>
 
 <!-- Accordion Script -->
