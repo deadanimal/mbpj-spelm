@@ -33,13 +33,13 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">BILANGAN STAF
+                                    <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PENGGUNA SISTEM
                                     </h5>
-                                    <span class="h2 font-weight-bold mb-0">350,897</span>
+                                    <span class="h2 font-weight-bold mb-0">{{$stafjumlah}}</span>
                                 </div>
                                 <div class="col-auto">
-                                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                                        <i class="ni ni-active-40"></i>
+                                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
                                     </div>
                                 </div>
                             </div>
@@ -52,13 +52,13 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0"> BILANGAN STAF SEMENTARA
+                                    <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PENGGUNA AKTIF
                                     </h5>
-                                    <span class="h2 font-weight-bold mb-0">2,356</span>
+                                    <span class="h2 font-weight-bold mb-0">{{$staffaktif}}</span>
                                 </div>
                                 <div class="col-auto">
-                                    <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                                        <i class="ni ni-chart-pie-35"></i>
+                                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
                                     </div>
                                 </div>
                             </div>
@@ -72,16 +72,201 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0"> BILANGAN STAF TETAP
+                                    <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PENGGUNA TIDAK AKTIF
                                     </h5>
-                                    <span class="h2 font-weight-bold mb-0">924</span>
+                                    <span class="h2 font-weight-bold mb-0">{{$staffxaktif}}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                                        <i class="ni ni-money-coins"></i>
+                                        <i class="ni ni-single-02"></i>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH KAKITANGAN
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$bilpt}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PENTADBIR SISTEM
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$bilt}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH DATUK BANDAR
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$bildb}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PENYELIA
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$bilp}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH KETUA BAHAGIAN
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$bilkb}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH KETUA JABATAN
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$bilkj}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH KERANI PEMERIKSA
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$bilkp}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH KERANI SEMAKAN
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$bilks}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PELULUS PINDAAN
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$bilpp}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -120,14 +305,14 @@
                                         <td>{{$user->role}}</td>
                                         {{-- <td>{{$user->status}} </td> --}}
                                         @if($user->status =='aktif')
-                                            <td>
-                                                <span class="badge badge-pill badge-success">Aktif</span>
-                                            </td>
-                                            @else
-                                            <td>
-                                                <span class="badge badge-pill badge-danger">Tidak Aktif</span>
-                                            </td>
-                                            @endif
+                                        <td>
+                                            <span class="badge badge-pill badge-success">Aktif</span>
+                                        </td>
+                                        @else
+                                        <td>
+                                            <span class="badge badge-pill badge-danger">Tidak Aktif</span>
+                                        </td>
+                                        @endif
 
                                         <td><a href="/users/{{$user->id}}/edit" class="btn btn-primary">Lihat</a>
                         </div>

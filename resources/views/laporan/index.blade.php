@@ -181,7 +181,7 @@
                     <div class="row">
                       <div class="col">
                         <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH TUNTUTAN ELAUN LEBIH MASA</h5>
-                        <span class="h2 font-weight-bold mb-0">350,897</span>
+                        <span class="h2 font-weight-bold mb-0">0</span>
                       </div>
                       <div class="col-auto">
                         <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -200,7 +200,7 @@
                     <div class="row">
                       <div class="col">
                         <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA LULUS</h5>
-                        <span class="h2 font-weight-bold mb-0">2,356</span>
+                        <span class="h2 font-weight-bold mb-0">0</span>
                       </div>
                       <div class="col-auto">
                         <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
@@ -219,7 +219,7 @@
                     <div class="row">
                       <div class="col">
                         <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA DITOLAK</h5>
-                        <span class="h2 font-weight-bold mb-0">924</span>
+                        <span class="h2 font-weight-bold mb-0">0</span>
                       </div>
                       <div class="col-auto">
                         <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -238,7 +238,7 @@
                     <div class="row">
                       <div class="col">
                         <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA (RM)</h5>
-                        <span class="h2 font-weight-bold mb-0">RM49,65</span>
+                        <span class="h2 font-weight-bold mb-0">0</span>
                       </div>
                       <div class="col-auto">
                         <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">

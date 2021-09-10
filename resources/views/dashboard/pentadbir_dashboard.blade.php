@@ -1,72 +1,12 @@
 @extends('base')
-<!-- Styles -->
-<style>
-    #chartdiv {
-      width: 100%;
-      height: 500px;
-    }
-    
-    </style>
-    
-    <!-- Resources -->
-    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-    
-    <!-- Chart code -->
-    <script>
-    am4core.ready(function() {
-    
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
-    
-    var chart = am4core.create("chartdiv", am4charts.XYChart);
-    
-    var data = [];
-    var value = 50;
-    for(var i = 0; i < 300; i++){
-      var date = new Date();
-      date.setHours(0,0,0,0);
-      date.setDate(i);
-      value -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-      data.push({date:date, value: value});
-    }
-    
-    chart.data = data;
-    
-    // Create axes
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 60;
-    
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    
-    // Create series
-    var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY = "value";
-    series.dataFields.dateX = "date";
-    series.tooltipText = "{value}"
-    
-    series.tooltip.pointerOrientation = "vertical";
-    
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.snapToSeries = series;
-    chart.cursor.xAxis = dateAxis;
-    
-    //chart.scrollbarY = new am4core.Scrollbar();
-    chart.scrollbarX = new am4core.Scrollbar();
-    
-    }); // end am4core.ready()
 
-    
-</script>
 @section('content')
 <div>
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
             <div class="row align-items-center py-4">
                 <div class="col-lg-12 col-7">
-                    <h1 class="h1 text-white "> Selamat Datang {{Auth()->user()->email}} ke Modul Pentadbir Sistem </h1>
+                    <h1 class="h1 text-white "> Selamat Datang {{Auth()->user()->name}} ke Modul Pentadbir Sistem </h1>
                     <h1 class="h2 text-white "> Sistem Pengurusan Elaun Lebih Masa
                     </h1>
                 </div>
@@ -75,16 +15,61 @@
     </div>
     <div class="container-fluid">
         <div class="container-fluid mt--6">
+            <!-- Card stats -->
             <div class="row">
-                <div class="col-xl-12">
-                    <div class="card bg-default">
-                        <div class="card-header ">
-                            <div class="row align-items-center">
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
                                 <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PENGGUNA SISTEM
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$staffjumlah}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div id="chartdiv"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PENGGUNA AKTIF
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$staffaktif}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PENGGUNA TIDAK AKTIF
+                                    </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{$staffxaktif}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                        <i class="ni ni-single-02"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -94,17 +79,16 @@
                 <div class="col-xl-12">
                     <div class="card bg-default">
                         <div class="card-header ">
+                                <h3 class="mb-0">Laporan Audit Trail Sistem Pengurusan Elaun Lebih Masa</h3>
+                                <div class="card-body px-0">
                             <div class="table-responsive py-4">
                                 <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                                     style="width:100%">
                                     <thead class="thead-light">
                                         <tr>
                                             <th>No</th>
-                                            {{-- <th>Id</th> --}}
                                             <th>Nama</th>
                                             <th>Peranan</th>
-
-                                            {{-- <th>Model</th> --}}
                                             <th>Tarikh</th>
                                             <th>Makluman</th>
 
@@ -113,29 +97,26 @@
                                     <tbody>
 
                                         @foreach ($audits as $audit)
-                                            <tr>
-                                                <td>{{ $loop->index + 1 }}</td>
-                                                {{-- <td>{{ $audit->id }}</td> --}}
-                                                <td>{{ $audit->name}}</td>
-                                                <td>{{ $audit->peranan}}</td>
-                                                {{-- <td>{{ $audit->model_name }}</td> --}}
-                                                <td>{{ $audit->created_at }}</td>
-                                                {{-- <td>{{ $audit->description }}</td> --}}
+                                        <tr>
+                                            <td>{{ $loop->index + 1 }}</td>
+                                            <td>{{ $audit->name}}</td>
+                                            <td>{{ $audit->peranan}}</td>
+                                            <td>{{ $audit->created_at }}</td>
 
-                                                @if($audit->description =='Log Masuk')
-                                                    <td>
-                                                        <span class="badge badge-pill badge-success">Log Masuk</span>
-                                                    </td>
-                                                @elseif($audit->description =='Log Keluar')
-                                                    <td>
-                                                        <span class="badge badge-pill badge-danger">Log Keluar</span>
-                                                    </td>
-                                                @else 
-                                                    <td>
-                                                        {{$audit->description}}
-                                                    </td>                                                
-                                                @endif
-                                            </tr>
+                                            @if($audit->description =='Log Masuk')
+                                            <td>
+                                                <span class="badge badge-pill badge-success">Log Masuk</span>
+                                            </td>
+                                            @elseif($audit->description =='Log Keluar')
+                                            <td>
+                                                <span class="badge badge-pill badge-danger">Log Keluar</span>
+                                            </td>
+                                            @else
+                                            <td>
+                                                {{$audit->description}}
+                                            </td>
+                                            @endif
+                                        </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

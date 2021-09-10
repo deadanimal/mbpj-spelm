@@ -39,306 +39,507 @@
         @endif
     </div>
 </div>
-<div class="container-fluid">
-    <div class="container-fluid mt--6">
-        <div class="row">
-            <div class="col-xl-8">
-            </div>
-        </div>
+<div class="container-fluid mt--6">
+    <div class="row">
         {{-- user first --}}
         @if(auth()->user()->role == 'kakitangan')
-        <div class="row ">
-            <div class="col-md-12">
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header border-0">
-                        <h3 class="mb-0">Tuntutan</h3>
-                    </div>
-                    <!-- Light table -->
-                    <table id="example"
-                    class="table table-striped table-bordered dt-responsive nowrap"
-                    style="width:100%">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th >No</th>
-                                    <th> Tarikh Mohon</th>
-                                    <th> Waktu Kerja</th>
-                                    <th> Perkara</th>
-                                    <th> Status</th>
-                                    <th> Jenis Permohonan</th>
-                                     <!-- eKedatangan -->
-                                     <th >clockintime</th>
-                                     <th >clockouttime</th>
-                                     <th >totalworkinghour</th>
-                                     <th >otstarttime1</th>
-                                     <th >otendtime1</th>
-                                     <th >otdurationt1</th>
-                                </tr>
-                            </thead>
-                        </table>
+        <!-- Card stats -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH TUNTUTAN ELAUN LEBIH MASA
+                            </h5>
+                            <span class="h2 font-weight-bold mb-0">0</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                <i class="ni ni-chart-bar-32"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        {{-- user Lain --}}
-        @elseif(auth()->user()->role == 'penyelia')
-        <div class="card shadow">
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
-                        aria-labelledby="tabs-icons-text-1-tab">
-                        <div>
-                            <div class="row ">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <!-- Card header -->
-                                        <div class="card-header border-0">
-                                            <h3 class="mb-0">Tuntutan</h3>
-                                        </div>
-                                        <!-- Light table -->
-                                        <table id="example"
-                                            class="table table-striped table-bordered dt-responsive nowrap"
-                                            style="width:100%">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th >No</th>
-                                                    <th> Tarikh Mohon</th>
-                                                    <th> Waktu Kerja</th>
-                                                    <th> Perkara</th>
-                                                    <th> Status</th>
-                                                    <th> Jenis Permohonan</th>
-                                                     <!-- eKedatangan -->
-                                                    <th >clockintime</th>
-                                                    <th >clockouttime</th>
-                                                    <th >totalworkinghour</th>
-                                                    <th >otstarttime1</th>
-                                                    <th >otendtime1</th>
-                                                    <th >otdurationt1</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
+                                LULUS
+                            </h5>
+                            <span class="h2 font-weight-bold mb-0">0</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                <i class="ni ni-chart-bar-32"></i>
                             </div>
                         </div>
-                    </div>           
-                    <div class="tab-pane fade " id="tabs-icons-text-2" role="tabpanel"
-                        aria-labelledby="tabs-icons-text-2-tab">
-                        <div>
-                            <div class="row ">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <!-- Card header -->
-                                        <div class="card-header border-0">
-                                            <h3 class="mb-0">Semak Tuntutan</h3>
-                                        </div>
-                                        <!-- Light table -->
-                                        <table id="example"
-                                            class="table table-striped table-bordered dt-responsive nowrap"
-                                            style="width:100%">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th >No</th>
-                                                    <th> Tarikh Mohon</th>
-                                                    <th> Waktu Kerja</th>
-                                                    <th> Perkara</th>
-                                                    <th> Status</th>
-                                                    <th> Jenis Permohonan</th>
-                                                     <!-- eKedatangan -->
-                                                    <th >clockintime</th>
-                                                    <th >clockouttime</th>
-                                                    <th >totalworkinghour</th>
-                                                    <th >otstarttime1</th>
-                                                    <th >otendtime1</th>
-                                                    <th >otdurationt1</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">TUNTUTAN ELAUN LEBIH MASA
+                                LULUS DITOLAK
+                            </h5>
+                            <span class="h2 font-weight-bold mb-0">0</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                <i class="ni ni-chart-bar-32"></i>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
-        @elseif(auth()->user()->role == 'ketua_bahagian'or auth()->user()->role =='ketua_jabatan')
-        {{-- user Lain --}}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header border-0">
-                        <h3 class="mb-0">Semak Tuntutan</h3>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
+                            </h5>
+                            <span class="h2 font-weight-bold mb-0">0</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                <i class="ni ni-chart-bar-32"></i>
+                            </div>
+                        </div>
                     </div>
-                    <!-- Light table -->
-                    <table id="example"
-                    class="table table-striped table-bordered dt-responsive nowrap"
-                    style="width:100%">
-                            <thead class="thead-light">
-                                <tr>
-                                 
-                                        <th >No</th>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-md-12">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Tuntutan</h3>
+                </div>
+                <!-- Light table -->
+                <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>No</th>
+                            <th> Tarikh Mohon</th>
+                            <th> Waktu Kerja</th>
+                            <th> Perkara</th>
+                            <th> Status</th>
+                            <th> Jenis Permohonan</th>
+                            <!-- eKedatangan -->
+                            <th>clockintime</th>
+                            <th>clockouttime</th>
+                            <th>totalworkinghour</th>
+                            <th>otstarttime1</th>
+                            <th>otendtime1</th>
+                            <th>otdurationt1</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{{-- user Lain --}}
+@elseif(auth()->user()->role == 'penyelia')
+<div class="card shadow">
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
+            aria-labelledby="tabs-icons-text-1-tab">
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Filters</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md-12">
+                            <form>
+                                <div class="row">
+                                    {{-- <div class="col mb-4">
+                                                    <h4>Jenis Tuntutan</h4>
+                                                    <input type="text" class="form-control" placeholder="Jenis Tuntutan">
+                                                </div> --}}
+                                    <div class="col mb-4">
+                                        <h4>Nama Kakitangan</h4>
+                                        <input type="text" class="form-control" placeholder="Nama Kakitangan">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <h4>Tarikh Mula Mohon</h4>
+                                        <input id="start" type="date" /><br />
+                                    </div>
+                                    <div class="col-sm">
+                                        <h4>Tarikh Akhir Mohon</h4>
+                                        <input id="start" type="date" /><br />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row float-right">
+                            <div class="col-sm ">
+                                <button id="clearFilter" class="btn btn-sm btn-danger">Clear Filter</button>
+                                <button class="btn btn-sm btn-primary " id="filter">Filter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header border-0">
+                                <h3 class="mb-0">Tuntutan</h3>
+                            </div>
+                            <!-- Light table -->
+                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                                style="width:100%">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>No</th>
                                         <th> Tarikh Mohon</th>
                                         <th> Waktu Kerja</th>
                                         <th> Perkara</th>
                                         <th> Status</th>
-                                        <th> Jenis Permohonan
-                                        </th>
-                                    <!-- eKedatangan -->
-                                        <th >clockintime</th>
-                                        <th >clockouttime</th>
-                                        <th >totalworkinghour</th>
-                                        <th >otstarttime1</th>
-                                        <th >otendtime1</th>
-                                        <th >otdurationt1</th>
-                                </tr>
-                            </thead>
-                            <tbody class="list">
-
-                            </tbody>
-                        </table>
+                                        <th> Jenis Permohonan</th>
+                                        <!-- eKedatangan -->
+                                        <th>clockintime</th>
+                                        <th>clockouttime</th>
+                                        <th>totalworkinghour</th>
+                                        <th>otstarttime1</th>
+                                        <th>otendtime1</th>
+                                        <th>otdurationt1</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        @elseif(auth()->user()->role == 'datuk_bandar')
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header border-0">
-                        <h3 class="mb-0">Semak Tuntutan</h3>
-                    </div>
-                    <!-- Light table -->
-                    <table id="example"
-                    class="table table-striped table-bordered dt-responsive nowrap"
-                    style="width:100%">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th >No</th>
-                                    <th> Tarikh Mohon</th>
-                                    <th> Waktu Kerja</th>
-                                    <th> Perkara</th>
-                                    <th> Status</th>
-                                    <th> Jenis Permohonan
-                                    </th>
-                                <!-- eKedatangan -->
-                                    <th >clockintime</th>
-                                    <th >clockouttime</th>
-                                    <th >totalworkinghour</th>
-                                    <th >otstarttime1</th>
-                                    <th >otendtime1</th>
-                                    <th >otdurationt1</th>
-                            </tr>
-                            </thead>
-                            <tbody class="list">
-
-                            </tbody>
-                        </table>
+        <div class="tab-pane fade " id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+            <div>
+                <div class="row ">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header border-0">
+                                <h3 class="mb-0">Semak Tuntutan</h3>
+                            </div>
+                            <!-- Light table -->
+                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                                style="width:100%">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th> Tarikh Mohon</th>
+                                        <th> Waktu Kerja</th>
+                                        <th> Perkara</th>
+                                        <th> Status</th>
+                                        <th> Jenis Permohonan</th>
+                                        <!-- eKedatangan -->
+                                        <th>clockintime</th>
+                                        <th>clockouttime</th>
+                                        <th>totalworkinghour</th>
+                                        <th>otstarttime1</th>
+                                        <th>otendtime1</th>
+                                        <th>otdurationt1</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        @elseif(auth()->user()->role == 'kerani_semakan'or auth()->user()->role ==
-        'kerani_pemeriksa')
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header border-0">
-                        <h3 class="mb-0">Semak Tuntutan</h3>
-                    </div>
-                    <!-- Light table -->
-                    <table id="example"
-                    class="table table-striped table-bordered dt-responsive nowrap"
-                    style="width:100%">
-                            <thead class="thead-light">
-                                <tr> 
-                                    <th >No</th>
-                                    <th> Tarikh Mohon</th>
-                                    <th> Waktu Kerja</th>
-                                    <th> Perkara</th>
-                                    <th> Status</th>
-                                    <th> Jenis Permohonan
-                                    </th>
-                                <!-- eKedatangan -->
-                                    <th >clockintime</th>
-                                    <th >clockouttime</th>
-                                    <th >totalworkinghour</th>
-                                    <th >otstarttime1</th>
-                                    <th >otendtime1</th>
-                                    <th >otdurationt1</th>
-                            </tr>
-                            </thead>
-                            <tbody class="list">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @elseif(auth()->user()->role == 'pelulus_pindaan')
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header border-0">
-                        <h3 class="mb-0">Kelulusan Kemaskini Pindaan Tuntutan</h3>
-                    </div>
-                    <!-- Light table -->
-                    <table id="example"
-                    class="table table-striped table-bordered dt-responsive nowrap"
-                    style="width:100%">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th >No</th>
-                                    <th> Tarikh Mohon</th>
-                                    <th> Waktu Kerja</th>
-                                    <th> Perkara</th>
-                                    <th> Status</th>
-                                    <th> Jenis Permohonan
-                                    </th>
-                                <!-- eKedatangan -->
-                                    <th >clockintime</th>
-                                    <th >clockouttime</th>
-                                    <th >totalworkinghour</th>
-                                    <th >otstarttime1</th>
-                                    <th >otendtime1</th>
-                                    <th >otdurationt1</th>
-                            </tr>
-                            </thead>
-                            <tbody class="list">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @else
-        {{-- Error --}}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header border-0">
-                        <h3 class="mb-0">Modul ini tidak dapat dijalankan pada peranan anda.
-                            Sila hubungi pentadbir sistem anda.</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-        <!-- Footer -->
-        <footer class="footer pt-0">
-            <div class="row align-items-center justify-content-lg-between">
-                <div class="col-lg-6">
-                    <div class="copyright text-center  text-lg-left  text-muted">
-                        &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem
-                            Pengurusan Elaun Lebih
-                            Masa</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </div>
-<div>
+</div>
+@elseif(auth()->user()->role == 'ketua_bahagian'or auth()->user()->role =='ketua_jabatan')
+{{-- user Lain --}}
+<div class="card">
+    <div class="card-header">
+        <h3 class="mb-0">Filters</h3>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <form>
+                <div class="row">
+                    {{-- <div class="col mb-4">
+                                <h4>Jenis Tuntutan</h4>
+                                <input type="text" class="form-control" placeholder="Jenis Tuntutan">
+                            </div> --}}
+                    <div class="col mb-4">
+                        <h4>Nama Kakitangan</h4>
+                        <input type="text" class="form-control" placeholder="Nama Kakitangan">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <h4>Tarikh Mula Mohon</h4>
+                        <input id="start" type="date" /><br />
+                    </div>
+                    <div class="col-sm">
+                        <h4>Tarikh Akhir Mohon</h4>
+                        <input id="start" type="date" /><br />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row float-right">
+            <div class="col-sm ">
+                <button id="clearFilter" class="btn btn-sm btn-danger">Clear Filter</button>
+                <button class="btn btn-sm btn-primary " id="filter">Filter</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header border-0">
+                <h3 class="mb-0">Semak Tuntutan</h3>
+            </div>
+            <!-- Light table -->
+            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                <thead class="thead-light">
+                    <tr>
+
+                        <th>No</th>
+                        <th> Tarikh Mohon</th>
+                        <th> Waktu Kerja</th>
+                        <th> Perkara</th>
+                        <th> Status</th>
+                        <th> Jenis Permohonan
+                        </th>
+                        <!-- eKedatangan -->
+                        <th>clockintime</th>
+                        <th>clockouttime</th>
+                        <th>totalworkinghour</th>
+                        <th>otstarttime1</th>
+                        <th>otendtime1</th>
+                        <th>otdurationt1</th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+@elseif(auth()->user()->role == 'datuk_bandar')
+<div class="card">
+    <div class="card-header">
+        <h3 class="mb-0">Filters</h3>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <form>
+                <div class="row">
+                    {{-- <div class="col mb-4">
+                                <h4>Jenis Tuntutan</h4>
+                                <input type="text" class="form-control" placeholder="Jenis Tuntutan">
+                            </div> --}}
+                    <div class="col mb-4">
+                        <h4>Nama Kakitangan</h4>
+                        <input type="text" class="form-control" placeholder="Nama Kakitangan">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <h4>Tarikh Mula Mohon</h4>
+                        <input id="start" type="date" /><br />
+                    </div>
+                    <div class="col-sm">
+                        <h4>Tarikh Akhir Mohon</h4>
+                        <input id="start" type="date" /><br />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row float-right">
+            <div class="col-sm ">
+                <button id="clearFilter" class="btn btn-sm btn-danger">Clear Filter</button>
+                <button class="btn btn-sm btn-primary " id="filter">Filter</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header border-0">
+                <h3 class="mb-0">Semak Tuntutan</h3>
+            </div>
+            <!-- Light table -->
+            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                <thead class="thead-light">
+                    <tr>
+                        <th>No</th>
+                        <th> Tarikh Mohon</th>
+                        <th> Waktu Kerja</th>
+                        <th> Perkara</th>
+                        <th> Status</th>
+                        <th> Jenis Permohonan
+                        </th>
+                        <!-- eKedatangan -->
+                        <th>clockintime</th>
+                        <th>clockouttime</th>
+                        <th>totalworkinghour</th>
+                        <th>otstarttime1</th>
+                        <th>otendtime1</th>
+                        <th>otdurationt1</th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+@elseif(auth()->user()->role == 'kerani_semakan'or auth()->user()->role ==
+'kerani_pemeriksa')
+<div class="card">
+    <div class="card-header">
+        <h3 class="mb-0">Filters</h3>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <form>
+                <div class="row">
+                    <div class="col mb-4">
+                        <h4>Pilih Jabatan</h4>
+                        <input type="text" class="form-control" placeholder="Pilih Jabatan">
+                    </div>
+                    <div class="col mb-4">
+                        <h4>Nama Kakitangan</h4>
+                        <input type="text" class="form-control" placeholder="Nama Kakitangan">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <h4>Tarikh Mula Mohon</h4>
+                        <input id="start" type="date" /><br />
+                    </div>
+                    <div class="col-sm">
+                        <h4>Tarikh Akhir Mohon</h4>
+                        <input id="start" type="date" /><br />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row float-right">
+            <div class="col-sm ">
+                <button id="clearFilter" class="btn btn-sm btn-danger">Clear Filter</button>
+                <button class="btn btn-sm btn-primary " id="filter">Filter</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header border-0">
+                <h3 class="mb-0">Semak Tuntutan</h3>
+            </div>
+            <!-- Light table -->
+            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                <thead class="thead-light">
+                    <tr>
+                        <th>No</th>
+                        <th> Tarikh Mohon</th>
+                        <th> Waktu Kerja</th>
+                        <th> Perkara</th>
+                        <th> Status</th>
+                        <th> Jenis Permohonan
+                        </th>
+                        <!-- eKedatangan -->
+                        <th>clockintime</th>
+                        <th>clockouttime</th>
+                        <th>totalworkinghour</th>
+                        <th>otstarttime1</th>
+                        <th>otendtime1</th>
+                        <th>otdurationt1</th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+@elseif(auth()->user()->role == 'pelulus_pindaan')
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header border-0">
+                <h3 class="mb-0">Kelulusan Kemaskini Pindaan Tuntutan</h3>
+            </div>
+            <!-- Light table -->
+            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                <thead class="thead-light">
+                    <tr>
+                        <th>No</th>
+                        <th> Tarikh Mohon</th>
+                        <th> Waktu Kerja</th>
+                        <th> Perkara</th>
+                        <th> Status</th>
+                        <th> Jenis Permohonan
+                        </th>
+                        <!-- eKedatangan -->
+                        <th>clockintime</th>
+                        <th>clockouttime</th>
+                        <th>totalworkinghour</th>
+                        <th>otstarttime1</th>
+                        <th>otendtime1</th>
+                        <th>otdurationt1</th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+@else
+{{-- Error --}}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header border-0">
+                <h3 class="mb-0">Modul ini tidak dapat dijalankan pada peranan anda.
+                    Sila hubungi pentadbir sistem anda.</h3>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
 @endsection

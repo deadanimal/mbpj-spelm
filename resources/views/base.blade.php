@@ -52,7 +52,7 @@
             <!-- Brand -->
             <div class="sidenav-header  d-flex  align-items-center  ">
                 <a class="navbar-brand" href="javascript:void(0)">
-                    <img src="{{ asset('argon') }}/img/mbpj.png">
+                    <img src="{{ asset('argon') }}/img/mbpj.png"  style="padding:20px 0px 0px 45px;">
                 </a>
                 <div class=" ml-auto ">
                     <!-- Sidenav toggler -->

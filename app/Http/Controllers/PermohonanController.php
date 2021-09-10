@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\UserPermohonan;
 use Illuminate\Http\Request;
 use App\Models\Audit;
+use Illuminate\Support\Facades\DB;
+
 
 class PermohonanController extends Controller
 {
@@ -33,10 +35,16 @@ class PermohonanController extends Controller
 
         $user = User::where('id', $user_id)->get();
 
+        // status staff
+        $mohon = DB::table('user_permohonans')
+        ->where('user_id','=','2')
+        ->count();
+
         return view('permohonan.index',[
             'permohonans'=> $permohonans,
             'permohonan_disokongs'=> $permohonan_disokongs,
-            'user'=>$user
+            'user'=>$user,
+            'mohon'=>$mohon,
         ]);
     }
 
