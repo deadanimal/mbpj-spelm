@@ -28,12 +28,17 @@ class PermohonanController extends Controller
 
         // Kakitangan 
         $user_id = $request->user()->id;   
+        // $permohonans = User::find($user_id)->permohonans()->get();
         $permohonans = User::find($user_id)->permohonans()->get();
+
 
         // Sokongan permohonan
         $permohonan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)->get();
 
         $user = User::where('id', $user_id)->get();
+
+        $pengguna = User::all();
+
 
         // status staff
         $mohon = DB::table('user_permohonans')
@@ -45,12 +50,17 @@ class PermohonanController extends Controller
             'permohonan_disokongs'=> $permohonan_disokongs,
             'user'=>$user,
             'mohon'=>$mohon,
+            'pengguna'=>$pengguna,
         ]);
     }
 
     public function create()
     {
-        return view('permohonan.create');
+        $users = User::all();
+
+        return view('permohonan.create',[
+            'users'=>$users
+        ]);
     }
 
     public function store(Request $request)
@@ -100,8 +110,13 @@ class PermohonanController extends Controller
 
     public function edit(Permohonan $permohonan)
     {
+        $users = User::all();
+
         return view('permohonan.edit',[
             'permohonan'=> $permohonan,
+            'users'=> $users,
+
+
         ]);
     }
 

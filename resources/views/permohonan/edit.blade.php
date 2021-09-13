@@ -122,26 +122,40 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="pegawai_sokong_id">Pilih pegawai sokong</label>
-                                        <div class="input-group input-group-merge">
+                                         {{-- <div class="input-group input-group-merge">
                                             <input class="form-control" name="pegawai_sokong_id"
                                                 value="{{$permohonan->pegawai_sokong_id}}" type="number">
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><i class="fa fa-address-book"></i></span>
-                                            </div>
-                                        </div>
-
+                                            </div> 
+                                        </div>  --}}
+                                        <select name ="pegawai_sokong_id" class="form-control">
+                                            <option hidden selected >{{$permohonan->pegawai_sokong_id}}</option>
+                                            @foreach ($users as $user)
+                                            <option value="{{$user->id}}">
+                                                {{$user->name}} - {{$user->role}} </option>
+                                                @endforeach
+                                        </select> 
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="pegawai_lulus_id">Pilih pegawai lulus</label>
-                                        <div class="input-group input-group-merge">
+                                        {{-- <div class="input-group input-group-merge">
                                             <input class="form-control" name="pegawai_lulus_id"
                                                 value="{{$permohonan->pegawai_lulus_id}}" type="number">
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><i class="fa fa-address-book"></i></span>
                                             </div>
-                                        </div>
+                                        </div> --}}
+
+                                        <select name ="pegawai_lulus_id" class="form-control">
+                                            <option hidden selected >{{$permohonan->pegawai_lulus_id}} </option>
+                                            @foreach ($users as $user)
+                                            <option value="{{$user->id}}">
+                                                {{$user->name}} - {{$user->role}} </option>
+                                                @endforeach
+                                        </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary float-right">Submit</button>
                                 </div>
@@ -257,8 +271,7 @@
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><i class="fa fa-address-book"></i></span>
                                             </div>
-                                        </div>
-
+                                        </div>                    
                                     </div>
                                 </div>
                                 <div class="col-md-6">

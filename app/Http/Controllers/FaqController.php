@@ -34,12 +34,6 @@ class FaqController extends Controller
         return view('faq.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         // $audit = new Audit;
@@ -64,16 +58,8 @@ class FaqController extends Controller
         $redirected_url= '/faqs';
         return redirect($redirected_url); 
         
-        // $redirected_url= '/permohonans/';
-        // return redirect($redirected_url);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Faq  $faq
-     * @return \Illuminate\Http\Response
-     */
     public function show(Faq $faq)
     {
         return view('faq.show',[
@@ -81,12 +67,7 @@ class FaqController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Faq  $faq
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Faq $faq)
     {
         return view('faq.edit',[
@@ -94,13 +75,6 @@ class FaqController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Faq  $faq
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Faq $faq)
     {
         $faq->tajuk_aduan = $request-> tajuk_aduan;

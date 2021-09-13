@@ -232,10 +232,23 @@
                                     {{$permohonan->tujuan}}
                                 </td>
                                 <td class="pelulus1">
-                                    {{$permohonan->pegawai_sokong_id}}
+                                    @foreach ($pengguna as $user)
+                                        @if ($permohonan->pegawai_sokong_id == $user->id)
+                                            <option>
+                                            {{$user->name}} </option>
+                                        @endif
+                                    @endforeach
                                 </td>
                                 <td class="pelulus2">
-                                    {{$permohonan->pegawai_lulus_id}}
+                                    {{-- {{$permohonan->pegawai_lulus_id}} --}}
+                                    @foreach ($pengguna as $user)
+                                    {{-- <option value="{{$user->id}}">
+                                        {{$user->name}} </option> --}}
+                                        @if ($permohonan->pegawai_lulus_id == $user->id)
+                                            <option>
+                                            {{$user->name}} </option>
+                                        @endif
+                                    @endforeach
                                 </td>
                                 <td class="jenis">
                                     {{$permohonan->jenis_permohonan}}
