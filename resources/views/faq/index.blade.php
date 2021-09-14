@@ -216,7 +216,8 @@
                                                     <a href="/faqs/{{$faq->id}}/edit"
                                                         class="btn btn-success btn-sm">Kemaskini</a>
                                                     <button onclick="buangfaq({{ $faq->id }})"
-                                                        class="btn btn-danger btn-sm">Buang</button> </td>
+                                                        class="btn btn-danger btn-sm">Buang</button> 
+                                                </td>
 
                                             </tr>
                                             <script>

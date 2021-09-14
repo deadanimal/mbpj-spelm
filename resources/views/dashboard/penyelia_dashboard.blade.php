@@ -85,9 +85,9 @@
   ]
   
   
-  createSeries('first', 'The First');
-  createSeries('second', 'The Second');
-  createSeries('third', 'The Third');
+  createSeries('first', 'Permohonan');
+  createSeries('second', 'Pengesahan');
+  createSeries('third', 'Tuntutan');
   
   function arrangeColumns() {
   
@@ -139,7 +139,7 @@
 
       <div class="row align-items-center py-4">
         <div class="col-lg-12 col-7">
-      <h1 class="h1 text-white "> Selamat Datang {{Auth()->user()->email}} ke</h1>
+      <h1 class="h1 text-white "> Selamat Datang {{Auth()->user()->name}} ke Modul Penyelia</h1>
       <h1 class="h2 text-white "> Sistem Pengurusan Elaun Lebih Masa
 </h1>
         </div>

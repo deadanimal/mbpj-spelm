@@ -111,10 +111,14 @@ class PermohonanController extends Controller
     public function edit(Permohonan $permohonan)
     {
         $users = User::all();
+        $user_permohonans = UserPermohonan::all();
+
 
         return view('permohonan.edit',[
             'permohonan'=> $permohonan,
             'users'=> $users,
+            'user_permohonans'=> $user_permohonans,
+
 
 
         ]);
@@ -143,8 +147,23 @@ class PermohonanController extends Controller
         return redirect($redirected_url);        
     }
 
-    public function destroy(Permohonan $permohonan)
+    public function destroy(Request $request,Permohonan $permohonan)
     {
-        //
+        
+        if($permohonan)
+        {
+            if($permohonan->delete()){
+
+                
+              $redirected_url= '/permohonans/';
+              return redirect($redirected_url)->with('buang');;  
+              }
+         else{
+            return "something wrong";
+             }     
+                }
+            else{
+                return "roll call not exist";
+                }       
     }
 }
