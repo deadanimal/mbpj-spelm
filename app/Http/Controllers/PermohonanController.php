@@ -34,6 +34,7 @@ class PermohonanController extends Controller
 
         // Sokongan permohonan
         $permohonan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)->get();
+        $permohonan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)->get();
 
         $user = User::where('id', $user_id)->get();
 
@@ -48,18 +49,22 @@ class PermohonanController extends Controller
         return view('permohonan.index',[
             'permohonans'=> $permohonans,
             'permohonan_disokongs'=> $permohonan_disokongs,
+            'permohonan_dilulus'=> $permohonan_dilulus,
             'user'=>$user,
             'mohon'=>$mohon,
             'pengguna'=>$pengguna,
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $users = User::all();
+
+         $pegawai = User::whereIn('role', array('penyelia','ketua_bahagian','ketua_jabatan'))->get();     
+
 
         return view('permohonan.create',[
-            'users'=>$users
+            'pegawai'=>$pegawai,
+
         ]);
     }
 
@@ -93,9 +98,15 @@ class PermohonanController extends Controller
             $user_permohonan->permohonan_id = $permohonan->id;
             $user_permohonan->save();
 
-        } else {
-
+        } elseif ($permohonan->jenis_permohonan == 'berkumpulan') {
+          
+            $user_permohonan = new UserPermohonan;
+            $user_permohonan->user_id = $request->user()->id;
+            $user_permohonan->permohonan_id = $permohonan->id;
+            $user_permohonan->save();
+           
         }
+        
 
         $redirected_url= '/permohonans/';
         return redirect($redirected_url);
@@ -108,18 +119,21 @@ class PermohonanController extends Controller
         ]);
     }
 
-    public function edit(Permohonan $permohonan)
+    public function edit(Request $request ,Permohonan $permohonan)
     {
-        $users = User::all();
+        $users = User::whereIn('role', array('penyelia','ketua_bahagian','ketua_jabatan'))->get();     
         $user_permohonans = UserPermohonan::all();
+        $kakitanganpermohonans = UserPermohonan::where('permohonan_id','=',$permohonan->id)->get();
+        $kakitangan = User::whereIn('role', array('penyelia','kakitangan','kerani_semakan','kerani_pemeriksa'))->get();     
+
 
 
         return view('permohonan.edit',[
             'permohonan'=> $permohonan,
             'users'=> $users,
             'user_permohonans'=> $user_permohonans,
-
-
+            'kakitangan'=>$kakitangan,
+            'kakitanganpermohonans'=>$kakitanganpermohonans,
 
         ]);
     }
@@ -147,14 +161,13 @@ class PermohonanController extends Controller
         return redirect($redirected_url);        
     }
 
-    public function destroy(Request $request,Permohonan $permohonan)
+    public function destroy(Request $request,Permohonan $permohonan )
     {
         
         if($permohonan)
         {
             if($permohonan->delete()){
-
-                
+         
               $redirected_url= '/permohonans/';
               return redirect($redirected_url)->with('buang');;  
               }
@@ -163,7 +176,7 @@ class PermohonanController extends Controller
              }     
                 }
             else{
-                return "roll call not exist";
+                return "not exist";
                 }       
     }
 }

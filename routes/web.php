@@ -13,6 +13,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\MaklumanController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ManualController;
+use App\Http\Controllers\UserPermohonanController;
+
 
 
 /*
@@ -38,6 +40,8 @@ Route::resource('maklumans',MaklumanController::class)->middleware(['auth']);
 
 Route::resource('faqs',FaqController::class)->middleware(['auth']);
 Route::resource('permohonans',PermohonanController::class)->middleware(['auth']);
+Route::resource('user_permohonans',UserPermohonanController::class)->middleware(['auth']);
+
 Route::resource('tuntutans',TuntutanController::class)->middleware(['auth']);
 Route::resource('laporans',LaporanController::class)->middleware(['auth']);
 Route::resource('profiles',ProfileController::class)->middleware(['auth']);

@@ -262,7 +262,7 @@
                                 <h3 class="mb-0">Tuntutan</h3>
                             </div>
                             <!-- Light table -->
-                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                            <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
                                 style="width:100%">
                                 <thead class="thead-light">
                                     <tr>
@@ -380,7 +380,7 @@
                             </div>
                             <!-- Light table -->
                             <div class="table-responsive py-4">
-                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                                <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
                                     style="width:100%">
                                     <thead class="thead-light">
                                         <tr>
@@ -774,7 +774,7 @@
                 <h3 class="mb-0">Kelulusan Kemaskini Pindaan Tuntutan</h3>
             </div>
             <!-- Light table -->
-            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+            <table id="example" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                 <thead class="thead-light">
                     <tr>
                         <th>No</th>
@@ -814,5 +814,13 @@
     </div>
 </div>
 @endif
+
+@endsection
+@section ('script')
+<script>
+$(document).ready(function() {
+    $('table.display').DataTable();
+} );
+</script>
 
 @endsection
