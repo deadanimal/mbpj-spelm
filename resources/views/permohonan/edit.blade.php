@@ -8,7 +8,7 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 col-7">
-                        <h6 class="h2 text-white d-inline-block mb-0">Permohonan</h6>
+                        <h6 class="h2 text-white d-inline-block mb-0">Kemaskini Permohonan</h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="/permohonans"><i class="fas fa-home"></i></a></li>
@@ -17,10 +17,16 @@
                             </ol>
                         </nav>
                     </div>
+                    @if(auth()->user()->role == 'kakitangan' or auth()->user()->role == 'penyelia' or auth()->user()->role == 'kerani_semakan' or auth()->user()->role == 'kerani_pemeriksa')
+
+                    @if($permohonan->jenis_permohonan =='berkumpulan')
+
                     <div class="col-lg-12 col text-right">
                         <a type="button" class="btn btn-neutral" data-toggle="modal" data-target="#tambahkakitangan"> +
                             Tambah Kakitangan</a>
                     </div>
+                    @endif
+                    @endif
                 </div>
             </div>
         </div>
@@ -37,7 +43,7 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header">
-                        <h3 class="mb-0">Kemaskini Borang Permohonan</h3>
+                        <h3 class="mb-0">Kemaskini Borang Permohonan Individu / Borang A1</h3>
                     </div>
                     <!-- Card body -->
                     <div class="card-body">
@@ -128,7 +134,9 @@
                                     <div class="form-group">
                                         <label for="pegawai_sokong_id"> Pegawai sokong</label>
                                         <select name="pegawai_sokong_id" class="form-control">
-                                            <option hidden selected>{{$permohonan->pegawai_sokong_id}}</option>
+                                            {{-- <option hidden selected>{{$permohonan->pegawai_sokong_id}}</option> --}}
+                                            <option hidden value="{{$permohonan->pegawai_sokong_id}}" selected>{{$permohonan->pegawai_sokong_name}}</option>
+
                                             @foreach ($users as $user)
                                             <option value="{{$user->id}}">
                                                 {{$user->name}} - {{$user->role}} </option>
@@ -141,7 +149,7 @@
                                         <label for="pegawai_lulus_id"> Pegawai lulus</label>
 
                                         <select name="pegawai_lulus_id" class="form-control">
-                                            <option hidden selected>{{$permohonan->pegawai_lulus_id}} </option>
+                                            <option hidden value="{{$permohonan->pegawai_lulus_id}}" selected>{{$permohonan->pegawai_lulus_name}}</option>
                                             @foreach ($users as $user)
                                             <option value="{{$user->id}}">
                                                 {{$user->name}} - {{$user->role}} </option>
@@ -167,7 +175,7 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header">
-                        <h3 class="mb-0">Kemaskini Borang Permohonan</h3>
+                        <h3 class="mb-0">Kemaskini Borang Permohonan Berkumpulan / Borang A2</h3>
                     </div>
                     <!-- Card body -->
                     <div class="card-body">
@@ -258,7 +266,7 @@
                                     <div class="form-group">
                                         <label for="pegawai_sokong_id"> Pegawai sokong</label>
                                         <select name="pegawai_sokong_id" class="form-control">
-                                            <option hidden selected>{{$permohonan->pegawai_sokong_id}}</option>
+                                            <option hidden value="{{$permohonan->pegawai_sokong_id}}" selected>{{$permohonan->pegawai_sokong_name}}</option>
                                             @foreach ($users as $user)
                                             <option value="{{$user->id}}">
                                                 {{$user->name}} - {{$user->role}} </option>
@@ -271,7 +279,7 @@
                                         <label for="pegawai_lulus_id"> Pegawai lulus</label>
 
                                         <select name="pegawai_lulus_id" class="form-control">
-                                            <option hidden selected>{{$permohonan->pegawai_lulus_id}} </option>
+                                            <option hidden value="{{$permohonan->pegawai_lulus_id}}" selected>{{$permohonan->pegawai_lulus_name}}</option>
                                             @foreach ($users as $user)
                                             <option value="{{$user->id}}">
                                                 {{$user->name}} - {{$user->role}} </option>
@@ -305,10 +313,10 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>No</th>
-                                <th>user id</th>
-                                <th>permohonan is</th>
-                             
-                                <th>tindakan</th>
+                                <th>Nama</th>
+                                <th>Nric</th>
+                                <th>Email</th>
+                                <th>Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -316,15 +324,16 @@
                             @foreach($kakitanganpermohonans as $userpermohonan)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
-                                <td>{{$userpermohonan->user_id}}</td>
-                                <td>{{$userpermohonan->permohonan_id}}</td>
+                                <td>{{$userpermohonan->nama}}</td>
+                                <td>{{$userpermohonan->nric}}</td>
+                                <td>{{$userpermohonan->email}}</td>
 
                             
                                 <td> <button onclick="buang({{ $userpermohonan->id }})"class="btn btn-danger btn-sm">Buang<i class="ni ni-basket"></i></button> </td>
                              
                             </tr>
 
-                            {{-- <script>
+                            <script>
                                 function buang(id) {
                                     swal({
                                         title: 'Makluman?',
@@ -341,7 +350,7 @@
                                         if (result.value == true) {
                                             console.log("id", id);
                                             $.ajax({
-                                                url: "/userpermohonans/"+id,
+                                                url: "/user_permohonans/"+id,
                                                 type: "POST",
                                                 data: {
                                                     "id": id,
@@ -359,7 +368,7 @@
                                     })
                                 }
 
-                            </script> --}}
+                            </script>
                             @endforeach
                         </tbody>
 
@@ -551,39 +560,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="pegawai_sokong_id">Pilih pegawai sokong</label>
-                                        {{-- <div class="input-group input-group-merge">
-                                            <input class="form-control" name="pegawai_sokong_id"
-                                                value="{{$permohonan->pegawai_sokong_id}}" type="number">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="fa fa-address-book"></i></span>
-                                        </div>
-                                    </div> --}}
                                     <select name="pegawai_sokong_id" class="form-control">
-                                        <option hidden selected>{{$permohonan->pegawai_sokong_id}}</option>
-                                        @foreach ($users as $user)
+                                        <option hidden value="{{$permohonan->pegawai_sokong_id}}" selected>{{$permohonan->pegawai_sokong_name}} </option>
+                                        {{-- @foreach ($users as $user)
                                         <option value="{{$user->id}}">
                                             {{$user->name}} - {{$user->role}} </option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="pegawai_lulus_id">Pilih pegawai lulus</label>
-                                    {{-- <div class="input-group input-group-merge">
-                                            <input class="form-control" name="pegawai_lulus_id"
-                                                value="{{$permohonan->pegawai_lulus_id}}" type="number">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fa fa-address-book"></i></span>
-                                    </div>
-                                </div> --}}
-
                                 <select name="pegawai_lulus_id" class="form-control">
-                                    <option hidden selected>{{$permohonan->pegawai_lulus_id}} </option>
-                                    @foreach ($users as $user)
+                                    <option  hidden value="{{$permohonan->pegawai_lulus_id}}" selected>{{$permohonan->pegawai_lulus_name}}</option>
+                                    {{-- @foreach ($users as $user)
                                     <option value="{{$user->id}}">
                                         {{$user->name}} - {{$user->role}} </option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary float-right">Submit</button>

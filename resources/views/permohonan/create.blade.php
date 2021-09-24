@@ -8,7 +8,7 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 col-7">
-                        <h6 class="h2 text-white d-inline-block mb-0">Permohonan</h6>
+                        <h6 class="h2 text-white d-inline-block mb-0">Daftar Permohonan</h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="/permohonans"><i class="fas fa-home"></i></a></li>
@@ -24,13 +24,13 @@
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
                             href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1"
-                            aria-selected="true"><i class="ni ni-cloud-upload-96 mr-2"></i>Permohonan Individu / Borang
+                            aria-selected="true"><i class="ni ni-cloud-upload-96 mr-2"></i> Daftar Permohonan Individu / Borang
                             A1</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
                             href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2"
-                            aria-selected="false"><i class="ni ni-bell-55 mr-2"></i>Permohonan Berkumpulan / Borang
+                            aria-selected="false"><i class="ni ni-bell-55 mr-2"></i> Daftar Permohonan Berkumpulan / Borang
                             A2</a>
                     </li>
                 </ul>
@@ -50,7 +50,7 @@
                             <div class="card">
                                 <!-- Card header -->
                                 <div class="card-header">
-                                    <h3 class="mb-0">Kemaskini Borang Permohonan</h3>
+                                    <h3 class="mb-0">Daftar Borang Permohonan</h3>
                                 </div>
                                 <!-- Card body -->
                                 <div class="card-body">
@@ -179,7 +179,7 @@
                         <div class="card">
                             <!-- Card header -->
                             <div class="card-header">
-                                <h3 class="mb-0">Kemaskini Borang Permohonan</h3>
+                                <h3 class="mb-0">Daftar Borang Permohonan</h3>
                      
                             </div>
                             <!-- Card body -->
@@ -203,7 +203,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="mohon_mula_kerja">Pilih waktu mula</label>
-                                                        <div class="input-group date" id="datetimepicker1">
+                                                        <div class="input-group date" id="datetimepicker3">
                                                             <input type="text" class="form-control"
                                                                 name="mohon_mula_kerja">
                                                             <span class="input-group-addon input-group-append">
@@ -217,7 +217,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="mohon_akhir_kerja">Pilih waktu akhir</label>
-                                                        <div class="input-group date" id="datetimepicker2">
+                                                        <div class="input-group date" id="datetimepicker4">
                                                             <input type="text" class="form-control"
                                                                 name="mohon_akhir_kerja">
                                                             <span class="input-group-addon input-group-append">
@@ -348,6 +348,42 @@
         });
 
         $('#datetimepicker2').datetimepicker({
+            icons: {
+                time: "fa fa-clock",
+                date: "fa fa-calendar-day",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        });
+    });
+
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker3').datetimepicker({
+
+            icons: {
+                todayBtn: "linked",
+                time: "fa fa-clock",
+                date: "fa fa-calendar-day",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+
+
+        });
+
+        $('#datetimepicker4').datetimepicker({
             icons: {
                 time: "fa fa-clock",
                 date: "fa fa-calendar-day",

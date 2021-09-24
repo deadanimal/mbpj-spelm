@@ -61,8 +61,22 @@ class UserPermohonanController extends Controller
     }
 
     
-    public function destroy(UserPermohonan $userPermohonan)
+    public function destroy(Request $request,UserPermohonan $userPermohonan)
     {
-        //
+     
+        if($userPermohonan)
+        {
+            if($userPermohonan->delete()){
+
+              $redirected_url= '/permohonans/';
+              return redirect($redirected_url)->with('buang');;  
+              }
+         else{
+            return "something wrong";
+             }     
+                }
+            else{
+                return "roll call not exist";
+                }       
     }
 }

@@ -51,6 +51,13 @@ Route::resource('manuals',ManualController::class)->middleware(['auth']);
 Route::get('/upload-file', [ManualController::class, 'createForm']);
 Route::post('/upload-file', [ManualController::class, 'fileUpload'])->name('fileUpload');
 
+//sokong sebelum
+Route::get('/sokong_sebelum/{id}',[PermohonanController::class,'sokong_sebelum']);
+Route::post('/tolak_sokong_sebelum',[PermohonanController::class,'tolak_sokong_sebelum']);
+
+//Lulus_sebelum
+Route::get('/lulus_sebelum/{id}',[PermohonanController::class,'lulus_sebelum']);
+Route::post('/tolak_lulus_sebelum',[PermohonanController::class,'tolak_lulus_sebelum']);
 
 
 // Route::resource('/log_pengguna', AuditController::class);
