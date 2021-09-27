@@ -30,6 +30,12 @@ class PermohonanController extends Controller
         $permohonan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)->get();
         $permohonan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)->get();
 
+        // Sokongan pengesahan
+        $pengesahan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)->get();
+        $pengesahan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)->get();
+
+
+
         $user = User::where('id', $user_id)->get();
 
         $pengguna = User::all();
@@ -93,6 +99,8 @@ class PermohonanController extends Controller
             'pengesahans'=> $pengesahans,
             'permohonan_disokongs'=> $permohonan_disokongs,
             'permohonan_dilulus'=> $permohonan_dilulus,
+            'pengesahan_disokongs'=>$pengesahan_disokongs,
+            'pengesahan_dilulus'=>$pengesahan_dilulus,
             'user'=>$user,
             'mohon'=>$mohon,
             'pengguna'=>$pengguna,
@@ -313,6 +321,72 @@ class PermohonanController extends Controller
         $permohonan-> lulus_sebelum = false;
         $permohonan-> tarikh_lulus = Carbon::now()->format('Y-m-d H:i:s');
         $permohonan-> lulus_sebelum_sebab = $request-> lulus_sebelum_sebab;
+
+        $permohonan->save();
+
+        $redirected_url= '/permohonans/';
+        return redirect($redirected_url);        
+
+    }
+    public function sebenar_mula_akhir_kerja(Request $request)
+    {
+        $permohonan = Permohonan::find($request->id);
+        $sebenar_mula_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_mula_kerja));  
+        $sebenar_akhir_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_akhir_kerja));  
+        // $sebenar_mula_kerja = $request->mohon_mula_kerja; 
+        // $sebenar_akhir_kerja = $request->mohon_akhir_kerja;
+        $permohonan-> sebenar_mula_kerja = $sebenar_mula_kerja;
+        $permohonan-> sebenar_akhir_kerja = $sebenar_akhir_kerja;
+
+        $permohonan->save();
+
+        $redirected_url= '/permohonans/';
+        return redirect($redirected_url);        
+
+    }
+    public function sokong_selepas($id)
+    
+    {
+        $permohonan = Permohonan::find($id);
+        $permohonan-> sokong_selepas = true;
+        $permohonan-> tarikh_sokong_selepas_= Carbon::now()->format('Y-m-d H:i:s');
+        $permohonan->save();
+
+        $redirected_url= '/permohonans/';
+        return redirect($redirected_url);        
+
+    }
+    public function tolak_sokong_selepas(Request $request)
+    {
+        $permohonan = Permohonan::find($request->id);
+        $permohonan-> sokong_selepas = false;
+        $permohonan-> tarikh_sokong_selepas_ = Carbon::now()->format('Y-m-d H:i:s');
+        $permohonan-> sokong_selepas_sebab = $request-> sokong_selepas_sebab;
+
+        $permohonan->save();
+
+        $redirected_url= '/permohonans/';
+        return redirect($redirected_url);        
+
+    }
+    public function lulus_selepas($id)
+
+    {
+        $permohonan = Permohonan::find($id);
+        $permohonan-> lulus_selepas = true;
+        $permohonan-> tarikh_lulus_selepas= Carbon::now()->format('Y-m-d H:i:s');
+        $permohonan->save();
+
+        $redirected_url= '/permohonans/';
+        return redirect($redirected_url);        
+
+    }
+    public function tolak_lulus_selepas(Request $request)
+    {
+        $permohonan = Permohonan::find($request->id);
+        $permohonan-> lulus_selepas = false;
+        $permohonan-> tarikh_lulus_selepas = Carbon::now()->format('Y-m-d H:i:s');
+        $permohonan-> lulus_selepas_sebab = $request-> lulus_selepas_sebab;
 
         $permohonan->save();
 

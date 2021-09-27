@@ -59,6 +59,18 @@ Route::post('/tolak_sokong_sebelum',[PermohonanController::class,'tolak_sokong_s
 Route::get('/lulus_sebelum/{id}',[PermohonanController::class,'lulus_sebelum']);
 Route::post('/tolak_lulus_sebelum',[PermohonanController::class,'tolak_lulus_sebelum']);
 
+//hantar
+Route::get('/sebenar_mula_akhir_kerja/{id}',[PermohonanController::class,'sebenar_mula_akhir_kerja']);
+Route::post('/sebenar_mula_akhir_kerja/{id}',[PermohonanController::class,'sebenar_mula_akhir_kerja']);
+
+//sokong selepas
+Route::get('/sokong_selepas/{id}',[PermohonanController::class,'sokong_selepas']);
+Route::post('/tolak_sokong_selepas',[PermohonanController::class,'tolak_sokong_selepas']);
+
+//lulus selepas
+Route::get('/lulus_selepas/{id}',[PermohonanController::class,'lulus_selepas']);
+Route::post('/tolak_lulus_selepas',[PermohonanController::class,'tolak_lulus_selepas']);
+
 
 // Route::resource('/log_pengguna', AuditController::class);
 // Route::get('/log_pemohon', [AuditController::class, 'log_pemohon']);
