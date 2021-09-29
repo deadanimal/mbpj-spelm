@@ -20,19 +20,56 @@ class PermohonanController extends Controller
         $user_id = $request->user()->id;   
         // $permohonans = User::find($user_id)->permohonans()->get();
         $permohonans = User::find($user_id)->permohonans()->get();
+
+        //kakitangan get pengesahan by lulus only
         $pengesahans = User::find($user_id)
         ->permohonans()
         ->where('lulus_sebelum','=','1')
         ->get();
 
 
-        // Sokongan permohonan
+        // Sokongan permohonan _____________________
+
         $permohonan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)->get();
+
+        foreach ($permohonan_disokongs as $ps){
+            $uid = UserPermohonan::where("permohonan_id", $ps->id)->first()->user_id;
+            $pemohon = User::where("id", $uid)->first()->name;
+            $ps->nama_pemohon = $pemohon;
+        }
+
         $permohonan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)->get();
 
-        // Sokongan pengesahan
-        $pengesahan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)->get();
-        $pengesahan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)->get();
+        foreach ($permohonan_dilulus as $pl){
+            $uuid = UserPermohonan::where("permohonan_id", $pl->id)->first()->user_id;
+            $pemohon = User::where("id", $uuid)->first()->name;
+            $pl->nama_pemohon = $pemohon;
+        }
+
+        // Sokongan pengesahan____________________________
+
+        $pengesahan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)
+        // to get only list of true permohonan 
+
+        ->where('lulus_sebelum','=','1')
+        ->get();
+
+        foreach ($pengesahan_disokongs as $pes){
+            $uuuid = UserPermohonan::where("permohonan_id", $pes->id)->first()->user_id;
+            $pemohon = User::where("id", $uuuid)->first()->name;
+            $pes->nama_pemohon = $pemohon;
+        }
+
+        $pengesahan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)
+         // to get only list of true permohonan 
+        ->where('lulus_sebelum','=','1')
+        ->get();
+
+        foreach ($pengesahan_dilulus as $pel){
+            $uuuuid = UserPermohonan::where("permohonan_id", $pel->id)->first()->user_id;
+            $pemohon = User::where("id", $uuuuid)->first()->name;
+            $pel->nama_pemohon = $pemohon;
+        }
 
 
 
@@ -93,6 +130,34 @@ class PermohonanController extends Controller
         ->where([['pegawai_lulus_id','=',$user_id],['lulus_sebelum','=',null]])
         ->count();
 
+        //status kb
+
+        $p_sokong_selepas_all = DB::table('permohonans')
+        ->where('pegawai_sokong_id','=',$user_id)
+        ->count();
+        $p_sokong_selepas = DB::table('permohonans')
+        ->where([['pegawai_sokong_id','=',$user_id],['sokong_selepas','=','1']])
+        ->count();
+        $p_tolak_sokong_selepas = DB::table('permohonans')
+        ->where([['pegawai_sokong_id','=',$user_id],['sokong_selepas','=','0']])
+        ->count();
+        $p_sokong_selepas_proses = DB::table('permohonans')
+        ->where([['pegawai_sokong_id','=',$user_id],['sokong_selepas','=',null]])
+        ->count();
+
+        $p_lulus_selepas_all = DB::table('permohonans')
+        ->where('pegawai_lulus_id','=',$user_id)
+        ->count();
+        $p_lulus_selepas = DB::table('permohonans')
+        ->where([['pegawai_lulus_id','=',$user_id],['lulus_selepas','=','1']])
+        ->count();
+        $p_tolak_lulus_selepas = DB::table('permohonans')
+        ->where([['pegawai_lulus_id','=',$user_id],['lulus_selepas','=','0']])
+        ->count();
+        $p_lulus_selepas_proses = DB::table('permohonans')
+        ->where([['pegawai_lulus_id','=',$user_id],['lulus_selepas','=',null]])
+        ->count();
+
 
         return view('permohonan.index',[
             'permohonans'=> $permohonans,
@@ -107,6 +172,7 @@ class PermohonanController extends Controller
             'mohon_p' =>$mohon_p ,
             'mohon_t' =>$mohon_t ,
             'mohon_dp' =>$mohon_dp ,
+
             'p_sokong_all'=>$p_sokong_all,
             'p_sokong'=>$p_sokong,
             'p_tolak_sokong'=>$p_tolak_sokong,
@@ -115,6 +181,15 @@ class PermohonanController extends Controller
             'p_lulus'=>$p_lulus,
             'p_tolak_lulus'=>$p_tolak_lulus,
             'p_lulus_proses'=>$p_lulus_proses,
+            
+            'p_sokong_selepas_all'=>$p_sokong_selepas_all,
+            'p_sokong_selepas'=>$p_sokong_selepas,
+            'p_tolak_sokong_selepas'=>$p_tolak_sokong_selepas,
+            'p_sokong_selepas_proses'=>$p_sokong_selepas_proses,
+            'p_lulus_selepas_all'=>$p_lulus_selepas_all,
+            'p_lulus_selepas'=>$p_lulus_selepas,
+            'p_tolak_lulus_selepas'=>$p_tolak_lulus_selepas,
+            'p_lulus_selepas_proses'=>$p_lulus_selepas_proses,
 
 
 
@@ -344,6 +419,21 @@ class PermohonanController extends Controller
         return redirect($redirected_url);        
 
     }
+    // public function sebenar_tuntutan_mula_akhir(Request $request)
+    // {
+    //     $permohonan = Tuntutan::find($request->id);
+    //     $sebenar_mula_kerja_tuntutan = date("Y-m-d H:i:s", strtotime($request->mohon_mula_kerja));  
+    //     $sebenar_akhir_kerja_tuntutan = date("Y-m-d H:i:s", strtotime($request->mohon_akhir_kerja));  
+      
+    //     $permohonan-> sebenar_mula_kerja_tuntutan = $sebenar_mula_kerja_tuntutan;
+    //     $permohonan-> sebenar_akhir_kerja_tuntutan = $sebenar_akhir_kerja_tuntutan;
+
+    //     $permohonan->save();
+
+    //     $redirected_url= '/permohonans/';
+    //     return redirect($redirected_url);        
+
+    // }
     public function sokong_selepas($id)
     
     {

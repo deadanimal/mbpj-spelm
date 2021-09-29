@@ -53,6 +53,7 @@
 @if(auth()->user()->role == 'kakitangan')
 <!-- Card stats -->
 <div class="container-fluid mt--6">
+    {{-- Card tuntutan--}}
     <div class="row">
         <div class="col-xl-3 col-md-6">
             <div class="card card-stats">
@@ -134,6 +135,7 @@
             </div>
         </div>
     </div>
+    {{-- Tuntutan Kakitangan--}}
     <div class="row ">
         <div class="col-md-12">
             <div class="card">
@@ -146,32 +148,162 @@
                     <thead class="thead-light">
                         <tr>
                             <th>No</th>
-                            <th> Tarikh Mohon</th>
-                            <th> Waktu Kerja</th>
-                            <th> Perkara</th>
-                            <th> Status</th>
-                            <th> Jenis Permohonan</th>
-                            <!-- eKedatangan -->
-                            <th>clockintime</th>
-                            <th>clockouttime</th>
-                            <th>totalworkinghour</th>
-                            <th>otstarttime1</th>
-                            <th>otendtime1</th>
-                            <th>otdurationt1</th>
+                            <th> Nama Pemohon</th>
+                            <th> Waktu Mula Sebenar</th>
+                            <th> Waktu Akhir Sebenar</th>
+                           
+                            <th> Ekedatangan</th>
+                            <th> Ekedatangan</th>
+                            <th> Jumlah Jam Tuntutan</th>
+                            <th> Jumlah Tuntutan</th>
+                            <th> Jumlah</th>
+                        
+                            <th> Tindakan</th>
                         </tr>
                     </thead>
+                    <tbody class="list">
+                        @foreach($tuntutan_k as $tuntutan_k)
+                        <tr>
+                            <td>
+                                {{$loop->index+1}}
+                            </td>
+                            <td>
+                                {{Auth()->user()->name}}
+                            </td>
+                            <form method="POST" action="/tuntutans/">
+                                @csrf
+                                    <td >
+                                        <input type="text" id="sebenar_mula_kerja_tuntutan" name="sebenar_mula_kerja_tuntutan" value="{{$tuntutan_k->sebenar_mula_kerja}}">
+
+                                    </td>
+                                    <td >
+                                        <input type="text" id="sebenar_akhir_kerja_tuntutan" name="sebenar_akhir_kerja_tuntutan" value="{{$tuntutan_k->sebenar_akhir_kerja}}">
+                                    </td>
+                            
+                                    <td >   
+                                        <span class="badge badge-pill badge-danger"> Integration </span><br><br>
+
+                                    </td>
+                                    <td >
+                                        <span class="badge bagde-pill badge-danger"> Integration</span>
+                                    </td>
+                                    <td >   
+                                        <input type="text" id="jumlah_jam_tuntutan" name="jumlah_jam_tuntutan" value="">
+
+                                    </td>
+                                    <td >
+                                        <input type="text" id="jumlah_tuntutan" name="jumlah_tuntutan" value="">
+                                    </td>
+                                    <td >
+                                        <input type="text" id="status" name="status" value="">
+                                    </td>
+
+
+                                    <td>
+                                        {{-- @if($tuntutan->status == null) --}}
+                                        <span class="badge badge-pill badge-primary">Perlu Semakan</span>
+                                
+                                        <button type="submit"
+                                        class="btn btn-primary btn-sm ">Hantar</button>
+
+                                        {{-- @elseif($tuntutan->status != null) --}}
+
+                                        <span class="badge badge-pill badge-success">Dalam Semakan</span>
+
+                                        {{-- @endif --}}
+
+
+
+                                   
+                                    </td>   
+                            </form>
+                                
+                        </tr>
+                       
+                        @endforeach
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {{-- Tuntutan Kakitangan diluluskan--}}
+    <div class="row ">
+        <div class="col-md-12">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Tuntutan diluluskan</h3>
+                </div>
+                <!-- Light table -->
+                <table id="example" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>No</th>
+                            <th> Nama Pemohon</th>
+                            <th> Tarikh Mohon</th>
+                            <th> Waktu Kerja</th>
+                            <th> Ekedatangan</th>
+                            <th> Ekedatangan</th>
+                            <th> Jumlah Jam Tuntutan</th>
+                            <th> Jumlah Tuntutan</th>
+                            <th> Status</th>
+                            <th> Waktu Mula Sebenar</th>
+                            <th> Waktu Akhir Sebenar</th>
+                            <th> Status</th>
+                            <th> Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                        {{-- @foreach($tuntutan_k as $permohonan)
+                        <tr>
+                            <td>
+                                {{$loop->index+1}}
+                            </td>
+                            <td class="tarikh">
+
+                                {{$permohonan->mohon_mula_kerja}}
+                            </td>
+                            <td class="waktu">
+                                {{$permohonan->mohon_akhir_kerja}}
+                            </td>
+                            <td >   
+                                1
+                            </td>
+                            <td >
+                                2
+                            </td>
+                            <td >
+                                {{$permohonan->sebenar_mula_kerja}}
+
+                            </td>
+                            <td >
+                                {{$permohonan->sebenar_akhir_kerja}}
+
+                            </td>
+                            <td style="background-color:#dcdcdc">
+                            </td>   
+                            <td>
+                            </td>
+                          
+                               
+                        </tr>
+                       
+                        @endforeach --}}
+
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-{{-- user Lain --}}
 @elseif(auth()->user()->role == 'penyelia')
 <div class="container-fluid mt--6">
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
             aria-labelledby="tabs-icons-text-1-tab">
             <div>
+                {{-- Card tuntutan--}}
                 <div class="row">
                     <div class="col-xl-3 col-md-6">
                         <div class="card card-stats">
@@ -254,33 +386,134 @@
                         </div>
                     </div>
                 </div>
+                {{-- Tuntutan sebegai kakitangan--}}
                 <div class="row ">
                     <div class="col-md-12">
                         <div class="card">
                             <!-- Card header -->
                             <div class="card-header border-0">
-                                <h3 class="mb-0">Tuntutan</h3>
+                                <h3 class="mb-0">Tuntutan </h3>
                             </div>
                             <!-- Light table -->
-                            <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
-                                style="width:100%">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>No</th>
-                                        <th> Tarikh Mohon</th>
-                                        <th> Waktu Kerja</th>
-                                        <th> Perkara</th>
-                                        <th> Status</th>
-                                        <th> Jenis Permohonan</th>
-                                        <!-- eKedatangan -->
-                                        <th>clockintime</th>
-                                        <th>clockouttime</th>
-                                        <th>totalworkinghour</th>
-                                        <th>otstarttime1</th>
-                                        <th>otendtime1</th>
-                                        <th>otdurationt1</th>
-                                    </tr>
-                                </thead>
+                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th> Tarikh Mohon</th>
+                                    <th> Waktu Kerja</th>
+                                    <th> Perkara</th>
+                                    <th> Status</th>
+                                    <th> Waktu Mula Sebenar</th>
+                                    <th> Waktu Akhir Sebenar</th>
+                                    <th> Status</th>
+                                    <th> Tindakan</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                @foreach($tuntutan_k as $permohonan)
+                                <tr>
+                                    <td>
+                                        {{$loop->index+1}}
+                                    </td>
+                                    <td class="tarikh">
+
+                                        {{$permohonan->mohon_mula_kerja}}
+                                    </td>
+                                    <td class="waktu">
+                                        {{$permohonan->mohon_akhir_kerja}}
+                                    </td>
+                                    <td >   
+                                        1
+                                    </td>
+                                    <td >
+                                        2
+                                    </td>
+                                    <td >
+                                        {{$permohonan->sebenar_mula_kerja}}
+
+                                    </td>
+                                    <td >
+                                        {{$permohonan->sebenar_akhir_kerja}}
+
+                                    </td>
+                                    <td style="background-color:#dcdcdc">
+                                    </td>   
+                                    <td>
+                                    </td>
+                                  
+                                        
+                                </tr>
+                                
+                                @endforeach
+
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {{-- Tuntutan sebagai kakitangan diluluskan--}}
+                <div class="row ">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header border-0">
+                                <h3 class="mb-0">Tuntutan Yang diluluskan </h3>
+                            </div>
+                            <!-- Light table -->
+                            <table id="example" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th> Tarikh Mohon</th>
+                                    <th> Waktu Kerja</th>
+                                    <th> Perkara</th>
+                                    <th> Status</th>
+                                    <th> Waktu Mula Sebenar</th>
+                                    <th> Waktu Akhir Sebenar</th>
+                                    <th> Status</th>
+                                    <th> Tindakan</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                @foreach($tuntutan_k as $permohonan)
+                                <tr>
+                                    <td>
+                                        {{$loop->index+1}}
+                                    </td>
+                                    <td class="tarikh">
+
+                                        {{$permohonan->mohon_mula_kerja}}
+                                    </td>
+                                    <td class="waktu">
+                                        {{$permohonan->mohon_akhir_kerja}}
+                                    </td>
+                                    <td >   
+                                        1
+                                    </td>
+                                    <td >
+                                        2
+                                    </td>
+                                    <td >
+                                        {{$permohonan->sebenar_mula_kerja}}
+
+                                    </td>
+                                    <td >
+                                        {{$permohonan->sebenar_akhir_kerja}}
+
+                                    </td>
+                                    <td style="background-color:#dcdcdc">
+                                    </td>   
+                                    <td>
+                                    </td>
+                                  
+                                        
+                                </tr>
+                                
+                                @endforeach
+
+                            </tbody>
                             </table>
                         </div>
                     </div>
@@ -289,6 +522,7 @@
         </div>
         <div class="tab-pane fade " id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
             <div>
+                {{-- Card tuntutan--}}
                 <div class="row">
                     <div class="col-xl-3 col-md-6">
                         <div class="card card-stats">
@@ -371,12 +605,47 @@
                         </div>
                     </div>
                 </div>
+                {{--  Sokong tuntutan kakitangan--}}
                 <div class="row ">
                     <div class="col-md-12">
                         <div class="card">
                             <!-- Card header -->
                             <div class="card-header border-0">
-                                <h3 class="mb-0">Semak Tuntutan</h3>
+                                <h3 class="mb-0">Sokong Tuntutan</h3>
+                            </div>
+                            <!-- Light table -->
+                            <div class="table-responsive py-4">
+                                <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
+                                    style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>No</th>
+                                            <th> Tarikh Mohon</th>
+                                            <th> Waktu Kerja</th>
+                                            <th> Perkara</th>
+                                            <th> Status</th>
+                                            <th> Jenis Permohonan</th>
+                                            <!-- eKedatangan -->
+                                            <th>clockintime</th>
+                                            <th>clockouttime</th>
+                                            <th>totalworkinghour</th>
+                                            <th>otstarttime1</th>
+                                            <th>otendtime1</th>
+                                            <th>otdurationt1</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 {{-- Lulus tuntutan kakitangan--}}
+                <div class="row ">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header border-0">
+                                <h3 class="mb-0">Lulus Tuntutan</h3>
                             </div>
                             <!-- Light table -->
                             <div class="table-responsive py-4">
@@ -408,13 +677,14 @@
         </div>
     </div>
 </div>
-@elseif(auth()->user()->role == 'ketua_bahagian'or auth()->user()->role =='ketua_jabatan')
-{{-- user Lain --}}
+@elseif(auth()->user()->role == 'ketua_bahagian')
+
 <div class="container-fluid mt--6">
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
             aria-labelledby="tabs-icons-text-1-tab">
             <div>
+                {{-- Card tuntutan--}}
                 <div class="row">
                     <div class="col-xl-3 col-md-6">
                         <div class="card card-stats">
@@ -497,12 +767,13 @@
                         </div>
                     </div>
                 </div>
+                {{-- Sokong tuntutan ketua jabatan --}}
                 <div class="row ">
                     <div class="col-md-12">
                         <div class="card">
                             <!-- Card header -->
                             <div class="card-header border-0">
-                                <h3 class="mb-0">Semak Tuntutan</h3>
+                                <h3 class="mb-0">Sokong Tuntutan</h3>
                             </div>
                             <!-- Light table -->
                             <div class="table-responsive py-4">
@@ -510,21 +781,310 @@
                                     style="width:100%">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th>No</th>
+                                            <th> No</th>
                                             <th> Tarikh Mohon</th>
                                             <th> Waktu Kerja</th>
                                             <th> Perkara</th>
                                             <th> Status</th>
-                                            <th> Jenis Permohonan</th>
-                                            <!-- eKedatangan -->
-                                            <th>clockintime</th>
-                                            <th>clockouttime</th>
-                                            <th>totalworkinghour</th>
-                                            <th>otstarttime1</th>
-                                            <th>otendtime1</th>
-                                            <th>otdurationt1</th>
+                                            <th> Waktu Mula Sebenar</th>
+                                            <th> Waktu Akhir Sebenar</th>
+                                            <th> Status</th>
+                                            <th> Tindakan</th>
                                         </tr>
                                     </thead>
+                                    <tbody class="list">
+                                        @foreach($sokong_tuntutan as $permohonan)
+                                        <tr>
+                                            <td>
+                                                {{$loop->index+1}}
+                                            </td>
+                                            <td class="tarikh">
+        
+                                                {{$permohonan->mohon_mula_kerja}}
+                                            </td>
+                                            <td class="waktu">
+                                                {{$permohonan->mohon_akhir_kerja}}
+                                            </td>
+                                            <td >   
+                                                1
+                                            </td>
+                                            <td >
+                                                2
+                                            </td>
+                                            <td >
+                                                {{$permohonan->sebenar_mula_kerja}}
+        
+                                            </td>
+                                            <td >
+                                                {{$permohonan->sebenar_akhir_kerja}}
+        
+                                            </td>
+                                            <td style="background-color:#dcdcdc">
+                                            </td>   
+                                            <td>
+                                            </td>
+                                          
+                                                
+                                        </tr>
+                                        
+                                        @endforeach
+        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                {{-- Lulus tuntutan ketua jabatan --}}
+                <div class="row ">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header border-0">
+                                <h3 class="mb-0">Lulus Tuntutan</h3>
+                            </div>
+                            <!-- Light table -->
+                            <div class="table-responsive py-4">
+                                <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
+                                    style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th> No</th>
+                                            <th> Tarikh Mohon</th>
+                                            <th> Waktu Kerja</th>
+                                            <th> Perkara</th>
+                                            <th> Status</th>
+                                            <th> Waktu Mula Sebenar</th>
+                                            <th> Waktu Akhir Sebenar</th>
+                                            <th> Status</th>
+                                            <th> Tindakan</th>
+                                        </tr>
+                                    </thead>
+                                
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>              
+            </div>
+        </div>
+    </div>
+</div>
+@elseif(auth()->user()->role =='ketua_jabatan')
+
+<div class="container-fluid mt--6">
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
+            aria-labelledby="tabs-icons-text-1-tab">
+            <div>
+                {{-- Card tuntutan--}}
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH TUNTUTAN ELAUN
+                                            LEBIH MASA
+                                        </h5>
+                                        <span class="h2 font-weight-bold mb-0">0</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
+                                            LULUS
+                                        </h5>
+                                        <span class="h2 font-weight-bold mb-0">0</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">TUNTUTAN ELAUN LEBIH MASA
+                                            LULUS DITOLAK
+                                        </h5>
+                                        <span class="h2 font-weight-bold mb-0">0</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
+                                        </h5>
+                                        <span class="h2 font-weight-bold mb-0">0</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Sokong tuntutan ketua jabatan --}}
+                <div class="row ">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header border-0">
+                                <h3 class="mb-0">Sokong Tuntutan</h3>
+                            </div>
+                            <!-- Light table -->
+                            <div class="table-responsive py-4">
+                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                                    style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th> No</th>
+                                            <th> Tarikh Mohon</th>
+                                            <th> Waktu Kerja</th>
+                                            <th> Perkara</th>
+                                            <th> Status</th>
+                                            <th> Waktu Mula Sebenar</th>
+                                            <th> Waktu Akhir Sebenar</th>
+                                            <th> Status</th>
+                                            <th> Tindakan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list">
+                                        @foreach($sokong_tuntutan as $permohonan)
+                                        <tr>
+                                            <td>
+                                                {{$loop->index+1}}
+                                            </td>
+                                            <td class="tarikh">
+        
+                                                {{$permohonan->mohon_mula_kerja}}
+                                            </td>
+                                            <td class="waktu">
+                                                {{$permohonan->mohon_akhir_kerja}}
+                                            </td>
+                                            <td >   
+                                                1
+                                            </td>
+                                            <td >
+                                                2
+                                            </td>
+                                            <td >
+                                                {{$permohonan->sebenar_mula_kerja}}
+        
+                                            </td>
+                                            <td >
+                                                {{$permohonan->sebenar_akhir_kerja}}
+        
+                                            </td>
+                                            <td style="background-color:#dcdcdc">
+                                            </td>   
+                                            <td>
+                                            </td>
+                                          
+                                                
+                                        </tr>
+                                        
+                                        @endforeach
+        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Lulus tuntutan ketua jabatan --}}
+                <div class="row ">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header border-0">
+                                <h3 class="mb-0">Lulus Tuntutan</h3>
+                            </div>
+                            <!-- Light table -->
+                            <div class="table-responsive py-4">
+                                <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
+                                    style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th> No</th>
+                                            <th> Tarikh Mohon</th>
+                                            <th> Waktu Kerja</th>
+                                            <th> Perkara</th>
+                                            <th> Status</th>
+                                            <th> Waktu Mula Sebenar</th>
+                                            <th> Waktu Akhir Sebenar</th>
+                                            <th> Status</th>
+                                            <th> Tindakan</th>
+                                        </tr>
+                                    </thead>
+                                
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Lebih 1/3 tuntutan ketua jabatan --}}
+                <div class="row ">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header border-0">
+                                <h3 class="mb-0">Sokong Tuntutan Lebih 1/3 gaji</h3>
+                            </div>
+                            <!-- Light table -->
+                            <div class="table-responsive py-4">
+                                <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
+                                    style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th> No</th>
+                                            <th> Tarikh Mohon</th>
+                                            <th> Waktu Kerja</th>
+                                            <th> Perkara</th>
+                                            <th> Status</th>
+                                            <th> Waktu Mula Sebenar</th>
+                                            <th> Waktu Akhir Sebenar</th>
+                                            <th> Status</th>
+                                            <th> Tindakan</th>
+                                        </tr>
+                                    </thead>
+                                   
                                 </table>
                             </div>
                         </div>
@@ -536,50 +1096,100 @@
 </div>
 @elseif(auth()->user()->role == 'datuk_bandar')
 <div class="container-fluid mt--6">
-
-    <div class="card">
-        <div class="card-header">
-            <h3 class="mb-0">Filters</h3>
-        </div>
-        <div class="card-body">
-            <div class="col-md-12">
-                <form>
+    {{-- Card tuntutan lebih sebulan gaji--}}
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
                     <div class="row">
-                        {{-- <div class="col mb-4">
-                                <h4>Jenis Tuntutan</h4>
-                                <input type="text" class="form-control" placeholder="Jenis Tuntutan">
-                            </div> --}}
-                        <div class="col mb-4">
-                            <h4>Nama Kakitangan</h4>
-                            <input type="text" class="form-control" placeholder="Nama Kakitangan">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH TUNTUTAN ELAUN
+                                LEBIH SEBULAN GAJI
+                            </h5>
+                            <span class="h2 font-weight-bold mb-0">0</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                              <i class="ni ni-chart-bar-32"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <h4>Tarikh Mula Mohon</h4>
-                            <input id="start" type="date" /><br />
-                        </div>
-                        <div class="col-sm">
-                            <h4>Tarikh Akhir Mohon</h4>
-                            <input id="start" type="date" /><br />
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
-            <div class="row float-right">
-                <div class="col-sm ">
-                    <button id="clearFilter" class="btn btn-sm btn-danger">Clear Filter</button>
-                    <button class="btn btn-sm btn-primary " id="filter">Filter</button>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH TUNTUTAN ELAUN
+                                LEBIH SEBULAN GAJI DILULUSKAN
+                            </h5>
+                            <span class="h2 font-weight-bold mb-0">0</span>
+                        </div>
+                        <div class="col-auto">
+                            <div
+                                class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                <i class="ni ni-chart-bar-32"></i>               
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH TUNTUTAN ELAUN
+                                LEBIH SEBULAN GAJI DITOLAK
+                            </h5>
+                            <span class="h2 font-weight-bold mb-0">0</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                              <i class="ni ni-chart-bar-32"></i>                               
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH TUNTUTAN ELAUN
+                                LEBIH SEBULAN GAJI (RM)
+                            </h5>
+                            <span class="h2 font-weight-bold mb-0">0</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                                <i class="ni ni-chart-bar-32"></i>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
+    {{-- Tuntutan lebih sebulan gaji--}}
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header border-0">
-                    <h3 class="mb-0">Semak Tuntutan</h3>
+                    <h3 class="mb-0">Semak Tuntutan Lebih Sebulan Gaji</h3>
                 </div>
                 <!-- Light table -->
                 <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
@@ -612,6 +1222,7 @@
 @elseif(auth()->user()->role == 'kerani_semakan'or auth()->user()->role ==
 'kerani_pemeriksa')
 <div class="container-fluid mt--6">
+    {{-- Card semakan tuntutan--}}
     <div class="row">
         <div class="col-xl-3 col-md-6">
             <div class="card card-stats">
@@ -693,6 +1304,7 @@
             </div>
         </div>
     </div>
+    {{-- filter semakan tuntutan kakitangan--}}
     <div class="card">
         <div class="card-header">
             <h3 class="mb-0">Filters</h3>
@@ -730,6 +1342,7 @@
             </div>
         </div>
     </div>
+    {{-- semakan tuntutan kakitangan--}}
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -766,39 +1379,100 @@
 </div>
 @elseif(auth()->user()->role == 'pelulus_pindaan')
 <div class="container-fluid mt--6">
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <!-- Card header -->
-            <div class="card-header border-0">
-                <h3 class="mb-0">Kelulusan Kemaskini Pindaan Tuntutan</h3>
+    {{-- Card stats pelulus pindaan --}}
+    <div class="row">
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PERMOHONAN PINDAAN
+                      </h5>
+                      <span class="h2 font-weight-bold mb-0">0</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-active-40"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <!-- Light table -->
-            <table id="example" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-                <thead class="thead-light">
-                    <tr>
-                        <th>No</th>
-                        <th> Tarikh Mohon</th>
-                        <th> Waktu Kerja</th>
-                        <th> Perkara</th>
-                        <th> Status</th>
-                        <th> Jenis Permohonan
-                        </th>
-                        <!-- eKedatangan -->
-                        <th>clockintime</th>
-                        <th>clockouttime</th>
-                        <th>totalworkinghour</th>
-                        <th>otstarttime1</th>
-                        <th>otendtime1</th>
-                        <th>otdurationt1</th>
-                    </tr>
-                </thead>
-                <tbody class="list">
-                </tbody>
-            </table>
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PERMOHONAN PINDAAN DILULUSKAN
+                      </h5>
+                      <span class="h2 font-weight-bold mb-0">0</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-active-40"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PERMOHONAN PINDAAN DITOLAK
+                      </h5>
+                      <span class="h2 font-weight-bold mb-0">0</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-active-40"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    {{-- Permohonan pindaan tuntutan--}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Kelulusan Kemaskini Pindaan Tuntutan</h3>
+                </div>
+                <!-- Light table -->
+                <table id="example" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>No</th>
+                            <th> Tarikh Mohon</th>
+                            <th> Waktu Kerja</th>
+                            <th> Perkara</th>
+                            <th> Status</th>
+                            <th> Jenis Permohonan
+                            </th>
+                            <!-- eKedatangan -->
+                            <th>clockintime</th>
+                            <th>clockouttime</th>
+                            <th>totalworkinghour</th>
+                            <th>otstarttime1</th>
+                            <th>otendtime1</th>
+                            <th>otdurationt1</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 </div>
 @else
 {{-- Error --}}
@@ -807,7 +1481,7 @@
         <div class="card">
             <!-- Card header -->
             <div class="card-header border-0">
-                <h3 class="mb-0">Modul ini tidak dapat dijalankan pada peranan anda.
+                <h3 class="mb-0">Modul ini tidak dibekalkan pada peranan anda.
                     Sila hubungi pentadbir sistem anda.</h3>
             </div>
         </div>

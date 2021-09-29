@@ -4,86 +4,109 @@ namespace App\Http\Controllers;
 
 use App\Models\Tuntutan;
 use App\Models\User;
+use App\Models\UserPermohonan;
 use Illuminate\Http\Request;
+use App\Models\Permohonan;
+use App\Models\PermohonanTuntutan;
+
 
 class TuntutanController extends Controller
 {
-    /**
-     * Display a listing of the resource. 
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+  
+    public function index(Request $request)
     {
         $user = User::get('role');
-         return view ('tuntutan.index');
-            // 'user'=> $user    
+        $user_id = $request->user()->id;   
+
+
+        $tuntutan_k = User::find($user_id)
+        ->permohonans()
+        ->where('lulus_selepas','=','1')
+        ->get();
+
+        $tuntutan_k_l = User::find($user_id)
+        ->permohonans()
+        ->where('lulus_selepas','=','1')
+        ->get();
+
+        $sokong_tuntutan = Permohonan::where('pegawai_sokong_id', $user_id) 
+        ->where('lulus_selepas','=','1')
+        ->get();
+
+        $lulus_tuntutan = Permohonan::where('pegawai_lulus_id', $user_id)
+        ->where('lulus_selepas','=','1')
+        ->get();
+
+        // $tuntutan =User::find($user_id)->tuntutans()->get();
+
+
+
+         return view ('tuntutan.index',[
+            'tuntutan_k'=>$tuntutan_k,
+            'tuntutan_k_l'=>$tuntutan_k_l,
+            // 'tuntutan'=>$tuntutan,
+
+
+            'sokong_tuntutan'=>$sokong_tuntutan,
+            'lulus_tuntutan'=>$lulus_tuntutan,
+
+         ]);
         
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $tuntutan = new Tuntutan;
+
+        $sebenar_mula_kerja_tuntutan = date("Y-m-d H:i:s", strtotime($request->sebenar_mula_kerja_tuntutan));  
+        $sebenar_akhir_kerja_tuntutan = date("Y-m-d H:i:s", strtotime($request->sebenar_akhir_kerja_tuntutan));  
+        $tuntutan->sebenar_mula_kerja_tuntutan = $sebenar_mula_kerja_tuntutan;
+        $tuntutan->sebenar_akhir_kerja_tuntutan = $sebenar_akhir_kerja_tuntutan ;
+        $tuntutan->jumlah_jam_tuntutan = $request-> jumlah_jam_tuntutan;
+        $tuntutan->jumlah_tuntutan = $request-> jumlah_tuntutan;
+        $tuntutan->status = $request-> status;
+        $tuntutan->user_id = $request->user()->id;
+
+    
+        $tuntutan->save();
+
+        $permohonan_tuntutans = new PermohonanTuntutan;
+        $permohonan_tuntutans->tuntutan_id = $permohonan_tuntutans->id;
+        $permohonan_tuntutans->permohonan_id = $permohonan_tuntutans->id;
+
+        $permohonan_tuntutans->save();
+
+    
+        $redirected_url= '/tuntutans/';
+        return redirect($redirected_url);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Tuntutan  $tuntutan
-     * @return \Illuminate\Http\Response
-     */
     public function show(Tuntutan $tuntutan)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Tuntutan  $tuntutan
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Tuntutan $tuntutan)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tuntutan  $tuntutan
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Tuntutan $tuntutan)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Tuntutan  $tuntutan
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Tuntutan $tuntutan)
     {
         //
     }
+
 }

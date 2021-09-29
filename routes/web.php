@@ -14,7 +14,7 @@ use App\Http\Controllers\MaklumanController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ManualController;
 use App\Http\Controllers\UserPermohonanController;
-
+use App\Http\Controllers\PermohonanTuntutanController;
 
 
 /*
@@ -43,6 +43,9 @@ Route::resource('permohonans',PermohonanController::class)->middleware(['auth'])
 Route::resource('user_permohonans',UserPermohonanController::class)->middleware(['auth']);
 
 Route::resource('tuntutans',TuntutanController::class)->middleware(['auth']);
+Route::resource('permohonan_tuntutans',PermohonanTuntutanController::class)->middleware(['auth']);
+
+
 Route::resource('laporans',LaporanController::class)->middleware(['auth']);
 Route::resource('profiles',ProfileController::class)->middleware(['auth']);
 Route::resource('users',UserController::class)->middleware(['auth']);
@@ -59,7 +62,7 @@ Route::post('/tolak_sokong_sebelum',[PermohonanController::class,'tolak_sokong_s
 Route::get('/lulus_sebelum/{id}',[PermohonanController::class,'lulus_sebelum']);
 Route::post('/tolak_lulus_sebelum',[PermohonanController::class,'tolak_lulus_sebelum']);
 
-//hantar
+//hantar time permohonan
 Route::get('/sebenar_mula_akhir_kerja/{id}',[PermohonanController::class,'sebenar_mula_akhir_kerja']);
 Route::post('/sebenar_mula_akhir_kerja/{id}',[PermohonanController::class,'sebenar_mula_akhir_kerja']);
 
@@ -70,6 +73,10 @@ Route::post('/tolak_sokong_selepas',[PermohonanController::class,'tolak_sokong_s
 //lulus selepas
 Route::get('/lulus_selepas/{id}',[PermohonanController::class,'lulus_selepas']);
 Route::post('/tolak_lulus_selepas',[PermohonanController::class,'tolak_lulus_selepas']);
+
+//hantar time tuntutan
+Route::get('/sebenar_mula_akhir_tuntutan/{id}',[PermohonanController::class,'sebenar_mula_akhir_tuntutan']);
+Route::post('/sebenar_mula_akhir_tuntutan/{id}',[PermohonanController::class,'sebenar_mula_akhir_tuntutan']);
 
 
 // Route::resource('/log_pengguna', AuditController::class);
