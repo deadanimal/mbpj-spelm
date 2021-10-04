@@ -555,7 +555,7 @@
                                         @elseif($permohonan->sebenar_akhir_kerja != null)
 
                                             <td>
-                                                <span class="badge badge-pill badge-success"> Dalam Semakan</span>
+                                                <span class="badge badge-pill badge-primary"> Dalam Semakan</span>
                                             </td>
 
                                         @endif

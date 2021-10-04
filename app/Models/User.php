@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 use App\Models\Permohonan;
+use App\Models\Tuntutan;
+
 
 class User extends Authenticatable
 {
@@ -46,5 +48,9 @@ class User extends Authenticatable
     public function permohonans()
     {
         return $this->belongsToMany(Permohonan::class, 'user_permohonans', 'user_id', 'permohonan_id');
+    }    
+    public function tuntutans()
+    {
+        return $this->belongsToMany(Tuntutan::class, 'permohonan_tuntutans', 'tuntutan_id', 'permohonan_id');
     }    
 }

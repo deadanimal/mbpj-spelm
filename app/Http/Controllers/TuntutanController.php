@@ -8,6 +8,8 @@ use App\Models\UserPermohonan;
 use Illuminate\Http\Request;
 use App\Models\Permohonan;
 use App\Models\PermohonanTuntutan;
+use Illuminate\Support\Facades\DB;
+
 
 
 class TuntutanController extends Controller
@@ -16,36 +18,30 @@ class TuntutanController extends Controller
     public function index(Request $request)
     {
         $user = User::get('role');
-        $user_id = $request->user()->id;   
-
-
+        $user_id = $request->user()->id;  
+    
         $tuntutan_k = User::find($user_id)
         ->permohonans()
         ->where('lulus_selepas','=','1')
+        ->orderByDesc("created_at")
         ->get();
 
         $tuntutan_k_l = User::find($user_id)
         ->permohonans()
-        ->where('lulus_selepas','=','1')
         ->get();
 
-        $sokong_tuntutan = Permohonan::where('pegawai_sokong_id', $user_id) 
-        ->where('lulus_selepas','=','1')
-        ->get();
+        $sokong_tuntutan = Tuntutan::where('pegawai_sokong_id', $user_id)->get();
 
-        $lulus_tuntutan = Permohonan::where('pegawai_lulus_id', $user_id)
-        ->where('lulus_selepas','=','1')
-        ->get();
+        $lulus_tuntutan = Tuntutan::where('pegawai_lulus_id', $user_id)->get();
 
-        // $tuntutan =User::find($user_id)->tuntutans()->get();
-
-
+        // $tuntutan = Tuntutan::where('tuntutans')
+        // ->tuntutans()
+        // ->get();
 
          return view ('tuntutan.index',[
             'tuntutan_k'=>$tuntutan_k,
             'tuntutan_k_l'=>$tuntutan_k_l,
             // 'tuntutan'=>$tuntutan,
-
 
             'sokong_tuntutan'=>$sokong_tuntutan,
             'lulus_tuntutan'=>$lulus_tuntutan,
@@ -71,14 +67,19 @@ class TuntutanController extends Controller
         $tuntutan->jumlah_jam_tuntutan = $request-> jumlah_jam_tuntutan;
         $tuntutan->jumlah_tuntutan = $request-> jumlah_tuntutan;
         $tuntutan->status = $request-> status;
+        $tuntutan->pegawai_sokong_id = $request -> pegawai_sokong_id;
+        $tuntutan->pegawai_lulus_id = $request -> pegawai_lulus_id;
+
         $tuntutan->user_id = $request->user()->id;
 
     
         $tuntutan->save();
 
         $permohonan_tuntutans = new PermohonanTuntutan;
-        $permohonan_tuntutans->tuntutan_id = $permohonan_tuntutans->id;
-        $permohonan_tuntutans->permohonan_id = $permohonan_tuntutans->id;
+        $permohonan_tuntutans->tuntutan_id = $tuntutan->id;
+        $permohonan_tuntutans->permohonan_id = $request->user()->id;
+        // $permohonan_tuntutans->permohonan_id = $request->user()->id;
+
 
         $permohonan_tuntutans->save();
 

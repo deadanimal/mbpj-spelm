@@ -141,14 +141,17 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header border-0">
-                    <h3 class="mb-0">Tuntutan</h3>
+                    <h3 class="mb-0">Hantar Tuntutan Elaun Lebih Masa</h3>
                 </div>
+
                 <!-- Light table -->
                 <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                     <thead class="thead-light">
+
                         <tr>
                             <th>No</th>
                             <th> Nama Pemohon</th>
+                            <th> Tarikh Mohon Tuntutan</th>
                             <th> Waktu Mula Sebenar</th>
                             <th> Waktu Akhir Sebenar</th>
                            
@@ -157,10 +160,39 @@
                             <th> Jumlah Jam Tuntutan</th>
                             <th> Jumlah Tuntutan</th>
                             <th> Jumlah</th>
-                        
+                            <th> Pegawai Sokong</th>
+                            <th> Pegawai Lulus</th>       
                             <th> Tindakan</th>
                         </tr>
-                    </thead>
+                    </thead>	
+                    <tfoot >
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+
+                            <th> <input value="" ></th>
+                            <th> <input value="" ></th>
+                            <th></th>
+                            <th></th>
+                            <th> <input value="" ></th>
+                            <th><input value="" ></th>
+
+                            {{-- <th><input value="{{$tuntutan->jumlah_tuntutan}}"></th> --}}
+                            <th><input value="" ></th>
+
+                            <th></th>
+                            <th></th>
+                            <th>
+                                <button type="submit" class="btn btn-primary ">Hantar</button>
+
+                            </th>
+
+
+
+                        </tr>
+                    </tfoot>
+                    
                     <tbody class="list">
                         @foreach($tuntutan_k as $tuntutan_k)
                         <tr>
@@ -169,6 +201,9 @@
                             </td>
                             <td>
                                 {{Auth()->user()->name}}
+                            </td>
+                            <td>
+                                {{$tuntutan_k->created_by}}
                             </td>
                             <form method="POST" action="/tuntutans/">
                                 @csrf
@@ -187,6 +222,7 @@
                                     <td >
                                         <span class="badge bagde-pill badge-danger"> Integration</span>
                                     </td>
+
                                     <td >   
                                         <input type="text" id="jumlah_jam_tuntutan" name="jumlah_jam_tuntutan" value="">
 
@@ -197,25 +233,29 @@
                                     <td >
                                         <input type="text" id="status" name="status" value="">
                                     </td>
+                                    <td >
+                                        <select name="pegawai_sokong_id" class="form-control">
+                                            <option hidden value="{{$tuntutan_k->pegawai_sokong_id}}" selected>{{$tuntutan_k->pegawai_sokong_id}} </option>
+                                         
+                                        </select>
+                                    </td>
+                                    <td >
+                                        <select name="pegawai_lulus_id" class="form-control">
+                                            <option hidden value="{{$tuntutan_k->pegawai_lulus_id}}" selected>{{$tuntutan_k->pegawai_lulus_id}} </option>
+                                         
+                                        </select>                                
+                                     </td>
 
 
                                     <td>
-                                        {{-- @if($tuntutan->status == null) --}}
-                                        <span class="badge badge-pill badge-primary">Perlu Semakan</span>
-                                
-                                        <button type="submit"
-                                        class="btn btn-primary btn-sm ">Hantar</button>
+                                     
+                                        {{-- <button type="submit"
+                                        class="btn btn-primary btn-sm ">Hantar</button> --}}
 
-                                        {{-- @elseif($tuntutan->status != null) --}}
-
-                                        <span class="badge badge-pill badge-success">Dalam Semakan</span>
-
-                                        {{-- @endif --}}
-
-
-
-                                   
                                     </td>   
+
+                           
+
                             </form>
                                 
                         </tr>
@@ -223,7 +263,9 @@
                         @endforeach
 
                     </tbody>
+                    
                 </table>
+
             </div>
         </div>
     </div>
@@ -793,17 +835,17 @@
                                         </tr>
                                     </thead>
                                     <tbody class="list">
-                                        @foreach($sokong_tuntutan as $permohonan)
+                                        @foreach($sokong_tuntutan as $tuntutan)
                                         <tr>
                                             <td>
                                                 {{$loop->index+1}}
                                             </td>
                                             <td class="tarikh">
         
-                                                {{$permohonan->mohon_mula_kerja}}
+                                                {{$tuntutan->jumlah_jam_tuntutan}}
                                             </td>
                                             <td class="waktu">
-                                                {{$permohonan->mohon_akhir_kerja}}
+                                                {{$tuntutan->jumlah_tuntutan}}
                                             </td>
                                             <td >   
                                                 1
@@ -812,11 +854,11 @@
                                                 2
                                             </td>
                                             <td >
-                                                {{$permohonan->sebenar_mula_kerja}}
+                                                {{$tuntutan->sebenar_mula_kerja}}
         
                                             </td>
                                             <td >
-                                                {{$permohonan->sebenar_akhir_kerja}}
+                                                {{$tuntutan->sebenar_akhir_kerja}}
         
                                             </td>
                                             <td style="background-color:#dcdcdc">
@@ -841,7 +883,7 @@
                         <div class="card">
                             <!-- Card header -->
                             <div class="card-header border-0">
-                                <h3 class="mb-0">Lulus Tuntutan</h3>
+                                <h3 class="mb-0">Lulus Tuntutan hh</h3>
                             </div>
                             <!-- Light table -->
                             <div class="table-responsive py-4">
@@ -860,6 +902,42 @@
                                             <th> Tindakan</th>
                                         </tr>
                                     </thead>
+                                    <tbody class="list">
+                                        @foreach($sokong_tuntutan as $tuntutan)
+                                        <tr>
+                                            <td>
+                                                {{$loop->index+1}}
+                                            </td>
+                                            <td>
+        
+                                                {{$tuntutan->jumlah_jam_tuntutan}}
+                                            </td>
+                                            <td>
+                                                {{$tuntutan->jumlah_tuntutan}}
+                                            </td>
+                                            <td >   
+                                                1
+                                            </td>
+                                            <td >
+                                                2
+                                            </td>
+                                            <td >
+        
+                                            </td>
+                                            <td >
+        
+                                            </td>
+                                            <td style="background-color:#dcdcdc">
+                                            </td>   
+                                            <td>
+                                            </td>
+                                          
+                                                
+                                        </tr>
+                                        
+                                        @endforeach
+        
+                                    </tbody>
                                 
                                 </table>
                             </div>

@@ -8,6 +8,7 @@ use App\Models\UserPermohonan;
 use Illuminate\Http\Request;
 use App\Models\Audit;
 use Illuminate\Support\Facades\DB;
+use App\Models\Tuntutan;
 use Carbon\Carbon;
 
 
@@ -17,20 +18,26 @@ class PermohonanController extends Controller
     {
 
         // Kakitangan 
-        $user_id = $request->user()->id;   
-        // $permohonans = User::find($user_id)->permohonans()->get();
-        $permohonans = User::find($user_id)->permohonans()->get();
+        $user_id = $request->user()->id;  
+
+        $permohonans = User::find($user_id)
+        ->permohonans()
+        ->orderByDesc("created_at")
+        ->get();
 
         //kakitangan get pengesahan by lulus only
         $pengesahans = User::find($user_id)
         ->permohonans()
         ->where('lulus_sebelum','=','1')
+        ->orderByDesc("created_at")
         ->get();
 
 
         // Sokongan permohonan _____________________
 
-        $permohonan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)->get();
+        $permohonan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)
+        ->orderByDesc("created_at")
+        ->get();
 
         foreach ($permohonan_disokongs as $ps){
             $uid = UserPermohonan::where("permohonan_id", $ps->id)->first()->user_id;
@@ -38,7 +45,9 @@ class PermohonanController extends Controller
             $ps->nama_pemohon = $pemohon;
         }
 
-        $permohonan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)->get();
+        $permohonan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)
+        ->orderByDesc("created_at")
+        ->get();
 
         foreach ($permohonan_dilulus as $pl){
             $uuid = UserPermohonan::where("permohonan_id", $pl->id)->first()->user_id;
@@ -52,6 +61,7 @@ class PermohonanController extends Controller
         // to get only list of true permohonan 
 
         ->where('lulus_sebelum','=','1')
+        ->orderByDesc("created_at")
         ->get();
 
         foreach ($pengesahan_disokongs as $pes){
@@ -63,6 +73,7 @@ class PermohonanController extends Controller
         $pengesahan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)
          // to get only list of true permohonan 
         ->where('lulus_sebelum','=','1')
+        ->orderByDesc("created_at")
         ->get();
 
         foreach ($pengesahan_dilulus as $pel){
@@ -70,8 +81,6 @@ class PermohonanController extends Controller
             $pemohon = User::where("id", $uuuuid)->first()->name;
             $pel->nama_pemohon = $pemohon;
         }
-
-
 
         $user = User::where('id', $user_id)->get();
 
@@ -83,7 +92,6 @@ class PermohonanController extends Controller
         ->where('user_id','=',$user_id)
         ->count();
         
-
         $mohon_p = DB::table('permohonans')
         ->join('user_permohonans','permohonans.id','=','user_permohonans.permohonan_id')
         ->select('permohonans.sokong_sebelum')
