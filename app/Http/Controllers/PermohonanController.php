@@ -10,6 +10,7 @@ use App\Models\Audit;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tuntutan;
 use Carbon\Carbon;
+use Session;
 
 
 class PermohonanController extends Controller
@@ -413,6 +414,7 @@ class PermohonanController extends Controller
     }
     public function sebenar_mula_akhir_kerja(Request $request)
     {
+
         $permohonan = Permohonan::find($request->id);
         $sebenar_mula_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_mula_kerja));  
         $sebenar_akhir_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_akhir_kerja));  
@@ -421,7 +423,10 @@ class PermohonanController extends Controller
         $permohonan-> sebenar_mula_kerja = $sebenar_mula_kerja;
         $permohonan-> sebenar_akhir_kerja = $sebenar_akhir_kerja;
 
+
         $permohonan->save();
+
+        Session::put('permohonan_id', $permohonan);
 
         $redirected_url= '/permohonans/';
         return redirect($redirected_url);        
@@ -492,5 +497,27 @@ class PermohonanController extends Controller
         return redirect($redirected_url);        
 
     }
+
+    public function kemaskini_masa_mula(Request $request, $id_permohonan) {
+        $permohonan = Permohonan::find($id_permohonan);
+        $permohonan->sebenar_mula_kerja = $request->masa_sebenar_baru_mula;
+        $permohonan->save();
+    }
+    public function kemaskini_masa_akhir(Request $request, $id_permohonan) {
+        $permohonan = Permohonan::find($id_permohonan);
+        $permohonan->sebenar_akhir_kerja = $request->masa_sebenar_baru_akhir;
+        $permohonan->save();
+    }
+    public function kemaskini_masa_mula_saya(Request $request, $id_permohonan) {
+        $permohonan = Permohonan::find($id_permohonan);
+        $permohonan->sebenar_mula_kerja = $request->masa_sebenar_baru_mula_saya;
+        $permohonan->save();
+    }
+    public function kemaskini_masa_akhir_saya(Request $request, $id_permohonan) {
+        $permohonan = Permohonan::find($id_permohonan);
+        $permohonan->sebenar_akhir_kerja = $request->masa_sebenar_baru_akhir_saya;
+        $permohonan->save();
+    }
+
 
 }

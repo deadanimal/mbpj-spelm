@@ -17,6 +17,8 @@ use App\Http\Controllers\UserPermohonanController;
 use App\Http\Controllers\PermohonanTuntutanController;
 
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -77,6 +79,26 @@ Route::post('/tolak_lulus_selepas',[PermohonanController::class,'tolak_lulus_sel
 //hantar time tuntutan
 Route::get('/sebenar_mula_akhir_tuntutan/{id}',[PermohonanController::class,'sebenar_mula_akhir_tuntutan']);
 Route::post('/sebenar_mula_akhir_tuntutan/{id}',[PermohonanController::class,'sebenar_mula_akhir_tuntutan']);
+
+//sokong tuntutan
+Route::get('/sokong_tuntutan/{id}',[TuntutanController::class,'sokong_tuntutan']);
+Route::post('/tolak_sokong_tuntutan',[TuntutanController::class,'tolak_sokong_tuntutan']);
+
+//lulus tuntutan
+Route::get('/lulus_tuntutan/{id}',[TuntutanController::class,'lulus_tuntutan']);
+Route::post('/tolak_lulus_tuntutan',[TuntutanController::class,'tolak_lulus_tuntutan']);
+
+Route::post('/permohonans-ubah-masa_mula_saya/{permohonan}', [PermohonanController::class, 'kemaskini_masa_mula_saya']);
+Route::post('/permohonans-ubah-masa_akhir_saya/{permohonan}', [PermohonanController::class, 'kemaskini_masa_akhir_saya']);
+
+// permohonan custom ubah masa
+Route::post('/permohonans-ubah-masa_mula/{permohonan}', [PermohonanController::class, 'kemaskini_masa_mula']);
+Route::post('/permohonans-ubah-masa_akhir/{permohonan}', [PermohonanController::class, 'kemaskini_masa_akhir']);
+
+// permohonan custom tukar masa
+// Route::post('/permohonans-tukar-masa_mula/{permohonan}', [PermohonanController::class, 'kemaskini_masa_mula_tukar']);
+// Route::post('/permohonans-tukar-masa_akhir/{permohonan}', [PermohonanController::class, 'kemaskini_masa_akhir_tukar']);
+
 
 
 // Route::resource('/log_pengguna', AuditController::class);
