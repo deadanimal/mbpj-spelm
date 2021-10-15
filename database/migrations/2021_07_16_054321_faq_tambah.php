@@ -19,7 +19,8 @@ class FaqTambah extends Migration
         
         
             $table->char('tajuk_aduan',100) -> nullable();
-            $table->char('maklumat',255) -> nullable();
+            $table->text('maklumat') -> nullable();
+
 
         });
     }

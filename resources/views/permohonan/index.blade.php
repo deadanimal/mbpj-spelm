@@ -253,7 +253,7 @@
                 <div class="table-responsive py-4">
 
 
-                    <table id="example2" class="display table table-striped table-bordered dt-responsive nowrap"
+                    <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
                         style="width:100%">
                         <thead class="thead-light">
 
@@ -961,10 +961,8 @@
                             <div class="card-header border-0">
                                 <h3 class="mb-0">Pengesahan Kerja Lebih Masa Penyelia</h3>
                             </div>
-                            <!-- Light table -->
                             <div class="table-responsive py-4">
-                                <table id="example"
-                                    class=" display table table-striped table-bordered dt-responsive nowrap"
+                                <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
                                     style="width:100%">
                                     <thead class="thead-light">
                                         <tr>
@@ -998,31 +996,59 @@
                                                 {{$permohonan->mohon_akhir_kerja}}
                                             </td>
                                         
-                                            <td >
-                                                <span class="badge badge-pill badge-primary">clockintime</span>                
+                                            <td >  
+                                                <input class="form-control" value="Clockintime" disabled>
                                             </td>
                                             <td >
-                                                <span class="badge badge-pill badge-primary">clockouttime</span>
-                                            </td>
-                                            <td >
-                                                <span class="badge badge-pill badge-primary">totalworkinghour</span>         
-                                            </td>
-                                            <td >
-                                                <span class="badge badge-pill badge-primary">status</span> 
-                                            </td>
-                                            <td >
-                                                <span class="badge badge-pill badge-primary">Jumlah OT</span>         
-                                            </td>
-                                            <td >
-                                                <span class="badge badge-pill badge-primary">Waktu Anjal</span> 
-                                            </td>
-                                            {{-- test sebelum integrate --}}
-                                            <td >
-                                                {{$permohonan->mohon_mula_kerja}}
+                                                <input class="form-control" value="clockouttime" disabled>
             
                                             </td>
                                             <td >
-                                                {{$permohonan->mohon_akhir_kerja}}
+                                                <input class="form-control" value="totalworkinghour" disabled>
+            
+                                            </td>
+                                            <td >
+                                                <input class="form-control" value="status" disabled>
+            
+                                            </td>
+                                            <td >
+                                                <input class="form-control" value="Jumlah OT" disabled>
+            
+                                            </td>
+                                            <td >
+                                                <input class="form-control" value="Waktu Anjal" disabled>
+            
+                                            </td>
+            
+            
+                                            <td >
+                                                {{$permohonan->sebenar_mula_kerja}}<br>
+            
+                                                @if($permohonan->sokong_selepas === null)
+            
+                                                <input type="datetime-local" onchange="kemaskiniMasaSebenarMulaSaya({{$permohonan->id}}, this)" value={{$permohonan->sebenar_mula_kerja}}>
+                                                
+                                                @elseif($permohonan->sokong_selepas === 1)
+                                                @elseif($permohonan->sokong_selepas === 0)
+            
+                                                @endif
+            
+                                                {{-- <input class="form-control" value="{{$permohonan->mohon_mula_kerja}}"
+                                                disabled> --}}
+                                            </td>
+                                            <td >
+                                                {{$permohonan->sebenar_akhir_kerja}}<br>
+            
+                                                @if($permohonan->sokong_selepas === null)
+            
+                                                <input type="datetime-local" onchange="kemaskiniMasaSebenarAkhirSaya({{$permohonan->id}}, this)" value={{$permohonan->sebenar_akhir_kerja}}>
+            
+                                                @elseif($permohonan->sokong_selepas === 1)
+                                                @elseif($permohonan->sokong_selepas === 0)
+                                                @endif
+            
+                                                {{-- <input class="form-control" value="{{$permohonan->mohon_akhir_kerja}}"
+                                                disabled> --}}
                                             </td>
                                             @if($permohonan->lulus_sebelum === 1)
                                             <td >
@@ -1070,7 +1096,7 @@
                                                     @if($permohonan->sebenar_akhir_kerja == null)
             
                                                         <td class="kemaskini">
-                                                            <a href="/permohonans/{{ $permohonan->id }}/edit"
+                                                            <a href=""
                                                                 class="btn btn-success btn-sm">Kemaskini</a>
                                                                 <a href="/sebenar_mula_akhir_kerja/{{ $permohonan->id }}/"
                                                                     class="btn btn-success btn-sm">Hantar</a>
@@ -1091,9 +1117,6 @@
                                             @elseif($permohonan->lulus_sebelum === 0 )
                                             
                                             @endif
-                                            
-            
-            
                                         </tr>
                                         <script>
                                             function buangpermohonan(id) {
@@ -1955,6 +1978,9 @@
                                             <td>
                                                 <span class="badge badge-pill badge-primary">Dalam Semakan Kakitangan</span>
                                             </td>
+                                            <td>
+                                                <span class="badge badge-pill badge-primary">Dalam Semakan Kakitangan</span>
+                                            </td>
                                             @endif
                                     
                                         </tr>
@@ -2044,8 +2070,6 @@
                                             <th style="background-color:#00FF00">Pegawai lulus</th>
                                             <th>Status</th>
                                             <th>Tindakan</th>
-            
-            
                                         </tr>
                                     </thead>
                                     <tbody class="list">
@@ -2058,7 +2082,6 @@
                                                 {{$permohonan->nama_pemohon}}
                                             </td>
                                             <td class="tarikh">
-            
                                                 {{$permohonan->mohon_mula_kerja}}
                                             </td>
                                             <td class="waktu">
@@ -2109,7 +2132,7 @@
                                                     {{$user->name}} </option>
                                                 @endif
                                                 @endforeach
-                                                </td>
+                                             </td>
                                             <td style="background-color:#c5c5c5">
                                                    
                                                     @foreach ($pengguna as $user)
@@ -2167,9 +2190,6 @@
                                                 <td >
                                                     <span class="badge badge-pill badge-primary">Dalam Semakan</span>   
                                                 </td>
-
-
-
                                                 @endif
                                             </td>
                                         
@@ -3035,16 +3055,16 @@
                                                 <td>
                                                     <span class="badge badge-pill badge-success">Lulus Pengesahan PG1</span><br>
                                                 </td>
-                                                    <td >
-                                                        @if($permohonan->lulus_selepas === 1)
-                                                        <span class="badge badge-pill badge-success">Lulus Pengesahan PG2</span><br>
-                                                        @elseif($permohonan->lulus_selepas === 0)
-                                                        <span class="badge badge-pill badge-danger">Ditolak Pengesahan PG2</span><br><br>
-                                                        {{$permohonan->lulus_selepas_sebab}}
-                                                        @elseif($permohonan->lulus_selepas === null)
-                                                        <span class="badge badge-pill badge-primary">Dalam semakan PG2</span><br>
-                                                        @endif
-                                                    </td>
+                                                <td >
+                                                    @if($permohonan->lulus_selepas === 1)
+                                                    <span class="badge badge-pill badge-success">Lulus Pengesahan PG2</span><br>
+                                                    @elseif($permohonan->lulus_selepas === 0)
+                                                    <span class="badge badge-pill badge-danger">Ditolak Pengesahan PG2</span><br><br>
+                                                    {{$permohonan->lulus_selepas_sebab}}
+                                                    @elseif($permohonan->lulus_selepas === null)
+                                                    <span class="badge badge-pill badge-primary">Dalam semakan PG2</span><br>
+                                                    @endif
+                                                </td>
 
                                                 @endif
                                                
@@ -3052,11 +3072,17 @@
                                             <td>
                                                 <span class="badge badge-pill badge-primary">Dalam Semakan Kakitangan</span>
                                             </td>
+                                            <td>
+                                                <span class="badge badge-pill badge-primary">Dalam Semakan Kakitangan</span>
+                                            </td>
 
                                             @endif
                                         </tr>
-                                           <!-- Modal tolak lulus selepas -->
-                                           <div class="modal fade" id="tolaksokongselepas{{ $permohonan->id }}"
+                                           
+                                        @endforeach
+
+                                        <!-- Modal tolak lulus selepas -->
+                                        <div class="modal fade" id="tolaksokongselepas{{ $permohonan->id }}"
                                             tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                             aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -3103,7 +3129,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -3133,13 +3158,11 @@
                                             <th>Waktu Akhir Sebenar</th>
                                             <th >Pegawai Sokong</th>
                                             <th style="background-color:#00FF00">Pegawai Lulus </th>
-
                                             <th>Status</th>
                                             <th>Kemaskini</th>
-
                                         </tr>
                                     </thead>
-                                    <tbody class="list">
+                                    <tbody >
                                         @foreach($pengesahan_dilulus as $permohonan)
                                         <tr>
                                             <td>
@@ -3157,7 +3180,6 @@
                                             </td>
                                             <td >   
                                                 <span class="badge badge-pill badge-danger">Integration</span><br>
-
                                             </td>
                                             <td >
                                                 <span class="badge badge-pill badge-danger">Integration</span><br>
@@ -3166,15 +3188,9 @@
                                                 @if($permohonan->lulus_selepas === null)
 
                                                 {{$permohonan->sebenar_mula_kerja}}<br><br>
-{{-- 
-                                                     @if ($permohonan->lulus_selepas === 1)
-                                                     
-                                                     @elseif ($permohonan->lulus_selepas === 0) --}}
-                                                     <input type="datetime-local" onchange="kemaskiniMasaSebenarMula({{$permohonan->id}}, this)" value={{$permohonan->sebenar_mula_kerja}}>
-                                                     {{-- @elseif ($permohonan->lulus_selepas === null)
-                                                     
-                                                     @endif --}}
 
+                                                     <input type="datetime-local" onchange="kemaskiniMasaSebenarMula({{$permohonan->id}}, this)" value={{$permohonan->sebenar_mula_kerja}}>
+                                                   
                                                 @elseif($permohonan->lulus_selepas === 1)
                                                 {{$permohonan->sebenar_mula_kerja}}
 
@@ -3189,13 +3205,8 @@
 
                                                 {{$permohonan->sebenar_akhir_kerja}}<br><br>
                                                    
-                                                    {{-- @if ($permohonan->lulus_selepas === 1)
-                                                    @elseif ($permohonan->lulus_selepas === 0) --}}
-                                                    <input type="datetime-local" onchange="kemaskiniMasaSebenarAkhir({{$permohonan->id}}, this)" value={{$permohonan->sebenar_akhir_kerja}}>
-                                                    {{-- @elseif ($permohonan->lulus_selepas === null)
-                                                        
-                                                    @endif --}}
-
+                                                <input type="datetime-local" onchange="kemaskiniMasaSebenarAkhir({{$permohonan->id}}, this)" value={{$permohonan->sebenar_akhir_kerja}}>
+                                              
                                                 @elseif($permohonan->lulus_selepas === 1)
                                                 {{$permohonan->sebenar_akhir_kerja}}
 
@@ -3236,8 +3247,7 @@
                                                                         Tolak
                                                                     </button>
                                                             </td>
-                                                            <td>
-                                                            </td>
+                                                           
 
                                                     @elseif($permohonan->lulus_selepas === 1)
                                                         <td>
@@ -3275,6 +3285,8 @@
                                         
                                                
                                         </tr>
+                                        @endforeach
+
                                          <!-- Modal tolak lulus selepas -->
                                          <div class="modal fade" id="tolaklulusselepas{{ $permohonan->id }}"
                                             tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -3323,9 +3335,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        @endforeach
-            
+        
                                     </tbody>
                                 </table>
                             </div>
@@ -3357,7 +3367,7 @@
 @section ('script')
 <script>
     $(document).ready(function () {
-      var table =  $('#example2').DataTable();
+      var table =  $('table.display').DataTable();
     });
 
     //   var table = $("#example2").DataTable({

@@ -37,8 +37,8 @@ class FirstTableSetup extends Migration
             $table->text('lulus_sebelum_sebab')->nullable();
 
             // permohonan selepas
-            $table->datetime('sebenar_mula_kerja');
-            $table->datetime('sebenar_akhir_kerja');
+            $table->datetime('sebenar_mula_kerja')->nullable();
+            $table->datetime('sebenar_akhir_kerja')->nullable();
 
             // kelelusan selepas
             $table->boolean('sokong_selepas')->nullable();

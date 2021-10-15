@@ -24,6 +24,7 @@ class TuntutanController extends Controller
         $tuntutan_k = User::find($user_id)
         ->permohonans()
         ->where('lulus_selepas','=','1')
+        ->where('status_tuntutan','=',null)
         ->orderByDesc("created_at")
         ->get();
 
@@ -80,6 +81,12 @@ class TuntutanController extends Controller
             $pl->pegawai_lulus = $pegawai_lulus;
         }
 
+        foreach ($sokong_tuntutan as $npt){
+            $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
+            $pemohon = User::where("id", $uuuuid)->first()->name;
+            $npt->nama_pemohon = $pemohon;
+        }
+
         // lulus tuntutan
 
         $lulus_tuntutan = Tuntutan::where('pegawai_lulus_id', $user_id)
@@ -93,6 +100,12 @@ class TuntutanController extends Controller
         foreach ($lulus_tuntutan as $pl){
             $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
             $pl->pegawai_lulus = $pegawai_lulus;
+        }
+
+        foreach ($lulus_tuntutan as $npt){
+            $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
+            $pemohon = User::where("id", $uuuuid)->first()->name;
+            $npt->nama_pemohon = $pemohon;
         }
 
         $semak_tuntutan = Tuntutan::all();
@@ -154,9 +167,35 @@ class TuntutanController extends Controller
         return redirect($redirected_url);
     }
 
-    public function show(Tuntutan $tuntutan)
+    public function show(Tuntutan $tuntutan , Request $request)
     {
-        //
+
+        $user = User::get('role');
+        $user_id = $request->user()->id;  
+
+        $permohonan_id = PermohonanTuntutan::where('tuntutan_id',$tuntutan->id)
+        ->get();
+
+        $permohonan_ygdituntut = [];
+        foreach ($permohonan_id as $pydt) {
+            $temp = Permohonan::where('id', $pydt->permohonan_id)->first();
+            array_push($permohonan_ygdituntut, $temp);
+        }
+        foreach ($permohonan_ygdituntut as $ps){
+            $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
+            $ps->pegawai_sokong = $pegawai_sokong;
+        }
+        foreach ($permohonan_ygdituntut as $pl){
+            $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
+            $pl->pegawai_lulus = $pegawai_lulus;
+        }
+
+
+        return view('tuntutan.semaktuntutan',[
+            'tuntutan'=> $tuntutan,
+            'permohonan_ygdituntut'=>$permohonan_ygdituntut,
+
+        ]);
     }
 
 
@@ -221,5 +260,6 @@ class TuntutanController extends Controller
         return redirect($redirected_url);        
 
     }
+
 
 }

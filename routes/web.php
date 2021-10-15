@@ -95,6 +95,15 @@ Route::post('/permohonans-ubah-masa_akhir_saya/{permohonan}', [PermohonanControl
 Route::post('/permohonans-ubah-masa_mula/{permohonan}', [PermohonanController::class, 'kemaskini_masa_mula']);
 Route::post('/permohonans-ubah-masa_akhir/{permohonan}', [PermohonanController::class, 'kemaskini_masa_akhir']);
 
+// Generate tuntutan bulk
+Route::get('/bulktuntutan', [PermohonanController::class, 'jana_tuntutan']);
+
+//custom action tuntutan
+Route::post('/kemaskini_status2/{permohonan}', [PermohonanController::class, 'kemaskini_status2']);
+Route::post('/kemaskini_total_tuntutan/{permohonan}', [PermohonanController::class, 'kemaskini_total_tuntutan']);
+Route::post('/kemaskini_jam_tuntutan/{permohonan}', [PermohonanController::class, 'kemaskini_jam_tuntutan']);
+
+
 // permohonan custom tukar masa
 // Route::post('/permohonans-tukar-masa_mula/{permohonan}', [PermohonanController::class, 'kemaskini_masa_mula_tukar']);
 // Route::post('/permohonans-tukar-masa_akhir/{permohonan}', [PermohonanController::class, 'kemaskini_masa_akhir_tukar']);

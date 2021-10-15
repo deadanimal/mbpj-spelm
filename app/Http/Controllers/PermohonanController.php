@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Permohonan;
 use App\Models\User;
 use App\Models\UserPermohonan;
+use App\Models\PermohonanTuntutan;
+
 use Illuminate\Http\Request;
 use App\Models\Audit;
 use Illuminate\Support\Facades\DB;
@@ -518,6 +520,98 @@ class PermohonanController extends Controller
         $permohonan->sebenar_akhir_kerja = $request->masa_sebenar_baru_akhir_saya;
         $permohonan->save();
     }
+    public function kemaskini_jam_tuntutan(Request $request, $id_permohonan) {
+        $permohonan = Permohonan::find($id_permohonan);
+        $permohonan->jam_tuntutan = $request->kemaskini_jam_tuntutan;
+        $permohonan->save();
+    }
+    public function kemaskini_total_tuntutan(Request $request, $id_permohonan) {
+        $permohonan = Permohonan::find($id_permohonan);
+        $permohonan->total_tuntutan = $request->kemaskini_total_tuntutan;
+        $permohonan->save();
+    }
+    public function kemaskini_status2(Request $request, $id_permohonan) {
+        $permohonan = Permohonan::find($id_permohonan);
+        $permohonan->status2 = $request->kemaskini_status2;
+        $permohonan->save();
+    }
 
+    public function jana_tuntutan(Request $request) {
+        // Aku ambik smua data permohonan filter by (current user), (current month), (lulus_selepas==1)
+        // for each stiap permohonan 
+            // create satu tuntutan
+
+        //$user = User::where('')
+    
+        //$permohonan_dihantar = Permohonan::where('user_id', $request->user()->id)
+        //    ->where('lulus_selepas', 1)->get();
+
+        // checking
+        
+        $permohonan_dihantar = User::find($request->user()->id)
+        ->permohonans()
+        // >where('lulus_selepas', '1')
+        ->where('status_tuntutan','=',null)
+
+        ->orderByDesc("created_at")
+        ->get();
+
+        if (count($permohonan_dihantar)==0) {
+            $redirected_url= '/tuntutans/';
+            return redirect($redirected_url)
+            ->with('status_tuntutan', 'Tiada Data Permohonan Tuntutan');
+        }
+
+
+        $jumlah_jam_tuntutan = 0;
+        $jumlah_total_tuntutan = 0;
+        $jumlah_status2 = 0;
+
+        foreach ($permohonan_dihantar as $pd) {
+            $jumlah_jam_tuntutan = $jumlah_jam_tuntutan + $pd->jam_tuntutan;
+            $jumlah_total_tuntutan = $jumlah_total_tuntutan + $pd->total_tuntutan;
+            $jumlah_status2 = $jumlah_status2 + $pd->status2;
+        }
+
+
+        $tuntutan = new Tuntutan;
+
+        //$sebenar_mula_kerja_tuntutan = date("Y-m-d H:i:s", strtotime($request->sebenar_mula_kerja_tuntutan));  
+        //$sebenar_akhir_kerja_tuntutan = date("Y-m-d H:i:s", strtotime($request->sebenar_akhir_kerja_tuntutan));  
+        //$tuntutan->sebenar_mula_kerja_tuntutan = $sebenar_mula_kerja_tuntutan;
+        //$tuntutan->sebenar_akhir_kerja_tuntutan = $sebenar_akhir_kerja_tuntutan ;
+        $tuntutan->jumlah_jam_tuntutan = $jumlah_jam_tuntutan;
+        $tuntutan->jumlah_tuntutan = $jumlah_total_tuntutan;
+        $tuntutan->status = $jumlah_status2;
+        $tuntutan->pegawai_sokong_id = $permohonan_dihantar[0]->pegawai_sokong_id;
+        $tuntutan->pegawai_lulus_id = $permohonan_dihantar[0]->pegawai_lulus_id;
+
+        $tuntutan->user_id = $request->user()->id;
+    
+        $tuntutan->save();
+
+        foreach ($permohonan_dihantar as $pd) {
+
+            // update permohonan
+            $permohonan_telah_dituntut = Permohonan::find($pd->id);
+            $permohonan_telah_dituntut->status_tuntutan = 1;
+            $permohonan_telah_dituntut->save();
+
+            $permohonan_tuntutans = new PermohonanTuntutan;
+            $permohonan_tuntutans->tuntutan_id = $tuntutan->id;
+            $permohonan_tuntutans->permohonan_id = $pd->id;
+            $permohonan_tuntutans->save();
+        }
+        
+        // $permohonan_tuntutans->permohonan_id = $request->user()->id;
+
+       
+        $redirected_url= '/tuntutans/';
+        return redirect($redirected_url);
+
+        
+    }
 
 }
+
+
