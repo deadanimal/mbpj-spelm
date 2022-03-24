@@ -32,6 +32,8 @@ class PermohonanController extends Controller
         ->orderByDesc("created_at")
         ->get();
 
+   
+
     //kakitangan get pengesahan by lulus only
 
         $pengesahans = User::find($user_id)
@@ -44,11 +46,29 @@ class PermohonanController extends Controller
         foreach ($pengesahans as $ps){
             $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
             $ps->pegawai_sokong = $pegawai_sokong;
+            $pegawai_lulus = User::where("id", $ps ->pegawai_lulus_id)->first()->name;
+            $ps->pegawai_lulus = $pegawai_lulus;
+
+            if ($ps->mohon_mula_kerja != null) {
+                $ps->sebenar_mula_kerja = $ps->mohon_mula_kerja;
+
+                $ps->sebenar_mula_kerja_formatted = str_replace(' ', 'T',$ps->mohon_mula_kerja);
+            }
+
+            if ($ps->mohon_akhir_kerja != null) {
+                $ps->sebenar_akhir_kerja = $ps->mohon_akhir_kerja;
+
+
+                $ps->sebenar_akhir_kerja_formatted = str_replace(' ', 'T',$ps->mohon_akhir_kerja);
+            }
+            try {
+                $ps->save();
+            }
+            catch (\Exception $e) {
+
+            }
         }
-        foreach ($pengesahans as $pl){
-            $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
-            $pl->pegawai_lulus = $pegawai_lulus;
-        }
+      
 
     //get pegawai pengesah 
         $userspengesahan = User::whereIn('role', array('penyelia','ketua_bahagian','ketua_jabatan'))->get(); 
@@ -440,6 +460,27 @@ class PermohonanController extends Controller
         
         $mohon_mula_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_mula_kerja));  
         $mohon_akhir_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_akhir_kerja));  
+
+
+        // check beza jam kalau lebih 12 jam return back
+        $mula_kerja = strtotime($request->mohon_mula_kerja);
+        $akhir_kerja = strtotime($request->mohon_akhir_kerja);
+        $beza_jam = ($akhir_kerja - $mula_kerja)/3600;
+        
+        if ($beza_jam > 12) {
+            return redirect()->back()->withErrors(['error_jam' => 'Jumlah jam overtime anda melebihi had masa 12 jam']);
+        }
+
+        // check date kalau x sama return back
+        $tarikh_mula = date("d", strtotime($request->mohon_mula_kerja));  
+        $tarikh_akhir = date("d", strtotime($request->mohon_akhir_kerja)); 
+       
+        if ($tarikh_mula != $tarikh_akhir) {
+            return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
+        }
+
+
+
         $permohonan->mohon_mula_kerja = $mohon_mula_kerja;
         $permohonan->mohon_akhir_kerja = $mohon_akhir_kerja; 
         $permohonan->lokasi = $request-> lokasi;

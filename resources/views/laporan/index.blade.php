@@ -374,20 +374,56 @@
           </div>
       </div>
 
-
-      <!-- Footer -->
-      <footer class="footer pt-0">
-          <div class="row align-items-center justify-content-lg-between">
-              <div class="col-lg-6">
-                  <div class="copyright text-center  text-lg-left  text-muted">
-                      &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem Pengurusan Elaun Lebih
-                          Masa
-                      </a>
-                  </div>
-              </div>
-          </div>
-      </footer>
   </div>
+  <div class="container-fluid mt-12">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <h3 class="mb-0 text-white">Jana Laporan</h3>
+        </div>
+        {{-- <div class="card-body">
+            <div class="col-md-12">
+                <form method="POST" action="/filter_laporan">
+                    @csrf
+                    <div class="row">
+                        <div class="col">
+                            <h4>Nama Kakitangan</h4>
+                            <select id="jana_laporan" onchange="janaLaporan()" name="nama_kakitangan" required
+                                placeholder="{{ Auth()->user()->name }}" class="form-control"
+                                value="{{ Auth()->user()->name }}">
+                                @foreach ($get_user as $get_users)
+                                    <option hidden selected> Nama Kakitangan</option>
+                                    <option value="{{ $get_users->id }}">
+                                        {{ $get_users->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row float-right">
+                        <div class="col-sm ">
+                            <br>
+                            <a id="submit" class="btn btn-primary btn-sm" href="">Jana Laporan</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div> --}}
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="footer pt-0">
+        <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6">
+                <div class="copyright text-center  text-lg-left  text-muted">
+                    &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem Pengurusan Elaun Lebih
+                        Masa
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
   @else
   --
   @endif

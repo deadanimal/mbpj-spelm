@@ -515,10 +515,8 @@
                                 </td>
                                 <td >
                                     {{$permohonan->sebenar_mula_kerja}}<br><br>
-
                                     @if($permohonan->sokong_selepas === null)
-
-                                    <input type="datetime-local" onchange="kemaskiniMasaSebenarMulaSaya({{$permohonan->id}}, this)" value={{$permohonan->sebenar_mula_kerja}}><br><br>
+                                    <input name="masa_mula" type="datetime-local" onchange="kemaskiniMasaSebenarMulaSaya({{$permohonan->id}}, this)" value={{$permohonan->sebenar_mula_kerja_formatted}}><br><br>
                                     
                                     @elseif($permohonan->sokong_selepas === 1)
                                     @elseif($permohonan->sokong_selepas === 0)
@@ -529,11 +527,13 @@
 
                                     @if($permohonan->sokong_selepas === null)
 
-                                    <input type="datetime-local" onchange="kemaskiniMasaSebenarAkhirSaya({{$permohonan->id}}, this)" value={{$permohonan->sebenar_akhir_kerja}}><br>
+                                    <input name="masa_akhir" type="datetime-local" onchange="kemaskiniMasaSebenarAkhirSaya({{$permohonan->id}}, this)" value={{$permohonan->sebenar_akhir_kerja_formatted}}><br>
 
                                     @elseif($permohonan->sokong_selepas === 1)
                                     @elseif($permohonan->sokong_selepas === 0)
                                     @endif
+
+                                    <a onclick="kemaskiniMasaSebenar({{$permohonan}})" class="btn btn-sm btn-success">Sah Masa</a>
 
                                     {{-- <input class="form-control" value="{{$permohonan->mohon_akhir_kerja}}"
                                     disabled> --}}
@@ -3470,6 +3470,7 @@
             }
         
         });
+        window.location.reload();
     }
     function kemaskiniMasaSebenarAkhir(obj, obj2) {
         $.ajax({
@@ -3481,8 +3482,17 @@
             }
         
         });
+        window.location.reload();
     }
     // Kemaskini pengesahan
+    function kemaskiniMasaSebenar(permohonan) {
+
+        kemaskiniMasaSebenarMulaSaya(permohonan.id, permohonan.sebenar_mula_kerja)
+        kemaskiniMasaSebenarAkhirSaya(permohonan.id, permohonan.sebenar_akhir_kerja)
+        window.location.reload();
+
+    }
+
     function kemaskiniMasaSebenarMulaSaya(obj, obj2) {
         $.ajax({
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -3493,6 +3503,7 @@
             }
         
         });
+        window.location.reload();
     }
     function kemaskiniMasaSebenarAkhirSaya(obj, obj2) {
         $.ajax({
@@ -3504,6 +3515,7 @@
             }
         
         });
+        window.location.reload();
 
     }
 

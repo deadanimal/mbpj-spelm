@@ -1,7 +1,9 @@
 @extends('base')
 
 @section('content')
-
+@if($errors->any())
+        <h4 class="text-red">{{$errors->first()}}</h4>
+    @endif
 <div>
     <div class="header bg-default pb-6">
         <div class="container-fluid">
@@ -39,6 +41,7 @@
     </div>
 </div>
 <div class="card-body">
+    
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
             aria-labelledby="tabs-icons-text-1-tab">
@@ -88,6 +91,7 @@
                                                         <div class="form-group">
                                                             <label for="mohon_akhir_kerja">Pilih waktu akhir</label>
                                                             <div class="input-group date" id="datetimepicker2">
+
                                                                 <input type="text" class="form-control"
                                                                     name="mohon_akhir_kerja">
                                                                 <span class="input-group-addon input-group-append">
@@ -397,6 +401,13 @@
             }
         });
     });
+
+    function kirabezajam() {
+        alert("test");
+        $jam_mula = $("input [name=mohon_mula_kerja").val();
+        $jam_akhir = $("input [name=mohon_akhir_kerja").val();
+        alert($jam_mula);
+    }
 
 </script>
 {{-- <script>

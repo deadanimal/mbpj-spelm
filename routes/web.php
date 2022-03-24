@@ -137,6 +137,11 @@ Route::post('/mohon_kemaskini2/{id}',[TuntutanController::class,'mohon_kemaskini
 Route::post('/kemaskinitindakanperiksa/{permohonan}', [TuntutanController::class, 'kemaskinitindakanperiksa']);
 Route::post('/kemaskinitindakansemakan/{permohonan}', [TuntutanController::class, 'kemaskinitindakansemakan']);
 
+//semak 1/3
+Route::get('/semaksatupertiga/{id}',[TuntutanController::class,'semaksatupertiga']);
+Route::get('/semaksebulan/{id}',[TuntutanController::class,'semaksebulan']);
+
+
 
 // permohonan custom tukar masa
 // Route::post('/permohonans-tukar-masa_mula/{permohonan}', [PermohonanController::class, 'kemaskini_masa_mula_tukar']);

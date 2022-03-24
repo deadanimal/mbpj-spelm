@@ -1594,7 +1594,7 @@
                                                         <a href="/tuntutans/{{$lulus_tuntutan->id}}/"
                                                             class="btn btn-primary btn-sm">Lihat</a><br>
                                                         <a href="/lulus_tuntutan/{{$lulus_tuntutan->id}}/"
-                                                            class="btn btn-success btn-sm">Sokong</a><br>
+                                                            class="btn btn-success btn-sm">Lulus</a><br>
                                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                                             data-target="#tolaksokongtuntutan{{ $lulus_tuntutan->id }}">
                                                             Tolak
@@ -2116,23 +2116,65 @@
                             </div>
                             <!-- Light table -->
                             <div class="table-responsive py-4">
-                                <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
-                                    style="width:100%">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th> No</th>
-                                            <th> Tarikh Mohon</th>
-                                            <th> Waktu Kerja</th>
-                                            <th> Perkara</th>
-                                            <th> Status</th>
-                                            <th> Waktu Mula Sebenar</th>
-                                            <th> Waktu Akhir Sebenar</th>
-                                            <th> Status</th>
-                                            <th> Tindakan</th>
-                                        </tr>
-                                    </thead>
+                                <!-- Light table -->
+                               <table id="example" class="display table table-striped table-bordered dt-responsive nowrap" style="overflow-x:scroll; width:100%">
+                                   <thead class="thead-light">
+                                       <tr>
+                                           <th> No</th>
+                                           <th> Nama Pemohon</th>                                            
+                                           <th> Pegawai Lulus <br><br> Pegawai Sokong </th>
+                                           <th> Status</th>
+                                           <th> Tindakan</th>
+                                       </tr>
+                                   </thead>	
                                    
-                                </table>
+                                   <tbody >
+                                       @foreach($tuntutan_satupertiga as $tsp)
+                                       <tr>
+                                           <td>{{$loop->index + 1}}</td>
+                                           <td>{{$tsp->user_id}}</td>
+                                           <td>{{$tsp->pegawai_sokong_id}} {{$tsp->pegawai_lulus_id}}</td>
+                                           <td>{{$tsp->status}}</td>
+                                     
+                                            <td>
+                                                <a href="/semaksatupertiga/{{$tsp->id }}" class="btn btn-primary btn-sm ">Semak</a>
+                                                <a href="" class="btn btn-success btn-sm ">Lulus</a>
+
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#tolaksatupertiga{{$tsp->id }}">
+                                                Tolak
+                                            </button>
+
+                                            </td>  
+                                
+
+                                       </tr>
+                                       <div class="modal fade" id="tolaksatupertiga/{{$tsp->id}}" tabindex="-1" role="dialog" aria-labelledby="tolaksatupertigaLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="tolaksatupertigaLabel">Tolak Tuntutan 1/3 gaji</h5>
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div>
+                                            <div class="modal-body">
+                                              ...
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                              <button type="button" class="btn btn-primary btn-sm">Hantar</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                       
+                                       @endforeach
+                                       
+
+                                   </tbody>
+                                   
+                               </table>
                             </div>
                         </div>
                     </div>
@@ -2239,7 +2281,7 @@
                     <h3 class="mb-0">Sah Tuntutan Lebih Sebulan Gaji</h3>
                 </div>
                 <!-- Light table -->
-                <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                     <thead class="thead-light">
                         <tr>
                             <th>No</th>
@@ -2258,10 +2300,70 @@
                             <th>otdurationt1</th>
                         </tr>
                     </thead>
+                    
                     <tbody class="list">
 
                     </tbody>
-                </table>
+                </table> --}}
+
+
+                <div class="table-responsive py-4">
+                    <!-- Light table -->
+                   <table id="example" class="display table table-striped table-bordered dt-responsive nowrap" style="overflow-x:scroll; width:100%">
+                       <thead class="thead-light">
+                           <tr>
+                               <th> No</th>
+                               <th> Nama Pemohon</th>                                            
+                               <th> Pegawai Lulus <br><br> Pegawai Sokong </th>
+                               <th> Status</th>
+                               <th> Tindakan</th>
+                           </tr>
+                       </thead>	
+                       
+                       <tbody >
+                           @foreach($tuntutan_sebulan as $tsp)
+                           <tr>
+                               <td>{{$loop->index + 1}}</td>
+                               <td>{{$tsp->user_id}}</td>
+                               <td>{{$tsp->pegawai_sokong_id}} {{$tsp->pegawai_lulus_id}}</td>
+                               <td>{{$tsp->status}}</td>
+                               <td>
+                                <a href="/semaksebulan/{{$tsp->id }}" class="btn btn-primary btn-sm ">Semak</a>
+                                <a href="" class="btn btn-success btn-sm ">Sah</a>
+
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tolaksebulan">
+                                    Tolak
+                                  </button>
+
+                                 </td>  
+                       
+                            </tr>
+                            <!-- Modal -->
+                            <div class="modal fade" id="tolaksebulan" tabindex="-1" role="dialog" aria-labelledby="tolaksebulanLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="tolaksebulanLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    ...
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>   
+                           @endforeach
+                          
+                       </tbody>
+                       
+                   </table>
+                </div>
             </div>
         </div>
     </div>

@@ -37,23 +37,25 @@ class TuntutanController extends Controller
         ->orderByDesc("created_at")
         ->get();
 
-        //calculate jumlah jam 
         $jumlah_jam_biasa = 0;
         $jumlah_jam_rehat = 0;
         $jumlah_jam_am = 0;
         $jumlah_jam_keseluruhan = 0;
         
 
-        foreach ($tuntutan_k as $ps){
-            $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-            $ps->pegawai_sokong = $pegawai_sokong;
-        }
+        // foreach ($tuntutan_k as $ps){
+        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
+        //     $ps->pegawai_sokong = $pegawai_sokong;
+        // }
         
         foreach ($tuntutan_k as $pl){
 
+            $pegawai_sokong = User::where("id", $pl ->pegawai_sokong_id)->first()->name;
             $update_permohonan = Permohonan::where('id', $pl->id)->first();
             $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
             $pl->pegawai_lulus = $pegawai_lulus;
+            $pl->pegawai_sokong = $pegawai_sokong;
+
             
             //tumpang
             $time = explode(" ",$pl->sebenar_mula_kerja);
@@ -75,6 +77,16 @@ class TuntutanController extends Controller
             //checking hari pelepasan am
 
             $check_am = count(OracleCutiAm::where('hr_tarikh', $time[0])->get());
+
+            $weekend = false;
+            $dt1 = strtotime($time[0]);
+            $dt2 = date("l", $dt1);
+            $dt3 = strtolower($dt2);
+            if(($dt3 == "saturday" )|| ($dt3 == "sunday"))
+		    {
+                $weekend = true;
+            }
+            // $check_weekend =
             if ($check_am > 0) {
                 //kerja time cuti am
                 if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang ) {
@@ -93,7 +105,7 @@ class TuntutanController extends Controller
                 }
 
                 //cuti rehat
-            } elseif($check_am > 0) {
+            } elseif($weekend) {
                 if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang ) {
                     $pl->kadar_cuti_siang = "1.25";
                     $pl->jam_kerja_cuti_siang = $jumlah_jam_bekerja;
@@ -139,12 +151,14 @@ class TuntutanController extends Controller
         ->orderByDesc("created_at")
         ->get();
 
-        foreach ($tuntutan_lulus as $ps){
-            $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-            $ps->pegawai_sokong = $pegawai_sokong;
-        }
+        // foreach ($tuntutan_lulus as $ps){
+        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
+        //     $ps->pegawai_sokong = $pegawai_sokong;
+        // }
         foreach ($tuntutan_lulus as $pl){
             $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
+            $pegawai_sokong = User::where("id", $pl ->pegawai_sokong_id)->first()->name;
+            $pl->pegawai_sokong = $pegawai_sokong;
             $pl->pegawai_lulus = $pegawai_lulus;
         }
         // ->get();
@@ -166,18 +180,25 @@ class TuntutanController extends Controller
         //     dd ($ctujuan);
         // }
         //cari nama pegawai
-        foreach ($sokong_tuntutan as $ps){
-            $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-            $ps->pegawai_sokong = $pegawai_sokong;
-        }
-        foreach ($sokong_tuntutan as $pl){
-            $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
-            $pl->pegawai_lulus = $pegawai_lulus;
-        }
+        // foreach ($sokong_tuntutan as $ps){
+        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
+        //     $ps->pegawai_sokong = $pegawai_sokong;
+        // }
+        // foreach ($sokong_tuntutan as $pl){
+        //     $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
+        //     $pl->pegawai_lulus = $pegawai_lulus;
+        // }
 
         foreach ($sokong_tuntutan as $npt){
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
             $pemohon = User::where("id", $uuuuid)->first()->name;
+
+            $pegawai_sokong = User::where("id", $npt ->pegawai_sokong_id)->first()->name;
+            $npt->pegawai_sokong = $pegawai_sokong;
+
+            $pegawai_lulus = User::where("id", $npt ->pegawai_lulus_id)->first()->name;
+            $npt->pegawai_lulus = $pegawai_lulus;
+
             $npt->nama_pemohon = $pemohon;
         }
 
@@ -187,52 +208,76 @@ class TuntutanController extends Controller
         ->orderByDesc("created_at")
         ->get();
 
-        foreach ($lulus_tuntutan as $ps){
-            $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-            $ps->pegawai_sokong = $pegawai_sokong;
-        }
-        foreach ($lulus_tuntutan as $pl){
-            $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
-            $pl->pegawai_lulus = $pegawai_lulus;
-        }
+        // foreach ($lulus_tuntutan as $ps){
+        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
+        //     $ps->pegawai_sokong = $pegawai_sokong;
+        // }
+        // foreach ($lulus_tuntutan as $pl){
+        //     $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
+        //     $pl->pegawai_lulus = $pegawai_lulus;
+        // }
 
         foreach ($lulus_tuntutan as $npt){
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
             $pemohon = User::where("id", $uuuuid)->first()->name;
+
+            $pegawai_sokong = User::where("id", $npt ->pegawai_sokong_id)->first()->name;
+            $npt->pegawai_sokong = $pegawai_sokong;
+
+            $pegawai_lulus = User::where("id", $npt ->pegawai_lulus_id)->first()->name;
+            $npt->pegawai_lulus = $pegawai_lulus;
+
             $npt->nama_pemohon = $pemohon;
         }
         // semak tuntutan kerani semakan
         $semak_tuntutan = Tuntutan::all();
 
-        foreach ($semak_tuntutan as $ps){
-            $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-            $ps->pegawai_sokong = $pegawai_sokong;
-        }
-        foreach ($semak_tuntutan as $pl){
-            $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
-            $pl->pegawai_lulus = $pegawai_lulus;
-        }
+        // foreach ($semak_tuntutan as $ps){
+        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
+        //     $ps->pegawai_sokong = $pegawai_sokong;
+        // }
+        // foreach ($semak_tuntutan as $pl){
+        //     $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
+        //     $pl->pegawai_lulus = $pegawai_lulus;
+        // }
         foreach ($semak_tuntutan as $npt){
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
             $pemohon = User::where("id", $uuuuid)->first()->name;
             $npt->nama_pemohon = $pemohon;
+
+            $pegawai_sokong = User::where("id", $npt ->pegawai_sokong_id)->first()->name;
+            $npt->pegawai_sokong = $pegawai_sokong;
+
+            $pegawai_lulus = User::where("id", $npt ->pegawai_lulus_id)->first()->name;
+            $npt->pegawai_lulus = $pegawai_lulus;
+
+            // $pegawai_sokong = User::where("id", $npt ->pegawai_sokong_id)->first()->name;
         }
+
         // periksa tuntutan kerani periksa
         $periksa_tuntutan = Tuntutan::all();
         
 
-        foreach ($periksa_tuntutan as $ps){
-            $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-            $ps->pegawai_sokong = $pegawai_sokong;
-        }
-        foreach ($periksa_tuntutan as $pl){
-            $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
-            $pl->pegawai_lulus = $pegawai_lulus;
-        }
+        // foreach ($periksa_tuntutan as $ps){
+        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
+        //     $ps->pegawai_sokong = $pegawai_sokong;
+        // }
+        // foreach ($periksa_tuntutan as $pl){
+        //     $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
+        //     $pl->pegawai_lulus = $pegawai_lulus;
+        // }
         foreach ($periksa_tuntutan as $npt){
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
             $pemohon = User::where("id", $uuuuid)->first()->name;
             $npt->nama_pemohon = $pemohon;
+
+            $pegawai_sokong = User::where("id", $npt ->pegawai_sokong_id)->first()->name;
+            $npt->pegawai_sokong = $pegawai_sokong;
+
+            $pegawai_lulus = User::where("id", $npt ->pegawai_lulus_id)->first()->name;
+            $npt->pegawai_lulus = $pegawai_lulus;
+
+
         }
 
         //pelulus pindaan rekod 
@@ -246,17 +291,20 @@ class TuntutanController extends Controller
         foreach ($tuntutan_kemaskini as $kpn){
             $kerani_periksa_name = User::where("id", $kpn ->kerani_pemeriksa_id)->first()->name;
             $kpn->kerani_periksa_name = $kerani_periksa_name;
+            $kakitangan_name = User::where("id", $kpn ->user_id)->first()->name;
+            $kpn->kakitangan_name = $kakitangan_name;
         }
 
         // foreach ($tuntutan_kemaskini as $ksn){
         //     $kerani_semak_name = User::where("id", $ksn ->kerani_semakan_id)->first()->name;
         //     $ksn->kerani_semak_name = $kerani_semak_name;
+        // // }
+        // foreach ($tuntutan_kemaskini as $kn){
+        //     $kakitangan_name = User::where("id", $kn ->user_id)->first()->name;
+        //     $kn->kakitangan_name = $kakitangan_name;
         // }
-        foreach ($tuntutan_kemaskini as $kn){
-            $kakitangan_name = User::where("id", $kn ->user_id)->first()->name;
-            $kn->kakitangan_name = $kakitangan_name;
-        }
-        // dd($kerani_semak_name);
+        // // dd($kerani_semak_name);
+
 
 
         //get kemaskini pegawai 
@@ -282,6 +330,8 @@ class TuntutanController extends Controller
             'jumlah_jam_keseluruhan' => $jumlah_jam_keseluruhan,
 
             'tuntutan_kemaskini'=>$tuntutan_kemaskini,
+            'tuntutan_satupertiga'=> Tuntutan::where('lulus_satupertiga', 1)->get(),
+            'tuntutan_sebulan'=> Tuntutan::where('lulus_sebulan', 1)->get(),
          ]);
         
     }
@@ -422,6 +472,28 @@ class TuntutanController extends Controller
         $kiraangaji = round($oraclegaji * 12,3);
         $kiraangajijam = round($kiraangaji / 2504,3);
         $JumlahRM = round($kiraangajijam * $jumlah_jam_persamaan,3);
+
+
+        //TODO
+        //if jumlah jam_persamaan lebih dari 69 => set status lulus1/3 = 1
+        //if jumlah jam_persamaan lebih dari 208 => set status lulussebulan = 1
+
+        //test 1/3
+        $jumlah_jam_persamaan =300;
+
+        if ($jumlah_jam_persamaan > 69.555 && $jumlah_jam_persamaan < 208.666) {
+            $tuntutan->lulus_satupertiga = 1;
+            $tuntutan->lulus_sebulan = 0;
+
+            $tuntutan->save();
+        }
+
+        if ($jumlah_jam_persamaan > 208.666) {
+            $tuntutan->lulus_sebulan = 1;
+            $tuntutan->lulus_satupertiga = 1;
+            $tuntutan->save();
+
+        }
 
 
         return view('tuntutan.semaktuntutan',[
@@ -672,5 +744,19 @@ class TuntutanController extends Controller
         }
         $permohonan->save();
 
+    }
+    public function semaksatupertiga(Request $request,Tuntutan $tuntutan){
+
+    
+        $user_id = $request->user()->id;  
+
+        return view('tuntutan.semaksatupertiga');
+    }
+    public function semaksebulan(Request $request,Tuntutan $tuntutan){
+
+    
+        $user_id = $request->user()->id;  
+
+        return view('tuntutan.semaksebulan');
     }
 }
