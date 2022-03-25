@@ -2,7 +2,7 @@
 
 @section('content')
 @if($errors->any())
-        <h4 class="text-red">{{$errors->first()}}</h4>
+        <h4 class="text-red text-center">{{$errors->first()}}</h4>
     @endif
 <div>
     <div class="header bg-default pb-6">

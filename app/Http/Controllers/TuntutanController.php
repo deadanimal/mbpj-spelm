@@ -256,16 +256,7 @@ class TuntutanController extends Controller
 
         // periksa tuntutan kerani periksa
         $periksa_tuntutan = Tuntutan::all();
-        
 
-        // foreach ($periksa_tuntutan as $ps){
-        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-        //     $ps->pegawai_sokong = $pegawai_sokong;
-        // }
-        // foreach ($periksa_tuntutan as $pl){
-        //     $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
-        //     $pl->pegawai_lulus = $pegawai_lulus;
-        // }
         foreach ($periksa_tuntutan as $npt){
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
             $pemohon = User::where("id", $uuuuid)->first()->name;
@@ -306,10 +297,42 @@ class TuntutanController extends Controller
         // // dd($kerani_semak_name);
 
 
+        $semak_satupertiga = Tuntutan::where('lulus_satupertiga', 1)
+        ->orderByDesc("created_at")
+        ->get();
 
+        foreach ($semak_satupertiga as $sspt){
+            $uuuuid = Tuntutan::where("id", $sspt->id)->first()->user_id;
+            $pemohon = User::where("id", $uuuuid)->first()->name;
+
+            $pegawai_sokong = User::where("id", $sspt ->pegawai_sokong_id)->first()->name;
+            $sspt->pegawai_sokong = $pegawai_sokong;
+
+            $pegawai_lulus = User::where("id", $sspt ->pegawai_lulus_id)->first()->name;
+            $sspt->pegawai_lulus = $pegawai_lulus;
+
+            $sspt->nama_pemohon = $pemohon;
+        }
+        $semak_sebulan = Tuntutan::where('lulus_satupertiga', 1)
+        ->orderByDesc("created_at")
+        ->get();
+
+        foreach ($semak_sebulan as $sspt){
+            $uuuuid = Tuntutan::where("id", $sspt->id)->first()->user_id;
+            $pemohon = User::where("id", $uuuuid)->first()->name;
+
+            $pegawai_sokong = User::where("id", $sspt ->pegawai_sokong_id)->first()->name;
+            $sspt->pegawai_sokong = $pegawai_sokong;
+
+            $pegawai_lulus = User::where("id", $sspt ->pegawai_lulus_id)->first()->name;
+            $sspt->pegawai_lulus = $pegawai_lulus;
+
+            $sspt->nama_pemohon = $pemohon;
+        }
+
+        // dd($semak_satupertiga);
         //get kemaskini pegawai 
         $pegawaituntutan = User::whereIn('role', array('penyelia','ketua_bahagian','ketua_jabatan'))->get(); 
-
          return view ('tuntutan.index',[
             'tuntutan_k2'=>$tuntutan_k,
             'tuntutan_k'=>$tuntutan_k,
@@ -330,8 +353,10 @@ class TuntutanController extends Controller
             'jumlah_jam_keseluruhan' => $jumlah_jam_keseluruhan,
 
             'tuntutan_kemaskini'=>$tuntutan_kemaskini,
-            'tuntutan_satupertiga'=> Tuntutan::where('lulus_satupertiga', 1)->get(),
-            'tuntutan_sebulan'=> Tuntutan::where('lulus_sebulan', 1)->get(),
+            'semak_satupertiga'=>$semak_satupertiga,
+            'semak_sebulan'=>$semak_sebulan,
+            // 'tuntutan_satupertiga'=> Tuntutan::where('lulus_satupertiga', 1)->get(),
+            // 'tuntutan_sebulan'=> Tuntutan::where('lulus_sebulan', 1)->get(),
          ]);
         
     }
@@ -479,7 +504,7 @@ class TuntutanController extends Controller
         //if jumlah jam_persamaan lebih dari 208 => set status lulussebulan = 1
 
         //test 1/3
-        $jumlah_jam_persamaan =300;
+        //$jumlah_jam_persamaan =300;
 
         if ($jumlah_jam_persamaan > 69.555 && $jumlah_jam_persamaan < 208.666) {
             $tuntutan->lulus_satupertiga = 1;
@@ -745,18 +770,30 @@ class TuntutanController extends Controller
         $permohonan->save();
 
     }
-    public function semaksatupertiga(Request $request,Tuntutan $tuntutan){
+    public function semaksatupertiga(Request $request, $tuntutan){
 
+        $permohonans_pertiga = [];
+
+        $permohonan_tuntutan_pertiga = PermohonanTuntutan::where('tuntutan_id', $tuntutan)->get();
+        foreach($permohonan_tuntutan_pertiga as $pt) {
+            $permohonan = Permohonan::where('id', $pt->permohonan_id)->first();
+            array_push($permohonans_pertiga, $permohonan);
+
+        }
     
-        $user_id = $request->user()->id;  
-
-        return view('tuntutan.semaksatupertiga');
+        return view('tuntutan.semaksatupertiga', compact('permohonans_pertiga'));
     }
-    public function semaksebulan(Request $request,Tuntutan $tuntutan){
+    public function semaksebulan(Request $request,$tuntutan){
 
-    
-        $user_id = $request->user()->id;  
+        $permohonans_sebulan = [];
 
-        return view('tuntutan.semaksebulan');
+        $permohonan_tuntutan_sebulan = PermohonanTuntutan::where('tuntutan_id', $tuntutan)->get();
+        foreach($permohonan_tuntutan_sebulan as $pt) {
+            $permohonan = Permohonan::where('id', $pt->permohonan_id)->first();
+            array_push($permohonans_sebulan, $permohonan);
+
+        }
+
+        return view('tuntutan.semaksebulan',compact('permohonans_sebulan'));
     }
 }

@@ -54,11 +54,40 @@
                                 <th> Hari Biasa <br> Siang / Malam</th>
                                 <th> Hari Rehat <br> Siang / Malam</th>
                                 <th> Pelepasan AM <br> Siang / Malam</th>
-                              
+                                <th> Lokasi <br>Tujuan</th>                              
                             </tr>
                         </thead>
-                     
+            
                         <tbody>
+                            @foreach($permohonans_pertiga as $mohon)
+                            <tr>      
+                                <td>
+                                    {{$loop->index+1}}
+                                </td>
+                                <td>
+                                    {{$mohon->sebenar_mula_kerja}}<br>                                   
+                                    {{$mohon->sebenar_akhir_kerja}}
+
+                                </td>
+                                <td>
+                                    {{$mohon->jumlah_biasa_siang}}<br>
+                                    {{$mohon->jumlah_biasa_malam}}
+                                </td>
+                                <td>
+                                    {{$mohon->jumlah_rehat_siang}}<br>
+                                    {{$mohon->jumlah_rehat_malam}}
+                                </td>
+                                <td>
+                                    {{$mohon->jumlah_am_siang}}<br>
+                                    {{$mohon->jumlah_am_malam}}
+                                </td>
+                                <td>
+                                    {{$mohon->lokasi}}<br>
+                                    {{$mohon->tujuan}}
+                                </td>
+                             
+                            </tr>
+                            @endforeach
                           
                         </tbody> 
                            

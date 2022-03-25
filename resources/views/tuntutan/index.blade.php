@@ -2129,11 +2129,11 @@
                                    </thead>	
                                    
                                    <tbody >
-                                       @foreach($tuntutan_satupertiga as $tsp)
+                                       @foreach($semak_satupertiga as $tsp)
                                        <tr>
                                            <td>{{$loop->index + 1}}</td>
-                                           <td>{{$tsp->user_id}}</td>
-                                           <td>{{$tsp->pegawai_sokong_id}} {{$tsp->pegawai_lulus_id}}</td>
+                                           <td>{{$tsp->nama_pemohon}}</td>
+                                           <td>{{$tsp->pegawai_sokong}}<br> {{$tsp->pegawai_lulus}}</td>
                                            <td>{{$tsp->status}}</td>
                                      
                                             <td>
@@ -2141,7 +2141,7 @@
                                                 <a href="" class="btn btn-success btn-sm ">Lulus</a>
 
                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#tolaksatupertiga{{$tsp->id }}">
+                                                data-target="#tolaksatupertiga{{$tsp->id}}">
                                                 Tolak
                                             </button>
 
@@ -2149,7 +2149,7 @@
                                 
 
                                        </tr>
-                                       <div class="modal fade" id="tolaksatupertiga/{{$tsp->id}}" tabindex="-1" role="dialog" aria-labelledby="tolaksatupertigaLabel" aria-hidden="true">
+                                       <div class="modal fade" id="tolaksatupertiga{{$tsp->id}}" tabindex="-1" role="dialog" aria-labelledby="tolaksatupertigaLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                           <div class="modal-content">
                                             <div class="modal-header">
@@ -2321,11 +2321,11 @@
                        </thead>	
                        
                        <tbody >
-                           @foreach($tuntutan_sebulan as $tsp)
+                           @foreach($semak_sebulan as $tsp)
                            <tr>
                                <td>{{$loop->index + 1}}</td>
-                               <td>{{$tsp->user_id}}</td>
-                               <td>{{$tsp->pegawai_sokong_id}} {{$tsp->pegawai_lulus_id}}</td>
+                               <td>{{$tsp->nama_pemohon}}</td>
+                               <td>{{$tsp->pegawai_sokong}} <br> {{$tsp->pegawai_lulus}}</td>
                                <td>{{$tsp->status}}</td>
                                <td>
                                 <a href="/semaksebulan/{{$tsp->id }}" class="btn btn-primary btn-sm ">Semak</a>
@@ -2720,7 +2720,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade " id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+        <div class="tab-pane fade " id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">w
             <div>
             {{-- Card semakan tuntutan--}}
             {{-- <div class="row">

@@ -43,20 +43,49 @@
                     <div class="card-header border-0">
                         <h3 class="mb-0">Makluman Tuntutan Kakitangan</h3>
                     </div>
-                    <!-- Light table -->
-                    <table id="example" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                      <!-- Light table -->
+                      <table id="example" class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                         <thead class="thead-light">
                             <tr>
                                 <th>No</th>
-                                <th> Waktu Mula Sebenar <br><br> Waktu Akhir Sebenar</th>
+                                <th> Waktu Mula Sebenar <br> Waktu Akhir Sebenar</th>
                                 <th> Hari Biasa <br> Siang / Malam</th>
                                 <th> Hari Rehat <br> Siang / Malam</th>
                                 <th> Pelepasan AM <br> Siang / Malam</th>
-                              
+                                <th> Lokasi <br>Tujuan</th>                              
                             </tr>
                         </thead>
-                     
+            
                         <tbody>
+                            @foreach($permohonans_sebulan as $mohon)
+                            <tr>      
+                                <td>
+                                    {{$loop->index+1}}
+                                </td>
+                                <td>
+                                    {{$mohon->sebenar_mula_kerja}}<br>                                   
+                                    {{$mohon->sebenar_akhir_kerja}}
+
+                                </td>
+                                <td>
+                                    {{$mohon->jumlah_biasa_siang}}<br>
+                                    {{$mohon->jumlah_biasa_malam}}
+                                </td>
+                                <td>
+                                    {{$mohon->jumlah_rehat_siang}}<br>
+                                    {{$mohon->jumlah_rehat_malam}}
+                                </td>
+                                <td>
+                                    {{$mohon->jumlah_am_siang}}<br>
+                                    {{$mohon->jumlah_am_malam}}
+                                </td>
+                                <td>
+                                    {{$mohon->lokasi}}<br>
+                                    {{$mohon->tujuan}}
+                                </td>
+                             
+                            </tr>
+                            @endforeach
                           
                         </tbody> 
                            

@@ -468,7 +468,7 @@ class PermohonanController extends Controller
         $beza_jam = ($akhir_kerja - $mula_kerja)/3600;
         
         if ($beza_jam > 12) {
-            return redirect()->back()->withErrors(['error_jam' => 'Jumlah jam overtime anda melebihi had masa 12 jam']);
+            return redirect()->back()->withErrors(['error_jam' => 'Jumlah jam permohonan kerja lebih masa  anda melebihi had masa 12 jam']);
         }
 
         // check date kalau x sama return back

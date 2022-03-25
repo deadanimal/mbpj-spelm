@@ -1499,8 +1499,8 @@
                                             aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Tolak Permohonan
+                                                    <div class="modal-header bg-primary">
+                                                        <h5 class="modal-title text-white" id="exampleModalLabel">Tolak Permohonan
                                                             Kakitangan</h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
@@ -1526,17 +1526,15 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal">Tutup</button>
-                                                                <button type="submit"
-                                                                    class="btn btn-secondary">Hantar</button>
+                                                                                                            </div>
+                                                             </form>
+                                                 
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary btn-sm"
+                                                            data-dismiss="modal">Tutup</button>
+                                                        <button type="submit"
+                                                            class="btn btn-success btn-sm">Hantar</button>
 
-                                                                {{-- <a input type="submit" class="btn btn-danger btn-sm">Tolak axs</a> --}}
-                                                        </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
 
                                                 </div>
                                             </div>
@@ -2530,8 +2528,8 @@
                                             aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Tolak Permohonan
+                                                    <div class="modal-header bg-default">
+                                                        <h5 class="modal-title text-white" id="exampleModalLabel">Tolak Permohonan
                                                             Kakitangan</h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
@@ -2557,17 +2555,18 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal">Tutup</button>
-                                                                <button type="submit"
-                                                                    class="btn btn-secondary">Hantar</button>
-
+                                          
                                                                 {{-- <a input type="submit" class="btn btn-danger btn-sm">Tolak axs</a> --}}
                                                         </div>
                                                         </form>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Tutup</button>
+                                                <button type="submit"
+                                                    class="btn btn-secondary">Hantar</button>
+
 
                                                 </div>
                                             </div>
