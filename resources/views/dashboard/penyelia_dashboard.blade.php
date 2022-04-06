@@ -21,122 +21,87 @@
         am4core.useTheme(am4themes_animated);
         // Themes end
 
+        // Create chart instance
+        var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-
-        var chart = am4core.create('chartdiv', am4charts.XYChart)
-        chart.colors.step = 2;
-
-        chart.legend = new am4charts.Legend()
-        chart.legend.position = 'top'
-        chart.legend.paddingBottom = 20
-        chart.legend.labels.template.maxWidth = 95
-
-        var xAxis = chart.xAxes.push(new am4charts.CategoryAxis())
-        xAxis.dataFields.category = 'category'
-        xAxis.renderer.cellStartLocation = 0.1
-        xAxis.renderer.cellEndLocation = 0.9
-        xAxis.renderer.grid.template.location = 0;
-
-        var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        yAxis.min = 0;
-
-        function createSeries(value, name) {
-            var series = chart.series.push(new am4charts.ColumnSeries())
-            series.dataFields.valueY = value
-            series.dataFields.categoryX = 'category'
-            series.name = name
-
-            series.events.on("hidden", arrangeColumns);
-            series.events.on("shown", arrangeColumns);
-
-            var bullet = series.bullets.push(new am4charts.LabelBullet())
-            bullet.interactionsEnabled = false
-            bullet.dy = 30;
-            bullet.label.text = '{valueY}'
-            bullet.label.fill = am4core.color('#ffffff')
-
-            return series;
-        }
         var permohonan = @json($p);
 
+        // Add data
         chart.data = [{
-                category: permohonan[4][0],
-                first: permohonan[4][1],
-                second: permohonan[4][3],
-                third: permohonan[4][2]
-            },
-            {
-                category: permohonan[3][0],
-                first: permohonan[3][1],
-                second: permohonan[3][3],
-                third: permohonan[3][2]
-            },
-            {
-                category: permohonan[2][0],
-                first: permohonan[2][1],
-                second: permohonan[2][3],
-                third: permohonan[2][2]
-            },
-            {
-                category: permohonan[1][0],
-                first: permohonan[1][1],
-                second: permohonan[1][3],
-                third: permohonan[1][2]
-            }, {
-                category: permohonan[0][0],
-                first: permohonan[0][1],
-                second: permohonan[0][3],
-                third: permohonan[0][2]
-            }
-        ]
+            "year": permohonan[4][0],
+            "Permohonan": permohonan[4][1],
+            "Tuntutan": permohonan[4][2]
+        }, {
+            "year": permohonan[3][0],
+            "Permohonan": permohonan[3][1],
+            "Tuntutan": permohonan[3][2]
+        }, {
+            "year": permohonan[2][0],
+            "Permohonan": permohonan[2][1],
+            "Tuntutan": permohonan[2][2]
+        }, {
+            "year": permohonan[1][0],
+            "Permohonan": permohonan[1][1],
+            "Tuntutan": permohonan[1][2]
+        }, {
+            "year": permohonan[0][0],
+            "Permohonan": permohonan[0][1],
+            "Tuntutan": permohonan[0][2]
+        }];
 
+        // Create axes
+        var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "year";
+        categoryAxis.numberFormatter.numberFormat = "#";
+        categoryAxis.renderer.inversed = true;
+        categoryAxis.renderer.grid.template.location = 0;
+        categoryAxis.renderer.cellStartLocation = 0.1;
+        categoryAxis.renderer.cellEndLocation = 0.9;
 
-        createSeries('first', 'Permohonan');
-        createSeries('second', 'Pengesahan');
-        createSeries('third', 'Tuntutan');
+        var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+        valueAxis.renderer.opposite = true;
 
-        function arrangeColumns() {
+        // Create series
+        function createSeries(field, name) {
+            var series = chart.series.push(new am4charts.ColumnSeries());
+            series.dataFields.valueX = field;
+            series.dataFields.categoryY = "year";
+            series.name = name;
+            series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
+            series.columns.template.height = am4core.percent(100);
+            series.sequencedInterpolation = true;
 
-            var series = chart.series.getIndex(0);
+            // // Title
 
-            var w = 1 - xAxis.renderer.cellStartLocation - (1 - xAxis.renderer.cellEndLocation);
-            if (series.dataItems.length > 1) {
-                var x0 = xAxis.getX(series.dataItems.getIndex(0), "categoryX");
-                var x1 = xAxis.getX(series.dataItems.getIndex(1), "categoryX");
-                var delta = ((x1 - x0) / chart.series.length) * w;
-                if (am4core.isNumber(delta)) {
-                    var middle = chart.series.length / 2;
+            //   var title = chart.titles.create();
+            //   title.text = "";
+            //   title.fontSize = 20;
+            //   title.marginBottom = 20;
 
-                    var newIndex = 0;
-                    chart.series.each(function(series) {
-                        if (!series.isHidden && !series.isHiding) {
-                            series.dummyData = newIndex;
-                            newIndex++;
-                        } else {
-                            series.dummyData = chart.series.indexOf(series);
-                        }
-                    })
-                    var visibleCount = newIndex;
-                    var newMiddle = visibleCount / 2;
+            // Print Chart
 
-                    chart.series.each(function(series) {
-                        var trueIndex = chart.series.indexOf(series);
-                        var newIndex = series.dummyData;
+            chart.exporting.menu = new am4core.ExportMenu();
+            chart.exporting.menu.align = "right";
+            chart.exporting.menu.verticalAlign = "top";
 
-                        var dx = (newIndex - trueIndex + middle - newMiddle) * delta
+            var valueLabel = series.bullets.push(new am4charts.LabelBullet());
+            valueLabel.label.text = "{valueX}";
+            valueLabel.label.horizontalCenter = "left";
+            valueLabel.label.dx = 10;
+            valueLabel.label.hideOversized = false;
+            valueLabel.label.truncate = false;
 
-                        series.animate({
-                            property: "dx",
-                            to: dx
-                        }, series.interpolationDuration, series.interpolationEasing);
-                        series.bulletsContainer.animate({
-                            property: "dx",
-                            to: dx
-                        }, series.interpolationDuration, series.interpolationEasing);
-                    })
-                }
-            }
+            var categoryLabel = series.bullets.push(new am4charts.LabelBullet());
+            categoryLabel.label.text = "{name}";
+            categoryLabel.label.horizontalCenter = "right";
+            categoryLabel.label.dx = -10;
+            categoryLabel.label.fill = am4core.color("#fff");
+            categoryLabel.label.hideOversized = false;
+            categoryLabel.label.truncate = false;
         }
+
+        createSeries("Permohonan", "Permohonan");
+        createSeries("Tuntutan", "Tuntutan");
 
     }); // end am4core.ready()
 </script>

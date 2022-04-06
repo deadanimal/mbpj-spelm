@@ -9,5 +9,5 @@ class Ekedatangan extends Model
 {
     use HasFactory;
     protected $connection = 'oracle';
-    public $table ='EKEDATANGAN.OT';
+    public $table = 'EKEDATANGAN.OT';
 }

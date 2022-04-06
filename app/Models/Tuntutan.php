@@ -2,18 +2,23 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-use App\Models\User;
-
 
 class Tuntutan extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
 
-    public function tuntutans()
+    // public function tuntutans()
+    // {
+    //     return $this->belongsToMany(Tuntutan::class, 'permohonan_tuntutans', 'tuntutan_id', 'permohonan_id');
+    // }
+
+    public function user()
     {
-        return $this->belongsToMany(Tuntutan::class, 'permohonan_tuntutans', 'tuntutan_id', 'permohonan_id');
-    }  
+        return $this->belongsTo(User::class);
+    }
+
 }
