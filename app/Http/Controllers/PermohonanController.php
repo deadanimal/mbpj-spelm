@@ -409,6 +409,24 @@ class PermohonanController extends Controller
             ->where([['pegawai_lulus_id', '=', $user_id], ['lulus_selepas', '=', null]])
             ->count();
 
+        if (auth()->user()->role == "penyelia") {
+            return view('permohonan.index.penyelia', [
+                'permohonans' => $permohonans,
+                'mohon' => $mohon,
+                'mohon_p' => $mohon_p,
+                'mohon_t' => $mohon_t,
+                'mohon_dp' => $mohon_dp,
+                'pengesahans' => $pengesahans,
+                'userspengesahan' => $userspengesahan,
+                'permohonan_disokongs' => $permohonan_disokongs,
+                'permohonan_dilulus' => $permohonan_dilulus,
+                'permohonan_disokongs' => $permohonan_disokongs,
+                'pengesahan_disokongs' => $pengesahan_disokongs,
+                'pengesahan_dilulus' => $pengesahan_dilulus,
+            ]);
+
+        }
+
         return view('permohonan.index', [
             'permohonans' => $permohonans,
             'pengesahans' => $pengesahans,

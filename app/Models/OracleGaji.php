@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class OracleGaji extends Model
 {
     use HasFactory;
-    protected $connection = 'oracle';
-    public $table = 'SPP.HR_MAKLUMAT_PEKERJAAN';
+    // protected $connection = 'oracle';
+    // public $table = 'SPP.HR_MAKLUMAT_PEKERJAAN';
 
 }
