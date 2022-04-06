@@ -2,10 +2,10 @@
 
 <!-- Styles -->
 <style>
-#chartdiv {
-  width: 100%;
-  height: 500px;
-}
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
 
 </style>
 
@@ -16,234 +16,235 @@
 
 <!-- Chart code -->
 <script>
-am4core.ready(function() {
+    am4core.ready(function() {
 
-// Themes begin
-am4core.useTheme(am4themes_animated);
-// Themes end
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
 
- // Create chart instance
-var chart = am4core.create("chartdiv", am4charts.XYChart);
+        // Create chart instance
+        var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-// Add data
-chart.data = [{
-  "year": 2005,
-  "Permohonan": 23.5,
-  "Tuntutan": 18.1
-},{
-  "year": 2006,
-  "Permohonan": 26.2,
-  "Tuntutan": 22.8
-},{
-  "year": 2007,
-  "Permohonan": 30.1,
-  "Tuntutan": 23.9
-},{
-  "year": 2008,
-  "Permohonan": 29.5,
-  "Tuntutan": 25.1
-},{
-  "year": 2009,
-  "Permohonan": 24.6,
-  "Tuntutan": 25
-}];
+        var permohonan = @json($p);
 
-// Create axes
-var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-categoryAxis.dataFields.category = "year";
-categoryAxis.numberFormatter.numberFormat = "#";
-categoryAxis.renderer.inversed = true;
-categoryAxis.renderer.grid.template.location = 0;
-categoryAxis.renderer.cellStartLocation = 0.1;
-categoryAxis.renderer.cellEndLocation = 0.9;
+        // Add data
+        chart.data = [{
+            "year": permohonan[4][0],
+            "Permohonan": permohonan[4][1],
+            "Tuntutan": permohonan[4][2]
+        }, {
+            "year": permohonan[3][0],
+            "Permohonan": permohonan[3][1],
+            "Tuntutan": permohonan[3][2]
+        }, {
+            "year": permohonan[2][0],
+            "Permohonan": permohonan[2][1],
+            "Tuntutan": permohonan[2][2]
+        }, {
+            "year": permohonan[1][0],
+            "Permohonan": permohonan[1][1],
+            "Tuntutan": permohonan[1][2]
+        }, {
+            "year": permohonan[0][0],
+            "Permohonan": permohonan[0][1],
+            "Tuntutan": permohonan[0][2]
+        }];
 
-var  valueAxis = chart.xAxes.push(new am4charts.ValueAxis()); 
-valueAxis.renderer.opposite = true;
+        // Create axes
+        var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "year";
+        categoryAxis.numberFormatter.numberFormat = "#";
+        categoryAxis.renderer.inversed = true;
+        categoryAxis.renderer.grid.template.location = 0;
+        categoryAxis.renderer.cellStartLocation = 0.1;
+        categoryAxis.renderer.cellEndLocation = 0.9;
 
-// Create series
-function createSeries(field, name) {
-  var series = chart.series.push(new am4charts.ColumnSeries());
-  series.dataFields.valueX = field;
-  series.dataFields.categoryY = "year";
-  series.name = name;
-  series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
-  series.columns.template.height = am4core.percent(100);
-  series.sequencedInterpolation = true;
+        var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+        valueAxis.renderer.opposite = true;
 
-// // Title
+        // Create series
+        function createSeries(field, name) {
+            var series = chart.series.push(new am4charts.ColumnSeries());
+            series.dataFields.valueX = field;
+            series.dataFields.categoryY = "year";
+            series.name = name;
+            series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
+            series.columns.template.height = am4core.percent(100);
+            series.sequencedInterpolation = true;
 
-//   var title = chart.titles.create();
-//   title.text = "";
-//   title.fontSize = 20;
-//   title.marginBottom = 20;
+            // // Title
 
-// Print Chart
+            //   var title = chart.titles.create();
+            //   title.text = "";
+            //   title.fontSize = 20;
+            //   title.marginBottom = 20;
 
-  chart.exporting.menu = new am4core.ExportMenu();
-  chart.exporting.menu.align = "right";
-  chart.exporting.menu.verticalAlign = "top";
+            // Print Chart
 
-  var valueLabel = series.bullets.push(new am4charts.LabelBullet());
-  valueLabel.label.text = "{valueX}";
-  valueLabel.label.horizontalCenter = "left";
-  valueLabel.label.dx = 10;
-  valueLabel.label.hideOversized = false;
-  valueLabel.label.truncate = false;
+            chart.exporting.menu = new am4core.ExportMenu();
+            chart.exporting.menu.align = "right";
+            chart.exporting.menu.verticalAlign = "top";
 
-  var categoryLabel = series.bullets.push(new am4charts.LabelBullet());
-  categoryLabel.label.text = "{name}";
-  categoryLabel.label.horizontalCenter = "right";
-  categoryLabel.label.dx = -10;
-  categoryLabel.label.fill = am4core.color("#fff");
-  categoryLabel.label.hideOversized = false;
-  categoryLabel.label.truncate = false;
-}
+            var valueLabel = series.bullets.push(new am4charts.LabelBullet());
+            valueLabel.label.text = "{valueX}";
+            valueLabel.label.horizontalCenter = "left";
+            valueLabel.label.dx = 10;
+            valueLabel.label.hideOversized = false;
+            valueLabel.label.truncate = false;
 
-createSeries("Permohonan", "Permohonan");
-createSeries("Tuntutan", "Tuntutan");
+            var categoryLabel = series.bullets.push(new am4charts.LabelBullet());
+            categoryLabel.label.text = "{name}";
+            categoryLabel.label.horizontalCenter = "right";
+            categoryLabel.label.dx = -10;
+            categoryLabel.label.fill = am4core.color("#fff");
+            categoryLabel.label.hideOversized = false;
+            categoryLabel.label.truncate = false;
+        }
 
-}); // end am4core.ready()
+        createSeries("Permohonan", "Permohonan");
+        createSeries("Tuntutan", "Tuntutan");
+
+    }); // end am4core.ready()
 </script>
 
 
 
 @section('content')
+    <div class="header bg-default pb-6">
+        <div class="container-fluid">
+
+            <div class="row align-items-center py-4">
+                <div class="col-lg-12 col-7">
+                    <h1 class="h1 text-white "> Selamat Datang ke Sistem Pengurusan Elaun Lebih Masa </h1>
+                    <h1 class="h1 text-white "> Modul Kakitangan </h1>
 
 
-<div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <h6 class="h2 text-white d-inline-block mb-0">Dashboard</h6>
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Card stats -->
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PERMOHONAN KERJA
+                                            LEBIH MASA
+                                        </h5>
+                                        <span class="h2 font-weight-bold mb-0">{{ $jumlah_permohonan }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0"> PENGESAHAN KERJA LEBIH
+                                            MASA LULUS
+                                        </h5>
+                                        <span class="h2 font-weight-bold mb-0">{{ $jumlah_permohonan_lulus }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
 
-  <div class="header bg-default pb-6">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
+                                        </h5>
+                                        <span class="h2 font-weight-bold mb-0">{{ $jumlah_tuntutan }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
+                                            (RM)
+                                        </h5>
+                                        <span class="h2 font-weight-bold mb-0">0</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
+        <div class="container-fluid mt--6">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card bg-default">
+                        <div class="card-header ">
+                            <div class="row align-items-center">
+                                <div class="col">
 
-    <div class="row align-items-center py-4">
-      <div class="col-lg-12 col-7">
-    <h1 class="h1 text-white "> Selamat Datang ke Sistem Pengurusan Elaun Lebih Masa </h1>
-    <h1 class="h1 text-white "> Modul Kakitangan </h1>
 
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="chartdiv"></div>
 
-      </div>
-    </div>
-    </div>
-    <div class="container-fluid">
-      <div class="header-body">
-        <div class="row align-items-center py-4">
-          <div class="col-lg-6 col-7">
-            <h6 class="h2 text-white d-inline-block mb-0">Dashboard</h6>
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-        <!-- Card stats -->
-        <div class="row">
-          <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
-              <!-- Card body -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PERMOHONAN KERJA LEBIH MASA
-                    </h5>
-                    <span class="h2 font-weight-bold mb-0">{{$mohon}}</span>
-                  </div>
-                  <div class="col-auto">
-                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                      <i class="ni ni-chart-bar-32"></i>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
-              <!-- Card body -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0"> PENGESAHAN KERJA LEBIH MASA LULUS
-                    </h5>
-                    <span class="h2 font-weight-bold mb-0">0</span>
-                  </div>
-                  <div class="col-auto">
-                    <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                      <i class="ni ni-chart-bar-32"></i>
-                    </div>
-                  </div>
-                </div>
 
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
-              <!-- Card body -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA 
-                    </h5>
-                    <span class="h2 font-weight-bold mb-0">0</span>
-                  </div>
-                  <div class="col-auto">
-                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                      <i class="ni ni-chart-bar-32"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
-              <!-- Card body -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA (RM)
-                    </h5>
-                    <span class="h2 font-weight-bold mb-0">0</span>
-                  </div>
-                  <div class="col-auto">
-                    <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
-                      <i class="ni ni-chart-bar-32"></i>
-                    </div>
-                  </div>
-                </div>
-       
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-<div class="container-fluid">
-  <div class="container-fluid mt--6">
-  <div class="row">
-    <div class="col-xl-12">
-      <div class="card bg-default">
-        <div class="card-header ">
-          <div class="row align-items-center">
-            <div class="col">
-
-
-          </div>
-        </div>
-        <div class="card-body">
-          <div id="chartdiv"></div>
-
-        </div>
-      </div>
-    </div>
-    </div>
-  </div>
-
-{{-- <div class="modal hide fade" id="myModal">
+            {{-- <div class="modal hide fade" id="myModal">
   <div class="modal-header">
       <a class="close" data-dismiss="modal">×</a>
       <h3>Modal header</h3>
@@ -257,21 +258,22 @@ createSeries("Tuntutan", "Tuntutan");
   </div>
 </div> --}}
 
-      <!-- Footer -->
-      <footer class="footer pt-0">
-        <div class="row align-items-center justify-content-lg-between">
-          <div class="col-lg-6">
-            <div class="copyright text-center  text-lg-left  text-muted">
-              &copy; 2021 <a href="#" class="font-weight-bold ml-1" target="_blank">Sistem Pengurusan Elaun Lebih Masa
-</a>
-            </div>
-          </div>
+            <!-- Footer -->
+            <footer class="footer pt-0">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6">
+                        <div class="copyright text-center  text-lg-left  text-muted">
+                            &copy; 2021 <a href="#" class="font-weight-bold ml-1" target="_blank">Sistem Pengurusan
+                                Elaun Lebih Masa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
-      </footer>
-    </div>
-@endsection
+    @endsection
 
-{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
   $(window).on('load', function() {
       $('#exampleModal').modal('show');
