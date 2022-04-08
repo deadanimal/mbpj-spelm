@@ -20,7 +20,6 @@ class PermohonanController extends Controller
     public function index(Request $request, Permohonan $permohonan)
     {
         // Kakitangan
-
         $user_id = $request->user()->id;
         $customerid = $request->user()->user_code;
 
@@ -409,25 +408,7 @@ class PermohonanController extends Controller
             ->where([['pegawai_lulus_id', '=', $user_id], ['lulus_selepas', '=', null]])
             ->count();
 
-        if (auth()->user()->role == "penyelia") {
-            return view('permohonan.index.penyelia', [
-                'permohonans' => $permohonans,
-                'mohon' => $mohon,
-                'mohon_p' => $mohon_p,
-                'mohon_t' => $mohon_t,
-                'mohon_dp' => $mohon_dp,
-                'pengesahans' => $pengesahans,
-                'userspengesahan' => $userspengesahan,
-                'permohonan_disokongs' => $permohonan_disokongs,
-                'permohonan_dilulus' => $permohonan_dilulus,
-                'permohonan_disokongs' => $permohonan_disokongs,
-                'pengesahan_disokongs' => $pengesahan_disokongs,
-                'pengesahan_dilulus' => $pengesahan_dilulus,
-            ]);
-
-        }
-
-        return view('permohonan.index', [
+        $data = [
             'permohonans' => $permohonans,
             'pengesahans' => $pengesahans,
             'permohonan_disokongs' => $permohonan_disokongs,
@@ -469,82 +450,143 @@ class PermohonanController extends Controller
             'userspengesahan' => $userspengesahan,
             // 'permohonan'=> $permohonan,
             // 'user_permohonans'=>$user_permohonans,
-        ]);
+        ];
+
+        switch (auth()->user()->role) {
+            case 'kakitangan':
+            case 'kerani_semakan':
+            case 'kerani_pemeriksa':
+                return view('permohonan.index.default', $data);
+                break;
+
+            case 'penyelia':
+                return view('permohonan.index.penyelia', $data);
+                break;
+
+            case 'ketua_bahagian':
+            case 'ketua_jabatan':
+                return view('permohonan.index.ketua', $data);
+                break;
+            default:
+                abort(404);
+                break;
+        }
     }
 
     public function create(Request $request)
     {
-
         $pegawai = User::whereIn('role', array('penyelia', 'ketua_bahagian', 'ketua_jabatan'))->get();
-
+        $pemohon = User::whereIn('role', array('kakitangan', 'kerani_pemeriksa', 'kerani_semakan'))->orderBy('nric', 'ASC')->get();
         return view('permohonan.create', [
             'pegawai' => $pegawai,
+            'pemohon' => $pemohon,
 
         ]);
     }
     public function store(Request $request)
     {
 
-        $permohonan = new Permohonan;
+        if ($request->jenis_permohonan == 'individu') {
+            $permohonan = new Permohonan;
 
-        $mohon_mula_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_mula_kerja));
-        $mohon_akhir_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_akhir_kerja));
+            $mohon_mula_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_mula_kerja));
+            $mohon_akhir_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_akhir_kerja));
 
-        // check beza jam kalau lebih 12 jam return back
-        $mula_kerja = strtotime($request->mohon_mula_kerja);
-        $akhir_kerja = strtotime($request->mohon_akhir_kerja);
-        $beza_jam = ($akhir_kerja - $mula_kerja) / 3600;
+            // check beza jam kalau lebih 12 jam return back
+            $mula_kerja = strtotime($request->mohon_mula_kerja);
+            $akhir_kerja = strtotime($request->mohon_akhir_kerja);
+            $beza_jam = ($akhir_kerja - $mula_kerja) / 3600;
 
-        if ($beza_jam > 12) {
-            return redirect()->back()->withErrors(['error_jam' => 'Jumlah jam permohonan kerja lebih masa  anda melebihi had masa 12 jam']);
-        }
+            if ($beza_jam > 12) {
+                return redirect()->back()->withErrors(['error_jam' => 'Jumlah jam permohonan kerja lebih masa  anda melebihi had masa 12 jam']);
+            }
 
-        // check date kalau x sama return back
-        $tarikh_mula = date("d", strtotime($request->mohon_mula_kerja));
-        $tarikh_akhir = date("d", strtotime($request->mohon_akhir_kerja));
+            // check date kalau x sama return back
+            $tarikh_mula = date("d", strtotime($request->mohon_mula_kerja));
+            $tarikh_akhir = date("d", strtotime($request->mohon_akhir_kerja));
 
-        if ($tarikh_mula != $tarikh_akhir) {
-            return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
-        }
+            if ($tarikh_mula != $tarikh_akhir) {
+                return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
+            }
 
-        $permohonan->mohon_mula_kerja = $mohon_mula_kerja;
-        $permohonan->mohon_akhir_kerja = $mohon_akhir_kerja;
-        $permohonan->lokasi = $request->lokasi;
-        $permohonan->tujuan = $request->tujuan;
-        $permohonan->jenis_permohonan = $request->jenis_permohonan;
-        $permohonan->pegawai_sokong_id = $request->pegawai_sokong_id;
-        $permohonan->pegawai_lulus_id = $request->pegawai_lulus_id;
-        $permohonan->p_pegawai_sokong_id = $request->pegawai_sokong_id;
-        $permohonan->p_pegawai_lulus_id = $request->pegawai_lulus_id;
+            $permohonan->mohon_mula_kerja = $mohon_mula_kerja;
+            $permohonan->mohon_akhir_kerja = $mohon_akhir_kerja;
+            $permohonan->lokasi = $request->lokasi;
+            $permohonan->tujuan = $request->tujuan;
+            $permohonan->jenis_permohonan = $request->jenis_permohonan;
+            $permohonan->pegawai_sokong_id = $request->pegawai_sokong_id;
+            $permohonan->pegawai_lulus_id = $request->pegawai_lulus_id;
+            $permohonan->p_pegawai_sokong_id = $request->pegawai_sokong_id;
+            $permohonan->p_pegawai_lulus_id = $request->pegawai_lulus_id;
 
-        $permohonan->save();
+            $permohonan->save();
 
-        $audit = new Audit;
-        $audit->user_id = $request->user()->id;
-        $audit->name = $request->user()->name;
-        $audit->peranan = $request->user()->role;
-        $audit->description = 'Tambah Permohonan Jenis: ' . $permohonan->jenis_permohonan;
-        $audit->save();
-
-        if ($permohonan->jenis_permohonan == 'individu') {
+            $audit = new Audit;
+            $audit->user_id = auth()->user()->id;
+            $audit->name = auth()->user()->name;
+            $audit->peranan = auth()->user()->role;
+            $audit->description = 'Tambah Permohonan Jenis: ' . $permohonan->jenis_permohonan;
+            $audit->save();
 
             $user_permohonan = new UserPermohonan;
-            $user_permohonan->user_id = $request->user()->id;
+            $user_permohonan->user_id = auth()->user()->id;
             $user_permohonan->permohonan_id = $permohonan->id;
             $user_permohonan->save();
 
-        } elseif ($permohonan->jenis_permohonan == 'berkumpulan') {
+        }
 
-            $user_permohonan = new UserPermohonan;
-            $user_permohonan->user_id = $request->user()->id;
-            $user_permohonan->permohonan_id = $permohonan->id;
-            $user_permohonan->save();
+        if ($request->jenis_permohonan == 'berkumpulan') {
+            for ($i = 0; $i < count($request->pemohon); $i++) {
+                $permohonan = new Permohonan;
 
+                $mohon_mula_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_mula_kerja));
+                $mohon_akhir_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_akhir_kerja));
+
+                $mula_kerja = strtotime($request->mohon_mula_kerja);
+                $akhir_kerja = strtotime($request->mohon_akhir_kerja);
+                $beza_jam = ($akhir_kerja - $mula_kerja) / 3600;
+
+                if ($beza_jam > 12) {
+                    return redirect()->back()->withErrors(['error_jam' => 'Jumlah jam permohonan kerja lebih masa  anda melebihi had masa 12 jam']);
+                }
+
+                $tarikh_mula = date("d", strtotime($request->mohon_mula_kerja));
+                $tarikh_akhir = date("d", strtotime($request->mohon_akhir_kerja));
+
+                if ($tarikh_mula != $tarikh_akhir) {
+                    return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
+                }
+
+                $permohonan->mohon_mula_kerja = $mohon_mula_kerja;
+                $permohonan->mohon_akhir_kerja = $mohon_akhir_kerja;
+                $permohonan->lokasi = $request->lokasi;
+                $permohonan->tujuan = $request->tujuan;
+                $permohonan->jenis_permohonan = $request->jenis_permohonan;
+                $permohonan->pegawai_sokong_id = $request->pegawai_sokong_id;
+                $permohonan->pegawai_lulus_id = $request->pegawai_lulus_id;
+                $permohonan->p_pegawai_sokong_id = $request->pegawai_sokong_id;
+                $permohonan->p_pegawai_lulus_id = $request->pegawai_lulus_id;
+                $permohonan->save();
+
+                $audit = new Audit;
+                $audit->user_id = auth()->user()->id;
+                $audit->name = auth()->user()->name;
+                $audit->peranan = auth()->user()->role;
+                $audit->description = 'Tambah Permohonan Jenis: ' . $permohonan->jenis_permohonan;
+                $audit->save();
+
+                $user_dipohon = User::where('nric', $request->pemohon[$i])->first();
+                $user_permohonan = new UserPermohonan;
+                $user_permohonan->user_id = $user_dipohon->id;
+                $user_permohonan->permohonan_id = $permohonan->id;
+                $user_permohonan->save();
+            }
         }
 
         $redirected_url = '/permohonans/';
         return redirect($redirected_url);
     }
+
     public function show(Permohonan $permohonan)
     {
         return view('permohonan.show', [

@@ -512,7 +512,11 @@
                 </script>
             @break
 
-            @case('ketua_bahagian' || 'penyelia' || 'pentadbir_sistem' || 'pelulus_pindaan')
+            @case('ketua_bahagian')
+            @case('penyelia')
+
+            @case('pentadbir_sistem')
+            @case('pelulus_pindaan')
                 NONE
             @break
 
