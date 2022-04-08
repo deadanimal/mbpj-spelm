@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Audit;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Audit;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use App\Models\Oracle;
-
 
 class AuthenticatedSessionController extends Controller
 {
@@ -41,7 +38,6 @@ class AuthenticatedSessionController extends Controller
 
         // dd($useroracle);
 
-
         // setup audit trail
 
         $user = $request->user();
@@ -50,8 +46,8 @@ class AuthenticatedSessionController extends Controller
         $audit->name = $user->name;
         $audit->peranan = $user->role;
 
-        $audit->description =  'Log Masuk';
-        
+        $audit->description = 'Log Masuk';
+
         $audit->save();
 
         return redirect()->intended(RouteServiceProvider::HOME);
@@ -65,14 +61,14 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-         $user = $request->user();
-         $audit = new Audit;
-         $audit->user_id = $user->id;
-         $audit->name = $user->name;
-         $audit->peranan = $user->role;
+        $user = $request->user();
+        $audit = new Audit;
+        $audit->user_id = $user->id;
+        $audit->name = $user->name;
+        $audit->peranan = $user->role;
 
-         $audit->description =  'Log Keluar';
-         $audit->save();
+        $audit->description = 'Log Keluar';
+        $audit->save();
 
         Auth::guard('web')->logout();
 
@@ -81,5 +77,23 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function new_store(LoginRequest $request)
+    {
+        // dd(md5("P@ssw0rd"), md5("password1"));
+        $password = md5($request->password);
+        $user = User::where('password', $password)
+            ->where('nric', $request->nric)
+            ->first();
+
+        if ($user == null) {
+            $request->authenticate();
+            $request->session()->regenerate();
+            return redirect()->intended(RouteServiceProvider::HOME);
+            // return redirect()->back()->withErrors(['Tidak Sah' => 'Maklumat yang dimasukkan tidak sah']);
+        }
+        Auth::login($user);
+        return redirect('/dashboard');
     }
 }
