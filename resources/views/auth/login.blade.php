@@ -1,8 +1,8 @@
 <x-guest-layout>
-    <x-auth-card >
+    <x-auth-card>
 
         <x-slot name="logo">
-            <a href="/"> 
+            <a href="/">
             </a>
         </x-slot>
 
@@ -11,35 +11,35 @@
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
-         <!-- Modified  Logo -->
+        <!-- Modified  Logo -->
         <section class="hero container max-w-screen-lg mx-auto mb-7 mt-3 ">
-            <img style="width:50% ; height:50%" class="mx-auto" src="{{ asset('argon') }}/img/mbpj.png" alt="screenshot" >
+            <img style="width:50% ; height:50%" class="mx-auto" src="{{ asset('argon') }}/img/mbpj.png"
+                alt="screenshot">
         </section>
         <section>
             <p class="text-lg font-bold md:text-center ...">Sistem Pengurusan Elaun Lebih Masa
-. </p>
+                . </p>
             <p class="text-lg font-bold md:text-center ...">Majlis Bandaraya Petaling Jaya. </p>
-
         </section>
-         <!-- Form  Register -->
-        <form method="POST" action="{{ route('login') }}">
+        <!-- Form  Register -->
+        {{-- <form method="POST" action="{{ route('login') }}"> --}}
+        <form method="POST" action="/loginnew">
             @csrf
 
             <!-- Email Address -->
             <div>
                 <x-label for="email" :value="__('NRIC')" />
 
-                <x-input id="nric" class="block mt-1 w-full" type="text" name="nric" :value="old('nric')" required autofocus />
+                <x-input id="nric" class="block mt-1 w-full" type="text" name="nric" :value="old('nric')" required
+                    autofocus />
             </div>
 
             <!-- Password -->
             <div class="mt-4">
                 <x-label for="password" :value="__('Kata Laluan')" />
 
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                    autocomplete="current-password" />
             </div>
 
             <!-- Remember Me -->
@@ -52,7 +52,8 @@
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900"
+                        href="{{ route('password.request') }}">
                         {{-- {{ __('Forgot your password?') }} --}}
                     </a>
                 @endif
@@ -66,17 +67,19 @@
 
         <footer class="footer pt-5">
             <div class="row align-items-center justify-content-lg-between">
-              <div class="col-lg-6">
-                <div class="copyright text-center  text-lg-left  text-muted">
-                  &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem Pengurusan Elaun Lebih Masa
-</a>
+                <div class="col-lg-6">
+                    <div class="copyright text-center  text-lg-left  text-muted">
+                        &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem Pengurusan Elaun Lebih
+                            Masa
+                        </a>
+                    </div>
                 </div>
-              </div>
             </div>
-          </footer>
+        </footer>
         <div class="mt-4">
-                <h1>Best viewed using Internet Explorer 9.0 / Mozilla Firefox 12.0 / Google Chrome 13.0 and above with 1024 x 768 resolution<h1>
+            <h1>Best viewed using Internet Explorer 9.0 / Mozilla Firefox 12.0 / Google Chrome 13.0 and above with 1024
+                x 768 resolution<h1>
         </div>
-        
+
     </x-auth-card>
 </x-guest-layout>

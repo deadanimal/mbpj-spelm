@@ -557,29 +557,42 @@ class PermohonanController extends Controller
                     return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
                 }
 
-                $permohonan->mohon_mula_kerja = $mohon_mula_kerja;
-                $permohonan->mohon_akhir_kerja = $mohon_akhir_kerja;
-                $permohonan->lokasi = $request->lokasi;
-                $permohonan->tujuan = $request->tujuan;
-                $permohonan->jenis_permohonan = $request->jenis_permohonan;
-                $permohonan->pegawai_sokong_id = $request->pegawai_sokong_id;
-                $permohonan->pegawai_lulus_id = $request->pegawai_lulus_id;
-                $permohonan->p_pegawai_sokong_id = $request->pegawai_sokong_id;
-                $permohonan->p_pegawai_lulus_id = $request->pegawai_lulus_id;
-                $permohonan->save();
+                $permohonan = Permohonan::create($request->all());
+                // $permohonan->mohon_mula_kerja = $mohon_mula_kerja;
+                // $permohonan->mohon_akhir_kerja = $mohon_akhir_kerja;
+                // $permohonan->lokasi = $request->lokasi;
+                // $permohonan->tujuan = $request->tujuan;
+                // $permohonan->jenis_permohonan = $request->jenis_permohonan;
+                // $permohonan->pegawai_sokong_id = $request->pegawai_sokong_id;
+                // $permohonan->pegawai_lulus_id = $request->pegawai_lulus_id;
+                // $permohonan->p_pegawai_sokong_id = $request->pegawai_sokong_id;
+                // $permohonan->p_pegawai_lulus_id = $request->pegawai_lulus_id;
+                // $permohonan->save();
 
-                $audit = new Audit;
-                $audit->user_id = auth()->user()->id;
-                $audit->name = auth()->user()->name;
-                $audit->peranan = auth()->user()->role;
-                $audit->description = 'Tambah Permohonan Jenis: ' . $permohonan->jenis_permohonan;
-                $audit->save();
+                Audit::create([
+                    'user_id' => auth()->user()->id,
+                    'name' => auth()->user()->name,
+                    'peranan' => auth()->user()->role,
+                    'description' => 'Tambah Permohonan Jenis: ' . $permohonan->jenis_permohonan,
+                    'permohonan_id' => $permohonan->id,
+                ]);
+                // $audit = new Audit;
+                // $audit->user_id = auth()->user()->id;
+                // $audit->name = auth()->user()->name;
+                // $audit->peranan = auth()->user()->role;
+                // $audit->description = 'Tambah Permohonan Jenis: ' . $permohonan->jenis_permohonan;
+                // $audit->save();
 
                 $user_dipohon = User::where('nric', $request->pemohon[$i])->first();
-                $user_permohonan = new UserPermohonan;
-                $user_permohonan->user_id = $user_dipohon->id;
-                $user_permohonan->permohonan_id = $permohonan->id;
-                $user_permohonan->save();
+
+                UserPermohonan::create([
+                    'user_id' => $user_dipohon->id,
+                    'permohonan_id' => $permohonan->id,
+                ]);
+                // $user_permohonan = new UserPermohonan;
+                // $user_permohonan->user_id = $user_dipohon->id;
+                // $user_permohonan->permohonan_id = $permohonan->id;
+                // $user_permohonan->save();
             }
         }
 
