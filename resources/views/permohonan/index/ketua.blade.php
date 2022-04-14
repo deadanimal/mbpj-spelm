@@ -18,16 +18,15 @@
                 </div>
             </div>
             @switch(auth()->user()->role)
-                @case('kakitangan')
+                {{-- @case('kakitangan')
                 @case('kerani_semakan')
-
                 @case('kerani_pemeriksa')
                     <div class="col-lg-12 col-5 text-right mb-4">
                         <a href="/permohonans/create" class="btn btn-sm btn-neutral"> + Tambah Permohonan</a>
                     </div>
-                @break
+                @break --}}
 
-                @case('penyelia')
+                {{-- @case('penyelia')
                     <div class="col-lg-12 col-5 text-right mb-4">
                         <a href="/permohonans/create" class="btn btn-sm btn-neutral"> + Tambah Permohonan</a>
                     </div>
@@ -54,7 +53,7 @@
                             </li>
                         </ul>
                     </div>
-                @break
+                @break --}}
 
                 @case('ketua_jabatan')
                 @case('ketua_bahagian')
@@ -63,15 +62,12 @@
                             <li class="nav-item">
                                 <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
                                     href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i
-                                        class="ni ni-bell-55 mr-2"></i>Sokong Permohonan Kerja Lebih
-                                    Masa kakitangan</a>
+                                        class="ni ni-bell-55 mr-2"></i>Sokong Permohonan kakitangan</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
                                     href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i
-                                        class="ni ni-calendar-grid-58 mr-2"></i>Sah Permohonan
-                                    Kerja
-                                    Lebih Masa kakitangan</a>
+                                        class="ni ni-calendar-grid-58 mr-2"></i>Sah Pengesahan kakitangan</a>
                             </li>
                         </ul>
                     </div>
@@ -1006,8 +1002,9 @@
                                                     </td>
                                                     @if ($permohonan->sokong_selepas === 1)
                                                         <td>
-                                                            <span class="badge badge-pill badge-success">Lulus Pengesahan
+                                                            <span class="badge badge-pill badge-success">Sokong 
                                                             </span><br><br>
+  
 
 
                                                             @if ($permohonan->lulus_selepas === null)
@@ -1015,15 +1012,16 @@
                                                             {{-- <a href=""
                                                                     class="btn btn-success btn-sm">Kemaskini</a><br> --}}
                                                             <a href="/lulus_selepas/{{ $permohonan->id }}/"
-                                                                class="btn btn-success btn-sm">Lulus</a><br><br>
+                                                                class="btn btn-success btn-sm"><i class="ni ni-like-2"></i>
+                                                            </a>
                                                             <button type="button" class="btn btn-danger btn-sm"
                                                                 data-toggle="modal"
                                                                 data-target="#tolaklulusselepas{{ $permohonan->id }}">
-                                                                Tolak
+                                                                <i class="ni ni-basket"></i>
                                                             </button>
                                                         </td>
                                                     @elseif($permohonan->lulus_selepas === 1)
-                                                        <span class="badge badge-pill badge-success">Lulus Pengesahan
+                                                        <span class="badge badge-pill badge-success">Lulus 
                                                         </span>
                                                         </td>
                                                         <td>

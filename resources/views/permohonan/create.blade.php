@@ -55,7 +55,7 @@
                                 <div class="card">
                                     <!-- Card header -->
                                     <div class="card-header">
-                                        <h3 class="mb-0">Daftar Borang Permohonan</h3>
+                                        <h3 class="mb-0">Daftar Borang Permohonan Individu</h3>
                                     </div>
                                     <!-- Card body -->
                                     <div class="card-body">
@@ -65,14 +65,10 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <select class="form-select form-select-sm col-8"
-                                                            name="jenis_permohonan" aria-label=".form-select-sm example">
-                                                            <option value="individu">Permohonan Individu / Borang A1
-                                                            </option>
-                                                            {{-- <option value="berkumpulan">Permohonan Berkumpulan / Borang
-                                                            A2
-                                                        </option> --}}
-                                                        </select>
+                                                       
+                                                        <input type="text" class="form-control"
+                                                        name="jenis_permohonan"  value="individu" hidden>
+                                                       
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-lg-6">
@@ -140,9 +136,9 @@
                                                                 <select name="pegawai_sokong_id" class="form-control">
                                                                     <option hidden selected> Pilih pegawai sokong
                                                                     </option>
-                                                                    @foreach ($pegawai as $user)
+                                                                    @foreach ($pegawaisokong as $user)
                                                                         <option value="{{ $user->id }}">
-                                                                            {{ $user->name }} - {{ $user->role }}
+                                                                            {{ $user->role }} - {{ $user->name }}
 
                                                                         </option>
                                                                     @endforeach
@@ -156,9 +152,9 @@
                                                                 <select name="pegawai_lulus_id" class="form-control">
                                                                     <option hidden selected> Pilih pegawai lulus
                                                                     </option>
-                                                                    @foreach ($pegawai as $user)
+                                                                    @foreach ($pegawailulus as $user)
                                                                         <option value="{{ $user->id }}">
-                                                                            {{ $user->name }} - {{ $user->role }}
+                                                                            {{ $user->role }} - {{ $user->name }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -187,23 +183,17 @@
                             <div class="card">
                                 <!-- Card header -->
                                 <div class="card-header">
-                                    <h3 class="mb-0">Daftar Borang Permohonan</h3>
+                                    <h3 class="mb-0">Daftar Borang Permohonan Berkumpulan</h3>
                                     <!-- Card body -->
                                     <div class="card-body">
-                                        <form method="POST" action="/permohonans/">
+                                        <form method="POST" action="/permohonans">
                                             @csrf
                                             <!-- Input groups with icon -->
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <select class="form-select form-select-sm col-8"
-                                                            name="jenis_permohonan" aria-label=".form-select-sm example">
-                                                            {{-- <option value="individu">Permohonan Individu / Borang A1
-                                                    </option> --}}
-                                                            <option value="berkumpulan">Permohonan Berkumpulan / Borang
-                                                                A2
-                                                            </option>
-                                                        </select>
+                                                        <input type="text" class="form-control"
+                                                        name="jenis_permohonan"  value="berkumpulan" hidden>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-lg-6">
@@ -270,7 +260,7 @@
                                                                     data-live-search="true" name="pemohon[]" required>
                                                                     @foreach ($pemohon as $p)
                                                                         <option value="{{ $p->nric }}">
-                                                                            {{ $p->nric }}</option>
+                                                                            {{ $p->nric }} - {{ $p->name }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -283,9 +273,9 @@
                                                                     required>
                                                                     <option hidden selected disabled> Pilih pegawai sokong
                                                                     </option>
-                                                                    @foreach ($pegawai as $user)
+                                                                    @foreach ($pegawaisokong as $user)
                                                                         <option value="{{ $user->id }}">
-                                                                            {{ $user->name }} - {{ $user->role }}
+                                                                            {{ $user->role }} - {{ $user->name }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -299,9 +289,9 @@
                                                                     required>
                                                                     <option hidden selected disabled> Pilih pegawai lulus
                                                                     </option>
-                                                                    @foreach ($pegawai as $user)
+                                                                    @foreach ($pegawailulus as $user)
                                                                         <option value="{{ $user->id }}">
-                                                                            {{ $user->name }} - {{ $user->role }}
+                                                                            {{ $user->role }} - {{ $user->name }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>

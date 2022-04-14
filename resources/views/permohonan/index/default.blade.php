@@ -303,7 +303,7 @@
                                 @endif
                                 </td>
                             @elseif($permohonan->jenis_permohonan == 'berkumpulan')
-                                <span class="badge badge-pill badge-primary">BERKUMPULAN</span>
+                                <span class="badge badge-pill badge-default">BERKUMPULAN</span>
 
                                 <td class="status">
                                     @if ($permohonan->sokong_sebelum === null)
@@ -311,17 +311,17 @@
 
                                 <td class="kemaskini">
                                     <a href="/permohonans/{{ $permohonan->id }}/edit"
-                                        class="btn btn-success btn-sm">Kemaskini</a><br>
+                                        class="btn btn-primary btn-sm"><i class="ni ni-single-copy-04"></i></a>
+
                                     <button onclick="buangpermohonan({{ $permohonan->id }})"
-                                        class="btn btn-danger btn-sm">Buang</button><br>
-                                    <a href="/permohonans/{{ $permohonan->id }}/edit"
-                                        class="btn btn-primary btn-sm">Tambah Kakitangan</a>
+                                                class="btn btn-danger btn-sm"><i class="ni ni-basket"></i>
+                                    </button>
                                 </td>
                             @elseif($permohonan->sokong_sebelum === 1)
                                 <span class="badge badge-pill badge-success">Lulus PG1</span><br><br>
 
                                 @if ($permohonan->lulus_sebelum === null)
-                                    <span class="badge badge-pill badge-primary">Dalam Proses Semakan</span>
+                                    <span class="badge badge-pill badge-primary">Dalam Semakan</span>
                                     <td>
                                         --
                                     </td>
@@ -520,9 +520,6 @@
                                     <th>No</th>
                                     <th>Waktu Mula Kerja lulus<br><br>Waktu Akhir Kerja lulus</th>
                                     <th>Status EKedatangan</th>
-                                    {{-- <th>Mula Kerja<br><br>Akhir Kerja</th>
-                                <th>Jumlah OT <br><br>Status Datang</th>
-                                <th>Jumlah OT<br><br>Waktu Anjal</th> --}}
                                     <th>Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
                                     <th>Tindakan</th>
                                     <th>Status</th>
@@ -575,17 +572,15 @@
                                             @if ($permohonan->sokong_selepas === null)
                                                 <input name="masa_akhir" type="datetime-local"
                                                     onchange="kemaskiniMasaSebenarAkhirSaya({{ $permohonan->id }}, this)"
-                                                    value={{ $permohonan->sebenar_akhir_kerja_formatted }}><br>
+                                                    value={{ $permohonan->sebenar_akhir_kerja_formatted }}><br><br>
                                             @elseif($permohonan->sokong_selepas === 1)
 
                                             @elseif($permohonan->sokong_selepas === 0)
                                             @endif
 
                                             <a onclick="kemaskiniMasaSebenar({{ $permohonan }})"
-                                                class="btn btn-sm btn-success">Sah Masa</a>
 
-                                            {{-- <input class="form-control" value="{{$permohonan->mohon_akhir_kerja}}"
-                                    disabled> --}}
+                                                class="btn btn-sm btn-success">Sah Masa</a>
                                         </td>
                                         @if ($permohonan->lulus_sebelum === 1)
                                             <td>
@@ -597,9 +592,9 @@
                                                     <div class="form-group">
 
                                                         <select name="p_pegawai_sokong_id" class="form-control"
-                                                            style="width:100px ; height:35px;">
+                                                            style="width:100px ; height:40px;">
                                                             <option value="{{ $permohonan->p_pegawai_sokong_id }}">
-                                                                {{ $permohonan->p_pegawai_sokong_id }}</option>
+                                                                {{ $permohonan->pegawaiSokong->name}}</option>
 
                                                             @foreach ($userspengesahan as $userspengesahan1)
                                                                 <option value="{{ $userspengesahan1->id }} ">
@@ -611,9 +606,9 @@
                                                     <div class="form-group">
 
                                                         <select name="p_pegawai_lulus_id" class="form-control"
-                                                            style="width:100px ; height:35px;">
+                                                            style="width:100px ; height:40px;">
                                                             <option value="{{ $permohonan->p_pegawai_lulus_id }}">
-                                                                {{ $permohonan->p_pegawai_lulus_id }}</option>
+                                                                {{ $permohonan->pegawaiLulus->name}}</option>
                                                             @foreach ($userspengesahan as $userspengesahan2)
                                                                 <option value="{{ $userspengesahan2->id }}">
                                                                     {{ $userspengesahan2->name }} -
