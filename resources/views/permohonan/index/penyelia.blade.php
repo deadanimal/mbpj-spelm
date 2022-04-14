@@ -26,21 +26,18 @@
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0 " id="tabs-icons-text-1-tab" data-toggle="tab"
                             href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i
-                                class="ni ni-bell-55 mr-2"></i>Permohonan Kerja Lebih Masa
-                            Penyelia</a>
+                                class="ni ni-bell-55 mr-2"></i>Permohonan Penyelia</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0" id="penyeliasokongkakitangan-tab" data-toggle="tab"
                             href="#penyeliasokongkakitangan" role="tab" aria-controls="penyeliasokongkakitangan"
-                            aria-selected="false"><i class="ni ni-calendar-grid-58 mr-2"></i>Semak Permohonan Kerja
-                            Lebih Masa Kakitangan</a>
+                            aria-selected="false"><i class="ni ni-calendar-grid-58 mr-2"></i>Semak Permohonan Kakitangan</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab"
                             href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false"><i
-                                class="ni ni-calendar-grid-58 mr-2"></i>Semak Pengesahan Kerja
-                            Lebih Masa Kakitangan</a>
+                                class="ni ni-calendar-grid-58 mr-2"></i>Semak Pengesahan Kakitangan</a>
                     </li>
                 </ul>
             </div>
@@ -938,7 +935,7 @@
                                                     @if ($permohonan->sebenar_mula_kerja != null)
                                                         @if ($permohonan->sokong_selepas === null)
                                                             <td>
-                                                                <span class="badge badge-pill badge-primary">Perlu
+                                                                <span class="badge badge-pill badge-primary">Perlu <br><br>
                                                                     Semakan</span><br>
 
                                                             </td>
@@ -970,13 +967,13 @@
                                                             </td>
                                                         @elseif($permohonan->sokong_selepas === 1)
                                                             <td>
-                                                                <span class="badge badge-pill badge-success">Lulus Pegawai
+                                                                <span class="badge badge-pill badge-success">Lulus 
                                                                 </span><br><br>
 
 
                                                                 @if ($permohonan->lulus_selepas === 1)
                                                                     <span class="badge badge-pill badge-success">Lulus
-                                                                        Pegawai </span>
+                                                                         </span>
                                                                 @elseif($permohonan->lulus_selepas === 0)
                                                                     <span class="badge badge-pill badge-danger">Ditolak
                                                                         Pegawai </span>
@@ -992,12 +989,11 @@
                                                         @endif
                                                     @elseif($permohonan->sebenar_mula_kerja == null)
                                                         <td>
-                                                            <span class="badge badge-pill badge-primary"> Semakan
+                                                            <span class="badge badge-pill badge-warning"> Semakan <br><br>
                                                                 Kakitangan</span>
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-pill badge-primary"> Semakan
-                                                                Kakitangan</span>
+                                                            -
                                                         </td>
                                                     @endif
 

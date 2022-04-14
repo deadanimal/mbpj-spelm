@@ -329,7 +329,7 @@
                                 <td>{{$userpermohonan->email}}</td>
 
                             
-                                <td> <button onclick="buang({{ $userpermohonan->id }})"class="btn btn-danger btn-sm">Buang<i class="ni ni-basket"></i></button> </td>
+                                <td> <button onclick="buang({{ $userpermohonan->id }})"class="btn btn-danger btn-sm"><i class="ni ni-basket"></i></button> </td>
                              
                             </tr>
 
