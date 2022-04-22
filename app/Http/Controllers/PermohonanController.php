@@ -36,10 +36,9 @@ class PermohonanController extends Controller
             ->orderByDesc("created_at")
             ->get();
 
-            // dd($pengesahans);
+        // dd($pengesahans);
 
         $userspengesahan = User::whereIn('role', array('penyelia', 'ketua_bahagian', 'ketua_jabatan'))->get();
-
 
         foreach ($pengesahans as $ps) {
             $pegawai_sokong = User::where("id", $ps->pegawai_sokong_id)->first()->name;
@@ -481,7 +480,7 @@ class PermohonanController extends Controller
     public function create(Request $request)
     {
         $pegawailulus = User::whereIn('role', array('ketua_jabatan', 'ketua_bahagian'))->get();
-        $pegawaisokong = User::whereIn('role', array('ketua_bahagian','penyelia'))->get();
+        $pegawaisokong = User::whereIn('role', array('ketua_bahagian', 'penyelia'))->get();
 
         $pemohon = User::whereIn('role', array('kakitangan', 'kerani_pemeriksa', 'kerani_semakan'))->orderBy('nric', 'ASC')->get();
         return view('permohonan.create', [
@@ -491,6 +490,7 @@ class PermohonanController extends Controller
 
         ]);
     }
+
     public function store(Request $request)
     {
 
@@ -515,6 +515,13 @@ class PermohonanController extends Controller
 
             if ($tarikh_mula != $tarikh_akhir) {
                 return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
+            }
+
+            $masa_akhir = date("H:i", strtotime($request->mohon_akhir_kerja));
+            $masa_mula = date("H:i", strtotime($request->mohon_mula_kerja));
+
+            if ($masa_akhir < $masa_mula) {
+                return redirect()->back()->withErrors(['error_jam' => 'Masa mula melebihi masa tamat']);
             }
 
             $permohonan->mohon_mula_kerja = $mohon_mula_kerja;
@@ -827,6 +834,7 @@ class PermohonanController extends Controller
         $permohonan->sebenar_akhir_kerja = $request->masa_sebenar_baru_akhir;
         $permohonan->save();
     }
+
     public function kemaskini_masa_mula_saya(Request $request, $id_permohonan)
     {
         $permohonan = Permohonan::find($id_permohonan);
@@ -839,6 +847,7 @@ class PermohonanController extends Controller
         $permohonan->sebenar_akhir_kerja = $request->masa_sebenar_baru_akhir_saya;
         $permohonan->save();
     }
+
     public function kemaskini_jam_tuntutan(Request $request, $id_permohonan)
     {
         $permohonan = Permohonan::find($id_permohonan);
@@ -869,7 +878,7 @@ class PermohonanController extends Controller
 
         $permohonan_dihantar = User::find($request->user()->id)
             ->permohonans()
-        // >where('lulus_selepas', '1')
+            ->where('lulus_selepas', '1')
             ->where('status_tuntutan', '=', null)
             ->orderByDesc("created_at")
             ->get();
@@ -934,16 +943,12 @@ class PermohonanController extends Controller
         return redirect($redirected_url);
 
     }
-    public function kemaskinipegawaipengesah(Request $request, $id_permohonan)
+    public function kemaskinipegawaipengesah(Request $request, Permohonan $permohonan)
     {
-        // $permohonan = Permohonan::where('id',$permohonan_id)->first();
-        $permohonan = Permohonan::find($id_permohonan);
-
-        $permohonan->p_pegawai_sokong_id = $request->p_pegawai_sokong_id;
-        $permohonan->p_pegawai_lulus_id = $request->p_pegawai_lulus_id;
-
-        $permohonan->save();
-
+        $permohonan->update([
+            'p_pegawai_sokong_id' => $request->p_pegawai_sokong_id,
+            'p_pegawai_lulus_id' => $request->p_pegawai_lulus_id,
+        ]);
         $redirected_url = '/permohonans/';
         return redirect($redirected_url);
 
@@ -954,6 +959,16 @@ class PermohonanController extends Controller
         // DB::table("permohonans")->whereIn('id',explode(",",$ids))->delete();
         DB::table("permohonans")->whereIn('id', explode(",", $ids))();
         return response()->json(['success' => "Sokong successfully."]);
+    }
+
+    public function update_masa_mula_akhir(Request $request, Permohonan $permohonan)
+    {
+        $permohonan->update([
+            'sebenar_mula_kerja' => $request->masa_mula,
+            'sebenar_akhir_kerja' => $request->masa_akhir,
+            // 'sokong_selepas' => 1,
+        ]);
+        return back();
     }
 
 }

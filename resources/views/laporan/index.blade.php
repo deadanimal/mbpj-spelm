@@ -327,7 +327,6 @@
             @case('datuk_bandar')
             @case('ketua_jabatan')
                 <div class="card">
-                    {{ auth()->user()->role }}
                     <div class="card-header bg-primary">
                         <h3 class="mb-0 text-white">Jana Laporan</h3>
                     </div>

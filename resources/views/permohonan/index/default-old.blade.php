@@ -310,11 +310,11 @@
                                         <span class="badge badge-pill badge-primary">Dalam Semakan</span>
 
                                 <td class="kemaskini">
-                                    <a href="/permohonans/{{ $permohonan->id }}/edit" class="btn btn-primary btn-sm"><i
-                                            class="ni ni-single-copy-04"></i></a>
+                                    <a href="/permohonans/{{ $permohonan->id }}/edit"
+                                        class="btn btn-primary btn-sm"><i class="ni ni-single-copy-04"></i></a>
 
                                     <button onclick="buangpermohonan({{ $permohonan->id }})"
-                                        class="btn btn-danger btn-sm"><i class="ni ni-basket"></i>
+                                                class="btn btn-danger btn-sm"><i class="ni ni-basket"></i>
                                     </button>
                                 </td>
                             @elseif($permohonan->sokong_sebelum === 1)
@@ -531,6 +531,7 @@
                                         <td>
                                             {{ $loop->index + 1 }}
                                         </td>
+
                                         <td>
                                             {{ $permohonan->mohon_mula_kerja }} <br><br>
 
@@ -556,62 +557,71 @@
 
                                         </td>
                                         <td>
+                                            {{ $permohonan->sebenar_mula_kerja }}<br><br>
                                             @if ($permohonan->sokong_selepas === null)
-                                                <form action="/update-masa-mula-akhir/{{ $permohonan->id }}"
-                                                    method="post">
-                                                    @csrf
-                                                    <input name="masa_mula" type="datetime-local" class="form-control"
-                                                        value={{ $permohonan->sebenar_mula_kerja_formatted }}><br>
-                                                    <input name=" masa_akhir" type="datetime-local" class="form-control"
-                                                        value={{ $permohonan->sebenar_akhir_kerja_formatted }}><br>
-                                                    <div class="text-center">
-                                                        <button type="submit" class="btn btn-sm btn-success">Sah
-                                                            Masa</button>
-                                                    </div>
-                                                </form>
+                                                <input name="masa_mula" type="datetime-local"
+                                                    onchange="kemaskiniMasaSebenarMulaSaya({{ $permohonan->id }}, this)"
+                                                    value={{ $permohonan->sebenar_mula_kerja_formatted }}><br><br>
                                             @elseif($permohonan->sokong_selepas === 1)
-                                                {{ $permohonan->sebenar_mula_kerja }}<br><br>
-                                                {{ $permohonan->sebenar_akhir_kerja }}<br><br>
+
                                             @elseif($permohonan->sokong_selepas === 0)
                                             @endif
+
+                                            {{ $permohonan->sebenar_akhir_kerja }}<br><br>
+
+                                            @if ($permohonan->sokong_selepas === null)
+                                                <input name="masa_akhir" type="datetime-local"
+                                                    onchange="kemaskiniMasaSebenarAkhirSaya({{ $permohonan->id }}, this)"
+                                                    value={{ $permohonan->sebenar_akhir_kerja_formatted }}><br><br>
+                                            @elseif($permohonan->sokong_selepas === 1)
+
+                                            @elseif($permohonan->sokong_selepas === 0)
+                                            @endif
+
+                                            <a onclick="kemaskiniMasaSebenar({{ $permohonan }})"
+
+                                                class="btn btn-sm btn-success">Sah Masa</a>
                                         </td>
                                         @if ($permohonan->lulus_sebelum === 1)
                                             <td>
+
                                                 <form method="POST"
                                                     action="/kemaskinipegawaipengesah/{{ $permohonan->id }}">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="form-group">
-                                                        <select name="p_pegawai_sokong_id" class="form-control">
+
+                                                        <select name="p_pegawai_sokong_id" class="form-control"
+                                                            style="width:100px ; height:40px;">
                                                             <option value="{{ $permohonan->p_pegawai_sokong_id }}">
-                                                                {{ $permohonan->pegawaiSokong->name }}</option>
+                                                                {{ $permohonan->pegawaiSokong->name}}</option>
 
                                                             @foreach ($userspengesahan as $userspengesahan1)
-                                                                <option
-                                                                    {{ $permohonan->p_pegawai_sokong_id == $userspengesahan1->id ? 'selected' : '' }}
-                                                                    value="{{ $userspengesahan1->id }} ">
+                                                                <option value="{{ $userspengesahan1->id }} ">
                                                                     {{ $userspengesahan1->name }} -
                                                                     {{ $userspengesahan1->role }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <select name="p_pegawai_lulus_id" class="form-control">
+
+                                                        <select name="p_pegawai_lulus_id" class="form-control"
+                                                            style="width:100px ; height:40px;">
+                                                            <option value="{{ $permohonan->p_pegawai_lulus_id }}">
+                                                                {{ $permohonan->pegawaiLulus->name}}</option>
                                                             @foreach ($userspengesahan as $userspengesahan2)
-                                                                <option
-                                                                    {{ $permohonan->p_pegawai_lulus_id == $userspengesahan2->id ? 'selected' : '' }}
-                                                                    value="{{ $userspengesahan2->id }}">
+                                                                <option value="{{ $userspengesahan2->id }}">
                                                                     {{ $userspengesahan2->name }} -
                                                                     {{ $userspengesahan2->role }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="text-center">
-                                                        <button type="submit"
-                                                            class="btn btn-primary btn-sm">Kemaskini</button><br>
-                                                    </div>
+                                                    <button type="submit"
+                                                        class="btn btn-primary btn-sm">Kemaskini</button><br>
                                                 </form>
+
                                             </td>
+
                                             @if ($permohonan->sokong_selepas === 1)
                                                 <td>
                                                     <span class="badge badge-pill badge-success">Sokong </span><br><br>

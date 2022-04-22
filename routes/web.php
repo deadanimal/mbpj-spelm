@@ -56,10 +56,10 @@ Route::get('/upload-file', [ManualController::class, 'createForm']);
 Route::post('/upload-file', [ManualController::class, 'fileUpload'])->name('fileUpload');
 
 // custom kemaskini pengesah
-Route::put('/kemaskinipegawaipengesah/{id}', [PermohonanController::class, 'kemaskinipegawaipengesah']);
+Route::put('/kemaskinipegawaipengesah/{permohonan}', [PermohonanController::class, 'kemaskinipegawaipengesah']);
 
 // custom kemaskini tuntutan
-Route::put('/kemaskinipegawaituntutan/{id}', [TuntutanController::class, 'kemaskinipegawaituntutan']);
+Route::put('/kemaskinipegawaituntutan/{tuntutan}', [TuntutanController::class, 'kemaskinipegawaituntutan']);
 
 //sokong sebelum
 Route::get('/sokong_sebelum/{id}', [PermohonanController::class, 'sokong_sebelum']);
@@ -103,6 +103,8 @@ Route::post('/tolak_eriksa_tuntutan', [TuntutanController::class, 'tolak_eriksa_
 
 Route::post('/permohonans-ubah-masa_mula_saya/{permohonan}', [PermohonanController::class, 'kemaskini_masa_mula_saya']);
 Route::post('/permohonans-ubah-masa_akhir_saya/{permohonan}', [PermohonanController::class, 'kemaskini_masa_akhir_saya']);
+
+Route::post('/update-masa-mula-akhir/{permohonan}', [PermohonanController::class, 'update_masa_mula_akhir']);
 
 // permohonan custom ubah masa
 Route::post('/permohonans-ubah-masa_mula/{permohonan}', [PermohonanController::class, 'kemaskini_masa_mula']);
@@ -149,5 +151,12 @@ Route::get('/semaksebulan/{id}', [TuntutanController::class, 'semaksebulan']);
 // Route::get('/log_pemohon', [AuditController::class, 'log_pemohon']);
 // Route::get('/log_pemohon/{id}', [AuditController::class, 'lihat_log_pemohon']);
 Route::get('PermohonanSokongAll', 'PermohonanController@SokongAll');
+
+//lulus tuntutan
+Route::get('lulus_tuntutan_satu_pertiga/{tuntutan}', [TuntutanController::class, 'lulus_tuntutan_satu_pertiga']);
+Route::get('lulus_tuntutan_sebulan/{tuntutan}', [TuntutanController::class, 'lulus_tuntutan_sebulan']);
+
+Route::post('/tolak_satupertiga/{tuntutan}', [TuntutanController::class, 'tolak_satupertiga']);
+Route::post('/tolak_sebulan/{tuntutan}', [TuntutanController::class, 'tolak_sebulan']);
 
 require __DIR__ . '/auth.php';
