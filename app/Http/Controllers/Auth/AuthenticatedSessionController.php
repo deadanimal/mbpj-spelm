@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Audit;
+use App\Models\PRUSER;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
@@ -86,12 +87,16 @@ class AuthenticatedSessionController extends Controller
         $user = User::where('password', $password)
             ->where('nric', $request->nric)
             ->first();
+        if ($user == null) {
+            $user = PRUSER::where('password', $password)
+                ->where('nric', $request->nric)
+                ->first();
+        }
 
         if ($user == null) {
             $request->authenticate();
             $request->session()->regenerate();
             return redirect()->intended(RouteServiceProvider::HOME);
-            // return redirect()->back()->withErrors(['Tidak Sah' => 'Maklumat yang dimasukkan tidak sah']);
         }
         Auth::login($user);
         return redirect('/dashboard');
