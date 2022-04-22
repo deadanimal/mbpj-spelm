@@ -46,7 +46,8 @@
     <div class="card-body">
 
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade " id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+            <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
+                aria-labelledby="tabs-icons-text-1-tab">
                 <div class="container-fluid mt--6">
                     <div class="row">
                         <div class="col-lg-12">
@@ -65,10 +66,10 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                       
-                                                        <input type="text" class="form-control"
-                                                        name="jenis_permohonan"  value="individu" hidden>
-                                                       
+
+                                                        <input type="text" class="form-control" name="jenis_permohonan"
+                                                            value="individu" hidden>
+
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-lg-6">
@@ -173,8 +174,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade show active" id="tabs-icons-text-2" role="tabpanel2"
-            aria-labelledby="tabs-icons-text-2-tab">
+        <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel2" aria-labelledby="tabs-icons-text-2-tab">
             <div class="container-fluid mt--6">
                 <div class="row">
                     <div class="col-lg-12">
@@ -192,8 +192,8 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control"
-                                                        name="jenis_permohonan"  value="berkumpulan" hidden>
+                                                        <input type="text" class="form-control" name="jenis_permohonan"
+                                                            value="berkumpulan" hidden>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-lg-6">
@@ -260,7 +260,8 @@
                                                                     data-live-search="true" name="pemohon[]" required>
                                                                     @foreach ($pemohon as $p)
                                                                         <option value="{{ $p->nric }}">
-                                                                            {{ $p->nric }} - {{ $p->name }}</option>
+                                                                            {{ $p->nric }} - {{ $p->name }}
+                                                                        </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
