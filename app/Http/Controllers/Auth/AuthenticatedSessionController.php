@@ -88,7 +88,7 @@ class AuthenticatedSessionController extends Controller
             ->where('nric', $request->nric)
             ->first();
         if ($user == null) {
-            $user = PRUSER::where('password', $password)
+            $user = PRUSER::where('USERPASSWORD', $password)
                 ->where('nric', $request->nric)
                 ->first();
         }
