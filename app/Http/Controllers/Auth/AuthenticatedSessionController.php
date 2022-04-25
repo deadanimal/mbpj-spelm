@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Audit;
+use App\Models\PRUSER;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
@@ -81,19 +82,37 @@ class AuthenticatedSessionController extends Controller
 
     public function new_store(LoginRequest $request)
     {
-        // dd(md5("P@ssw0rd"), md5("password1"));
         $password = md5($request->password);
-        $user = User::where('password', $password)
+
+        $userLocal = User::where('password', $password)
             ->where('nric', $request->nric)
             ->first();
 
-        if ($user == null) {
+        if ($userLocal == null) {
+            $userOracle = PRUSER::where('USERPASSWORD', $password)
+                ->where('USERNAME', $request->nric)
+                ->first();
+        }
+
+        if ($userOracle != null && $userLocal == null) {
+            User::create([
+                'name' => $userOracle->Name,
+                'email' => $userOracle->EMAIL,
+                'user_code' => $userOracle->CUSTOMERID,
+                'department_code' => $userOracle->DEPARTMENTCODE,
+                'nric' => $userOracle->USERNAME,
+                'phone' => $userOracle->MOBILE_PHONE,
+                'role' => 'kakitangan',
+                'status' => 'aktif',
+            ]);
+        }
+
+        if ($userOracle == null) {
             $request->authenticate();
             $request->session()->regenerate();
             return redirect()->intended(RouteServiceProvider::HOME);
-            // return redirect()->back()->withErrors(['Tidak Sah' => 'Maklumat yang dimasukkan tidak sah']);
         }
-        Auth::login($user);
+        Auth::login($userOracle);
         return redirect('/dashboard');
     }
 }
