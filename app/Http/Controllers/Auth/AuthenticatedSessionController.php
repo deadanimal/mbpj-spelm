@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -95,8 +96,8 @@ class AuthenticatedSessionController extends Controller
         }
 
         if ($userOracle != null && $userLocal == null) {
-            User::create([
-                'name' => $userOracle->Name,
+            $userLocal = User::create([
+                'name' => $userOracle->NAME,
                 'email' => $userOracle->EMAIL,
                 'user_code' => $userOracle->CUSTOMERID,
                 'department_code' => $userOracle->DEPARTMENTCODE,
@@ -104,15 +105,16 @@ class AuthenticatedSessionController extends Controller
                 'phone' => $userOracle->MOBILE_PHONE,
                 'role' => 'kakitangan',
                 'status' => 'aktif',
+                'password' => Hash::make($request->password),
             ]);
+            Auth::login($userLocal);
+            return redirect('/dashboard');
+
         }
 
-        if ($userOracle == null) {
-            $request->authenticate();
-            $request->session()->regenerate();
-            return redirect()->intended(RouteServiceProvider::HOME);
-        }
-        Auth::login($userOracle);
-        return redirect('/dashboard');
+        $request->authenticate();
+        $request->session()->regenerate();
+        return redirect()->intended(RouteServiceProvider::HOME);
+
     }
 }
