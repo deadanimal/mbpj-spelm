@@ -82,23 +82,37 @@ class AuthenticatedSessionController extends Controller
 
     public function new_store(LoginRequest $request)
     {
-        // dd(md5("P@ssw0rd"), md5("password1"));
         $password = md5($request->password);
-        $user = User::where('password', $password)
+
+        $userLocal = User::where('password', $password)
             ->where('nric', $request->nric)
             ->first();
-        if ($user == null) {
-            $user = PRUSER::where('USERPASSWORD', $password)
-                ->where('nric', $request->nric)
+
+        if ($userLocal == null) {
+            $userOracle = PRUSER::where('USERPASSWORD', $password)
+                ->where('USERNAME', $request->nric)
                 ->first();
         }
 
-        if ($user == null) {
+        if ($userOracle != null && $userLocal == null) {
+            User::create([
+                'name' => $userOracle->Name,
+                'email' => $userOracle->EMAIL,
+                'user_code' => $userOracle->CUSTOMERID,
+                'department_code' => $userOracle->DEPARTMENTCODE,
+                'nric' => $userOracle->USERNAME,
+                'phone' => $userOracle->MOBILE_PHONE,
+                'role' => 'kakitangan',
+                'status' => 'aktif',
+            ]);
+        }
+
+        if ($userOracle == null) {
             $request->authenticate();
             $request->session()->regenerate();
             return redirect()->intended(RouteServiceProvider::HOME);
         }
-        Auth::login($user);
+        Auth::login($userOracle);
         return redirect('/dashboard');
     }
 }
