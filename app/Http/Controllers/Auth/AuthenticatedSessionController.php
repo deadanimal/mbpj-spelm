@@ -83,16 +83,26 @@ class AuthenticatedSessionController extends Controller
 
     public function new_store(LoginRequest $request)
     {
-        $password = md5($request->password);
-
-        $userLocal = User::where('password', $password)
-            ->where('nric', $request->nric)
+        $userLocal = User::where('nric', $request->nric)
+            ->where('password', Hash::make($request->password))
             ->first();
 
         if ($userLocal == null) {
-            $userOracle = PRUSER::where('USERPASSWORD', $password)
+            $userOracle = PRUSER::where('USERPASSWORD', md5($request->password))
                 ->where('USERNAME', $request->nric)
                 ->first();
+        }
+
+        if ($userOracle != null) {
+            $userLocal = User::where('nric', $request->nric)->first();
+        }
+
+        if ($userOracle != null && $userLocal != null) {
+            User::where('nric', $request->nric)
+                ->update([
+                    'status' => 'aktif',
+                    'password' => Hash::make($request->password),
+                ]);
         }
 
         if ($userOracle != null && $userLocal == null) {
@@ -109,7 +119,6 @@ class AuthenticatedSessionController extends Controller
             ]);
             Auth::login($userLocal);
             return redirect('/dashboard');
-
         }
 
         $request->authenticate();
