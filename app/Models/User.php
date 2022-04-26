@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Permohonan;
+use App\Models\Tuntutan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
-use App\Models\Permohonan;
-use App\Models\Tuntutan;
-
 
 class User extends Authenticatable
 {
@@ -20,11 +17,12 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['id'];
+    // protected $fillable = [
+    //     'name',
+    //     'email',
+    //     'password',
+    // ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -48,9 +46,9 @@ class User extends Authenticatable
     public function permohonans()
     {
         return $this->belongsToMany(Permohonan::class, 'user_permohonans', 'user_id', 'permohonan_id');
-    }    
+    }
     public function tuntutans()
     {
         return $this->belongsToMany(Tuntutan::class, 'permohonan_tuntutans', 'tuntutan_id', 'permohonan_id');
-    }    
+    }
 }

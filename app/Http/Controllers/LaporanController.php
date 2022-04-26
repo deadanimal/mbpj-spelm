@@ -213,11 +213,19 @@ class LaporanController extends Controller
             ->where('GE_KOD_BAHAGIAN', substr($request->bahagian, 2, 2))
             ->first();
 
-        $role = match(auth()->user()->role) {
-            "datuk_bandar" => 'sebulan_gaji',
-            "ketua_jabatan" => 'pergaji',
-        default=> 'invalid',
-        };
+        switch (auth()->user()->role) {
+            case 'datuk_bandar':
+                $role = 'sebulan_gaji';
+                break;
+            case 'ketua_jabatan':
+                $role = 'pergaji';
+                break;
+
+            default:
+                $role = 'invalid';
+                break;
+        }
+
         if ($role == 'invalid') {
             abort(404);
         }
@@ -242,20 +250,44 @@ class LaporanController extends Controller
             ->whereMonth('created_at', '=', $request->bulan)
             ->get();
 
-        $bulan = match($request->bulan) {
-            '1' => "JANUARI",
-            '2' => "FEBRUARI",
-            '3' => "MAC",
-            '4' => "APRIL",
-            '5' => "MEI",
-            '6' => "JUN",
-            '7' => "JULAI",
-            '8' => "OGOS",
-            '9' => "SEPTEMBER",
-            '10' => "OKTOBER",
-            '11' => "NOVEMBER",
-            '12' => "DISEMBER",
-        };
+        switch ($request->bulan) {
+            case '1':
+                $bulan = "JANUARI";
+                break;
+            case '2':
+                $bulan = "FEBRUARI";
+                break;
+            case '3':
+                $bulan = "MAC";
+                break;
+            case '4':
+                $bulan = "APRIL";
+                break;
+            case '5':
+                $bulan = "MEI";
+                break;
+            case '6':
+                $bulan = "JUN";
+                break;
+            case '7':
+                $bulan = "JULAI";
+                break;
+            case '8':
+                $bulan = "OGOS";
+                break;
+            case '9':
+                $bulan = "SEPTEMBER";
+                break;
+            case '10':
+                $bulan = "OKTOBER";
+                break;
+            case '11':
+                $bulan = "NOVEMBER";
+                break;
+            case '12':
+                $bulan = "DISEMBER";
+                break;
+        }
 
         $pdf = PDF::loadView('laporan.laporan_senarai_nama', [
             'tuntutans' => $tuntutans,
