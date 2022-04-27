@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Audit;
+use App\Models\Bahagian;
+use App\Models\Jabatan;
+use App\Models\OracleGaji;
+use App\Models\OracleUnit;
 use App\Models\Permohonan;
 use App\Models\Tuntutan;
 use App\Models\User;
@@ -65,51 +69,80 @@ class DashboardController extends Controller
         ];
 
         if ($status == 'aktif') {
-            if ($role == 'kakitangan') {
-                return view('dashboard.kakitangan_dashboard', $data);
-            } elseif ($role == 'pentadbir_sistem') {
+            $MaklumatPekerjaan = OracleGaji::where('HR_NO_PEKERJA', auth()->user()->user_code)->first();
 
-                // $audit = Audit::all();
-                $harini = date("Y-m-d");
-                $harini = date_create($harini);
+            if ($MaklumatPekerjaan == null) {
+                echo '<script>alert("User Tiada Maklumat Pekerjaan")</script>';
+                abort(500);
+            } else {
+                $kodJabatan = $MaklumatPekerjaan->HR_JABATAN;
+            }
+            switch ($role) {
+                case 'kakitangan':
+                    return view('dashboard.kakitangan_dashboard', $data);
+                    break;
 
-                // status staff
-                $staffjumlah = DB::table('users')
-                    ->count();
+                case 'pentadbir_sistem':
+                    $harini = date("Y-m-d");
+                    $harini = date_create($harini);
 
-                $staffaktif = DB::table('users')
-                    ->where('status', '=', 'aktif')
-                    ->count();
+                    // status staff
+                    $staffjumlah = DB::table('users')
+                        ->count();
 
-                $staffxaktif = DB::table('users')
-                    ->where('status', '=', 'tidak_aktif')
-                    ->count();
+                    $staffaktif = DB::table('users')
+                        ->where('status', '=', 'aktif')
+                        ->count();
 
-                $limabelasharisebelum = date_sub($harini, date_interval_create_from_date_string("3 days"));
-                $audits = Audit::where('created_at', '>=', $limabelasharisebelum)->orderBy('created_at', 'DESC')->get();
+                    $staffxaktif = DB::table('users')
+                        ->where('status', '=', 'tidak_aktif')
+                        ->count();
 
-                return view('dashboard.pentadbir_dashboard', [
-                    'audits' => $audits,
-                    'staffjumlah' => $staffjumlah,
-                    'staffaktif' => $staffaktif,
-                    'staffxaktif' => $staffxaktif,
+                    $limabelasharisebelum = date_sub($harini, date_interval_create_from_date_string("3 days"));
+                    $audits = Audit::where('created_at', '>=', $limabelasharisebelum)->orderBy('created_at', 'DESC')->get();
 
-                ]);
+                    return view('dashboard.pentadbir_dashboard', [
+                        'audits' => $audits,
+                        'staffjumlah' => $staffjumlah,
+                        'staffaktif' => $staffaktif,
+                        'staffxaktif' => $staffxaktif,
+                    ]);
+                    break;
 
-            } elseif ($role == 'penyelia') {
-                return view('dashboard.penyelia_dashboard', $data);
-            } elseif ($role == 'ketua_bahagian') {
-                return view('dashboard.ketua_bahagian_dashboard');
-            } elseif ($role == 'ketua_jabatan') {
-                return view('dashboard.ketua_jabatan_dashboard');
-            } elseif ($role == 'datuk_bandar') {
-                return view('dashboard.datuk_bandar_dashboard');
-            } elseif ($role == 'kerani_semakan') {
-                return view('dashboard.kerani_semakan_dashboard', $data);
-            } elseif ($role == 'kerani_pemeriksa') {
-                return view('dashboard.kerani_periksa_dashboard', $data);
-            } elseif ($role == 'pelulus_pindaan') {
-                return view('dashboard.pelulus_pindaan_dashboard');
+                case 'penyelia':
+                    return view('dashboard.penyelia_dashboard', $data);
+                    break;
+
+                case 'ketua_bahagian':
+                    $listUnit = OracleUnit::where('GE_KOD_BAHAGIAN', $MaklumatPekerjaan->HR_BAHAGIAN)->get();
+                    foreach ($listUnit as $lu) {
+                        $lu['bil'] = OracleGaji::where('HR_UNIT', $lu->GE_KOD_UNIT)->count();
+                    }
+                    return view('dashboard.ketua_bahagian_dashboard', compact('listUnit'));
+                    break;
+                case 'ketua_jabatan':
+                    $listBahagian = Bahagian::where('GE_KOD_JABATAN', $kodJabatan)->get();
+                    foreach ($listBahagian as $lb) {
+                        $lb['bil'] = OracleGaji::where('HR_BAHAGIAN', $lb->GE_KOD_BAHAGIAN)->count();
+                    }
+                    return view('dashboard.ketua_jabatan_dashboard', compact('listBahagian'));
+                    break;
+                case 'datuk_bandar':
+                    $listJabatan = Jabatan::all();
+                    foreach ($listJabatan as $j) {
+                        $j['bil'] = OracleGaji::where('HR_JABATAN', $j->GE_KOD_JABATAN)->count();
+                    }
+                    return view('dashboard.datuk_bandar_dashboard', compact('listJabatan'));
+                    break;
+                case 'kerani_semakan':
+                    return view('dashboard.kerani_semakan_dashboard', $data);
+                    break;
+                case 'kerani_pemeriksa':
+                    return view('dashboard.kerani_periksa_dashboard', $data);
+                    break;
+                case 'pelulus_pindaan':
+                    return view('dashboard.pelulus_pindaan_dashboard');
+                    break;
             }
         } else {
             Auth::logout();

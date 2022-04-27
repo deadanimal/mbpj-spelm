@@ -15,4 +15,10 @@ class Bahagian extends Model
     // {
     //     return $this->belongsTo(Jabatan::class, 'GE_KOD_JABATAN', 'GE_KOD_JABATAN');
     // }
+
+    // public function getGeKodBahagianAttribute($value)
+    // {
+    //     return count(OracleGaji::where('HR_BAHAGIAN', $value)->get());
+    // }
+
 }

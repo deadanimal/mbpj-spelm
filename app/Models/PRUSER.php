@@ -9,4 +9,5 @@ class PRUSER extends Model
 {
     use HasFactory;
     protected $table = 'PRUSER';
+    public $timestamps = false;
 }

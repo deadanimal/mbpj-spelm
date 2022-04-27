@@ -513,6 +513,39 @@
 
             @case('ketua_bahagian')
             @case('penyelia')
+                <div class="card">
+                    <div class="card-header bg-primary">
+                        <h3 class="mb-0 text-white">Jana Laporan</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md-12">
+                            <form method="POST" action="/filter_laporan">
+                                @csrf
+                                <div class="row">
+                                    <div class="col">
+                                        <h4>Nama Kakitangan</h4>
+                                        <select id="jana_laporan" onchange="janaLaporan()" name="nama_kakitangan" required
+                                            placeholder="{{ Auth()->user()->name }}" class="form-control"
+                                            value="{{ Auth()->user()->name }}">
+                                            @foreach ($get_user as $get_users)
+                                                <option hidden selected> Nama Kakitangan</option>
+                                                <option value="{{ $get_users->id }}">
+                                                    {{ $get_users->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row float-right">
+                                    <div class="col-sm ">
+                                        <br>
+                                        <a id="submit" class="btn btn-primary btn-sm" href="">Jana Laporan</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @break
 
             @case('pentadbir_sistem')
             @case('pelulus_pindaan')
