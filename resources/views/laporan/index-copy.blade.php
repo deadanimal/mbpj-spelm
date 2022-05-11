@@ -1,5 +1,156 @@
 @extends('base')
 
+<!-- Styles -->
+{{-- <style>
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
+
+</style> --}}
+
+<!-- Resources -->
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!-- Chart code -->
+{{-- <script>
+    am4core.ready(function() {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        var chart = am4core.create("chartdiv", am4charts.XYChart);
+        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+        // Title
+
+        var title = chart.titles.create();
+        title.text = "Laporan Permohonan Kerja Lebih Masa dan Tuntutan Elaun lebih Masa";
+        title.fontSize = 20;
+        title.marginBottom = 20;
+
+        chart.data = [{
+                category: "2018",
+                value1: 1,
+                value2: 5,
+                value3: 3
+            },
+            {
+                category: "2019",
+                value1: 2,
+                value2: 5,
+                value3: 3
+            },
+            {
+                category: "2020",
+                value1: 3,
+                value2: 5,
+                value3: 4
+            },
+            {
+                category: "2021",
+                value1: 4,
+                value2: 5,
+                value3: 6
+            },
+            {
+                category: "2022",
+                value1: 3,
+                value2: 5,
+                value3: 4
+            },
+            {
+                category: "2023",
+                value1: 2,
+                value2: 13,
+                value3: 1
+            }
+        ];
+
+        chart.colors.step = 2;
+        chart.padding(30, 30, 10, 30);
+        chart.legend = new am4charts.Legend();
+
+
+        // Print Chart
+
+        chart.exporting.menu = new am4core.ExportMenu();
+        chart.exporting.menu.align = "right";
+        chart.exporting.menu.verticalAlign = "top";
+
+        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "category";
+        categoryAxis.renderer.grid.template.location = 0;
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.min = 0;
+        valueAxis.max = 100;
+        valueAxis.strictMinMax = true;
+        valueAxis.calculateTotals = true;
+        valueAxis.renderer.minWidth = 50;
+
+
+        var series1 = chart.series.push(new am4charts.ColumnSeries());
+        series1.columns.template.width = am4core.percent(80);
+        series1.columns.template.tooltipText =
+            "{name}: {valueY.totalPercent.formatNumber('#.00')}%";
+        series1.name = "Permohonan Kerja Lebih Masa";
+        series1.dataFields.categoryX = "category";
+        series1.dataFields.valueY = "value1";
+        series1.dataFields.valueYShow = "totalPercent";
+        series1.dataItems.template.locations.categoryX = 0.5;
+        series1.stacked = true;
+        series1.tooltip.pointerOrientation = "vertical";
+
+        var bullet1 = series1.bullets.push(new am4charts.LabelBullet());
+        bullet1.interactionsEnabled = false;
+        bullet1.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
+        bullet1.label.fill = am4core.color("#ffffff");
+        bullet1.locationY = 0.5;
+
+        var series2 = chart.series.push(new am4charts.ColumnSeries());
+        series2.columns.template.width = am4core.percent(80);
+        series2.columns.template.tooltipText =
+            "{name}: {valueY.totalPercent.formatNumber('#.00')}%";
+        series2.name = "Pengesahan Kerja Lebih Masa";
+        series2.dataFields.categoryX = "category";
+        series2.dataFields.valueY = "value2";
+        series2.dataFields.valueYShow = "totalPercent";
+        series2.dataItems.template.locations.categoryX = 0.5;
+        series2.stacked = true;
+        series2.tooltip.pointerOrientation = "vertical";
+
+        var bullet2 = series2.bullets.push(new am4charts.LabelBullet());
+        bullet2.interactionsEnabled = false;
+        bullet2.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
+        bullet2.locationY = 0.5;
+        bullet2.label.fill = am4core.color("#ffffff");
+
+        var series3 = chart.series.push(new am4charts.ColumnSeries());
+        series3.columns.template.width = am4core.percent(80);
+        series3.columns.template.tooltipText =
+            "{name}: {valueY.totalPercent.formatNumber('#.00')}%";
+        series3.name = "Tuntutan Elaun Lebih Masa";
+        series3.dataFields.categoryX = "category";
+        series3.dataFields.valueY = "value3";
+        series3.dataFields.valueYShow = "totalPercent";
+        series3.dataItems.template.locations.categoryX = 0.5;
+        series3.stacked = true;
+        series3.tooltip.pointerOrientation = "vertical";
+
+        var bullet3 = series3.bullets.push(new am4charts.LabelBullet());
+        bullet3.interactionsEnabled = false;
+        bullet3.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
+        bullet3.locationY = 0.5;
+        bullet3.label.fill = am4core.color("#ffffff");
+
+        chart.scrollbarX = new am4core.Scrollbar();
+
+    }); // end am4core.ready()
+</script> --}}
 
 @section('content')
     <div class="header bg-default pb-6">
@@ -281,20 +432,19 @@
                                             @endfor
                                         </select>
                                     </div>
-                                    <div class="col-6 mt-4">
+                                    <div class="col-md-12 mt-4">
                                         <label class="h4">Jabatan</label>
-                                        <select class="form-control" multiple multiselect-search="true"
-                                            multiselect-select-all="true" name="jabatan[]" required id="jabatan">
+                                        <select class="form-control selectpicker" multiple data-live-search="true" name="jabatan[]"
+                                            required id="jabatan">
                                             @foreach ($jabatan as $j)
                                                 <option value="{{ $j->GE_KOD_JABATAN }}">{{ $j->GE_KETERANGAN_JABATAN }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-6 mt-4">
+                                    <div class="col-md-12 mt-4">
                                         <label class="h4">Bahagian</label>
-                                        <select class="form-control" name="bahagian[]" multiple multiselect-search="true"
-                                            multiselect-select-all="true" required id="bahagianM">
+                                        <select class="form-control" name="bahagian[]" required id="bahagian">
                                         </select>
                                     </div>
                                     <div class="col text-right mt-3">
@@ -344,17 +494,19 @@
                     $('#jabatan').change(function(e) {
                         var selected = $(e.target).val();
                         var bahagian = @json($bahagian->toArray());
-                        var option = '';
+                        $("#bahagian").html('');
+                        $("#bahagian").removeAttr('multiple');
+
                         bahagian.forEach(b => {
                             selected.forEach(s => {
                                 if (b.GE_KOD_JABATAN == s) {
-                                    option += `<option value=` + b.GE_KOD_JABATAN + b.GE_KOD_BAHAGIAN + `>` + b
-                                        .GE_KETERANGAN + `</option>`;
+                                    $("#bahagian").append(new Option(b.GE_KETERANGAN, b.GE_KOD_JABATAN + b
+                                        .GE_KOD_BAHAGIAN));
                                 }
                             });
                         });
-                        bahagianM.innerHTML = option;
-                        bahagianM.loadOptions();
+
+                        $("#bahagian").attr('multiple', 'multiple');
                     });
                 </script>
             @break
@@ -419,12 +571,11 @@
         </footer>
     </div>
 
+
     <script type="text/javascript">
         function janaLaporan() {
             let selected_id = $("#jana_laporan option:selected").val();
             $("#submit").attr("href", "/filter_laporan/" + selected_id);
         }
     </script>
-
-    <script src="/assets/js/multiselect-dropdowna.js"></script>
 @endsection

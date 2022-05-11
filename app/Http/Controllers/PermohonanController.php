@@ -966,7 +966,7 @@ class PermohonanController extends Controller
         $permohonan->update([
             'sebenar_mula_kerja' => $request->masa_mula,
             'sebenar_akhir_kerja' => $request->masa_akhir,
-            // 'sokong_selepas' => 1,
+            'sah_mula_kerja' => 1,
         ]);
         return back();
     }

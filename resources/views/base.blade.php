@@ -12,6 +12,8 @@
     <!-- Page plugins -->
     <link rel="stylesheet" href="/assets/vendor/fullcalendar/dist/fullcalendar.min.css">
     <link rel="stylesheet" href="/assets/vendor/sweetalert2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="/assets/vendor/animate.css/animate.min.css">
+
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{{ asset('assets') }}//css/argon.min.css?v=1.2.1" type="text/css">
     <!-- End Google Tag Manager -->
@@ -19,8 +21,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     {{-- multiple select --}}
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    {{-- <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" /> --}}
 
 
 </head>
@@ -74,6 +76,12 @@
                                 <a class="nav-link" href="/maklumans">
                                     <i class="ni ni-calendar-grid-58 text-green"></i>
                                     <span class="nav-link-text">Aduan Sistem</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/utiliti">
+                                    <i class="fas fa-tools text-green"></i>
+                                    <span class="nav-link-text">Utiliti</span>
                                 </a>
                             </li>
                         </ul>
@@ -265,7 +273,8 @@
         });
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <script src="/assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script> --}}
 
 </body>
 

@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Audit;
 use App\Models\PRUSER;
 use App\Models\User;
+use App\Models\Utiliti;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,6 +84,8 @@ class AuthenticatedSessionController extends Controller
 
     public function new_store(LoginRequest $request)
     {
+        $this->checkHantarTuntutan();
+
         $userLocal = User::where('nric', $request->nric)
             ->where('password', Hash::make($request->password))
             ->first();
@@ -125,5 +128,15 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         return redirect()->intended(RouteServiceProvider::HOME);
 
+    }
+
+    public function checkHantarTuntutan()
+    {
+
+        $bulan = now()->month;
+        $utiliti = Utiliti::where('bulan', $bulan)->first();
+        if ($utiliti->tarikh == date("d")) {
+
+        }
     }
 }

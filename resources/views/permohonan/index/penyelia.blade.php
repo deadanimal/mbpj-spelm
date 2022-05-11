@@ -940,19 +940,23 @@
 
                                                             </td>
                                                             <td>
-                                                                <a href="" class="btn btn-primary btn-sm"><i
-                                                                        class="ni ni-single-copy-04"></i></a>
+                                                                @if ($permohonan->sah_mula_kerja)
+                                                                    <a href="" class="btn btn-primary btn-sm"><i
+                                                                            class="ni ni-single-copy-04"></i></a>
 
 
-                                                                <button type="button" class="btn btn-danger btn-sm"
-                                                                    data-toggle="modal"
-                                                                    data-target="#tolaksokongselepas{{ $permohonan->id }}">
-                                                                    <i class="ni ni-basket"></i>
-                                                                </button>
+                                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                                        data-toggle="modal"
+                                                                        data-target="#tolaksokongselepas{{ $permohonan->id }}">
+                                                                        <i class="ni ni-basket"></i>
+                                                                    </button>
 
-                                                                <a href="/sokong_selepas/{{ $permohonan->id }}/"
-                                                                    class="btn btn-success btn-sm"><i
-                                                                        class="ni ni-like-2"></i></a>
+                                                                    <a href="/sokong_selepas/{{ $permohonan->id }}/"
+                                                                        class="btn btn-success btn-sm"><i
+                                                                            class="ni ni-like-2"></i></a>
+                                                                @else
+                                                                    Pemohon Belum Sahkan Masa
+                                                                @endif
                                                             </td>
                                                         @elseif($permohonan->sokong_selepas === 0)
                                                             <td>
@@ -967,13 +971,13 @@
                                                             </td>
                                                         @elseif($permohonan->sokong_selepas === 1)
                                                             <td>
-                                                                <span class="badge badge-pill badge-success">Lulus 
+                                                                <span class="badge badge-pill badge-success">Lulus
                                                                 </span><br><br>
 
 
                                                                 @if ($permohonan->lulus_selepas === 1)
                                                                     <span class="badge badge-pill badge-success">Lulus
-                                                                         </span>
+                                                                    </span>
                                                                 @elseif($permohonan->lulus_selepas === 0)
                                                                     <span class="badge badge-pill badge-danger">Ditolak
                                                                         Pegawai </span>

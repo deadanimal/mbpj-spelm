@@ -2339,18 +2339,21 @@
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <form action="/tolak_satupertiga/{{$tsp->id}}" method="post">
+                                                                <form action="/tolak_satupertiga/{{ $tsp->id }}"
+                                                                    method="post">
                                                                     <div class="modal-body">
                                                                         @csrf
-                                                                            <label for="">Sebab Menolak</label>
-                                                                            <input type="text" class="form-control" name="sebab_menolak">
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary btn-sm"
+                                                                        <label for="">Sebab Menolak</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="sebab_menolak">
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                            class="btn btn-secondary btn-sm"
                                                                             data-dismiss="modal">Close</button>
-                                                                            <button type="submit"
+                                                                        <button type="submit"
                                                                             class="btn btn-primary btn-sm">Hantar</button>
-                                                                        </div>
+                                                                    </div>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -2529,15 +2532,15 @@
                                                     <a href="/lulus_tuntutan_sebulan/{{ $tsp->id }}"
                                                         class="btn btn-success btn-sm ">Sah</a>
                                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                        data-target="#tolaksebulan{{$tsp->id}}">
+                                                        data-target="#tolaksebulan{{ $tsp->id }}">
                                                         Tolak
                                                     </button>
                                                 @endif
                                             </td>
                                         </tr>
                                         <!-- Modal -->
-                                        <div class="modal fade" id="tolaksebulan{{$tsp->id}}" tabindex="-1" role="dialog"
-                                            aria-labelledby="tolaksebulanLabel" aria-hidden="true">
+                                        <div class="modal fade" id="tolaksebulan{{ $tsp->id }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="tolaksebulanLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -2547,18 +2550,19 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                <form action="/tolak_sebulan/{{$tsp->id}}" method="POST">
-                                                    @csrf
-                                                    <div class="modal-body">
-                                                        <label for="">Sebab Ditolak</label>
-                                                        <input type="text" class="form-control" name="sebab_ditolak">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                                    </div>
-                                                </form>
+                                                    <form action="/tolak_sebulan/{{ $tsp->id }}" method="POST">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <label for="">Sebab Ditolak</label>
+                                                            <input type="text" class="form-control" name="sebab_ditolak">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save
+                                                                changes</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -3499,3 +3503,13 @@ $(document).ready(function() {
         }
     </script>
 @endsection
+
+
+
+<script>
+    $(document).ready(function(){
+        $(".percent").input(function(){
+            
+        });
+    });
+</script>

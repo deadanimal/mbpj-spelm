@@ -404,7 +404,7 @@
                 </div>
             </div>
         </div>
-       
+
         <div class="row ">
             <div class="col-md-12">
                 <div class="card">
@@ -457,7 +457,7 @@
 
                                         </td>
                                         <td>
-                                            @if ($permohonan->sokong_selepas === null)
+                                            @if (!$permohonan->sah_mula_kerja)
                                                 <form action="/update-masa-mula-akhir/{{ $permohonan->id }}"
                                                     method="post">
                                                     @csrf
@@ -470,10 +470,9 @@
                                                             Masa</button>
                                                     </div>
                                                 </form>
-                                            @elseif($permohonan->sokong_selepas === 1)
+                                            @else
                                                 {{ $permohonan->sebenar_mula_kerja }}<br><br>
                                                 {{ $permohonan->sebenar_akhir_kerja }}<br><br>
-                                            @elseif($permohonan->sokong_selepas === 0)
                                             @endif
                                         </td>
                                         @if ($permohonan->lulus_sebelum === 1)

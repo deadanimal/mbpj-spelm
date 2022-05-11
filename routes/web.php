@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TuntutanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPermohonanController;
+use App\Http\Controllers\UtilitiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::resources([
         'aduans' => AduanController::class,
         'maklumans' => MaklumanController::class,
+        'utiliti' => UtilitiController::class,
         'faqs' => FaqController::class,
 
         'permohonans' => PermohonanController::class,

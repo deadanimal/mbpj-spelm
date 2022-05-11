@@ -69,13 +69,15 @@ class DashboardController extends Controller
         ];
 
         if ($status == 'aktif') {
-            $MaklumatPekerjaan = OracleGaji::where('HR_NO_PEKERJA', auth()->user()->user_code)->first();
 
-            if ($MaklumatPekerjaan == null) {
-                echo '<script>alert("User Tiada Maklumat Pekerjaan")</script>';
-                abort(500);
-            } else {
-                $kodJabatan = $MaklumatPekerjaan->HR_JABATAN;
+            function checkMP()
+            {
+                $MaklumatPekerjaan = OracleGaji::where('HR_NO_PEKERJA', auth()->user()->user_code)->first();
+                if ($MaklumatPekerjaan == null) {
+                    echo '<script>alert("User Tiada Maklumat Pekerjaan")</script>';
+                    abort(500);
+                }
+                return $MaklumatPekerjaan;
             }
             switch ($role) {
                 case 'kakitangan':
@@ -114,6 +116,7 @@ class DashboardController extends Controller
                     break;
 
                 case 'ketua_bahagian':
+                    $MaklumatPekerjaan = checkMP();
                     $listUnit = OracleUnit::where('GE_KOD_BAHAGIAN', $MaklumatPekerjaan->HR_BAHAGIAN)->get();
                     foreach ($listUnit as $lu) {
                         $lu['bil'] = OracleGaji::where('HR_UNIT', $lu->GE_KOD_UNIT)->count();
@@ -121,6 +124,8 @@ class DashboardController extends Controller
                     return view('dashboard.ketua_bahagian_dashboard', compact('listUnit'));
                     break;
                 case 'ketua_jabatan':
+                    $MaklumatPekerjaan = checkMP();
+                    $kodJabatan = $MaklumatPekerjaan->HR_JABATAN;
                     $listBahagian = Bahagian::where('GE_KOD_JABATAN', $kodJabatan)->get();
                     foreach ($listBahagian as $lb) {
                         $lb['bil'] = OracleGaji::where('HR_BAHAGIAN', $lb->GE_KOD_BAHAGIAN)->count();
