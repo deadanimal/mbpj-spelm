@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Audit;
 use App\Models\Ekedatangan;
+use App\Models\Jabatan;
 use App\Models\Permohonan;
 use App\Models\PermohonanTuntutan;
 use App\Models\Tuntutan;
@@ -482,13 +483,22 @@ class PermohonanController extends Controller
         $pegawailulus = User::whereIn('role', array('ketua_jabatan', 'ketua_bahagian'))->get();
         $pegawaisokong = User::whereIn('role', array('ketua_bahagian', 'penyelia'))->get();
 
-        $pemohon = User::whereIn('role', array('kakitangan', 'kerani_pemeriksa', 'kerani_semakan'))->orderBy('nric', 'ASC')->get();
-        return view('permohonan.create', [
-            'pegawailulus' => $pegawailulus,
-            'pegawaisokong' => $pegawaisokong,
-            'pemohon' => $pemohon,
+        $pemohon = User::whereIn('role', array('kakitangan', 'kerani_pemeriksa', 'kerani_semakan'))
+            ->where('status', 'aktif')
+            ->get();
 
-        ]);
+        $jabatan_user = auth()->user()->usercode->HR_JABATAN;
+        $jabatan_penguatkuasa = Jabatan::where('GE_KETERANGAN_JABATAN', 'JABATAN PENGUATKUASAAN')
+            ->first()->GE_KOD_JABATAN; // 11
+
+        $userJabatanPenguatkuasa = false;
+        if ($jabatan_user == $jabatan_penguatkuasa) {
+            $userJabatanPenguatkuasa = true;
+        }
+
+        return view('permohonan.create', compact([
+            'pegawailulus', 'pegawaisokong', 'pemohon', 'userJabatanPenguatkuasa',
+        ]));
     }
 
     public function store(Request $request)
@@ -533,6 +543,7 @@ class PermohonanController extends Controller
             $permohonan->pegawai_lulus_id = $request->pegawai_lulus_id;
             $permohonan->p_pegawai_sokong_id = $request->pegawai_sokong_id;
             $permohonan->p_pegawai_lulus_id = $request->pegawai_lulus_id;
+            $permohonan->jenis_masa = $request->jenis_masa;
 
             $permohonan->save();
 
@@ -658,13 +669,22 @@ class PermohonanController extends Controller
             $user_permohonans_maklumat_all[] = $user_permohonans_maklumat;
         }
 
+        $jabatan_user = auth()->user()->usercode->HR_JABATAN;
+        $jabatan_penguatkuasa = Jabatan::where('GE_KETERANGAN_JABATAN', 'JABATAN PENGUATKUASAAN')
+            ->first()->GE_KOD_JABATAN; // 11
+
+        $userJabatanPenguatkuasa = false;
+        if ($jabatan_user == $jabatan_penguatkuasa) {
+            $userJabatanPenguatkuasa = true;
+        }
+
         return view('permohonan.edit', [
             'permohonan' => $permohonan,
             'users' => $users,
             'user_permohonans' => $user_permohonans,
             'kakitangan' => $kakitangan,
             'kakitanganpermohonans' => $user_permohonans_maklumat_all,
-
+            'userJabatanPenguatkuasa' => $userJabatanPenguatkuasa,
         ]);
     }
     public function update(Request $request, Permohonan $permohonan)
@@ -685,6 +705,7 @@ class PermohonanController extends Controller
         $permohonan->pegawai_lulus_id = $request->pegawai_lulus_id;
         $permohonan->p_pegawai_sokong_id = $request->pegawai_sokong_id;
         $permohonan->p_pegawai_lulus_id = $request->pegawai_lulus_id;
+        $permohonan->jenis_masa = $request->jenis_masa;
 
         $permohonan->save();
 
@@ -966,9 +987,21 @@ class PermohonanController extends Controller
         $permohonan->update([
             'sebenar_mula_kerja' => $request->masa_mula,
             'sebenar_akhir_kerja' => $request->masa_akhir,
-            // 'sokong_selepas' => 1,
+            'sah_mula_kerja' => 1,
         ]);
         return back();
+    }
+
+    public function update_jenis_masa(Request $request)
+    {
+        $permohonan = Permohonan::find($request->id);
+
+        $permohonan->update([
+            'jenis_masa' => $request->jenis_masa,
+        ]);
+
+        return response()->json();
+
     }
 
 }

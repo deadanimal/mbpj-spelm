@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tuntutan::class, 'permohonan_tuntutans', 'tuntutan_id', 'permohonan_id');
     }
+
+    public function usercode()
+    {
+        return $this->hasOne(OracleGaji::class, 'HR_NO_PEKERJA', 'user_code');
+    }
 }

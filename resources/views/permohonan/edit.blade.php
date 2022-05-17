@@ -129,6 +129,35 @@
                                     </div>
                                 </div>
                             </div>
+                             @if ($userJabatanPenguatkuasa)
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <div class="form-group">
+                                         <label for="jenis_masa">Jenis Masa</label>
+                                         <select name="jenis_masa" class="form-control">
+                                             <option {{$permohonan->jenis_masa == "Hari Biasa Siang" ? 'selected':''}} 
+                                                value="Hari Biasa Siang">Hari Biasa Siang
+                                             </option>
+                                             <option {{$permohonan->jenis_masa == "Hari Biasa Malam" ? 'selected':''}}
+                                                 value="Hari Biasa Malam">Hari Biasa Malam
+                                             </option>
+                                             <option {{$permohonan->jenis_masa == "Hari Rehat Siang" ? 'selected':''}}
+                                                 value="Hari Rehat Siang">Hari Rehat Siang
+                                             </option>
+                                             <option {{$permohonan->jenis_masa == "Hari Rehat Malam" ? 'selected':''}}
+                                                 value="Hari Rehat Malam">Hari Rehat Malam
+                                             </option>
+                                             <option {{$permohonan->jenis_masa == "Pelepasan Am Siang" ? 'selected':''}}
+                                                 value="Pelepasan Am Siang">Pelepasan Am
+                                                 Siang</option>
+                                             <option {{$permohonan->jenis_masa == "Pelepasan Am Malam" ? 'selected':''}}
+                                                 value="Pelepasan Am Malam">Pelepasan Am
+                                                 Malam</option>
+                                         </select>
+                                     </div>
+                                 </div>
+                             </div>
+                            @endif
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">

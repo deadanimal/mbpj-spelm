@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TuntutanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPermohonanController;
+use App\Http\Controllers\UtilitiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::resources([
         'aduans' => AduanController::class,
         'maklumans' => MaklumanController::class,
+        'utiliti' => UtilitiController::class,
         'faqs' => FaqController::class,
 
         'permohonans' => PermohonanController::class,
@@ -158,5 +160,7 @@ Route::get('lulus_tuntutan_sebulan/{tuntutan}', [TuntutanController::class, 'lul
 
 Route::post('/tolak_satupertiga/{tuntutan}', [TuntutanController::class, 'tolak_satupertiga']);
 Route::post('/tolak_sebulan/{tuntutan}', [TuntutanController::class, 'tolak_sebulan']);
+
+Route::post('/update_jenis_masa', [PermohonanController::class, 'update_jenis_masa']);
 
 require __DIR__ . '/auth.php';

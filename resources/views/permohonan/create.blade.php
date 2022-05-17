@@ -160,10 +160,34 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                            <button type="submit"
-                                                                class="btn btn-primary btn-sm float-right">Hantar</button>
                                                         </div>
+
+                                                        @if ($userJabatanPenguatkuasa)
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="jenis_masa">Jenis Masa</label>
+                                                                    <select name="jenis_masa" class="form-control">
+                                                                        <option hidden selected> Pilih masa </option>
+                                                                        <option value="Hari Biasa Siang">Hari Biasa Siang
+                                                                        </option>
+                                                                        <option value="Hari Biasa Malam">Hari Biasa Malam
+                                                                        </option>
+                                                                        <option value="Hari Rehat Siang">Hari Rehat Siang
+                                                                        </option>
+                                                                        <option value="Hari Rehat Malam">Hari Rehat Malam
+                                                                        </option>
+                                                                        <option value="Pelepasan Am Siang">Pelepasan Am
+                                                                            Siang</option>
+                                                                        <option value="Pelepasan Am Malam">Pelepasan Am
+                                                                            Malam</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+
                                                     </div>
+                                                    <button type="submit"
+                                                        class="btn btn-primary btn-sm float-right">Hantar</button>
                                                 </div>
                                         </form>
                                     </div>
@@ -318,24 +342,15 @@
         </div>
     @endsection
     @section('script')
-        <script src="/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js">
-        </script>
-        <script src="/assets/vendor/select2/dist/js/select2.min.js">
-        </script>
-        <script src="/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js">
-        </script>
-        <script src="/assets/vendor/moment.min.js">
-        </script>
-        <script src="/assets/vendor/bootstrap-datetimepicker.js">
-        </script>
-        <script src="/assets/vendor/nouislider/distribute/nouislider.min.js">
-        </script>
-        <script src="/assets/vendor/quill/dist/quill.min.js">
-        </script>
-        <script src="/assets/vendor/dropzone/dist/min/dropzone.min.js">
-        </script>
-        <script src="/assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js">
-        </script>
+        <script src="/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <script src="/assets/vendor/select2/dist/js/select2.min.js"></script>
+        <script src="/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <script src="/assets/vendor/moment.min.js"></script>
+        <script src="/assets/vendor/bootstrap-datetimepicker.js"></script>
+        <script src="/assets/vendor/nouislider/distribute/nouislider.min.js"></script>
+        <script src="/assets/vendor/quill/dist/quill.min.js"></script>
+        <script src="/assets/vendor/dropzone/dist/min/dropzone.min.js"></script>
+        <script src="/assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
         <script type="text/javascript">
             $(function() {
                 $('#datetimepicker1').datetimepicker({
