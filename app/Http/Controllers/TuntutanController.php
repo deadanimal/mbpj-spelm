@@ -41,7 +41,6 @@ class TuntutanController extends Controller
         // }
 
         foreach ($tuntutan_k as $pl) {
-
             $pegawai_sokong = User::where("id", $pl->pegawai_sokong_id)->first()->name;
             $update_permohonan = Permohonan::where('id', $pl->id)->first();
             $pegawai_lulus = User::where("id", $pl->pegawai_lulus_id)->first()->name;
@@ -76,63 +75,113 @@ class TuntutanController extends Controller
             if (($dt3 == "saturday") || ($dt3 == "sunday")) {
                 $weekend = true;
             }
-            // $check_weekend =
-            if ($check_am > 0) {
-                //kerja time cuti am
-                if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang) {
-                    $pl->kadar_am_siang = "1.75";
-                    $pl->jam_kerja_am_siang = $jumlah_jam_bekerja;
-                    $update_permohonan->jumlah_am_siang = round($jumlah_jam_bekerja, 3);
-                    $jumlah_jam_am = $jumlah_jam_am + round($jumlah_jam_bekerja, 3);
-                    // dd($jumlah_jam_bekerja);
 
-                } else {
-                    $pl->kadar_am_malam = "2.00";
-                    $pl->jam_kerja_am_malam = $jumlah_jam_bekerja;
-                    $update_permohonan->jumlah_am_malam = round($jumlah_jam_bekerja, 3);
-                    $jumlah_jam_am = $jumlah_jam_am + round($jumlah_jam_bekerja, 3);
+            if (isset($pl->jenis_masa)) {
+                switch ($pl->jenis_masa) {
+                    case 'Hari Biasa Siang':
+                        $pl->kadar_biasa_siang = "1.125";
+                        $pl->jam_kerja_biasa_siang = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_biasa_siang = $jumlah_jam_bekerja;
+                        $jumlah_jam_biasa = $jumlah_jam_biasa + $jumlah_jam_bekerja;
+                        break;
+                    case 'Hari Biasa Malam':
+                        $pl->kadar_biasa_malam = "1.25";
+                        $pl->jam_kerja_biasa_malam = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_biasa_malam = $jumlah_jam_bekerja;
+                        $jumlah_jam_biasa = $jumlah_jam_biasa + $jumlah_jam_bekerja;
+                        break;
+                    case 'Hari Rehat Siang':
+                        $pl->kadar_cuti_siang = "1.25";
+                        $pl->jam_kerja_cuti_siang = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_rehat_siang = $jumlah_jam_bekerja;
+                        $jumlah_jam_rehat = $jumlah_jam_rehat + $jumlah_jam_bekerja;
+                        break;
+                    case 'Hari Rehat Malam':
+                        $pl->kadar_cuti_malam = "1.50";
+                        $pl->jam_kerja_cuti_malam = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_rehat_malam = $jumlah_jam_bekerja;
+                        $jumlah_jam_rehat = $jumlah_jam_rehat + $jumlah_jam_bekerja;
+                        break;
+                    case 'Pelepasan Am Siang':
+                        $pl->kadar_am_siang = "1.75";
+                        $pl->jam_kerja_am_siang = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_am_siang = round($jumlah_jam_bekerja, 3);
+                        $jumlah_jam_am = $jumlah_jam_am + round($jumlah_jam_bekerja, 3);
+                        break;
+                    case 'Pelepasan Am Malam':
+                        $pl->kadar_am_malam = "2.00";
+                        $pl->jam_kerja_am_malam = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_am_malam = round($jumlah_jam_bekerja, 3);
+                        $jumlah_jam_am = $jumlah_jam_am + round($jumlah_jam_bekerja, 3);
+
+                        break;
+                    default:
+                        dd("invalid jenis masa");
+                        break;
+                }
+                $update_permohonan->save();
+
+            } else {
+                // $check_weekend =
+                if ($check_am > 0) {
+                    //kerja time cuti am
+                    if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang) {
+                        $pl->kadar_am_siang = "1.75";
+                        $pl->jam_kerja_am_siang = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_am_siang = round($jumlah_jam_bekerja, 3);
+                        $jumlah_jam_am = $jumlah_jam_am + round($jumlah_jam_bekerja, 3);
+                        // dd($jumlah_jam_bekerja);
+
+                    } else {
+                        $pl->kadar_am_malam = "2.00";
+                        $pl->jam_kerja_am_malam = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_am_malam = round($jumlah_jam_bekerja, 3);
+                        $jumlah_jam_am = $jumlah_jam_am + round($jumlah_jam_bekerja, 3);
+                    }
+
+                    //cuti rehat
+                } elseif ($weekend) {
+                    if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang) {
+                        $pl->kadar_cuti_siang = "1.25";
+                        $pl->jam_kerja_cuti_siang = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_rehat_siang = $jumlah_jam_bekerja;
+                        $jumlah_jam_rehat = $jumlah_jam_rehat + $jumlah_jam_bekerja;
+                    } else {
+                        $pl->kadar_cuti_malam = "1.50";
+                        $pl->jam_kerja_cuti_malam = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_rehat_malam = $jumlah_jam_bekerja;
+                        $jumlah_jam_rehat = $jumlah_jam_rehat + $jumlah_jam_bekerja;
+
+                    }
+                }
+                //hari biasa
+                else {
+                    if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang) {
+                        $pl->kadar_biasa_siang = "1.125";
+                        $pl->jam_kerja_biasa_siang = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_biasa_siang = $jumlah_jam_bekerja;
+                        $jumlah_jam_biasa = $jumlah_jam_biasa + $jumlah_jam_bekerja;
+
+                    } else {
+                        $pl->kadar_biasa_malam = "1.25";
+                        $pl->jam_kerja_biasa_malam = $jumlah_jam_bekerja;
+                        $update_permohonan->jumlah_biasa_malam = $jumlah_jam_bekerja;
+                        $jumlah_jam_biasa = $jumlah_jam_biasa + $jumlah_jam_bekerja;
+
+                    }
                 }
 
-                //cuti rehat
-            } elseif ($weekend) {
-                if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang) {
-                    $pl->kadar_cuti_siang = "1.25";
-                    $pl->jam_kerja_cuti_siang = $jumlah_jam_bekerja;
-                    $update_permohonan->jumlah_rehat_siang = $jumlah_jam_bekerja;
-                    $jumlah_jam_rehat = $jumlah_jam_rehat + $jumlah_jam_bekerja;
-                } else {
-                    $pl->kadar_cuti_malam = "1.50";
-                    $pl->jam_kerja_cuti_malam = $jumlah_jam_bekerja;
-                    $update_permohonan->jumlah_rehat_malam = $jumlah_jam_bekerja;
-                    $jumlah_jam_rehat = $jumlah_jam_rehat + $jumlah_jam_bekerja;
+                // $jumlah_jam_keseluruhan = $jumlah_jam_keseluruhan + $jumlah_jam_biasa + $jumlah_jam_rehat + $jumlah_jam_am;
 
-                }
+                // cek kadar
+
+                $update_permohonan->save();
             }
-            //hari biasa
-            else {
-                if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang) {
-                    $pl->kadar_biasa_siang = "1.125";
-                    $pl->jam_kerja_biasa_siang = $jumlah_jam_bekerja;
-                    $update_permohonan->jumlah_biasa_siang = $jumlah_jam_bekerja;
-                    $jumlah_jam_biasa = $jumlah_jam_biasa + $jumlah_jam_bekerja;
-
-                } else {
-                    $pl->kadar_biasa_malam = "1.25";
-                    $pl->jam_kerja_biasa_malam = $jumlah_jam_bekerja;
-                    $update_permohonan->jumlah_biasa_malam = $jumlah_jam_bekerja;
-                    $jumlah_jam_biasa = $jumlah_jam_biasa + $jumlah_jam_bekerja;
-
-                }
-            }
-
-            $jumlah_jam_keseluruhan = $jumlah_jam_keseluruhan + $jumlah_jam_biasa + $jumlah_jam_rehat + $jumlah_jam_am;
-
-            // dd($jumlah_jam_keseluruhan);
-            // cek kadar
-
-            $update_permohonan->save();
 
         }
+        $jumlah_jam_keseluruhan = $jumlah_jam_keseluruhan + $jumlah_jam_biasa + $jumlah_jam_rehat + $jumlah_jam_am;
+
+        // dd($jumlah_jam_keseluruhan);
 
         $tuntutan_lulus = Tuntutan::where('user_id', $user_id)
             ->orderByDesc("created_at")

@@ -161,4 +161,6 @@ Route::get('lulus_tuntutan_sebulan/{tuntutan}', [TuntutanController::class, 'lul
 Route::post('/tolak_satupertiga/{tuntutan}', [TuntutanController::class, 'tolak_satupertiga']);
 Route::post('/tolak_sebulan/{tuntutan}', [TuntutanController::class, 'tolak_sebulan']);
 
+Route::post('/update_jenis_masa', [PermohonanController::class, 'update_jenis_masa']);
+
 require __DIR__ . '/auth.php';

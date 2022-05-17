@@ -424,11 +424,54 @@
                                                             --
                                                         </td>
                                                     @elseif($permohonan->sokong_sebelum === 1)
-                                                        <td>
-                                                            <span class="badge badge-pill badge-success">Lulus Permohonan
-                                                                PG1</span><br><br>
-
-
+                                                        <td class="text-center">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <span class="badge badge-pill badge-success">Lulus
+                                                                        Permohonan PG1</span>
+                                                                </div>
+                                                                @if (isset($permohonan->jenis_masa))
+                                                                    <div class="col-12 text-center">
+                                                                        <label class="h5 my-0 py-0 mt-2 " for="">
+                                                                            Jenis
+                                                                            Masa</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <select class="form-control"
+                                                                            onchange="tukarJenisMasa(this, {{ $permohonan->id }}) ">
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Hari Biasa Siang' ? 'selected' : '' }}
+                                                                                value="Hari Biasa Siang">Hari Biasa
+                                                                                Siang
+                                                                            </option>
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Hari Biasa Malam' ? 'selected' : '' }}
+                                                                                value="Hari Biasa Malam">Hari Biasa
+                                                                                Malam
+                                                                            </option>
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Hari Rehat Siang' ? 'selected' : '' }}
+                                                                                value="Hari Rehat Siang">Hari Rehat
+                                                                                Siang
+                                                                            </option>
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Hari Rehat Malam' ? 'selected' : '' }}
+                                                                                value="Hari Rehat Malam">Hari Rehat
+                                                                                Malam
+                                                                            </option>
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Pelepasan Am Siang' ? 'selected' : '' }}
+                                                                                value="Pelepasan Am Siang">Pelepasan Am
+                                                                                Siang</option>
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Pelepasan Am Malam' ? 'selected' : '' }}
+                                                                                value="Pelepasan Am Malam">Pelepasan Am
+                                                                                Malam</option>
+                                                                        </select>
+                                                                    </div>
+                                                                @endif
+                                                                <br><br>
+                                                            </div>
                                                             @if ($permohonan->lulus_sebelum === null)
                                                         <td class="tindakan">
                                                             <a href="/permohonans/{{ $permohonan->id }}/edit"
@@ -930,7 +973,49 @@
                                                         {{-- <h5>  Jumlah Jam  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalotduration}}</span> </h5> --}}
                                                         <h5> Waktu Anjal : <span style="color:rgb(255, 0, 21)">
                                                                 {{ $permohonan->waktuanjal }}</span> </h5>
+                                                        @if (isset($permohonan->jenis_masa))
+                                                            <div class="row">
 
+                                                                <div class="col-12 text-center">
+                                                                    <label class="h5 my-0 py-0 mt-2 " for="">
+                                                                        Jenis
+                                                                        Masa</label>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <select class="form-control"
+                                                                        onchange="tukarJenisMasa(this, {{ $permohonan->id }}) ">
+                                                                        <option
+                                                                            {{ $permohonan->jenis_masa == 'Hari Biasa Siang' ? 'selected' : '' }}
+                                                                            value="Hari Biasa Siang">Hari Biasa
+                                                                            Siang
+                                                                        </option>
+                                                                        <option
+                                                                            {{ $permohonan->jenis_masa == 'Hari Biasa Malam' ? 'selected' : '' }}
+                                                                            value="Hari Biasa Malam">Hari Biasa
+                                                                            Malam
+                                                                        </option>
+                                                                        <option
+                                                                            {{ $permohonan->jenis_masa == 'Hari Rehat Siang' ? 'selected' : '' }}
+                                                                            value="Hari Rehat Siang">Hari Rehat
+                                                                            Siang
+                                                                        </option>
+                                                                        <option
+                                                                            {{ $permohonan->jenis_masa == 'Hari Rehat Malam' ? 'selected' : '' }}
+                                                                            value="Hari Rehat Malam">Hari Rehat
+                                                                            Malam
+                                                                        </option>
+                                                                        <option
+                                                                            {{ $permohonan->jenis_masa == 'Pelepasan Am Siang' ? 'selected' : '' }}
+                                                                            value="Pelepasan Am Siang">Pelepasan Am
+                                                                            Siang</option>
+                                                                        <option
+                                                                            {{ $permohonan->jenis_masa == 'Pelepasan Am Malam' ? 'selected' : '' }}
+                                                                            value="Pelepasan Am Malam">Pelepasan Am
+                                                                            Malam</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </td>
                                                     <td>
                                                         @if ($permohonan->lulus_selepas === null)
@@ -1090,7 +1175,22 @@
             </div>
         </div>
     </div>
-
+    <script>
+        function tukarJenisMasa(el, id) {
+            $.ajax({
+                method: "POST",
+                url: "/update_jenis_masa",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "jenis_masa": el.value,
+                    "id": id,
+                },
+            }).done(function(response) {
+                alert("Jenis Masa Dikemaskini");
+                // location.reload();
+            });
+        }
+    </script>
 @endsection
 @section('script')
     <script>

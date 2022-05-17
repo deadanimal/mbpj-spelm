@@ -454,7 +454,46 @@
                                             <h5> Waktu Anjal : <span
                                                     style="color:rgb(255, 0, 21)">{{ $permohonan->waktuanjal }}</span>
                                             </h5>
-
+                                            @if (isset($permohonan->jenis_masa))
+                                                <div class="col-12 text-center">
+                                                    <label class="h5 my-0 py-0 mt-2 " for="">
+                                                        Jenis
+                                                        Masa</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <select class="form-control"
+                                                        onchange="tukarJenisMasa(this, {{ $permohonan->id }}) ">
+                                                        <option
+                                                            {{ $permohonan->jenis_masa == 'Hari Biasa Siang' ? 'selected' : '' }}
+                                                            value="Hari Biasa Siang">Hari Biasa
+                                                            Siang
+                                                        </option>
+                                                        <option
+                                                            {{ $permohonan->jenis_masa == 'Hari Biasa Malam' ? 'selected' : '' }}
+                                                            value="Hari Biasa Malam">Hari Biasa
+                                                            Malam
+                                                        </option>
+                                                        <option
+                                                            {{ $permohonan->jenis_masa == 'Hari Rehat Siang' ? 'selected' : '' }}
+                                                            value="Hari Rehat Siang">Hari Rehat
+                                                            Siang
+                                                        </option>
+                                                        <option
+                                                            {{ $permohonan->jenis_masa == 'Hari Rehat Malam' ? 'selected' : '' }}
+                                                            value="Hari Rehat Malam">Hari Rehat
+                                                            Malam
+                                                        </option>
+                                                        <option
+                                                            {{ $permohonan->jenis_masa == 'Pelepasan Am Siang' ? 'selected' : '' }}
+                                                            value="Pelepasan Am Siang">Pelepasan Am
+                                                            Siang</option>
+                                                        <option
+                                                            {{ $permohonan->jenis_masa == 'Pelepasan Am Malam' ? 'selected' : '' }}
+                                                            value="Pelepasan Am Malam">Pelepasan Am
+                                                            Malam</option>
+                                                    </select>
+                                                </div>
+                                            @endif
                                         </td>
                                         <td>
                                             @if (!$permohonan->sah_mula_kerja)
@@ -557,6 +596,21 @@
     </div>
 
     <script>
+        function tukarJenisMasa(el, id) {
+            $.ajax({
+                method: "POST",
+                url: "/update_jenis_masa",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "jenis_masa": el.value,
+                    "id": id,
+                },
+            }).done(function(response) {
+                alert("Jenis Masa Dikemaskini");
+                // location.reload();
+            });
+        }
+
         function buangpermohonan(id) {
             swal({
                 title: 'Makluman?',

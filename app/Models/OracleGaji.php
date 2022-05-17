@@ -10,5 +10,6 @@ class OracleGaji extends Model
     use HasFactory;
     //
     public $table = 'HR_MAKLUMAT_PEKERJAAN';
+    protected $guarded = 'HR_NO_PEKERJA';
 
 }
