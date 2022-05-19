@@ -503,6 +503,7 @@ class PermohonanController extends Controller
 
     public function store(Request $request)
     {
+        $pemohon = explode(',', $request->pemohon);
 
         if ($request->jenis_permohonan == 'individu') {
             $permohonan = new Permohonan;
@@ -562,7 +563,7 @@ class PermohonanController extends Controller
         }
 
         if ($request->jenis_permohonan == 'berkumpulan') {
-            for ($i = 0; $i < count($request->pemohon); $i++) {
+            for ($i = 0; $i < count($pemohon); $i++) {
                 $permohonan = new Permohonan;
 
                 $mohon_mula_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_mula_kerja));
@@ -609,7 +610,7 @@ class PermohonanController extends Controller
                 $audit->description = 'Tambah Permohonan Jenis: ' . $permohonan->jenis_permohonan;
                 $audit->save();
 
-                $user_dipohon = User::where('nric', $request->pemohon[$i])->first();
+                $user_dipohon = User::where('nric', $pemohon[$i])->first();
 
                 // UserPermohonan::create([
                 //     'user_id' => $user_dipohon->id,
