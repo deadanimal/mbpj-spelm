@@ -21,9 +21,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     {{-- multiple select --}}
-    {{-- <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" /> --}}
-
+    <link rel="stylesheet" href="/assets/virtual-select-master/dist/virtual-select.min.css" />
+    <script src="/assets/virtual-select-master/dist/virtual-select.min.js"></script>
 
 </head>
 
@@ -216,19 +215,14 @@
 
     <!-- Argon Scripts -->
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js">
-    </script>
+    <script src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/vendor/js-cookie/js.cookie.js"></script>
-    <script src="/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js">
-    </script>
-    <script src="/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js">
-    </script>
+    <script src="/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
     <!-- Optional JS -->
     <script src="/assets/vendor/moment/min/moment.min.js"></script>
-    <script src="/assets/vendor/fullcalendar/dist/fullcalendar.min.js">
-    </script>
-    <script src="/assets/vendor/sweetalert2/dist/sweetalert2.min.js">
-    </script>
+    <script src="/assets/vendor/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script src="/assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
     <!-- Argon JS -->
     <script src="/assets/js/argon.min.js?v=17"></script>
     {{-- <script src="/assets/js/demo.min.js"></script> --}}

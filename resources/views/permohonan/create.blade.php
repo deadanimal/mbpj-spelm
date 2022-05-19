@@ -278,19 +278,16 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4">
-                                                            <div class="form-group">
-                                                                <label for="Perkara">IC Pemohon</label>
-                                                                <select class="form-control selectpicker" multiple
-                                                                    data-live-search="true" name="pemohon[]" required>
-                                                                    @foreach ($pemohon as $p)
-                                                                        <option value="{{ $p->nric }}">
-                                                                            {{ $p->nric }} - {{ $p->name }}
-                                                                        </option>
-                                                                    @endforeach
+                                                            <label for="Perkara">IC Pemohon</label><br>
+                                                            <div class=" mb-4" id="multiSelect">
+                                                                <select multiple placeholder="Sila Pilih"
+                                                                    data-silent-initial-value-set="true" required>
                                                                 </select>
                                                             </div>
                                                         </div>
+
                                                         <div class="col-lg-4">
+
                                                             <div class="form-group">
                                                                 <label for="pegawai_sokong_id">Pilih pegawai
                                                                     sokong</label>
@@ -352,6 +349,38 @@
         <script src="/assets/vendor/dropzone/dist/min/dropzone.min.js"></script>
         <script src="/assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
         <script type="text/javascript">
+            $(document).ready(function() {
+                var pemohon = @json($pemohon->toArray());
+                myOptions = [];
+                pemohon.forEach(e => {
+                    myOption = {
+                        label: e.name,
+                        value: e.nric,
+                        description: e.nric,
+                    }
+                    myOptions.push(myOption);
+                });
+
+                VirtualSelect.init({
+                    ele: '#multiSelect',
+                    options: myOptions,
+                    hasOptionDescription: true,
+                    required: true,
+                    noOptionsText: 'Tiada',
+                    noSearchResultsTex: 'Tiada',
+                    optionSelectedText: 'pemohon telah dipilih',
+                    optionsSelectedText: 'pemohon telah dipilih',
+                    allOptionsSelectedText: 'Semua telah dipilih',
+                    maxWidth: '1000px',
+                    placeholder: 'Sila Pilih',
+                    searchPlaceholderText: 'Cari...',
+                    name: 'pemohon',
+                    multiple: true
+                });
+            });
+
+
+
             $(function() {
                 $('#datetimepicker1').datetimepicker({
 
