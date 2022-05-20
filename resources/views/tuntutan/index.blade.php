@@ -168,9 +168,11 @@
             </div>
             {{-- Tuntutan Kakitangan --}}
             <div class="row ">
-                <div class="col-md-12 mb-3">
-                    <a type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal"
-                        data-target="#PastiTuntutan" href="/bulktuntutan">Hantar Tuntutan</a>
+                <div class="col-md-12 mb-3 text-right">
+                    <p class="col d-inline h4 text-red">Tuntutan akan dihantar secara automatik pada
+                        {{ $tarikh_auto_hantar_tuntutan }} </p>
+                    <a type="button" class="btn btn-primary btn-sm " data-toggle="modal" data-target="#PastiTuntutan"
+                        href="/bulktuntutan">Hantar Tuntutan</a>
                 </div>
                 <div class="col-md-12">
 
@@ -278,10 +280,11 @@
                                     <td></td>
                                     <td></td>
 
-                                    <td id="jumlah_jam_biasa">Jumlah:{{ $jumlah_jam_biasa }} </td>
-                                    <td id="jumlah_jam_rehat">Jumlah:{{ $jumlah_jam_rehat }} </td>
-                                    <td id="jumlah_jam_am">Jumlah:{{ $jumlah_jam_am }} </td>
-                                    <td id="jumlah_jam_keseluruhan">Jumlah Jam : {{ $jumlah_jam_keseluruhan }}</td>
+                                    <td id="jumlah_jam_biasa">Jumlah:{{ round($jumlah_jam_biasa, 3) }} </td>
+                                    <td id="jumlah_jam_rehat">Jumlah:{{ round($jumlah_jam_rehat, 3) }} </td>
+                                    <td id="jumlah_jam_am">Jumlah:{{ round($jumlah_jam_am, 3) }} </td>
+                                    <td id="jumlah_jam_keseluruhan">Jumlah Jam : {{ round($jumlah_jam_keseluruhan, 3) }}
+                                    </td>
 
 
                                 </tr>
@@ -444,34 +447,6 @@
                                                 @endif
                                             </td>
                                         @endif
-                                        {{-- <td>
-                                    <form method="POST" action="/kemaskinipegawaituntutan/{{$tuntutan_lulus->id}}">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="form-group">
-                                           
-                                            <select name="pegawai_sokong_id" class="form-control" style="width:100px ; height:35px;">
-                                                <option  value="{{$tuntutan_lulus->pegawai_sokong_id}}">{{$tuntutan_lulus->pegawai_sokong_id}}</option>
-    
-                                                @foreach ($pegawaituntutan as $pegawaituntutan1)
-                                                <option value="{{$pegawaituntutan1->id}} ">
-                                                    {{$pegawaituntutan1->name}} - {{$pegawaituntutan1->role}} </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-
-                                            <select name="pegawai_lulus_id" class="form-control"  style="width:100px ; height:35px;">
-                                                <option value="{{$tuntutan_lulus->pegawai_lulus_id}}" >{{$tuntutan_lulus->pegawai_lulus_id}}</option>
-                                                @foreach ($pegawaituntutan as $pegawaituntutan2)
-                                                <option value="{{$pegawaituntutan2->id}}">
-                                                    {{$pegawaituntutan2->name}} - {{$pegawaituntutan2->role}} </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-sm">Kemaskini</button><br>
-                                    </form>
-                                </td> --}}
                                         <td>
                                             <a href="/tuntutans/{{ $tuntutan_lulus->id }}/"
                                                 class="btn btn-primary btn-sm">Lihat</a>
@@ -757,20 +732,6 @@
                                                     <td>
                                                         {{ $loop->index + 1 }}
                                                     </td>
-                                                    {{-- <td >
-                                            {{$tuntutan_lulus->id}}
-                                         </td>
-                                     
-                                        <td >
-                                            {{$tuntutan_lulus->jumlah_jam_tuntutan}}
-                                         </td>
-                                         <td >
-                                            {{$tuntutan_lulus->jumlah_tuntutan}}
-                                         </td>
-                                         <td >
-                                            {{$tuntutan_lulus->status}}
-                                         </td> --}}
-
                                                     @if ($tuntutan_lulus->sokong_tuntutan === null)
                                                         <td>
                                                             <span class="badge badge-pill badge-primary">Dalam
@@ -1483,14 +1444,6 @@
                                                         <td>
                                                             {{ $sokong_tuntutan->nama_pemohon }}
                                                         </td>
-                                                        {{-- <td >   
-                                                <input type="text" id="jumlah_jam_tuntutan" name="jumlah_jam_tuntutan" value="{{$sokong_tuntutan->jumlah_jam_tuntutan}} "disabled >
-                                            
-                                                <input type="text" id="jumlah_tuntutan" name="jumlah_tuntutan" value="{{$sokong_tuntutan->jumlah_tuntutan}} "disabled >
-                                            
-                                                <input type="text" id="status" name="status" value="{{$sokong_tuntutan->status}}" disabled >
-                                            </td> --}}
-
                                                         <td>
                                                             {{ $sokong_tuntutan->pegawai_sokong }} <br><br>
 
@@ -2468,33 +2421,6 @@
                         <div class="card-header border-0">
                             <h3 class="mb-0">Sah Tuntutan Lebih Sebulan Gaji</h3>
                         </div>
-                        <!-- Light table -->
-                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>No</th>
-                            <th> Tarikh Mohon</th>
-                            <th> Waktu Kerja</th>
-                            <th> Perkara</th>
-                            <th> Status</th>
-                            <th> Jenis Permohonan
-                            </th>
-                            <!-- eKedatangan -->
-                            <th>clockintime</th>
-                            <th>clockouttime</th>
-                            <th>totalworkinghour</th>
-                            <th>otstarttime1</th>
-                            <th>otendtime1</th>
-                            <th>otdurationt1</th>
-                        </tr>
-                    </thead>
-                    
-                    <tbody class="list">
-
-                    </tbody>
-                </table> --}}
-
-
                         <div class="table-responsive py-4">
                             <!-- Light table -->
                             <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
@@ -2970,134 +2896,11 @@
                     </div>
                 </div>
                 <div class="tab-pane fade " id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
-                    w
                     <div>
-                        {{-- Card semakan tuntutan --}}
-                        {{-- <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <!-- Card body -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH TUNTUTAN ELAUN LEBIH MASA
-                                    </h5>
-                                    <span class="h2 font-weight-bold mb-0">0</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                                        <i class="ni ni-money-coins"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <!-- Card body -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
-                                        LULUS
-                                    </h5>
-                                    <span class="h2 font-weight-bold mb-0">0</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                                        <i class="ni ni-money-coins"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <!-- Card body -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">TUNTUTAN ELAUN LEBIH MASA
-                                        LULUS DITOLAK
-                                    </h5>
-                                    <span class="h2 font-weight-bold mb-0">0</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                                        <i class="ni ni-money-coins"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <!-- Card body -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
-                                    </h5>
-                                    <span class="h2 font-weight-bold mb-0">0</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                                        <i class="ni ni-money-coins"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-                        {{-- filter semakan tuntutan kakitangan --}}
-                        {{-- <div class="card">
-                <div class="card-header">
-                    <h3 class="mb-0">Carian</h3>
-                </div>
-                <div class="card-body">
-                    <div class="col-md-12">
-                        <form>
-                            <div class="row">
-                                <div class="col mb-4">
-                                    <h4>Pilih Jabatan</h4>
-                                    <input type="text" class="form-control form-control-sm" placeholder="Pilih Jabatan">
-                                </div>
-                                <div class="col mb-4">
-                                    <h4>Nama Kakitangan</h4>
-                                    <input type="text" class="form-control form-control-sm" placeholder="Nama Kakitangan">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm">
-                                    <h4>Tahun Permohonan</h4>
-                                    <input id="start" class="form-control form-control-sm" type="date" /><br />
-                                </div>
-                                <div class="col-sm">
-                                    <h4>Bulan Permohonan<h4>
-                                    <input id="start"class="form-control form-control-sm" type="date" /><br />
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="row float-right">
-                        <div class="col-sm ">
-                            <button id="clearFilter" class="btn btn-sm btn-danger">Hapus Carian </button>
-                            <button class="btn btn-sm btn-primary " id="filter">Carian</button>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
                         {{-- semakan tuntutan kakitangan --}}
                         @if (auth()->user()->role == 'kerani_pemeriksa')
                             <div class="row ">
                                 <div class="col-md-12 mb-3">
-                                    {{-- <button  class="btn btn-primary btn-sm " data-url="{{ url('PeriksaTuntutanAll') }}">Sokong Pilihan</button> --}}
-                                    {{-- <button  class="btn btn-danger btn-sm " data-url="{{ url('PeriksaTolakTuntutanAll') }}">Tolak Pilihan</button> --}}
                                 </div>
                                 <div class="col-md-12">
                                     <div class="card">
@@ -3116,6 +2919,7 @@
                                                     {{-- <th><input type="checkbox" id="PeriksaTuntutanAll"></th> --}}
                                                     <th> No</th>
                                                     <th> Nama Pemohon</th>
+                                                    <th> Jenis</th>
                                                     <th> Status</th>
                                                     <th> Tindakan</th>
 
@@ -3135,69 +2939,77 @@
                                                             {{ $periksa_tuntutan->nama_pemohon }}
                                                         </td>
 
-
-                                                        @if ($periksa_tuntutan->periksa_tuntutan === null)
-                                                            <td>
-                                                                <span class="badge badge-pill badge-primary">Perlu
-                                                                    Semakan</span>
-                                                            </td>
-                                                            <td>
-
-                                                                <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                    class="btn btn-danger btn-sm">Periksa</a><br>
-                                                                {{-- <a href="/periksa_tuntutan/{{$periksa_tuntutan->id}}/"
-                                                        class="btn btn-success btn-sm">Hantar</a><br> --}}
-                                                                {{-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                        data-target="#tolaksemaktuntutan{{$periksa_tuntutan->id}}">
-                                                        Tolak
-                                                    </button> --}}
-                                                            </td>
-                                                        @elseif($periksa_tuntutan->periksa_tuntutan === 1)
-                                                            @if ($periksa_tuntutan->lulus_tuntutan === null)
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-primary">Dalam
+                                                        <td>
+                                                            {{ $periksa_tuntutan->jenis }}
+                                                        </td>
+                                                        <td>
+                                                            @switch($periksa_tuntutan->periksa_tuntutan)
+                                                                @case(null)
+                                                                    <span class="badge badge-pill badge-primary">Perlu
                                                                         Semakan</span>
-                                                                </td>
-                                                            @elseif($periksa_tuntutan->periksa_tuntutan === 1)
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-success">Tuntutan
-                                                                        Diperiksa</span><br><br>
+                                                                @break
 
-                                                                    @if ($periksa_tuntutan->semak_tuntutan === null)
+                                                                @case(0)
+                                                                    <span class="badge badge-pill badge-danger"> Tuntutan
+                                                                        Ditolak</span>
+                                                                @break
+
+                                                                @case(1)
+                                                                    @if ($periksa_tuntutan->lulus_tuntutan === null)
+                                                                        <span class="badge badge-pill badge-primary">Dalam
+                                                                            Semakan</span>
+                                                                    @elseif($periksa_tuntutan->lulus_tuntutan === 0)
+                                                                        <span class="badge badge-pill badge-danger">Kelulusan
+                                                                            Ditolak Pegawai</span>
+                                                                    @elseif ($periksa_tuntutan->semak_tuntutan === null)
                                                                         <span class="badge badge-pill badge-primary">Dalam
                                                                             Proses</span>
                                                                     @elseif($periksa_tuntutan->semak_tuntutan === 1)
                                                                         <span class="badge badge-pill badge-success">Lulus
                                                                             Semakan</span>
+                                                                    @else
+                                                                        <span class="badge badge-pill badge-success">Tuntutan
+                                                                            Diperiksa</span><br><br>
                                                                     @endif
+                                                                @break
 
+                                                                @default
+                                                            @endswitch
+                                                        </td>
+                                                        <td>
+                                                            @switch($periksa_tuntutan->periksa_tuntutan)
+                                                                @case(null)
+                                                                    <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                        class="btn btn-danger btn-sm">Periksa</a><br>
+                                                                @break
 
-                                                                </td>
-                                                            @elseif($periksa_tuntutan->lulus_tuntutan === 0)
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-danger">Kelulusan
-                                                                        Ditolak Pegawai</span>
-                                                                </td>
-                                                            @endif
+                                                                @case(0)
+                                                                    <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                        class="btn btn-danger btn-sm">Periksa</a><br>
+                                                                @break
 
+                                                                @case(1)
+                                                                    @if ($periksa_tuntutan->lulus_tuntutan === null)
+                                                                        <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                            class="btn btn-success btn-sm">Lihat</a><br>
+                                                                    @elseif($periksa_tuntutan->lulus_tuntutan === 0)
 
-                                                            <td>
-                                                                {{-- <span class="badge badge-pill badge-success">Tuntutan disokong</span> --}}
-                                                                <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                    class="btn btn-default btn-sm">Lihat </a>
-                                                            </td>
-                                                        @elseif($periksa_tuntutan->periksa_tuntutan === 0)
-                                                            <td>
-                                                                <span class="badge badge-pill badge-danger"> Tuntutan
-                                                                    Ditolak</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="badge badge-pill badge-danger">Tuntutan
-                                                                    Ditolak</span>
+                                                                    @elseif ($periksa_tuntutan->semak_tuntutan === null)
+                                                                        <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                            class="btn btn-success btn-sm">Lihat</a><br>
+                                                                    @elseif($periksa_tuntutan->semak_tuntutan === 1)
+                                                                        <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                            class="btn btn-success btn-sm">Lihat</a><br>
+                                                                    @else
+                                                                        <span class="badge badge-pill badge-success">Tuntutan
+                                                                            Diperiksa</span><br><br>
+                                                                    @endif
+                                                                @break
 
-                                                            </td>
-                                                        @endif
+                                                                @default
+                                                            @endswitch
 
+                                                        </td>
                                                     </tr>
                                                 @endforeach
 
@@ -3503,13 +3315,3 @@ $(document).ready(function() {
         }
     </script>
 @endsection
-
-
-
-<script>
-    $(document).ready(function(){
-        $(".percent").input(function(){
-            
-        });
-    });
-</script>

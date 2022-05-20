@@ -480,10 +480,12 @@ class PermohonanController extends Controller
 
     public function create(Request $request)
     {
+        abort_if(auth()->user()->usercode == null, 466);
+
         $pegawailulus = User::whereIn('role', array('ketua_jabatan', 'ketua_bahagian'))->get();
         $pegawaisokong = User::whereIn('role', array('ketua_bahagian', 'penyelia'))->get();
 
-        $pemohon = User::whereIn('role', array('kakitangan', 'kerani_pemeriksa', 'kerani_semakan'))
+        $pemohon = User::whereIn('role', array('kakitangan', 'penyelia', 'kerani_pemeriksa', 'kerani_semakan'))
             ->where('status', 'aktif')
             ->get();
 
@@ -494,6 +496,9 @@ class PermohonanController extends Controller
         $userJabatanPenguatkuasa = false;
         if ($jabatan_user == $jabatan_penguatkuasa) {
             $userJabatanPenguatkuasa = true;
+        }
+        if ($jabatan_penguatkuasa == null) {
+            $userJabatanPenguatkuasa = false;
         }
 
         return view('permohonan.create', compact([
@@ -642,10 +647,10 @@ class PermohonanController extends Controller
 
         //  Create pegawai name
 
-        $pegawai_sokong = User::where('id', $permohonan->pegawai_sokong_id)->first();
+        $pegawai_sokong = User::whereIn('role', array('penyelia', 'ketua_bahagian'))->where('id', $permohonan->pegawai_sokong_id)->first();
         $permohonan->pegawai_sokong_name = $pegawai_sokong->name;
 
-        $pegawai_lulus = User::where('id', $permohonan->pegawai_lulus_id)->first();
+        $pegawai_lulus = User::whereIn('role', array('ketua_jabatan', 'ketua_bahagian'))->where('id', $permohonan->pegawai_lulus_id)->first();
         $permohonan->pegawai_lulus_name = $pegawai_lulus->name;
 
         // Create kakitangan permohonan list
@@ -677,6 +682,9 @@ class PermohonanController extends Controller
         $userJabatanPenguatkuasa = false;
         if ($jabatan_user == $jabatan_penguatkuasa) {
             $userJabatanPenguatkuasa = true;
+        }
+        if ($jabatan_penguatkuasa == null) {
+            $userJabatanPenguatkuasa = false;
         }
 
         return view('permohonan.edit', [

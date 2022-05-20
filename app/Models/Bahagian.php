@@ -9,7 +9,7 @@ class Bahagian extends Model
 {
     use HasFactory;
 
-    protected $table = 'GE_BAHAGIAN';
+    protected $table = 'ge_bahagian';
 
     // public function jabatan()
     // {
