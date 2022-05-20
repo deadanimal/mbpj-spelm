@@ -9,6 +9,7 @@ use App\Models\PermohonanTuntutan;
 use App\Models\Tuntutan;
 use App\Models\User;
 use App\Models\UserPermohonan;
+use App\Models\Utiliti;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PDF;
@@ -35,11 +36,6 @@ class TuntutanController extends Controller
         $jumlah_jam_am = 0;
         $jumlah_jam_keseluruhan = 0;
 
-        // foreach ($tuntutan_k as $ps){
-        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-        //     $ps->pegawai_sokong = $pegawai_sokong;
-        // }
-
         foreach ($tuntutan_k as $pl) {
             $pegawai_sokong = User::where("id", $pl->pegawai_sokong_id)->first()->name;
             $update_permohonan = Permohonan::where('id', $pl->id)->first();
@@ -52,10 +48,6 @@ class TuntutanController extends Controller
             $sebenar_mula_kerja_ts = strtotime($time[1]);
             $jumlah_jam_bekerja = strtotime($pl->sebenar_akhir_kerja) - strtotime($pl->sebenar_mula_kerja);
             $jumlah_jam_bekerja = $jumlah_jam_bekerja / 3600;
-
-            //cek kadar siang
-            // $lb_siang = strtotime("10:00:00");
-            // $ub_siang = strtotime("18:00:00");
 
             $lb_siang = strtotime("06:00:00");
             $ub_siang = strtotime("21:59:00");
@@ -291,10 +283,12 @@ class TuntutanController extends Controller
         }
 
         // periksa tuntutan kerani periksa
-        $periksa_tuntutan = Tuntutan::orderBy('created_at', 'DESC')
-            ->where('lulus_kj', '!=', null)
-            ->orWhere('lulus_db', '!=', null)
-            ->get();
+
+        // $periksa_tuntutan = Tuntutan::orderBy('created_at', 'DESC')
+        //     ->where('lulus_kj', '!=', null)
+        //     ->orWhere('lulus_db', '!=', null)
+        //     ->get();
+        $periksa_tuntutan = Tuntutan::orderBy('created_at', 'DESC')->get();
 
         foreach ($periksa_tuntutan as $npt) {
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
@@ -307,6 +301,15 @@ class TuntutanController extends Controller
             $pegawai_lulus = User::where("id", $npt->pegawai_lulus_id)->first()->name;
             $npt->pegawai_lulus = $pegawai_lulus;
 
+            if ($npt->lulus_satupertiga == null && $npt->lulus_sebulan == null) {
+                $npt['jenis'] = "Biasa";
+            }
+            if ($npt->lulus_satupertiga == 1 && $npt->lulus_sebulan == 0) {
+                $npt['jenis'] = "Satu Pertiga";
+            }
+            if ($npt->lulus_satupertiga == 1 && $npt->lulus_sebulan == 1) {
+                $npt['jenis'] = "Sebulan";
+            }
         }
 
         //pelulus pindaan rekod
@@ -371,6 +374,10 @@ class TuntutanController extends Controller
         // dd($semak_satupertiga);
         //get kemaskini pegawai
         $pegawaituntutan = User::whereIn('role', array('penyelia', 'ketua_bahagian', 'ketua_jabatan'))->get();
+
+        $bulan_sekarang = now()->month;
+
+        $tarikh_auto_hantar_tuntutan = Utiliti::where('bulan', $bulan_sekarang)->first()->tarikh . "/" . $bulan_sekarang . "/" . now()->year;
         return view('tuntutan.index', [
             'tuntutan_k2' => $tuntutan_k,
             'tuntutan_k' => $tuntutan_k,
@@ -393,6 +400,7 @@ class TuntutanController extends Controller
             'tuntutan_kemaskini' => $tuntutan_kemaskini,
             'semak_satupertiga' => $semak_satupertiga,
             'semak_sebulan' => $semak_sebulan,
+            'tarikh_auto_hantar_tuntutan' => $tarikh_auto_hantar_tuntutan,
             // 'tuntutan_satupertiga'=> Tuntutan::where('lulus_satupertiga', 1)->get(),
             // 'tuntutan_sebulan'=> Tuntutan::where('lulus_sebulan', 1)->get(),
         ]);

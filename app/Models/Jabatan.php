@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Jabatan extends Model
 {
     use HasFactory;
-    protected $table = 'GE_JABATAN';
+    protected $table = 'ge_jabatan';
 
     // public function bahagian()
     // {
