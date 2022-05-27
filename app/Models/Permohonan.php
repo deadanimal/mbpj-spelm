@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Permohonan extends Model
 {
     use HasFactory;
-    protected $guarded = ['id'];
+    protected $guarded = [''];
     protected $with = ['pegawaiSokong', 'pegawaiLulus'];
 
     public function pegawaiSokong()
@@ -19,4 +19,5 @@ class Permohonan extends Model
     {
         return $this->hasOne(User::class, 'id', 'pegawai_lulus_id');
     }
+
 }

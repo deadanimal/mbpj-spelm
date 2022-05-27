@@ -178,6 +178,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
+                        <button class="btn btn-sm btn-primary" onclick="location.reload();">Refresh</button>
                         <li class="nav-item dropdown">
                             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">

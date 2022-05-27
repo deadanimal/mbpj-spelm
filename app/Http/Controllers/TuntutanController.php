@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ekedatangan;
 use App\Models\OracleCutiAm;
 use App\Models\OracleGaji;
 use App\Models\Permohonan;
+use App\Models\PermohonansDibuang;
 use App\Models\PermohonanTuntutan;
+use App\Models\PermohonanTuntutanDibuang;
 use App\Models\Tuntutan;
 use App\Models\User;
 use App\Models\UserPermohonan;
@@ -462,6 +465,25 @@ class TuntutanController extends Controller
             $user = User::where('id', '=', $user_permohonan)->first();
             $pegawai_lulus = User::where("id", $pl->pegawai_lulus_id)->first()->name;
             $pl->pegawai_lulus = $pegawai_lulus;
+
+            $userekedatangan = Ekedatangan::where('staffno', $user->user_code)
+                ->whereDate('tarikh', "=", substr($pl->mohon_mula_kerja, 0, 10))
+                ->first();
+
+            if ($userekedatangan != null) {
+                $pl['tarikh'] = $userekedatangan->tarikh;
+                $pl['clockouttime'] = $userekedatangan->clockouttime;
+                $pl['clockintime'] = $userekedatangan->clockintime;
+                $pl['statusdesc'] = $userekedatangan->tarikh;
+                $pl['waktuanjal'] = $userekedatangan->waktuanjal;
+            } else {
+                $pl['tarikh'] = 'Tiada Rekod';
+                $pl['clockouttime'] = 'Tiada Rekod';
+                $pl['clockintime'] = 'Tiada Rekod';
+                $pl['statusdesc'] = 'Tiada Rekod';
+                $pl['waktuanjal'] = 'Tiada Rekod';
+            }
+
         }
 
         $biasa_siang_total = 0;
@@ -547,6 +569,35 @@ class TuntutanController extends Controller
 
         }
 
+        //permohonan yang dibuang
+        $p_t_d = PermohonanTuntutanDibuang::where('tuntutan_id', $tuntutan->id)->get();
+
+        $permohonanTuntutanDibuang = [];
+        foreach ($p_t_d as $ptd) {
+            array_push($permohonanTuntutanDibuang, PermohonansDibuang::where('id', $ptd->permohonan_id)->first());
+        }
+
+        foreach ($permohonanTuntutanDibuang as $pl) {
+            $userekedatangan = Ekedatangan::where('staffno', $user->user_code)
+                ->whereDate('tarikh', "=", substr($pl->mohon_mula_kerja, 0, 10))
+                ->first();
+
+            if ($userekedatangan != null) {
+                $pl['tarikh'] = $userekedatangan->tarikh;
+                $pl['clockouttime'] = $userekedatangan->clockouttime;
+                $pl['clockintime'] = $userekedatangan->clockintime;
+                $pl['statusdesc'] = $userekedatangan->tarikh;
+                $pl['waktuanjal'] = $userekedatangan->waktuanjal;
+            } else {
+                $pl['tarikh'] = 'Tiada Rekod';
+                $pl['clockouttime'] = 'Tiada Rekod';
+                $pl['clockintime'] = 'Tiada Rekod';
+                $pl['statusdesc'] = 'Tiada Rekod';
+                $pl['waktuanjal'] = 'Tiada Rekod';
+            }
+
+        }
+
         return view('tuntutan.semaktuntutan', [
             'tuntutan' => $tuntutan,
             'permohonan_ygdituntut' => $permohonan_ygdituntut,
@@ -581,6 +632,7 @@ class TuntutanController extends Controller
             "kiraangajijam" => $kiraangajijam,
             "JumlahRM" => $JumlahRM,
 
+            "permohonan_dibuang" => $permohonanTuntutanDibuang,
         ]);
     }
     public function edit(Tuntutan $tuntutan)
@@ -862,6 +914,186 @@ class TuntutanController extends Controller
             'tolak_sebulan_sebab' => $request->sebab_ditolak,
         ]);
         return back();
+    }
+
+    public function SubmitAll(Request $request)
+    {
+        $tuntutan = Tuntutan::find($request->tuntutan_id);
+        switch ($request->jenis) {
+            case 'SatuPerTigaKJ':
+                $tuntutan->update([
+                    'lulus_kj' => $request->kelulusan,
+                ]);
+                break;
+            case 'SebulanGajiDB':
+                $tuntutan->update([
+                    'lulus_db' => $request->kelulusan,
+                ]);
+                break;
+
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function update_jenis_masa(Request $request)
+    {
+        $permohonan = Permohonan::find($request->id);
+
+        // $kadar_biasa_siang = "1.125";
+        // $kadar_biasa_malam = "1.25";
+        // $kadar_cuti_siang = "1.25";
+        // $kadar_cuti_malam = "1.50";
+        // $kadar_am_siang = "1.75";
+        // $kadar_am_malam = "2.00";
+        $nilai_asal = 0;
+
+        switch ($permohonan->jenis_masa) {
+            case 'Hari Biasa Siang':
+                $nilai_asal = $permohonan->jumlah_biasa_siang;
+                $permohonan->update([
+                    'jumlah_biasa_siang' => null,
+                ]);
+                break;
+            case 'Hari Biasa Malam':
+                $nilai_asal = $permohonan->jumlah_biasa_malam;
+                $permohonan->update([
+                    'jumlah_biasa_malam' => null,
+                ]);
+                break;
+            case 'Hari Rehat Siang':
+                $nilai_asal = $permohonan->jumlah_rehat_siang;
+                $permohonan->update([
+                    'jumlah_rehat_siang' => null,
+                ]);
+                break;
+            case 'Hari Rehat Malam':
+                $nilai_asal = $permohonan->jumlah_rehat_malam;
+                $permohonan->update([
+                    'jumlah_rehat_malam' => null,
+                ]);
+                break;
+            case 'Pelepasan Am Siang':
+                $nilai_asal = $permohonan->jumlah_am_siang;
+                $permohonan->update([
+                    'jumlah_am_siang' => null,
+                ]);
+                break;
+            case 'Pelepasan Am Malam':
+                $nilai_asal = $permohonan->jumlah_am_malam;
+                $permohonan->update([
+                    'jumlah_am_malam' => null,
+                ]);
+                break;
+        }
+        $permohonan->update([
+            'jenis_masa' => $request->jenis_masa,
+        ]);
+
+        switch ($permohonan->jenis_masa) {
+            case 'Hari Biasa Siang':
+                $permohonan->update([
+                    'jumlah_biasa_siang' => $nilai_asal,
+                ]);
+                break;
+            case 'Hari Biasa Malam':
+                $permohonan->update([
+                    'jumlah_biasa_malam' => $nilai_asal,
+                ]);
+                break;
+            case 'Hari Rehat Siang':
+                $permohonan->update([
+                    'jumlah_rehat_siang' => $nilai_asal,
+                ]);
+                break;
+            case 'Hari Rehat Malam':
+                $permohonan->update([
+                    'jumlah_rehat_malam' => $nilai_asal,
+                ]);
+                break;
+            case 'Pelepasan Am Siang':
+                $permohonan->update([
+                    'jumlah_am_siang' => $nilai_asal,
+                ]);
+                break;
+            case 'Pelepasan Am Malam':
+                $permohonan->update([
+                    'jumlah_am_malam' => $nilai_asal,
+                ]);
+                break;
+        }
+
+    }
+
+    public function buang_permohonan(Permohonan $permohonan)
+    {
+        $pt = PermohonanTuntutan::where('permohonan_id', $permohonan->id)->first();
+
+        PermohonansDibuang::create($permohonan->attributesToArray());
+        PermohonanTuntutanDibuang::create($pt->attributesToArray());
+
+        $permohonan->delete();
+        $pt->delete();
+
+        return back();
+    }
+
+    public function kembali_permohonan(Request $request)
+    {
+        $permohonan = PermohonansDibuang::find($request->permohonan_id);
+        $pt = PermohonanTuntutanDibuang::where('permohonan_id', $permohonan->id)->first();
+
+        Permohonan::create($permohonan->attributesToArray());
+        PermohonanTuntutan::create($pt->attributesToArray());
+
+        $permohonan->delete();
+        $pt->delete();
+
+        return back();
+    }
+
+    public function kemaskini_semakan_kerani(Request $request)
+    {
+        for ($i = 0; $i < count($request->permohonan_id); $i++) {
+            $permohonan = Permohonan::find($request->permohonan_id[$i]);
+            switch ($request->jenis_masa[$i]) {
+                case 'Hari Biasa Siang':
+                    $permohonan->update([
+                        'jumlah_biasa_siang' => $request->jumlah_biasa_siang[$i],
+                    ]);
+                    break;
+                case 'Hari Biasa Malam':
+                    $permohonan->update([
+                        'jumlah_biasa_malam' => $request->jumlah_biasa_malam[$i],
+                    ]);
+                    break;
+                case 'Hari Rehat Siang':
+                    $permohonan->update([
+                        'jumlah_rehat_siang' => $request->jumlah_rehat_siang[$i],
+                    ]);
+                    break;
+                case 'Hari Rehat Malam':
+                    $permohonan->update([
+                        'jumlah_rehat_malam' => $request->jumlah_rehat_malam[$i],
+                    ]);
+                    break;
+                case 'Pelepasan Am Siang':
+                    $permohonan->update([
+                        'jumlah_am_siang' => $request->jumlah_am_siang[$i],
+                    ]);
+                    break;
+                case 'Pelepasan Am Malam':
+                    $permohonan->update([
+                        'jumlah_am_malam' => $request->jumlah_am_malam[$i],
+                    ]);
+                    break;
+            }
+
+        }
+
+        return back();
+
     }
 
 }
