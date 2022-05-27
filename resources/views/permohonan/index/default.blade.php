@@ -501,8 +501,10 @@
                                                     method="post">
                                                     @csrf
                                                     <input name="masa_mula" type="datetime-local" class="form-control"
+                                                        onchange="kemaskiniMasaSebenarMulaSaya({{ $permohonan->id }}, this)"
                                                         value={{ $permohonan->sebenar_mula_kerja_formatted }}><br>
                                                     <input name=" masa_akhir" type="datetime-local" class="form-control"
+                                                        onchange="kemaskiniMasaSebenarAkhirSaya({{ $permohonan->id }}, this)"
                                                         value={{ $permohonan->sebenar_akhir_kerja_formatted }}><br>
                                                     <div class="text-center">
                                                         <button type="submit" class="btn btn-sm btn-success">Sah
@@ -607,7 +609,7 @@
                 },
             }).done(function(response) {
                 alert("Jenis Masa Dikemaskini");
-                // location.reload();
+                location.reload();
             });
         }
 
@@ -769,10 +771,11 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: "/permohonans-ubah-masa_akhir_saya/" + obj,
+                url: "/permohonans-ubah-masa_akhir_saya",
                 type: "POST",
                 data: {
-                    "masa_sebenar_baru_akhir_saya": obj2.value
+                    "masa_sebenar_baru_akhir_saya": obj2.value,
+                    "permohonan_id": obj
                 }
 
             });
@@ -847,43 +850,43 @@
             });
 
 
-            $('[data-toggle=confirmation]').confirmation({
-                rootSelector: '[data-toggle=confirmation]',
-                onConfirm: function(event, element) {
-                    element.trigger('confirm');
-                }
-            });
+            // $('[data-toggle=confirmation]').confirmation({
+            //     rootSelector: '[data-toggle=confirmation]',
+            //     onConfirm: function(event, element) {
+            //         element.trigger('confirm');
+            //     }
+            // });
 
 
-            $(document).on('confirm', function(e) {
-                var ele = e.target;
-                e.preventDefault();
+            // $(document).on('confirm', function(e) {
+            //     var ele = e.target;
+            //     e.preventDefault();
 
 
-                $.ajax({
-                    url: ele.href,
-                    // type: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(data) {
-                        if (data['success']) {
-                            $("#" + data['tr']).slideUp("slow");
-                            alert(data['success']);
-                        } else if (data['error']) {
-                            alert(data['error']);
-                        } else {
-                            alert('Whoops Something went wrong!!');
-                        }
-                    },
-                    error: function(data) {
-                        alert(data.responseText);
-                    }
-                });
+            //     $.ajax({
+            //         url: ele.href,
+            //         // type: 'DELETE',
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         },
+            //         success: function(data) {
+            //             if (data['success']) {
+            //                 $("#" + data['tr']).slideUp("slow");
+            //                 alert(data['success']);
+            //             } else if (data['error']) {
+            //                 alert(data['error']);
+            //             } else {
+            //                 alert('Whoops Something went wrong!!');
+            //             }
+            //         },
+            //         error: function(data) {
+            //             alert(data.responseText);
+            //         }
+            //     });
 
 
-                return false;
-            });
+            //     return false;
+            // });
         });
     </script>
 @endsection

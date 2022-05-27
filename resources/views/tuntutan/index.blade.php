@@ -2215,13 +2215,14 @@
                                         <h3 class="mb-0">Sah Tuntutan Lebih 1/3 gaji</h3>
                                     </div>
                                     <!-- Light table -->
-                                    <div class="table-responsive py-4">
+                                    <div class="table-responsive pt-4">
                                         <!-- Light table -->
                                         <table id="example"
                                             class="display table table-striped table-bordered dt-responsive nowrap"
                                             style="overflow-x:scroll; width:100%">
                                             <thead class="thead-light">
                                                 <tr>
+                                                    <th><input type="checkbox" id="submitSatuPerTigaAll"></th>
                                                     <th> No</th>
                                                     <th> Nama Pemohon</th>
                                                     <th> Pegawai Lulus <br><br> Pegawai Sokong </th>
@@ -2234,21 +2235,38 @@
                                             <tbody>
                                                 @foreach ($semak_satupertiga as $tsp)
                                                     <tr>
+                                                        <td>
+                                                            <input type="checkbox"
+                                                                class="{{ $tsp->lulus_db != null || $tsp->lulus_kj != null ? '' : 'sspta' }}"
+                                                                id="{{ $tsp->id }}"
+                                                                {{ $tsp->lulus_db != null || $tsp->lulus_kj != null ? 'disabled' : '' }}>
+                                                        </td>
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>{{ $tsp->nama_pemohon }}</td>
                                                         <td>{{ $tsp->pegawai_sokong }}<br> {{ $tsp->pegawai_lulus }}
                                                         </td>
-                                                        @if ($tsp->lulus_kj == '1')
-                                                            <td><span
-                                                                    class="badge badge-pill badge-success">Diluluskan</span>
-                                                            </td>
-                                                        @elseif($tsp->lulus_kj == '0')
-                                                            <td><span class="badge badge-pill badge-danger">Ditolak</span>
-                                                            </td>
-                                                        @elseif($tsp->lulus_kj === null)
-                                                            <td><span class="badge badge-pill badge-primary">Belum
-                                                                    Dinilai</span></td>
-                                                        @endif
+                                                        <td>
+                                                            @if ($tsp->lulus_db)
+                                                                <span class="badge badge-pill badge-success">Diluluskan
+                                                                    Datuk Bandar</span>
+                                                            @else
+                                                                @switch($tsp->lulus_kj)
+                                                                    @case('1')
+                                                                        <span
+                                                                            class="badge badge-pill badge-success">Diluluskan</span>
+                                                                    @break
+
+                                                                    @case('0')
+                                                                        <span class="badge badge-pill badge-danger">Ditolak</span>
+                                                                    @break
+
+                                                                    @case(null)
+                                                                        <span class="badge badge-pill badge-primary">Belum
+                                                                            Dinilai</span>
+                                                                    @break
+                                                                @endswitch
+                                                            @endif
+                                                        </td>
                                                         @if ($tsp->lulus_satupertiga == '1' && $tsp->lulus_sebulan == '0')
                                                             <td>Satu Pertiga Gaji</td>
                                                             <td>
@@ -2265,7 +2283,10 @@
                                                                 @endif
                                                             </td>
                                                         @elseif ($tsp->lulus_satupertiga == '1' && $tsp->lulus_sebulan == '1')
-                                                            <td>Sebulan Gaji <br> Semakan Datuk Bandar</td>
+                                                            <td>Sebulan Gaji
+                                                                <br>
+                                                                Semakan Datuk Bandar
+                                                            </td>
                                                             <td>
                                                                 <a href="/semaksatupertiga/{{ $tsp->id }}"
                                                                     class="btn btn-primary btn-sm ">Semak</a>
@@ -2318,8 +2339,22 @@
 
                                         </table>
                                     </div>
+                                    <div class="container mb-4">
+                                        <div class="row ">
+                                            <div class="col">
+                                                <button class="btn btn-primary btn-sm "
+                                                    onclick="SubmitTuntutanAll(1,'SatuPerTigaKJ','.sspta')">Sokong
+                                                    Pilihan</button>
+                                                <button class="btn btn-danger btn-sm "
+                                                    onclick="SubmitSatuPerTigaAll(0,'SatuPerTigaKJ','.sspta')">Tolak
+                                                    Pilihan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -2421,12 +2456,13 @@
                         <div class="card-header border-0">
                             <h3 class="mb-0">Sah Tuntutan Lebih Sebulan Gaji</h3>
                         </div>
-                        <div class="table-responsive py-4">
+                        <div class="table-responsive pt-4">
                             <!-- Light table -->
                             <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
                                 style="overflow-x:scroll; width:100%">
                                 <thead class="thead-light">
                                     <tr>
+                                        <th><input type="checkbox" id="SebulanGajiAll"></th>
                                         <th> No</th>
                                         <th> Nama Pemohon</th>
                                         <th> Pegawai Lulus <br><br> Pegawai Sokong </th>
@@ -2438,6 +2474,10 @@
                                 <tbody>
                                     @foreach ($semak_sebulan as $tsp)
                                         <tr>
+                                            <td><input type="checkbox"
+                                                    class="{{ $tsp->lulus_db != null ? '' : 'sga' }}"
+                                                    id="{{ $tsp->id }}"
+                                                    {{ $tsp->lulus_db != null ? 'disabled' : '' }}></td>
                                             <td>{{ $loop->index + 1 }}</td>
                                             <td>{{ $tsp->nama_pemohon }}</td>
                                             <td>{{ $tsp->pegawai_sokong }} <br> {{ $tsp->pegawai_lulus }}</td>
@@ -2498,6 +2538,20 @@
 
                             </table>
                         </div>
+
+                        <div class="container mb-4">
+                            <div class="row ">
+                                <div class="col">
+                                    <button class="btn btn-primary btn-sm "
+                                        onclick="SubmitTuntutanAll(1,'SebulanGajiDB','.sga')">Sokong
+                                        Pilihan</button>
+                                    <button class="btn btn-danger btn-sm "
+                                        onclick="SubmitTuntutanAll(0,'SebulanGajiDB','.sga')">Tolak
+                                        Pilihan</button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -3207,38 +3261,57 @@
 @endsection
 @section('script')
     <script>
+        $("#submitSatuPerTigaAll").click(function() {
+            if ($(this).prop('checked')) {
+                $(".sspta").prop('checked', true);
+            } else {
+                $(".sspta").prop('checked', false);
+            }
+        });
+        $("#SebulanGajiAll").click(function() {
+            if ($(this).prop('checked')) {
+                $(".sga").prop('checked', true);
+            } else {
+                $(".sga").prop('checked', false);
+            }
+        });
+
+        function SubmitTuntutanAll(kelulusan, jenis, childElement) {
+            let dicheck = false;
+            jQuery.each($(childElement), function(key, val) {
+                if ($(val).prop('checked')) {
+                    dicheck = true;
+                    let tuntutan_id = val.id;
+                    $.ajax({
+                        method: "POST",
+                        url: "/TuntutanSubmitAll",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "tuntutan_id": tuntutan_id,
+                            "kelulusan": kelulusan,
+                            "jenis": jenis,
+                        },
+                    });
+                }
+            });
+            if (dicheck) {
+                if (kelulusan == 1) {
+                    alert("Tuntutan berjaya dilulus");
+                }
+                if (kelulusan == 0) {
+                    alert("Tuntutan berjaya ditolak");
+                }
+                location.reload();
+            } else {
+                alert("Sila Pilih Tuntutan");
+            }
+        }
+
         $(document).ready(function() {
             $('table.display').DataTable();
         });
     </script>
-    {{-- <script>
-$(document).ready(function() {
-    // Setup - add a text input to each footer cell
-    $('#tablekeranisemak thead th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    } );
- 
-    // DataTable
-    var table = $('#tablekeranisemak').DataTable({
-        initComplete: function () {
-            // Apply the search
-            this.api().columns().every( function () {
-                var that = this;
- 
-                $( 'input', this.footer() ).on( 'keyup change clear', function () {
-                    if ( that.search() !== this.value ) {
-                        that
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } );
-        }
-    });
- 
-} );
-</script> --}}
+
 
     <script>
         // Kemaskini jam tuntutan

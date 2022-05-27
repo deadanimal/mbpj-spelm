@@ -47,16 +47,19 @@ class PermohonanController extends Controller
             $pegawai_lulus = User::where("id", $ps->pegawai_lulus_id)->first()->name;
             $ps->pegawai_lulus = $pegawai_lulus;
 
-            if ($ps->mohon_mula_kerja != null) {
+            if ($ps->mohon_mula_kerja !== null && $ps->sebenar_mula_kerja === null) {
                 $ps->sebenar_mula_kerja = $ps->mohon_mula_kerja;
 
                 $ps->sebenar_mula_kerja_formatted = str_replace(' ', 'T', $ps->mohon_mula_kerja);
+            } else {
+                $ps->sebenar_mula_kerja_formatted = str_replace(' ', 'T', $ps->sebenar_mula_kerja);
             }
 
-            if ($ps->mohon_akhir_kerja != null) {
+            if ($ps->mohon_akhir_kerja != null && $ps->sebenar_akhir_kerja === null) {
                 $ps->sebenar_akhir_kerja = $ps->mohon_akhir_kerja;
-
                 $ps->sebenar_akhir_kerja_formatted = str_replace(' ', 'T', $ps->mohon_akhir_kerja);
+            } else {
+                $ps->sebenar_akhir_kerja_formatted = str_replace(' ', 'T', $ps->sebenar_akhir_kerja);
             }
             try {
                 $ps->save();
@@ -161,15 +164,18 @@ class PermohonanController extends Controller
         // Sokongan permohonan _____________________
 
         $permohonan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)
-            ->orderByDesc("created_at")
+            ->orderBy("created_at", "desc")
             ->get();
 
-        // dd($permohonan_disokongs);
-
         foreach ($permohonan_disokongs as $ps) {
-            $uid = UserPermohonan::where("permohonan_id", $ps->id)->first()->user_id;
-            $pemohon = User::where("id", $uid)->first()->name;
-            $ps->nama_pemohon = $pemohon;
+            $p = UserPermohonan::where('permohonan_id', $ps->id)->first();
+            if ($p != null) {
+                $theuser = User::where('id', $p->user_id)->first();
+                $ps->nama_pemohon = $theuser->name;
+                # code...
+            } else {
+                $ps->nama_pemohon = "Tiada";
+            }
         }
 
         $permohonan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)
@@ -177,9 +183,13 @@ class PermohonanController extends Controller
             ->get();
 
         foreach ($permohonan_dilulus as $pl) {
-            $uuid = UserPermohonan::where("permohonan_id", $pl->id)->first()->user_id;
-            $pemohon = User::where("id", $uuid)->first()->name;
-            $pl->nama_pemohon = $pemohon;
+            $p = UserPermohonan::where('permohonan_id', $pl->id)->first();
+            if ($p != null) {
+                $theuser = User::where('id', $p->user_id)->first();
+                $pl->nama_pemohon = $theuser->name;
+            } else {
+                $pl->nama_pemohon = "Tiada";
+            }
         }
 
         // Sokongan pengesahan____________________________
@@ -871,11 +881,11 @@ class PermohonanController extends Controller
         $permohonan->sebenar_mula_kerja = $request->masa_sebenar_baru_mula_saya;
         $permohonan->save();
     }
-    public function kemaskini_masa_akhir_saya(Request $request, $id_permohonan)
+    public function kemaskini_masa_akhir_saya(Request $request)
     {
-        $permohonan = Permohonan::find($id_permohonan);
-        $permohonan->sebenar_akhir_kerja = $request->masa_sebenar_baru_akhir_saya;
-        $permohonan->save();
+        Permohonan::find($request->permohonan_id)->update([
+            'sebenar_akhir_kerja' => $request->masa_sebenar_baru_akhir_saya,
+        ]);
     }
 
     public function kemaskini_jam_tuntutan(Request $request, $id_permohonan)
@@ -983,16 +993,41 @@ class PermohonanController extends Controller
         return redirect($redirected_url);
 
     }
-    public function SokongAll(Request $request)
+
+    public function SubmitAll(Request $request)
     {
-        $ids = $request->ids;
-        // DB::table("permohonans")->whereIn('id',explode(",",$ids))->delete();
-        DB::table("permohonans")->whereIn('id', explode(",", $ids))();
-        return response()->json(['success' => "Sokong successfully."]);
+        switch ($request->jenis) {
+            case 'sokong':
+                Permohonan::find($request->permohonan_id)->update([
+                    'sokong_sebelum' => $request->kelulusan,
+                    'tarikh_sokong' => Carbon::now()->format('Y-m-d H:i:s'),
+                ]);
+                break;
+            case 'lulus':
+                Permohonan::find($request->permohonan_id)->update([
+                    'lulus_sebelum' => $request->kelulusan,
+                    'tarikh_lulus' => Carbon::now()->format('Y-m-d H:i:s'),
+                ]);
+                break;
+            case 'sokongPengesahan':
+                Permohonan::find($request->permohonan_id)->update([
+                    'sokong_selepas' => $request->kelulusan,
+                    'tarikh_sokong_selepas_' => Carbon::now()->format('Y-m-d H:i:s'),
+                ]);
+                break;
+            case 'lulusPengesahan':
+                Permohonan::find($request->permohonan_id)->update([
+                    'lulus_selepas' => $request->kelulusan,
+                    'tarikh_lulus_selepas' => Carbon::now()->format('Y-m-d H:i:s'),
+                ]);
+                break;
+        }
+
     }
 
     public function update_masa_mula_akhir(Request $request, Permohonan $permohonan)
     {
+
         $permohonan->update([
             'sebenar_mula_kerja' => $request->masa_mula,
             'sebenar_akhir_kerja' => $request->masa_akhir,
