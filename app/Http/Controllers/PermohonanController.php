@@ -492,14 +492,32 @@ class PermohonanController extends Controller
     {
         abort_if(auth()->user()->usercode == null, 466);
 
-        $pegawailulus = User::whereIn('role', array('ketua_jabatan', 'ketua_bahagian'))->get();
-        $pegawaisokong = User::whereIn('role', array('ketua_bahagian', 'penyelia'))->get();
-
         $pemohon = User::whereIn('role', array('kakitangan', 'penyelia', 'kerani_pemeriksa', 'kerani_semakan'))
             ->where('status', 'aktif')
             ->get();
 
         $jabatan_user = auth()->user()->usercode->HR_JABATAN;
+
+        $pegawailulusAll = User::whereIn('role', array('ketua_jabatan', 'ketua_bahagian'))->get();
+        $pegawaisokongAll = User::whereIn('role', array('ketua_bahagian', 'penyelia'))->get();
+
+        $pegawailulus = [];
+        $pegawaisokong = [];
+
+        foreach ($pegawailulusAll as $pl) {
+            if (isset($pl->usercode)) {
+                if ($pl->usercode->HR_JABATAN == $jabatan_user) {
+                    array_push($pegawailulus, $pl);
+                }
+            }
+        }
+        foreach ($pegawaisokongAll as $ps) {
+            if (isset($ps->usercode)) {
+                if ($ps->usercode->HR_JABATAN == $jabatan_user) {
+                    array_push($pegawaisokong, $ps);
+                }
+            }
+        }
         $jabatan_penguatkuasa = Jabatan::where('GE_KETERANGAN_JABATAN', 'JABATAN PENGUATKUASAAN')
             ->first()->GE_KOD_JABATAN; // 11
 
@@ -1027,13 +1045,12 @@ class PermohonanController extends Controller
 
     public function update_masa_mula_akhir(Request $request, Permohonan $permohonan)
     {
-
         $permohonan->update([
             'sebenar_mula_kerja' => $request->masa_mula,
             'sebenar_akhir_kerja' => $request->masa_akhir,
             'sah_mula_kerja' => 1,
         ]);
-        return back();
+        return redirect('/permohonans');
     }
 
     public function update_jenis_masa(Request $request)
@@ -1045,6 +1062,20 @@ class PermohonanController extends Controller
         ]);
 
         return response()->json();
+
+    }
+
+    public function tolakPukal(Request $request)
+    {
+        $sebab = $request->jenis . "_sebab";
+        foreach ($request->permohonan_id as $permohonan_id) {
+            $permohonan = Permohonan::find($permohonan_id);
+            $permohonan->update([
+                $request->jenis => 0,
+                $sebab => $request->$sebab,
+            ]);
+        }
+        return back();
 
     }
 

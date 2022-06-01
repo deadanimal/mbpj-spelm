@@ -1872,29 +1872,27 @@
                                                             {{ $loop->index + 1 }}
                                                         </td>
                                                         <td>
-                                                            {{ $sokong_tuntutan->id }}
+                                                            {{ $sokong->id }}
                                                         </td>
                                                         <td>
-                                                            {{ $sokong_tuntutan->nama_pemohon }}
+                                                            {{ $sokong->nama_pemohon }}
                                                         </td>
                                                         <td>
                                                             <input type="text" id="jumlah_jam_tuntutan"
                                                                 name="jumlah_jam_tuntutan"
-                                                                value="{{ $sokong_tuntutan->jumlah_jam_tuntutan }} "
-                                                                disabled>
+                                                                value="{{ $sokong->jumlah_jam_tuntutan }} " disabled>
 
                                                             <input type="text" id="jumlah_tuntutan" name="jumlah_tuntutan"
-                                                                value="{{ $sokong_tuntutan->jumlah_tuntutan }} "
-                                                                disabled>
+                                                                value="{{ $sokong->jumlah_tuntutan }} " disabled>
 
                                                             <input type="text" id="status" name="status"
-                                                                value="{{ $sokong_tuntutan->status }}" disabled>
+                                                                value="{{ $sokong->status }}" disabled>
                                                         </td>
 
                                                         <td>
-                                                            {{ $sokong_tuntutan->pegawai_sokong }} <br>
+                                                            {{ $sokong->pegawai_sokong }} <br>
 
-                                                            {{ $sokong_tuntutan->pegawai_lulus }}
+                                                            {{ $sokong->pegawai_lulus }}
                                                         </td>
 
                                                         @if ($sokong_tuntutan->sokong_tuntutan === null)
@@ -1903,13 +1901,13 @@
                                                                     Semakan</span>
                                                             </td>
                                                             <td>
-                                                                <a href="/tuntutans/{{ $sokong_tuntutan->id }}/"
+                                                                <a href="/tuntutans/{{ $sokong->id }}/"
                                                                     class="btn btn-primary btn-sm">Lihat</a><br>
-                                                                <a href="/sokong_tuntutan/{{ $sokong_tuntutan->id }}/"
+                                                                <a href="/sokong_tuntutan/{{ $sokong->id }}/"
                                                                     class="btn btn-success btn-sm">Sokong</a><br>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     data-toggle="modal"
-                                                                    data-target="#tolaksokongtuntutan{{ $sokong_tuntutan->id }}">
+                                                                    data-target="#tolaksokongtuntutan{{ $sokong->id }}">
                                                                     Tolak
                                                                 </button>
                                                             </td>
@@ -1928,7 +1926,7 @@
                                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                                         Diluluskan</span>
 
-                                                                    <a href="/tuntutans/{{ $sokong_tuntutan->id }}/"
+                                                                    <a href="/tuntutans/{{ $sokong->id }}/"
                                                                         class="btn btn-primary btn-sm">Lihat</a>
 
                                                                 </td>
@@ -1953,7 +1951,7 @@
                                                     </tr>
                                                     <!-- Modal tolak sokong tuntutan-->
                                                     <div class="modal fade"
-                                                        id="tolaksokongtuntutan{{ $sokong_tuntutan->id }}" tabindex="-1"
+                                                        id="tolaksokongtuntutan{{ $sokong->id }}" tabindex="-1"
                                                         role="dialog" aria-labelledby="exampleModalLabel"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
@@ -1976,7 +1974,7 @@
                                                                                     <label for="Perkara">Sebab Tolak
                                                                                         Tuntutan </label>
                                                                                     <input type="hidden"
-                                                                                        value="{{ $sokong_tuntutan->id }}"
+                                                                                        value="{{ $sokong->id }}"
                                                                                         name="id">
 
                                                                                     <div
@@ -2004,135 +2002,97 @@
                                                     </div>
                                                 @endforeach
                                             </tbody>
-
-
-
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {{-- Lulus tuntutan ketua jabatan --}}
-                        <div class="row ">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <!-- Card header -->
-                                    <div class="card-header border-0">
-                                        <h3 class="mb-0">Lulus Tuntutan </h3>
-                                    </div>
-                                    <!-- Light table -->
-                                    <div class="table-responsive py-4">
-                                        <!-- Light table -->
-                                        <table id="example"
-                                            class="display table table-striped table-bordered dt-responsive nowrap"
-                                            style="overflow-x:scroll; width:100%">
-                                            <thead class="thead-light">
 
-                                                <tr>
-                                                    {{-- <div class="col-md-12 mb-3">
+                    </div>
+
+                    {{-- Lulus tuntutan ketua jabatan --}}
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <!-- Card header -->
+                                <div class="card-header border-0">
+                                    <h3 class="mb-0">Lulus Tuntutan </h3>
+                                </div>
+                                <!-- Light table -->
+                                <div class="table-responsive py-4">
+                                    <!-- Light table -->
+                                    <table id="example"
+                                        class="display table table-striped table-bordered dt-responsive nowrap"
+                                        style="overflow-x:scroll; width:100%">
+                                        <thead class="thead-light">
+
+                                            <tr>
+                                                {{-- <div class="col-md-12 mb-3">
                                                     <button type="submit" class="btn btn-primary float-right">Hantar</button>
                                                 </div> --}}
 
-                                                    <th> No</th>
-                                                    <th> Tuntutan ID</th>
-                                                    <th> Nama Pemohon</th>
-                                                    <th> Jumlah Jam Tuntutan</th>
-                                                    <th> Pegawai Lulus <br><br> Pegawai Sokong </th>
-                                                    <th> Status</th>
-                                                    <th> Tindakan</th>
-                                                </tr>
-                                            </thead>
+                                                <th> No</th>
+                                                <th> Tuntutan ID</th>
+                                                <th> Nama Pemohon</th>
+                                                <th> Jumlah Jam Tuntutan</th>
+                                                <th> Pegawai Lulus <br><br> Pegawai Sokong </th>
+                                                <th> Status</th>
+                                                <th> Tindakan</th>
+                                            </tr>
+                                        </thead>
 
-                                            <tbody class="list">
-                                                @foreach ($lulus_tuntutan as $lulus_tuntutan)
-                                                    <tr>
-                                                        <td>
-                                                            {{ $loop->index + 1 }}
-                                                        </td>
-                                                        <td>
-                                                            {{ $lulus_tuntutan->id }}
-                                                        </td>
-                                                        <td>
-                                                            {{ $lulus_tuntutan->nama_pemohon }}
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" id="jumlah_jam_tuntutan"
-                                                                name="jumlah_jam_tuntutan"
-                                                                value="{{ $lulus_tuntutan->jumlah_jam_tuntutan }} "
-                                                                disabled>
+                                        <tbody class="list">
+                                            @foreach ($lulus_tuntutan as $lulus_tuntutan)
+                                                <tr>
+                                                    <td>
+                                                        {{ $loop->index + 1 }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $lulus_tuntutan->id }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $lulus_tuntutan->nama_pemohon }}
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="jumlah_jam_tuntutan"
+                                                            name="jumlah_jam_tuntutan"
+                                                            value="{{ $lulus_tuntutan->jumlah_jam_tuntutan }} "
+                                                            disabled>
 
-                                                            <input type="text" id="jumlah_tuntutan" name="jumlah_tuntutan"
-                                                                value="{{ $lulus_tuntutan->jumlah_tuntutan }} "
-                                                                disabled>
+                                                        <input type="text" id="jumlah_tuntutan" name="jumlah_tuntutan"
+                                                            value="{{ $lulus_tuntutan->jumlah_tuntutan }} " disabled>
 
-                                                            <input type="text" id="status" name="status"
-                                                                value="{{ $lulus_tuntutan->status }}" disabled>
-                                                        </td>
+                                                        <input type="text" id="status" name="status"
+                                                            value="{{ $lulus_tuntutan->status }}" disabled>
+                                                    </td>
 
-                                                        <td>
-                                                            {{ $lulus_tuntutan->pegawai_sokong }} <br><br>
+                                                    <td>
+                                                        {{ $lulus_tuntutan->pegawai_sokong }} <br><br>
 
-                                                            {{ $lulus_tuntutan->pegawai_lulus }}
-                                                        </td>
+                                                        {{ $lulus_tuntutan->pegawai_lulus }}
+                                                    </td>
 
-                                                        @if ($lulus_tuntutan->sokong_tuntutan === null)
-                                                            @if ($lulus_tuntutan->lulus_tuntutan === null)
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-primary">Dalam
-                                                                        Semakan Pegawai Sokong</span>
-                                                                </td>
-                                                                <td>
-                                                                    --
-                                                                </td>
-                                                            @elseif($lulus_tuntutan->lulus_tuntutan === 1)
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-success">Tuntutan
-                                                                        disokong</span><br><br>
-
-                                                                </td>
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-primary">Dalam
-                                                                        Semakan</span>
-
-                                                                </td>
-                                                            @elseif($lulus_tuntutan->lulus_tuntutan === 0)
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-danger"> Tuntutan
-                                                                        Ditolak</span>
-                                                                </td>
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-danger">Tuntutan
-                                                                        Ditolak</span>
-
-                                                                </td>
-                                                            @endif
-                                                        @elseif ($lulus_tuntutan->sokong_tuntutan === 1)
+                                                    @if ($lulus_tuntutan->sokong_tuntutan === null)
+                                                        @if ($lulus_tuntutan->lulus_tuntutan === null)
                                                             <td>
-                                                                <span class="badge badge-pill badge-success"> Tuntutan
-                                                                    Disokong</span><br><br>
-                                                                <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
-                                                                    class="btn btn-primary btn-sm">Lihat</a>
+                                                                <span class="badge badge-pill badge-primary">Dalam
+                                                                    Semakan Pegawai Sokong</span>
                                                             </td>
                                                             <td>
-                                                                @if ($lulus_tuntutan->lulus_tuntutan === null)
-                                                                    <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
-                                                                        class="btn btn-primary btn-sm">Lihat</a>
-                                                                    <a href="/lulus_tuntutan/{{ $lulus_tuntutan->id }}/"
-                                                                        class="btn btn-success btn-sm">Sokong</a>
-                                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                                        data-toggle="modal"
-                                                                        data-target="#tolaksokongtuntutan{{ $lulus_tuntutan->id }}">
-                                                                        Tolak
-                                                                    </button>
-                                                                @elseif($lulus_tuntutan->lulus_tuntutan === 1)
-                                                                    <span class="badge badge-pill badge-success">Lulus
-                                                                        Tuntutan </span>
-                                                                @elseif($lulus_tuntutan->lulus_tuntutan === 0)
-                                                                    <span class="badge badge-pill badge-danger"> Tuntutan
-                                                                        Ditolak</span>
-                                                                @endif
+                                                                --
                                                             </td>
-                                                        @elseif($lulus_tuntutan->sokong_tuntutan === 0)
+                                                        @elseif($lulus_tuntutan->lulus_tuntutan === 1)
+                                                            <td>
+                                                                <span class="badge badge-pill badge-success">Tuntutan
+                                                                    disokong</span><br><br>
+
+                                                            </td>
+                                                            <td>
+                                                                <span class="badge badge-pill badge-primary">Dalam
+                                                                    Semakan</span>
+
+                                                            </td>
+                                                        @elseif($lulus_tuntutan->lulus_tuntutan === 0)
                                                             <td>
                                                                 <span class="badge badge-pill badge-danger"> Tuntutan
                                                                     Ditolak</span>
@@ -2143,222 +2103,292 @@
 
                                                             </td>
                                                         @endif
-
-
-                                                    </tr>
-
-                                                    <!-- Modal tolak sokong tuntutan-->
-                                                    <div class="modal fade"
-                                                        id="tolaklulustuntutan{{ $lulus_tuntutan->id }}" tabindex="-1"
-                                                        role="dialog" aria-labelledby="exampleModalLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Tolak
-                                                                        Tuntutan
-                                                                        Kakitangan</h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <div class="card-body">
-                                                                        <form method="POST" action="/tolak_lulus_tuntutan">
-                                                                            @csrf
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group">
-                                                                                    <label for="Perkara">Sebab Tolak
-                                                                                        Tuntutan </label>
-                                                                                    <input type="hidden"
-                                                                                        value="{{ $lulus_tuntutan->id }}"
-                                                                                        name="id">
-
-                                                                                    <div
-                                                                                        class="input-group input-group-merge">
-                                                                                        <input class="form-control"
-                                                                                            name="lulus_tuntutan_sebab"
-                                                                                            placeholder="Sebab" type="text">
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <button type="button" class="btn btn-secondary"
-                                                                                data-dismiss="modal">Tutup</button>
-                                                                            <button type="submit"
-                                                                                class="btn btn-secondary">Hantar</button>
-
-                                                                    </div>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </tbody>
-
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- Lebih 1/3 tuntutan ketua jabatan --}}
-                        <div class="row ">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <!-- Card header -->
-                                    <div class="card-header border-0">
-                                        <h3 class="mb-0">Sah Tuntutan Lebih 1/3 gaji</h3>
-                                    </div>
-                                    <!-- Light table -->
-                                    <div class="table-responsive pt-4">
-                                        <!-- Light table -->
-                                        <table id="example"
-                                            class="display table table-striped table-bordered dt-responsive nowrap"
-                                            style="overflow-x:scroll; width:100%">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th><input type="checkbox" id="submitSatuPerTigaAll"></th>
-                                                    <th> No</th>
-                                                    <th> Nama Pemohon</th>
-                                                    <th> Pegawai Lulus <br><br> Pegawai Sokong </th>
-                                                    <th> Status</th>
-                                                    <th> Jenis</th>
-                                                    <th> Tindakan</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                @foreach ($semak_satupertiga as $tsp)
-                                                    <tr>
+                                                    @elseif ($lulus_tuntutan->sokong_tuntutan === 1)
                                                         <td>
-                                                            <input type="checkbox"
-                                                                class="{{ $tsp->lulus_db != null || $tsp->lulus_kj != null ? '' : 'sspta' }}"
-                                                                id="{{ $tsp->id }}"
-                                                                {{ $tsp->lulus_db != null || $tsp->lulus_kj != null ? 'disabled' : '' }}>
-                                                        </td>
-                                                        <td>{{ $loop->index + 1 }}</td>
-                                                        <td>{{ $tsp->nama_pemohon }}</td>
-                                                        <td>{{ $tsp->pegawai_sokong }}<br> {{ $tsp->pegawai_lulus }}
+                                                            <span class="badge badge-pill badge-success"> Tuntutan
+                                                                Disokong</span><br><br>
+                                                            <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
+                                                                class="btn btn-primary btn-sm">Lihat</a>
                                                         </td>
                                                         <td>
-                                                            @if ($tsp->lulus_db)
-                                                                <span class="badge badge-pill badge-success">Diluluskan
-                                                                    Datuk Bandar</span>
-                                                            @else
-                                                                @switch($tsp->lulus_kj)
-                                                                    @case('1')
-                                                                        <span
-                                                                            class="badge badge-pill badge-success">Diluluskan</span>
-                                                                    @break
-
-                                                                    @case('0')
-                                                                        <span class="badge badge-pill badge-danger">Ditolak</span>
-                                                                    @break
-
-                                                                    @case(null)
-                                                                        <span class="badge badge-pill badge-primary">Belum
-                                                                            Dinilai</span>
-                                                                    @break
-                                                                @endswitch
+                                                            @if ($lulus_tuntutan->lulus_tuntutan === null)
+                                                                <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
+                                                                    class="btn btn-primary btn-sm">Lihat</a>
+                                                                <a href="/lulus_tuntutan/{{ $lulus_tuntutan->id }}/"
+                                                                    class="btn btn-success btn-sm">Sokong</a>
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    data-toggle="modal"
+                                                                    data-target="#tolaksokongtuntutan{{ $lulus_tuntutan->id }}">
+                                                                    Tolak
+                                                                </button>
+                                                            @elseif($lulus_tuntutan->lulus_tuntutan === 1)
+                                                                <span class="badge badge-pill badge-success">Lulus
+                                                                    Tuntutan </span>
+                                                            @elseif($lulus_tuntutan->lulus_tuntutan === 0)
+                                                                <span class="badge badge-pill badge-danger"> Tuntutan
+                                                                    Ditolak</span>
                                                             @endif
                                                         </td>
-                                                        @if ($tsp->lulus_satupertiga == '1' && $tsp->lulus_sebulan == '0')
-                                                            <td>Satu Pertiga Gaji</td>
-                                                            <td>
-                                                                <a href="/semaksatupertiga/{{ $tsp->id }}"
-                                                                    class="btn btn-primary btn-sm ">Semak</a>
-                                                                @if ($tsp->lulus_kj === null)
-                                                                    <a href="/lulus_tuntutan_satu_pertiga/{{ $tsp->id }}"
-                                                                        class="btn btn-success btn-sm ">Lulus</a>
-                                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                                        data-toggle="modal"
-                                                                        data-target="#tolaksatupertiga{{ $tsp->id }}">
-                                                                        Tolak
-                                                                    </button>
-                                                                @endif
-                                                            </td>
-                                                        @elseif ($tsp->lulus_satupertiga == '1' && $tsp->lulus_sebulan == '1')
-                                                            <td>Sebulan Gaji
-                                                                <br>
-                                                                Semakan Datuk Bandar
-                                                            </td>
-                                                            <td>
-                                                                <a href="/semaksatupertiga/{{ $tsp->id }}"
-                                                                    class="btn btn-primary btn-sm ">Semak</a>
-                                                                @if ($tsp->lulus_db === null && $tsp->lulus_kj === null)
-                                                                    <a href="/lulus_tuntutan_satu_pertiga/{{ $tsp->id }}"
-                                                                        class="btn btn-success btn-sm ">Lulus</a>
-                                                                @endif
-                                                            </td>
-                                                        @else
-                                                            <td>Invalid</td>
-                                                        @endif
+                                                    @elseif($lulus_tuntutan->sokong_tuntutan === 0)
+                                                        <td>
+                                                            <span class="badge badge-pill badge-danger"> Tuntutan
+                                                                Ditolak</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="badge badge-pill badge-danger">Tuntutan
+                                                                Ditolak</span>
 
-                                                    </tr>
-                                                    <div class="modal fade" id="tolaksatupertiga{{ $tsp->id }}"
-                                                        tabindex="-1" role="dialog" aria-labelledby="tolaksatupertigaLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="tolaksatupertigaLabel">
-                                                                        Tolak Tuntutan 1/3 gaji</h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <form action="/tolak_satupertiga/{{ $tsp->id }}"
-                                                                    method="post">
-                                                                    <div class="modal-body">
+                                                        </td>
+                                                    @endif
+
+
+                                                </tr>
+
+                                                <!-- Modal tolak sokong tuntutan-->
+                                                <div class="modal fade"
+                                                    id="tolaklulustuntutan{{ $lulus_tuntutan->id }}" tabindex="-1"
+                                                    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Tolak
+                                                                    Tuntutan
+                                                                    Kakitangan</h5>
+                                                                <button type="button" class="close"
+                                                                    data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="card-body">
+                                                                    <form method="POST" action="/tolak_lulus_tuntutan">
                                                                         @csrf
-                                                                        <label for="">Sebab Menolak</label>
-                                                                        <input type="text" class="form-control"
-                                                                            name="sebab_menolak">
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button"
-                                                                            class="btn btn-secondary btn-sm"
-                                                                            data-dismiss="modal">Close</button>
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label for="Perkara">Sebab Tolak
+                                                                                    Tuntutan </label>
+                                                                                <input type="hidden"
+                                                                                    value="{{ $lulus_tuntutan->id }}"
+                                                                                    name="id">
+
+                                                                                <div class="input-group input-group-merge">
+                                                                                    <input class="form-control"
+                                                                                        name="lulus_tuntutan_sebab"
+                                                                                        placeholder="Sebab" type="text">
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Tutup</button>
                                                                         <button type="submit"
-                                                                            class="btn btn-primary btn-sm">Hantar</button>
-                                                                    </div>
+                                                                            class="btn btn-secondary">Hantar</button>
+
+                                                                </div>
                                                                 </form>
                                                             </div>
                                                         </div>
+                                                        <div class="modal-footer">
+
+                                                        </div>
                                                     </div>
-                                                @endforeach
+                                                </div>
+                                            @endforeach
+                                        </tbody>
 
-
-                                            </tbody>
-
-                                        </table>
-                                    </div>
-                                    <div class="container mb-4">
-                                        <div class="row ">
-                                            <div class="col">
-                                                <button class="btn btn-primary btn-sm "
-                                                    onclick="SubmitTuntutanAll(1,'SatuPerTigaKJ','.sspta')">Sokong
-                                                    Pilihan</button>
-                                                <button class="btn btn-danger btn-sm "
-                                                    onclick="SubmitSatuPerTigaAll(0,'SatuPerTigaKJ','.sspta')">Tolak
-                                                    Pilihan</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                    </table>
                                 </div>
                             </div>
-
                         </div>
+                    </div>
+                    {{-- Lebih 1/3 tuntutan ketua jabatan --}}
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <!-- Card header -->
+                                <div class="card-header border-0">
+                                    <h3 class="mb-0">Sah Tuntutan Lebih 1/3 gaji</h3>
+                                </div>
+                                <!-- Light table -->
+                                <div class="table-responsive pt-4">
+                                    <!-- Light table -->
+                                    <table id="example"
+                                        class="display table table-striped table-bordered dt-responsive nowrap"
+                                        style="overflow-x:scroll; width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th><input type="checkbox" id="submitSatuPerTigaAll"></th>
+                                                <th> No</th>
+                                                <th> Nama Pemohon</th>
+                                                <th> Pegawai Lulus <br><br> Pegawai Sokong </th>
+                                                <th> Status</th>
+                                                <th> Jenis</th>
+                                                <th> Tindakan</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach ($semak_satupertiga as $tsp)
+                                                <tr>
+                                                    <td>
+                                                        @if ($tsp->lulus_kj !== null)
+                                                            <input type="checkbox" class=""
+                                                                id="{{ $tsp->id }}" disabled>
+                                                        @else
+                                                            <input type="checkbox" class="sspta"
+                                                                id="{{ $tsp->id }}">
+                                                        @endif
+
+                                                    </td>
+                                                    <td>{{ $loop->index + 1 }}</td>
+                                                    <td>{{ $tsp->nama_pemohon }}</td>
+                                                    <td>{{ $tsp->pegawai_sokong }}<br> {{ $tsp->pegawai_lulus }}
+                                                    </td>
+                                                    <td>
+                                                        @if ($tsp->lulus_db)
+                                                            <span class="badge badge-pill badge-success">Diluluskan
+                                                                Datuk Bandar</span>
+                                                        @else
+                                                            @switch($tsp->lulus_kj)
+                                                                @case('1')
+                                                                    <span class="badge badge-pill badge-success">Diluluskan</span>
+                                                                @break
+
+                                                                @case('0')
+                                                                    <span class="badge badge-pill badge-danger">Ditolak</span>
+                                                                @break
+
+                                                                @case(null)
+                                                                    <span class="badge badge-pill badge-primary">Belum
+                                                                        Dinilai</span>
+                                                                @break
+                                                            @endswitch
+                                                        @endif
+                                                    </td>
+                                                    @if ($tsp->lulus_satupertiga == '1' && $tsp->lulus_sebulan == '0')
+                                                        <td>Satu Pertiga Gaji</td>
+                                                        <td>
+                                                            <a href="/semaksatupertiga/{{ $tsp->id }}"
+                                                                class="btn btn-primary btn-sm ">Semak</a>
+                                                            @if ($tsp->lulus_kj === null)
+                                                                <a href="/lulus_tuntutan_satu_pertiga/{{ $tsp->id }}"
+                                                                    class="btn btn-success btn-sm ">Lulus</a>
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    data-toggle="modal"
+                                                                    data-target="#tolaksatupertiga{{ $tsp->id }}">
+                                                                    Tolak
+                                                                </button>
+                                                            @endif
+                                                        </td>
+                                                    @elseif ($tsp->lulus_satupertiga == '1' && $tsp->lulus_sebulan == '1')
+                                                        <td>Sebulan Gaji
+                                                            <br>
+                                                            Semakan Datuk Bandar
+                                                        </td>
+                                                        <td>
+                                                            <a href="/semaksatupertiga/{{ $tsp->id }}"
+                                                                class="btn btn-primary btn-sm ">Semak</a>
+                                                            @if ($tsp->lulus_db === null && $tsp->lulus_kj === null)
+                                                                <a href="/lulus_tuntutan_satu_pertiga/{{ $tsp->id }}"
+                                                                    class="btn btn-success btn-sm ">Lulus</a>
+                                                            @endif
+                                                        </td>
+                                                    @else
+                                                        <td>Invalid</td>
+                                                    @endif
+
+                                                </tr>
+                                                <div class="modal fade" id="tolaksatupertiga{{ $tsp->id }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="tolaksatupertigaLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="tolaksatupertigaLabel">
+                                                                    Tolak Tuntutan 1/3 gaji</h5>
+                                                                <button type="button" class="close"
+                                                                    data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form action="/tolak_satupertiga/{{ $tsp->id }}"
+                                                                method="post">
+                                                                <div class="modal-body">
+                                                                    @csrf
+                                                                    <label for="">Sebab Menolak</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="sebab_menolak">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary btn-sm"
+                                                                        data-dismiss="modal">Close</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary btn-sm">Hantar</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                                <div class="container mb-4">
+                                    <div class="row ">
+                                        <div class="col">
+                                            <button class="btn btn-primary btn-sm "
+                                                onclick="SubmitTuntutanAll(1,'SatuPerTigaKJ','.sspta')">Sokong
+                                                Pilihan</button>
+                                            <button class="btn btn-danger btn-sm "
+                                                onclick="SubmitTuntutanAll(0,'SatuPerTigaKJ','.sspta')">Tolak
+                                                Pilihan</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {{-- Modal Tolak Satu Per Tiga All --}}
+                        <div class="modal fade" id="tolakPukalSatuTigaTuntutanModal" tabindex="-1" role="dialog"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Tolak Tuntutan Kakitangan</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form method="POST" action="/tolak_tuntutan_pukal">
+                                        <div class="modal-body">
+                                            @csrf
+                                            <label for="Perkara">Sebab Tolak Tuntutan </label>
+                                            <input type="hidden" name="jenis" value="satu_pertiga">
+                                            <input class="form-control" name="tolak_satu_per_tiga_sebab"
+                                                placeholder="Sebab" type="text">
+                                            <div id="tolakPukalSatuTigaTuntutanDiv">
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal">Tutup</button>
+                                            <button type="submit" class="btn btn-success">Hantar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     @elseif(auth()->user()->role == 'datuk_bandar')
         <div class="container-fluid mt--6">
@@ -2474,10 +2504,15 @@
                                 <tbody>
                                     @foreach ($semak_sebulan as $tsp)
                                         <tr>
-                                            <td><input type="checkbox"
-                                                    class="{{ $tsp->lulus_db != null ? '' : 'sga' }}"
-                                                    id="{{ $tsp->id }}"
-                                                    {{ $tsp->lulus_db != null ? 'disabled' : '' }}></td>
+                                            <td>
+                                                @if ($tsp->lulus_db === null)
+                                                    <input type="checkbox" class="sga"
+                                                        id="{{ $tsp->id }}">
+                                                @else
+                                                    <input type="checkbox" class=""
+                                                        id="{{ $tsp->id }}" disabled>
+                                                @endif
+                                            </td>
                                             <td>{{ $loop->index + 1 }}</td>
                                             <td>{{ $tsp->nama_pemohon }}</td>
                                             <td>{{ $tsp->pegawai_sokong }} <br> {{ $tsp->pegawai_lulus }}</td>
@@ -2548,6 +2583,40 @@
                                     <button class="btn btn-danger btn-sm "
                                         onclick="SubmitTuntutanAll(0,'SebulanGajiDB','.sga')">Tolak
                                         Pilihan</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Modal Tolak Sebulan All --}}
+                        <div class="modal fade" id="tolakPukalSebulanGajiTuntutanModal" tabindex="-1" role="dialog"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Tolak Tuntutan Kakitangan</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form method="POST" action="/tolak_tuntutan_pukal">
+                                        <div class="modal-body">
+                                            @csrf
+                                            <label for="Perkara">Sebab Tolak Tuntutan </label>
+                                            <input type="hidden" name="jenis" value="sebulan_gaji">
+                                            <input class="form-control" name="tolak_sebulan_sebab" placeholder="Sebab"
+                                                type="text">
+                                            <div id="tolakPukalSebulanGajiTuntutanDiv">
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal">Tutup</button>
+                                            <button type="submit" class="btn btn-success">Hantar</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -2982,7 +3051,7 @@
 
 
                                             <tbody>
-                                                @foreach ($periksa_tuntutan as $periksa_tuntutan)
+                                                @foreach ($periksa_tuntutans as $periksa_tuntutan)
                                                     <tr>
                                                         {{-- <td><input type="checkbox" class="sub_chk" data-id=""></td> --}}
                                                         <td>
@@ -3077,10 +3146,6 @@
                             {{-- periksa tuntutan kakitangan --}}
                         @elseif(auth()->user()->role == 'kerani_semakan')
                             <div class="row ">
-                                {{-- <div class="col-md-12 mb-3">
-                            <button  class="btn btn-primary btn-sm " data-url="{{ url('SemakTuntutanAll') }}">Sokong Pilihan</button>
-                            <button  class="btn btn-danger btn-sm " data-url="{{ url('SemakTolakTuntutanAll') }}">Tolak Pilihan</button>
-                        </div> --}}
                                 <div class="col-md-12">
                                     <div class="card">
                                         <!-- Card header -->
@@ -3107,7 +3172,8 @@
 
 
                                             <tbody>
-                                                @foreach ($semak_tuntutan as $semak_tuntutan)
+
+                                                @foreach ($semak_tuntutans as $semak_tuntutan)
                                                     <tr>
                                                         {{-- <td><input type="checkbox" class="sub_chk" data-id=""></td> --}}
 
@@ -3240,6 +3306,7 @@
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -3281,49 +3348,71 @@
             jQuery.each($(childElement), function(key, val) {
                 if ($(val).prop('checked')) {
                     dicheck = true;
-                    let tuntutan_id = val.id;
-                    $.ajax({
-                        method: "POST",
-                        url: "/TuntutanSubmitAll",
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            "tuntutan_id": tuntutan_id,
-                            "kelulusan": kelulusan,
-                            "jenis": jenis,
-                        },
-                    });
                 }
             });
+
             if (dicheck) {
                 if (kelulusan == 1) {
+                    jQuery.each($(childElement), function(key, val) {
+                        if ($(val).prop('checked')) {
+                            let tuntutan_id = val.id;
+                            $.ajax({
+                                method: "POST",
+                                url: "/TuntutanSubmitAll",
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                    "tuntutan_id": tuntutan_id,
+                                    "kelulusan": kelulusan,
+                                    "jenis": jenis,
+                                },
+                            });
+                        }
+                    });
                     alert("Tuntutan berjaya dilulus");
+                    location.reload();
                 }
                 if (kelulusan == 0) {
-                    alert("Tuntutan berjaya ditolak");
+                    switch (jenis) {
+                        case "SatuPerTigaKJ":
+                            var TheModal = "#tolakPukalSatuTigaTuntutanModal";
+                            var TheDiv = "#tolakPukalSatuTigaTuntutanDiv";
+                            break;
+                        case "SebulanGajiDB":
+                            var TheModal = "#tolakPukalSebulanGajiTuntutanModal";
+                            var TheDiv = "#tolakPukalSebulanGajiTuntutanDiv";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    $(TheModal).modal('toggle');
+                    jQuery.each($(childElement), function(key, val) {
+                        if ($(val).prop('checked')) {
+                            let tuntutan_id = val.id;
+                            $(TheDiv).append(`  
+                            <input type="hidden" name="tuntutan_id[]" value="` + tuntutan_id + `"> 
+                            `);
+                        }
+                    });
+
                 }
-                location.reload();
             } else {
                 alert("Sila Pilih Tuntutan");
             }
         }
 
-        $(document).ready(function() {
-            $('table.display').DataTable();
-        });
-    </script>
 
-
-    <script>
         // Kemaskini jam tuntutan
 
         $(document).ready(function() {
+            $('table.display').DataTable();
 
             //check tab
             if (window.location.href.indexOf("#2") > -1) {
                 document.getElementById("tabs-icons-text-2-tab").click()
             }
 
-            var data_tuntutan = <?php echo $tuntutan_k2; ?>;
+            var data_tuntutan = @json($tuntutan_k2->toArray());
             kiraJumlahJam(data_tuntutan);
         });
 

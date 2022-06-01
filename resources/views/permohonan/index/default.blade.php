@@ -461,37 +461,42 @@
                                                         Masa</label>
                                                 </div>
                                                 <div class="col-12">
-                                                    <select class="form-control"
-                                                        onchange="tukarJenisMasa(this, {{ $permohonan->id }}) ">
-                                                        <option
-                                                            {{ $permohonan->jenis_masa == 'Hari Biasa Siang' ? 'selected' : '' }}
-                                                            value="Hari Biasa Siang">Hari Biasa
-                                                            Siang
-                                                        </option>
-                                                        <option
-                                                            {{ $permohonan->jenis_masa == 'Hari Biasa Malam' ? 'selected' : '' }}
-                                                            value="Hari Biasa Malam">Hari Biasa
-                                                            Malam
-                                                        </option>
-                                                        <option
-                                                            {{ $permohonan->jenis_masa == 'Hari Rehat Siang' ? 'selected' : '' }}
-                                                            value="Hari Rehat Siang">Hari Rehat
-                                                            Siang
-                                                        </option>
-                                                        <option
-                                                            {{ $permohonan->jenis_masa == 'Hari Rehat Malam' ? 'selected' : '' }}
-                                                            value="Hari Rehat Malam">Hari Rehat
-                                                            Malam
-                                                        </option>
-                                                        <option
-                                                            {{ $permohonan->jenis_masa == 'Pelepasan Am Siang' ? 'selected' : '' }}
-                                                            value="Pelepasan Am Siang">Pelepasan Am
-                                                            Siang</option>
-                                                        <option
-                                                            {{ $permohonan->jenis_masa == 'Pelepasan Am Malam' ? 'selected' : '' }}
-                                                            value="Pelepasan Am Malam">Pelepasan Am
-                                                            Malam</option>
-                                                    </select>
+                                                    @if (!$permohonan->sah_mula_kerja)
+                                                        <select class="form-control"
+                                                            onchange="tukarJenisMasa(this, {{ $permohonan->id }}) ">
+                                                            <option
+                                                                {{ $permohonan->jenis_masa == 'Hari Biasa Siang' ? 'selected' : '' }}
+                                                                value="Hari Biasa Siang">Hari Biasa
+                                                                Siang
+                                                            </option>
+                                                            <option
+                                                                {{ $permohonan->jenis_masa == 'Hari Biasa Malam' ? 'selected' : '' }}
+                                                                value="Hari Biasa Malam">Hari Biasa
+                                                                Malam
+                                                            </option>
+                                                            <option
+                                                                {{ $permohonan->jenis_masa == 'Hari Rehat Siang' ? 'selected' : '' }}
+                                                                value="Hari Rehat Siang">Hari Rehat
+                                                                Siang
+                                                            </option>
+                                                            <option
+                                                                {{ $permohonan->jenis_masa == 'Hari Rehat Malam' ? 'selected' : '' }}
+                                                                value="Hari Rehat Malam">Hari Rehat
+                                                                Malam
+                                                            </option>
+                                                            <option
+                                                                {{ $permohonan->jenis_masa == 'Pelepasan Am Siang' ? 'selected' : '' }}
+                                                                value="Pelepasan Am Siang">Pelepasan Am
+                                                                Siang</option>
+                                                            <option
+                                                                {{ $permohonan->jenis_masa == 'Pelepasan Am Malam' ? 'selected' : '' }}
+                                                                value="Pelepasan Am Malam">Pelepasan Am
+                                                                Malam</option>
+                                                        </select>
+                                                    @else
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $permohonan->jenis_masa }}" readonly>
+                                                    @endif
                                                 </div>
                                             @endif
                                         </td>
