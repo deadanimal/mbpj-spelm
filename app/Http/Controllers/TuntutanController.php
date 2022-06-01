@@ -166,59 +166,26 @@ class TuntutanController extends Controller
                     }
                 }
 
-                // $jumlah_jam_keseluruhan = $jumlah_jam_keseluruhan + $jumlah_jam_biasa + $jumlah_jam_rehat + $jumlah_jam_am;
-
-                // cek kadar
-
                 $update_permohonan->save();
             }
 
         }
         $jumlah_jam_keseluruhan = $jumlah_jam_keseluruhan + $jumlah_jam_biasa + $jumlah_jam_rehat + $jumlah_jam_am;
 
-        // dd($jumlah_jam_keseluruhan);
-
         $tuntutan_lulus = Tuntutan::where('user_id', $user_id)
             ->orderByDesc("created_at")
             ->get();
 
-        // foreach ($tuntutan_lulus as $ps){
-        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-        //     $ps->pegawai_sokong = $pegawai_sokong;
-        // }
         foreach ($tuntutan_lulus as $pl) {
             $pegawai_lulus = User::where("id", $pl->pegawai_lulus_id)->first()->name;
             $pegawai_sokong = User::where("id", $pl->pegawai_sokong_id)->first()->name;
             $pl->pegawai_sokong = $pegawai_sokong;
             $pl->pegawai_lulus = $pegawai_lulus;
         }
-        // ->get();
-
-        // $tuntutans = User::find($user_id)
-        // ->tuntutans()
-        // ->get();
-
-        // sokong tuntutan
 
         $sokong_tuntutan = Tuntutan::where('pegawai_sokong_id', $user_id)
             ->orderByDesc("created_at")
             ->get();
-
-        //cari sebab/tujuan tuntutan dari permohonan
-        // foreach ($sokong_tuntutan as $ctujuan){
-        //     $cari_tujuan = Permohonan::find($permohonan);
-        //     $ctujuan->cari_tujuan = $cari_tujuan;
-        //     dd ($ctujuan);
-        // }
-        //cari nama pegawai
-        // foreach ($sokong_tuntutan as $ps){
-        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-        //     $ps->pegawai_sokong = $pegawai_sokong;
-        // }
-        // foreach ($sokong_tuntutan as $pl){
-        //     $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
-        //     $pl->pegawai_lulus = $pegawai_lulus;
-        // }
 
         foreach ($sokong_tuntutan as $npt) {
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
@@ -239,15 +206,6 @@ class TuntutanController extends Controller
             ->orderByDesc("created_at")
             ->get();
 
-        // foreach ($lulus_tuntutan as $ps){
-        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-        //     $ps->pegawai_sokong = $pegawai_sokong;
-        // }
-        // foreach ($lulus_tuntutan as $pl){
-        //     $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
-        //     $pl->pegawai_lulus = $pegawai_lulus;
-        // }
-
         foreach ($lulus_tuntutan as $npt) {
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
             $pemohon = User::where("id", $uuuuid)->first()->name;
@@ -261,17 +219,9 @@ class TuntutanController extends Controller
             $npt->nama_pemohon = $pemohon;
         }
         // semak tuntutan kerani semakan
-        $semak_tuntutan = Tuntutan::all();
+        $semak_tuntutans = Tuntutan::orderBy('created_at', 'DESC')->get();
 
-        // foreach ($semak_tuntutan as $ps){
-        //     $pegawai_sokong = User::where("id", $ps ->pegawai_sokong_id)->first()->name;
-        //     $ps->pegawai_sokong = $pegawai_sokong;
-        // }
-        // foreach ($semak_tuntutan as $pl){
-        //     $pegawai_lulus = User::where("id", $pl ->pegawai_lulus_id)->first()->name;
-        //     $pl->pegawai_lulus = $pegawai_lulus;
-        // }
-        foreach ($semak_tuntutan as $npt) {
+        foreach ($semak_tuntutans as $npt) {
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
             $pemohon = User::where("id", $uuuuid)->first()->name;
             $npt->nama_pemohon = $pemohon;
@@ -282,18 +232,11 @@ class TuntutanController extends Controller
             $pegawai_lulus = User::where("id", $npt->pegawai_lulus_id)->first()->name;
             $npt->pegawai_lulus = $pegawai_lulus;
 
-            // $pegawai_sokong = User::where("id", $npt ->pegawai_sokong_id)->first()->name;
         }
 
-        // periksa tuntutan kerani periksa
+        $periksa_tuntutans = Tuntutan::orderBy('created_at', 'DESC')->get();
 
-        // $periksa_tuntutan = Tuntutan::orderBy('created_at', 'DESC')
-        //     ->where('lulus_kj', '!=', null)
-        //     ->orWhere('lulus_db', '!=', null)
-        //     ->get();
-        $periksa_tuntutan = Tuntutan::orderBy('created_at', 'DESC')->get();
-
-        foreach ($periksa_tuntutan as $npt) {
+        foreach ($periksa_tuntutans as $npt) {
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
             $pemohon = User::where("id", $uuuuid)->first()->name;
             $npt->nama_pemohon = $pemohon;
@@ -329,16 +272,6 @@ class TuntutanController extends Controller
             $kakitangan_name = User::where("id", $kpn->user_id)->first()->name;
             $kpn->kakitangan_name = $kakitangan_name;
         }
-
-        // foreach ($tuntutan_kemaskini as $ksn){
-        //     $kerani_semak_name = User::where("id", $ksn ->kerani_semakan_id)->first()->name;
-        //     $ksn->kerani_semak_name = $kerani_semak_name;
-        // // }
-        // foreach ($tuntutan_kemaskini as $kn){
-        //     $kakitangan_name = User::where("id", $kn ->user_id)->first()->name;
-        //     $kn->kakitangan_name = $kakitangan_name;
-        // }
-        // // dd($kerani_semak_name);
 
         $semak_satupertiga = Tuntutan::where('lulus_satupertiga', 1)
             ->orderByDesc("created_at")
@@ -390,8 +323,8 @@ class TuntutanController extends Controller
 
             'tuntutan_lulus' => $tuntutan_lulus,
 
-            'semak_tuntutan' => $semak_tuntutan,
-            'periksa_tuntutan' => $periksa_tuntutan,
+            'semak_tuntutans' => $semak_tuntutans,
+            'periksa_tuntutans' => $periksa_tuntutans,
 
             'pegawaituntutan' => $pegawaituntutan,
 
@@ -445,7 +378,8 @@ class TuntutanController extends Controller
     public function show(Tuntutan $tuntutan, Request $request)
     {
 
-        $user = User::get('role');
+        // $user = User::get('role');
+        $user = null;
 
         $user_id = $request->user()->id;
 
@@ -536,7 +470,11 @@ class TuntutanController extends Controller
         $jumlah_jam_persamaan = $jumlah_jam_persamaan + $pj_biasa_siang + $pj_biasa_malam + $pj_rehat_siang + $pj_rehat_malam + $pj_am_siang + $pj_am_malam;
 
         //kiraan gaji
-        $oraclegaji = OracleGaji::where('hr_no_pekerja', '=', $user->user_code)->get('hr_gaji_pokok')->first()->hr_gaji_pokok;
+        if ($user == null) {
+            $oraclegaji = 0;
+        } else {
+            $oraclegaji = OracleGaji::where('hr_no_pekerja', '=', $user->user_code)->get('hr_gaji_pokok')->first()->hr_gaji_pokok;
+        }
 
         // dd($oraclegaji);
 
@@ -578,9 +516,13 @@ class TuntutanController extends Controller
         }
 
         foreach ($permohonanTuntutanDibuang as $pl) {
-            $userekedatangan = Ekedatangan::where('staffno', $user->user_code)
-                ->whereDate('tarikh', "=", substr($pl->mohon_mula_kerja, 0, 10))
-                ->first();
+            if ($user == null) {
+                $userekedatangan = null;
+            } else {
+                $userekedatangan = Ekedatangan::where('staffno', $user->user_code)
+                    ->whereDate('tarikh', "=", substr($pl->mohon_mula_kerja, 0, 10))
+                    ->first();
+            }
 
             if ($userekedatangan != null) {
                 $pl['tarikh'] = $userekedatangan->tarikh;
@@ -601,8 +543,8 @@ class TuntutanController extends Controller
         return view('tuntutan.semaktuntutan', [
             'tuntutan' => $tuntutan,
             'permohonan_ygdituntut' => $permohonan_ygdituntut,
-            "pegawai_lulus" => $permohonan_ygdituntut[0]->pegawai_lulus,
-            "pegawai_sokong" => $permohonan_ygdituntut[0]->pegawai_sokong,
+            "pegawai_lulus" => $pegawai_lulus,
+            "pegawai_sokong" => $pegawai_sokong,
             "user" => $user,
             "jumlah_jam_keseluruhan_show_biasa" => $jumlah_jam_keseluruhan_show_biasa,
             "jumlah_jam_keseluruhan_show_rehat" => $jumlah_jam_keseluruhan_show_rehat,
@@ -719,17 +661,12 @@ class TuntutanController extends Controller
     }
     public function periksa_tuntutan(Request $request, $id)
     {
-
         $tuntutan = Tuntutan::find($id);
         $tuntutan->periksa_tuntutan = true;
         $tuntutan->kerani_pemeriksa_id = $request->user()->id;
         $tuntutan->save();
 
         $redirected_url = '/tuntutans/';
-
-        // echo '<script language="javascript">';
-        // echo 'document.getElementById("tabs-icons-text-2-tab").click()';
-        // echo '</script>';
 
         return redirect($redirected_url)->with('success1', 'periksa tuntutan');
 
@@ -766,11 +703,11 @@ class TuntutanController extends Controller
 
         //get laporan
 
-        $permohonan_id = PermohonanTuntutan::where('tuntutan_id', $tuntutan)
+        $permohonanT = PermohonanTuntutan::where('tuntutan_id', $tuntutan)
             ->get();
 
         $semak_tuntutan = [];
-        foreach ($permohonan_id as $pydt) {
+        foreach ($permohonanT as $pydt) {
             $temp = Permohonan::where('id', $pydt->permohonan_id)->first();
             array_push($semak_tuntutan, $temp);
         }
@@ -781,6 +718,29 @@ class TuntutanController extends Controller
         // $belum_hadir = count(UserRollcall::where('penguatkuasa_id',$id)->where('lulus', null)->get());
 
         $currentdate = Carbon::now()->format('Y-m-d ');
+
+        foreach ($semak_tuntutan as $pl) {
+            $user_permohonan = UserPermohonan::where('permohonan_id', $pl->id)->first()->user_id;
+            $user = User::where('id', '=', $user_permohonan)->first();
+
+            $userekedatangan = Ekedatangan::where('staffno', $user->user_code)
+                ->whereDate('tarikh', "=", substr($pl->mohon_mula_kerja, 0, 10))
+                ->first();
+
+            if ($userekedatangan != null) {
+                $pl['tarikh'] = $userekedatangan->tarikh;
+                $pl['clockouttime'] = $userekedatangan->clockouttime;
+                $pl['clockintime'] = $userekedatangan->clockintime;
+                $pl['statusdesc'] = $userekedatangan->tarikh;
+                $pl['waktuanjal'] = $userekedatangan->waktuanjal;
+            } else {
+                $pl['tarikh'] = 'Tiada Rekod';
+                $pl['clockouttime'] = 'Tiada Rekod';
+                $pl['clockintime'] = 'Tiada Rekod';
+                $pl['statusdesc'] = 'Tiada Rekod';
+                $pl['waktuanjal'] = 'Tiada Rekod';
+            }
+        }
 
         //cetakan
         $pdf = PDF::loadView('tuntutan.laporan_tuntutan', [
@@ -1094,6 +1054,31 @@ class TuntutanController extends Controller
 
         return back();
 
+    }
+
+    public function tolakPukal(Request $request)
+    {
+        switch ($request->jenis) {
+            case 'satu_pertiga':
+                foreach ($request->tuntutan_id as $id) {
+                    $tuntutan = Tuntutan::find($id);
+                    $tuntutan->update([
+                        'lulus_kj' => 0,
+                        'tolak_satu_per_tiga_sebab' => $request->tolak_satu_per_tiga_sebab,
+                    ]);
+                }
+                break;
+            case 'sebulan_gaji':
+                foreach ($request->tuntutan_id as $id) {
+                    $tuntutan = Tuntutan::find($id);
+                    $tuntutan->update([
+                        'lulus_db' => 0,
+                        'tolak_sebulan_sebab' => $request->tolak_sebulan_sebab,
+                    ]);
+                }
+                break;
+        }
+        return back();
     }
 
 }

@@ -465,6 +465,7 @@
             </div>
         </div>
 
+        {{-- Pemohonan --}}
         <div class="tab-pane fade" id="penyeliasokongkakitangan" role="tabpanel"
             aria-labelledby="penyeliasokongkakitangan-tab">
             <div>
@@ -504,11 +505,11 @@
                                         <tbody class="list">
                                             @foreach ($permohonan_disokongs as $permohonan)
                                                 <tr>
-
                                                     <td>
-                                                        <input {{ $permohonan->sokong_sebelum ? 'disabled' : '' }}
+                                                        <input
+                                                            {{ $permohonan->sokong_sebelum !== null ? 'disabled' : '' }}
                                                             type="checkbox"
-                                                            class="{{ $permohonan->sokong_sebelum ? '' : 'sak' }}"
+                                                            class="{{ $permohonan->sokong_sebelum !== null ? '' : 'sak' }}"
                                                             id="{{ $permohonan->id }}">
                                                     </td>
                                                     <td>
@@ -538,57 +539,79 @@
                                                         {{ $permohonan->pegawaiLulus->name }}
                                                     </td>
 
-                                                    @if ($permohonan->sokong_sebelum === null)
-                                                        <td>
+                                                    <td>
+                                                        @if ($permohonan->sokong_sebelum === null)
                                                             <div class="row text-center">
                                                                 <div class="col-12">
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan</span>
                                                                 </div>
-                                                                @if (isset($permohonan->jenis_masa))
-                                                                    <div class="col-12 text-center">
-                                                                        <label class="h5 my-0 py-0 mt-2 " for="">
-                                                                            Jenis
-                                                                            Masa</label>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <select class="form-control"
-                                                                            onchange="tukarJenisMasa(this,{{ $permohonan->id }});">
-                                                                            <option
-                                                                                {{ $permohonan->jenis_masa == 'Hari Biasa Siang' ? 'selected' : '' }}
-                                                                                value="Hari Biasa Siang">Hari Biasa
-                                                                                Siang
-                                                                            </option>
-                                                                            <option
-                                                                                {{ $permohonan->jenis_masa == 'Hari Biasa Malam' ? 'selected' : '' }}
-                                                                                value="Hari Biasa Malam">Hari Biasa
-                                                                                Malam
-                                                                            </option>
-                                                                            <option
-                                                                                {{ $permohonan->jenis_masa == 'Hari Rehat Siang' ? 'selected' : '' }}
-                                                                                value="Hari Rehat Siang">Hari Rehat
-                                                                                Siang
-                                                                            </option>
-                                                                            <option
-                                                                                {{ $permohonan->jenis_masa == 'Hari Rehat Malam' ? 'selected' : '' }}
-                                                                                value="Hari Rehat Malam">Hari Rehat
-                                                                                Malam
-                                                                            </option>
-                                                                            <option
-                                                                                {{ $permohonan->jenis_masa == 'Pelepasan Am Siang' ? 'selected' : '' }}
-                                                                                value="Pelepasan Am Siang">Pelepasan Am
-                                                                                Siang</option>
-                                                                            <option
-                                                                                {{ $permohonan->jenis_masa == 'Pelepasan Am Malam' ? 'selected' : '' }}
-                                                                                value="Pelepasan Am Malam">Pelepasan Am
-                                                                                Malam</option>
-                                                                        </select>
-                                                                    </div>
-                                                                @endif
                                                             </div>
-                                                        </td>
+                                                        @elseif($permohonan->sokong_sebelum == 1)
+                                                            <span class="badge badge-pill badge-success">Lulus Permohonan
+                                                                PG1</span>
+                                                        @elseif($permohonan->sokong_sebelum == 0)
+                                                            <span class="badge badge-pill badge-danger">Ditolak Permohonan
+                                                                PG1</span><br>
+                                                            <span>Sebab Ditolak :
+                                                                {{ $permohonan->sokong_sebelum_sebab }}
+                                                            </span>
+                                                        @endif
+                                                        <br><br>
+                                                        @if ($permohonan->lulus_sebelum === null)
+                                                            <span class="badge badge-pill badge-primary">Dalam Semakan
+                                                                Pegawai</span>
+                                                        @elseif($permohonan->lulus_sebelum == 0)
+                                                            <span class="badge badge-pill badge-danger">Ditolak Permohonan
+                                                                PG2</span>
+                                                        @elseif($permohonan->lulus_sebelum)
+                                                            <span class="badge badge-pill badge-success">Lulus Permohonan
+                                                                PG2</span>
+                                                        @endif
+                                                        <br><br>
+                                                        @if (isset($permohonan->jenis_masa) && $permohonan->sokong_sebelum === null)
+                                                            <div class="col-12 text-center">
+                                                                <label class="h5 my-0 py-0 mt-2 " for=""> Jenis
+                                                                    Masa</label>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <select class="form-control"
+                                                                    onchange="tukarJenisMasa(this,{{ $permohonan->id }});">
+                                                                    <option
+                                                                        {{ $permohonan->jenis_masa == 'Hari Biasa Siang' ? 'selected' : '' }}
+                                                                        value="Hari Biasa Siang">Hari Biasa
+                                                                        Siang
+                                                                    </option>
+                                                                    <option
+                                                                        {{ $permohonan->jenis_masa == 'Hari Biasa Malam' ? 'selected' : '' }}
+                                                                        value="Hari Biasa Malam">Hari Biasa
+                                                                        Malam
+                                                                    </option>
+                                                                    <option
+                                                                        {{ $permohonan->jenis_masa == 'Hari Rehat Siang' ? 'selected' : '' }}
+                                                                        value="Hari Rehat Siang">Hari Rehat
+                                                                        Siang
+                                                                    </option>
+                                                                    <option
+                                                                        {{ $permohonan->jenis_masa == 'Hari Rehat Malam' ? 'selected' : '' }}
+                                                                        value="Hari Rehat Malam">Hari Rehat
+                                                                        Malam
+                                                                    </option>
+                                                                    <option
+                                                                        {{ $permohonan->jenis_masa == 'Pelepasan Am Siang' ? 'selected' : '' }}
+                                                                        value="Pelepasan Am Siang">Pelepasan Am
+                                                                        Siang</option>
+                                                                    <option
+                                                                        {{ $permohonan->jenis_masa == 'Pelepasan Am Malam' ? 'selected' : '' }}
+                                                                        value="Pelepasan Am Malam">Pelepasan Am
+                                                                        Malam</option>
+                                                                </select>
+                                                            </div>
+                                                        @endif
+                                                    </td>
 
-                                                        <td class="tindakan">
+                                                    <td>
+                                                        @if ($permohonan->sokong_sebelum === null)
                                                             <a href="/permohonans/{{ $permohonan->id }}/edit"
                                                                 class="btn btn-primary btn-sm"><i
                                                                     class="ni ni-single-copy-04"></i></a>
@@ -601,99 +624,106 @@
                                                             <a href="/sokong_sebelum/{{ $permohonan->id }}/"
                                                                 class="btn btn-success btn-sm"><i
                                                                     class="ni ni-like-2"></i></a>
-                                                        </td>
-                                                    @elseif($permohonan->sokong_sebelum === 1)
-                                                        <td>
-                                                            <span class="badge badge-pill badge-success">Lulus Permohonan
-                                                                PG1</span><br><br>
-
-                                                            @if ($permohonan->lulus_sebelum === null)
-                                                                <span class="badge badge-pill badge-primary">Dalam Semakan
-                                                                    Pegawai</span>
-                                                        <td>
+                                                        @else
                                                             --
-                                                        </td>
-                                                    @elseif($permohonan->lulus_sebelum === 1)
-                                                        <span class="badge badge-pill badge-success">Lulus Permohonan
-                                                            PG2</span>
-                                                        <td>
-                                                            --
-                                                        </td>
-                                                    @elseif($permohonan->lulus_sebelum === 0)
-                                                        <span class="badge badge-pill badge-danger">Ditolak Permohonan
-                                                            PG2</span><br><br>
-                                                        {{ $permohonan->lulus_sebelum_sebab }}
-                                                        <td>
-                                                            --
-                                                        </td>
-                                                    @endif
+                                                        @endif
                                                     </td>
-                                                @elseif($permohonan->sokong_sebelum === 0)
-                                                    <td>
-                                                        <span class="badge badge-pill badge-danger">Ditolak Permohonan
-                                                            PG1</span><br><br>
-                                                        {{ $permohonan->sokong_sebelum_sebab }}
-                                                    </td>
-                                                    <td>
-                                                        <span class="badge badge-pill badge-danger">Permohonan
-                                                            Ditolak</span>
-                                                    </td>
-                                            @endif
 
-                                            </tr>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="tolaksokongsebelum{{ $permohonan->id }}"
-                                                tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-primary">
-                                                            <h5 class="modal-title text-white" id="exampleModalLabel">Tolak
-                                                                Permohonan
-                                                                Kakitangan</h5>
-                                                            <button type="button" class="close"
-                                                                data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="card-body">
-                                                                <form method="POST" action="/tolak_sokong_sebelum">
-                                                                    @csrf
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group">
-                                                                            <label for="Perkara">Sebab Tolak
-                                                                                Permohonan</label>
-                                                                            <input type="hidden"
-                                                                                value="{{ $permohonan->id }}" name="id">
+                                                </tr>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="tolaksokongsebelum{{ $permohonan->id }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header bg-primary">
+                                                                <h5 class="modal-title text-white" id="exampleModalLabel">
+                                                                    Tolak
+                                                                    Permohonan
+                                                                    Kakitangan</h5>
+                                                                <button type="button" class="close"
+                                                                    data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="card-body">
+                                                                    <form method="POST" action="/tolak_sokong_sebelum">
+                                                                        @csrf
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label for="Perkara">Sebab Tolak
+                                                                                    Permohonan</label>
+                                                                                <input type="hidden"
+                                                                                    value="{{ $permohonan->id }}"
+                                                                                    name="id">
 
-                                                                            <div class="input-group input-group-merge">
-                                                                                <input class="form-control"
-                                                                                    name="sokong_sebelum_sebab"
-                                                                                    placeholder="Sebab" type="text">
+                                                                                <div class="input-group input-group-merge">
+                                                                                    <input class="form-control"
+                                                                                        name="sokong_sebelum_sebab"
+                                                                                        placeholder="Sebab" type="text">
 
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                            </div>
-                                                            </form>
+                                                                </div>
+                                                                </form>
 
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-primary btn-sm"
-                                                                    data-dismiss="modal">Tutup</button>
-                                                                <button type="submit"
-                                                                    class="btn btn-success btn-sm">Hantar</button>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                                        data-dismiss="modal">Tutup</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-success btn-sm">Hantar</button>
 
 
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @endforeach
+                                                </div>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Modal Tolak Pukal --}}
+        <div class="modal fade" id="tolakPermohonanPukalModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title text-white" id="exampleModalLabel">Tolak Permohonan Kakitangan Secara Pukal
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="/tolak_permohonan_pukal">
+                            @csrf
+                            <div class="card-body">
+                                <div class="col-md-12">
+                                    <div class="form-group" id="tolakPermohonanPukalDiv">
+                                        <label for="Perkara">Sebab Tolak Permohonan</label>
+                                        <input type="hidden" name="jenis" value="sokong_sebelum">
+                                        <div class="input-group input-group-merge">
+                                            <input class="form-control" name="sokong_sebelum_sebab" placeholder="Sebab"
+                                                type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-success btn-sm">Hantar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -738,11 +768,13 @@
                                         <tbody class="list">
                                             @forelse($pengesahan_disokongs as $permohonan)
                                                 <tr>
-                                                    <td> <input
-                                                            {{ $permohonan->sokong_selepas || $permohonan->sah_mula_kerja == 0 ? 'disabled' : '' }}
+                                                    <td>
+                                                        <input
+                                                            {{ $permohonan->sokong_selepas !== null || !$permohonan->sah_mula_kerja ? 'disabled' : '' }}
                                                             type="checkbox"
-                                                            class="{{ $permohonan->sokong_selepas || $permohonan->sah_mula_kerja == 0 ? '' : 'spa' }}"
-                                                            id="{{ $permohonan->id }}"></td>
+                                                            class="{{ $permohonan->sokong_selepas !== null || !$permohonan->sah_mula_kerja ? '' : 'spa' }}"
+                                                            id="{{ $permohonan->id }}">
+                                                    </td>
                                                     <td>
                                                         {{ $loop->index + 1 }}
                                                     </td>
@@ -770,8 +802,7 @@
                                                         </h5>
                                                         @if (isset($permohonan->jenis_masa))
                                                             <div class="col-12 text-center">
-                                                                <label class="h5 my-0 py-0 mt-2 " for="">
-                                                                    Jenis
+                                                                <label class="h5 my-0 py-0 mt-2 " for=""> Jenis
                                                                     Masa</label>
                                                             </div>
                                                             <div class="col-12">
@@ -866,7 +897,8 @@
                                                             <td>
                                                                 <span class="badge badge-pill badge-danger">Ditolak Pegawai
                                                                 </span><br><br>
-                                                                {{ $permohonan->sokong_selepas_sebab }}
+                                                                <span> Sebab Ditolak :
+                                                                    {{ $permohonan->sokong_selepas_sebab }}</span>
 
                                                             </td>
                                                             <td>
@@ -968,6 +1000,35 @@
             </div>
         </div>
 
+        {{-- Modal Tolak Pengesahan Pukal --}}
+        <div class="modal fade" id="tolakSokongSelepasPukal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tolak Permohonan Kakitangan Secara Pukal</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="POST" action="/tolak_permohonan_pukal">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="col-md-12">
+                                <div class="form-group" id="tolakPukalSokongSelepasDiv">
+                                    <label>Sebab Tolak Permohonan</label>
+                                    <input class="form-control" name="sokong_selepas_sebab" type="text">
+                                    <input type="hidden" name="jenis" value="sokong_selepas">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-success">Hantar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -995,30 +1056,41 @@
             jQuery.each($('.sak'), function(key, val) {
                 if ($(val).prop('checked')) {
                     dicheck = true;
-                    let permohonan_id = val.id;
-                    $.ajax({
-                        method: "POST",
-                        url: "/PermohonanSubmitAll",
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            "permohonan_id": permohonan_id,
-                            "kelulusan": kelulusan,
-                            "jenis": "sokong",
-                        },
-                    });
                 }
             });
-            if (dicheck) {
-                if (kelulusan == 1) {
-                    alert("Permohonan berjaya dilulus");
-                }
-                if (kelulusan == 0) {
-                    alert("Permohonan berjaya ditolak");
-                }
+
+            if (dicheck && kelulusan == 1) {
+                jQuery.each($('.sak'), function(key, val) {
+                    if ($(val).prop('checked')) {
+                        let permohonan_id = val.id;
+                        $.ajax({
+                            method: "POST",
+                            url: "/PermohonanSubmitAll",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "permohonan_id": permohonan_id,
+                                "kelulusan": kelulusan,
+                                "jenis": "sokong",
+                            },
+                        });
+                    }
+                });
+                alert("Permohonan berjaya dilulus");
                 location.reload();
+            } else if (kelulusan == 0 && dicheck) {
+                $('#tolakPermohonanPukalModal').modal('toggle');
+                jQuery.each($('.sak'), function(key, val) {
+                    if ($(val).prop('checked')) {
+                        let permohonan_id = val.id;
+                        $("#tolakPermohonanPukalDiv").append(`
+                            <input type="hidden" name="permohonan_id[]" value=` + permohonan_id + ` >
+                        `);
+                    }
+                });
             } else {
                 alert("Sila Pilih Permohonan");
             }
+
         }
 
         function SubmitPengesahanAll(kelulusan, childElement) {
@@ -1026,31 +1098,42 @@
             jQuery.each($(childElement), function(key, val) {
                 if ($(val).prop('checked')) {
                     dicheck = true;
-                    let permohonan_id = val.id;
-                    $.ajax({
-                        method: "POST",
-                        url: "/PermohonanSubmitAll",
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            "permohonan_id": permohonan_id,
-                            "kelulusan": kelulusan,
-                            "jenis": "sokongPengesahan",
-                        },
-                    });
                 }
             });
-            if (dicheck) {
-                if (kelulusan == 1) {
-                    alert("Permohonan berjaya disokong");
-                }
-                if (kelulusan == 0) {
-                    alert("Permohonan berjaya ditolak");
-                }
+
+            if (dicheck && kelulusan == 1) {
+                jQuery.each($(childElement), function(key, val) {
+                    if ($(val).prop('checked')) {
+                        let permohonan_id = val.id;
+                        $.ajax({
+                            method: "POST",
+                            url: "/PermohonanSubmitAll",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "permohonan_id": permohonan_id,
+                                "kelulusan": kelulusan,
+                                "jenis": "sokongPengesahan",
+                            },
+                        });
+                    }
+                });
+                alert("Permohonan berjaya dilulus");
                 location.reload();
+            } else if (dicheck && kelulusan == 0) {
+                $("#tolakSokongSelepasPukal").modal('toggle');
+                jQuery.each($(childElement), function(key, val) {
+                    let permohonan_id = val.id;
+                    $("#tolakPukalSokongSelepasDiv").append(`
+                            <input type="hidden" name="permohonan_id[]" value=` + permohonan_id + ` >
+                    `);
+                });
+
             } else {
                 alert("Sila Pilih Permohonan");
             }
+
         }
+
 
         function buangpermohonan(id) {
             swal({

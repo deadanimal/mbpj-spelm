@@ -173,4 +173,8 @@ Route::post('/kembali_permohonan_pemeriksa', [TuntutanController::class, 'kembal
 
 Route::post('/kemaskini_permohonan_semakan_kerani', [TuntutanController::class, 'kemaskini_semakan_kerani']);
 
+Route::post('/tolak_permohonan_pukal', [PermohonanController::class, 'tolakPukal']);
+
+Route::post('/tolak_tuntutan_pukal', [TuntutanController::class, 'tolakPukal']);
+
 require __DIR__ . '/auth.php';
