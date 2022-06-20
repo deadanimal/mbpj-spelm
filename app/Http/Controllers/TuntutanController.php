@@ -1015,43 +1015,78 @@ class TuntutanController extends Controller
 
     public function kemaskini_semakan_kerani(Request $request)
     {
-        for ($i = 0; $i < count($request->permohonan_id); $i++) {
-            $permohonan = Permohonan::find($request->permohonan_id[$i]);
-            switch ($request->jenis_masa[$i]) {
-                case 'Hari Biasa Siang':
+        if (auth()->user()->usercode->hr_jabatan == 11) {
+            for ($i = 0; $i < count($request->permohonan_id); $i++) {
+                $permohonan = Permohonan::find($request->permohonan_id[$i]);
+                switch ($request->jenis_masa[$i]) {
+                    case 'Hari Biasa Siang':
+                        $permohonan->update([
+                            'jumlah_biasa_siang' => $request->jumlah_biasa_siang[$i],
+                        ]);
+                        break;
+                    case 'Hari Biasa Malam':
+                        $permohonan->update([
+                            'jumlah_biasa_malam' => $request->jumlah_biasa_malam[$i],
+                        ]);
+                        break;
+                    case 'Hari Rehat Siang':
+                        $permohonan->update([
+                            'jumlah_rehat_siang' => $request->jumlah_rehat_siang[$i],
+                        ]);
+                        break;
+                    case 'Hari Rehat Malam':
+                        $permohonan->update([
+                            'jumlah_rehat_malam' => $request->jumlah_rehat_malam[$i],
+                        ]);
+                        break;
+                    case 'Pelepasan Am Siang':
+                        $permohonan->update([
+                            'jumlah_am_siang' => $request->jumlah_am_siang[$i],
+                        ]);
+                        break;
+                    case 'Pelepasan Am Malam':
+                        $permohonan->update([
+                            'jumlah_am_malam' => $request->jumlah_am_malam[$i],
+                        ]);
+                        break;
+                }
+            }
+
+        } else {
+            for ($i = 0; $i < count($request->permohonan_id); $i++) {
+                $permohonan = Permohonan::find($request->permohonan_id[$i]);
+                if ($permohonan->jumlah_biasa_siang !== null) {
                     $permohonan->update([
                         'jumlah_biasa_siang' => $request->jumlah_biasa_siang[$i],
                     ]);
-                    break;
-                case 'Hari Biasa Malam':
+                }
+                if ($permohonan->jumlah_biasa_malam !== null) {
                     $permohonan->update([
                         'jumlah_biasa_malam' => $request->jumlah_biasa_malam[$i],
                     ]);
-                    break;
-                case 'Hari Rehat Siang':
+                }
+                if ($permohonan->jumlah_rehat_siang !== null) {
                     $permohonan->update([
                         'jumlah_rehat_siang' => $request->jumlah_rehat_siang[$i],
                     ]);
-                    break;
-                case 'Hari Rehat Malam':
+                }
+                if ($permohonan->jumlah_rehat_malam !== null) {
                     $permohonan->update([
                         'jumlah_rehat_malam' => $request->jumlah_rehat_malam[$i],
                     ]);
-                    break;
-                case 'Pelepasan Am Siang':
+                }
+                if ($permohonan->jumlah_am_siang !== null) {
                     $permohonan->update([
                         'jumlah_am_siang' => $request->jumlah_am_siang[$i],
                     ]);
-                    break;
-                case 'Pelepasan Am Malam':
+                }
+                if ($permohonan->jumlah_am_malam !== null) {
                     $permohonan->update([
                         'jumlah_am_malam' => $request->jumlah_am_malam[$i],
                     ]);
-                    break;
+                }
             }
-
         }
-
         return back();
 
     }

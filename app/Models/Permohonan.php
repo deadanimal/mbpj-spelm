@@ -20,4 +20,9 @@ class Permohonan extends Model
         return $this->hasOne(User::class, 'id', 'pegawai_lulus_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
