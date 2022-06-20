@@ -11,324 +11,118 @@ use App\Models\Tuntutan;
 use App\Models\User;
 use App\Models\UserPermohonan;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
 
 class PermohonanController extends Controller
 {
-    public function index(Request $request, Permohonan $permohonan)
+    public function index(Permohonan $permohonan)
     {
-        // Kakitangan
-        $user_id = $request->user()->id;
-        $customerid = $request->user()->user_code;
+        $user = auth()->user();
 
-        $permohonans = User::find($user_id)
+        $permohonans = $user
             ->permohonans()
             ->orderByDesc("created_at")
             ->get();
 
-        //kakitangan get pengesahan by lulus only
+        $pengesahans = $permohonans
+            ->where('lulus_sebelum', '1')
+            ->each(function ($ps) {
+                $ps->update([
+                    'sebenar_mula_kerja' => $ps->mohon_mula_kerja,
+                    'sebenar_akhir_kerja' => $ps->mohon_akhir_kerja,
+                ]);
 
-        $pengesahans = User::find($user_id)
-            ->permohonans()
-            ->where('lulus_sebelum', '=', '1')
-            ->orderByDesc("created_at")
-            ->get();
+                $ps->sebenar_mula_kerja_formatted = str_replace(' ', 'T', $ps->mohon_mula_kerja);
+                $ps->sebenar_akhir_kerja_formatted = str_replace(' ', 'T', $ps->mohon_akhir_kerja);
 
-        // dd($pengesahans);
+            });
+
+        function eKedatangan($user, $pengesahans, $jenis)
+        {
+            foreach ($pengesahans as $p) {
+                if ($user->user_code !== null) {
+
+                    switch ($jenis) {
+                        case 'pengesahan':
+                        case 'pengesahan_sokong':
+                            $userekedatangan = Ekedatangan::where('staffno', $user->user_code)
+                                ->whereDate('tarikh', "=", substr($p->mohon_mula_kerja, 0, 10))
+                                ->first();
+                            break;
+                        case 'pengesahan_lulus':
+                            $userekedatangan = Ekedatangan::where('staffno', $user->user_code)
+                                ->where('tarikh', ">=", $p->mohon_mula_kerja)->first();
+                            break;
+                    }
+
+                    if ($userekedatangan) {
+                        $datetimeoraclein = timeInOut($userekedatangan->clockintime);
+                        $datetimeoracleout = timeInOut($userekedatangan->clockouttime);
+                    } else {
+                        $datetimeoraclein = 'Tiada Rekod';
+                        $datetimeoracleout = 'Tiada Rekod';
+                    }
+                }
+
+                $p->tarikh = $userekedatangan->tarikh ?? 'Tiada Rekod';
+                $p->clockintime = $datetimeoraclein;
+                $p->clockouttime = $datetimeoracleout;
+                $p->statusdesc = $userekedatangan->statusdesc ?? 'Tiada Rekod';
+                $p->totalworkinghour = $userekedatangan->totalworkinghour ?? 'Tiada Rekod';
+                $p->totalotduration = $userekedatangan->totalotduration ?? 'Tiada Rekod';
+                $p->waktuanjal = $userekedatangan->waktuanjal ?? 'Tiada Rekod';
+            }
+
+            return $pengesahans;
+        }
+
+        function timeInOut($temptime)
+        {
+            $year = substr($temptime, 0, 4);
+            $month = substr($temptime, 4, 2);
+            $day = substr($temptime, 6, 2);
+            $jam = substr($temptime, 8, 2);
+            $minit = substr($temptime, 10, 2);
+            $saat = substr($temptime, 12, 2);
+
+            $arr = array($year, $month, $day);
+            $datetimeoracleyear = implode("-", $arr);
+
+            $are = array($jam, $minit, $saat);
+            $datetimeoraclejam = implode(":", $are);
+
+            $ari = array($datetimeoracleyear, $datetimeoraclejam);
+            $datetimeoracle = implode(" ", $ari);
+
+            return $datetimeoracle;
+        }
+
+        $pengesahans = eKedatangan($user, $pengesahans, 'pengesahan');
 
         $userspengesahan = User::whereIn('role', array('penyelia', 'ketua_bahagian', 'ketua_jabatan'))->get();
 
-        foreach ($pengesahans as $ps) {
-            $pegawai_sokong = User::where("id", $ps->pegawai_sokong_id)->first()->name;
-            $ps->pegawai_sokong = $pegawai_sokong;
-            $pegawai_lulus = User::where("id", $ps->pegawai_lulus_id)->first()->name;
-            $ps->pegawai_lulus = $pegawai_lulus;
-
-            if ($ps->mohon_mula_kerja !== null && $ps->sebenar_mula_kerja === null) {
-                $ps->sebenar_mula_kerja = $ps->mohon_mula_kerja;
-
-                $ps->sebenar_mula_kerja_formatted = str_replace(' ', 'T', $ps->mohon_mula_kerja);
-            } else {
-                $ps->sebenar_mula_kerja_formatted = str_replace(' ', 'T', $ps->sebenar_mula_kerja);
-            }
-
-            if ($ps->mohon_akhir_kerja != null && $ps->sebenar_akhir_kerja === null) {
-                $ps->sebenar_akhir_kerja = $ps->mohon_akhir_kerja;
-                $ps->sebenar_akhir_kerja_formatted = str_replace(' ', 'T', $ps->mohon_akhir_kerja);
-            } else {
-                $ps->sebenar_akhir_kerja_formatted = str_replace(' ', 'T', $ps->sebenar_akhir_kerja);
-            }
-            try {
-                $ps->save();
-            } catch (\Exception$e) {
-
-            }
-        }
-        // dd($permohonan);
-
-        //get pegawai pengesah
-        // $user_permohonans = UserPermohonan::all();
-        // Create pegawai name
-        // $pegawai_sokong = User::where('id',$permohonan->pegawai_sokong_id)->first();
-        // $permohonan -> pegawai_sokong_name = $pegawai_sokong -> name;
-        // $pegawai_lulus = User::where('id',$permohonan->pegawai_lulus_id)->first();
-        // $permohonan -> pegawai_lulus_name = $pegawai_lulus -> name;
-
-        // TODO
-        // foreach stiap pengesahan
-        // utik stiap pengesahan, cari ekedatangan yg sama tarikh
-        // tampal data ke dalam pengesahan
-
-        // kedatangan dekat kakitangan _________________________________
-        foreach ($pengesahans as $pg) {
-
-            // dd(substr($pg->mohon_mula_kerja,0,10));
-            $userekedatangan = Ekedatangan::where('staffno', $customerid)
-                ->whereDate('tarikh', "=", substr($pg->mohon_mula_kerja, 0, 10))
-                ->first();
-
-            if ($userekedatangan != null) {
-
-                $temptimein = $userekedatangan->clockintime;
-                $temptimeout = $userekedatangan->clockouttime;
-
-                //Format clocktime
-
-                $year = substr($temptimein, 0, 4);
-                $month = substr($temptimein, 4, 2);
-                $day = substr($temptimein, 6, 2);
-                $jam = substr($temptimein, 8, 2);
-                $minit = substr($temptimein, 10, 2);
-                $saat = substr($temptimein, 12, 2);
-
-                $arr = array($year, $month, $day);
-                $datetimeoracleyear = implode("-", $arr);
-
-                $are = array($jam, $minit, $saat);
-                $datetimeoraclejam = implode(":", $are);
-
-                $ari = array($datetimeoracleyear, $datetimeoraclejam);
-                $datetimeoraclein = implode(" ", $ari);
-
-                // format clockouttime
-
-                $year = substr($temptimeout, 0, 4);
-                $month = substr($temptimeout, 4, 2);
-                $day = substr($temptimeout, 6, 2);
-                $jam = substr($temptimeout, 8, 2);
-                $minit = substr($temptimeout, 10, 2);
-                $saat = substr($temptimeout, 12, 2);
-
-                $arr = array($year, $month, $day);
-                $datetimeoracleyear = implode("-", $arr);
-
-                $are = array($jam, $minit, $saat);
-                $datetimeoraclejam = implode(":", $are);
-
-                $ari = array($datetimeoracleyear, $datetimeoraclejam);
-                $datetimeoracleout = implode(" ", $ari);
-
-                try {
-                    $pg->tarikh = $userekedatangan->tarikh;
-                    $pg->clockintime = $datetimeoraclein;
-                    $pg->clockouttime = $datetimeoracleout;
-                    $pg->statusdesc = $userekedatangan->statusdesc;
-                    $pg->totalworkinghour = $userekedatangan->totalworkinghour;
-                    $pg->totalotduration = $userekedatangan->totalotduration;
-                    $pg->waktuanjal = $userekedatangan->waktuanjal;
-                } catch (Exception $e) {
-                    $pg->tarikh = 'Tiada Rekod';
-                    $pg->clockintime = 'Tiada Rekod';
-                    $pg->clockouttime = 'Tiada Rekod';
-                    $pg->statusdesc = 'Tiada Rekod';
-                    $pg->totalworkinghour = 'Tiada Rekod';
-                    $pg->totalotduration = 'Tiada Rekod';
-                    $pg->waktuanjal = 'Tiada Rekod';
-                }
-            } else {
-
-                $pg->tarikh = 'Tiada Rekod';
-                $pg->clockintime = 'Tiada Rekod';
-                $pg->clockouttime = 'Tiada Rekod';
-                $pg->statusdesc = 'Tiada Rekod';
-                $pg->totalworkinghour = 'Tiada Rekod';
-                $pg->totalotduration = 'Tiada Rekod';
-                $pg->waktuanjal = 'Tiada Rekod';
-
-            }
-        }
-
-        // Sokongan permohonan _____________________
-
-        $permohonan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)
+        $permohonan_disokongs = Permohonan::with('user')->where('pegawai_sokong_id', $user->id)
             ->orderBy("created_at", "desc")
             ->get();
-
-        foreach ($permohonan_disokongs as $ps) {
-            $p = UserPermohonan::where('permohonan_id', $ps->id)->first();
-            if ($p != null) {
-                $theuser = User::where('id', $p->user_id)->first();
-                $ps->nama_pemohon = $theuser->name;
-                # code...
-            } else {
-                $ps->nama_pemohon = "Tiada";
-            }
-        }
-
-        $permohonan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)
+        $permohonan_dilulus = Permohonan::with('user')->where('pegawai_lulus_id', $user->id)
             ->orderByDesc("created_at")
             ->get();
 
-        foreach ($permohonan_dilulus as $pl) {
-            $p = UserPermohonan::where('permohonan_id', $pl->id)->first();
-            if ($p != null) {
-                $theuser = User::where('id', $p->user_id)->first();
-                $pl->nama_pemohon = $theuser->name;
-            } else {
-                $pl->nama_pemohon = "Tiada";
-            }
-        }
-
-        // Sokongan pengesahan____________________________
-
-        $pengesahan_disokongs = Permohonan::where('pegawai_sokong_id', $user_id)
-        // to get only list of true permohonan
+        $pengesahan_disokongs = Permohonan::with('user')->where('pegawai_sokong_id', $user->id)
             ->where('lulus_sebelum', '=', '1')
             ->orderByDesc("created_at")
             ->get();
 
-        foreach ($pengesahan_disokongs as $pes) {
-            $uuuid = UserPermohonan::where("permohonan_id", $pes->id)->first()->user_id;
-            $pemohon = User::where("id", $uuuid)->first()->name;
-            $pes->nama_pemohon = $pemohon;
-        }
+        $pengesahan_disokongs = eKedatangan($user, $pengesahan_disokongs, 'pengesahan_sokong');
 
-        foreach ($pengesahan_disokongs as $pgss) {
-            // get user ekedtangan by usercode
-
-            ///// $pgss->user_code = User::where('id', $pgss->penguatkuasa_id)->first()->user_code;
-
-            //get user ekedatangan
-            $userekedatangan = Ekedatangan::where('staffno', $customerid)
-                ->whereDate('tarikh', "=", substr($pgss->mohon_mula_kerja, 0, 10))->first();
-
-            if ($userekedatangan != null) {
-
-                $temptimein = $userekedatangan->clockintime;
-                $temptimeout = $userekedatangan->clockouttime;
-
-                //Format clocktime
-
-                $year = substr($temptimein, 0, 4);
-                $month = substr($temptimein, 4, 2);
-                $day = substr($temptimein, 6, 2);
-                $jam = substr($temptimein, 8, 2);
-                $minit = substr($temptimein, 10, 2);
-                $saat = substr($temptimein, 12, 2);
-
-                $arr = array($year, $month, $day);
-                $datetimeoracleyear = implode("-", $arr);
-
-                $are = array($jam, $minit, $saat);
-                $datetimeoraclejam = implode(":", $are);
-
-                $ari = array($datetimeoracleyear, $datetimeoraclejam);
-                $datetimeoraclein = implode(" ", $ari);
-
-                // format clockouttime
-
-                $year = substr($temptimeout, 0, 4);
-                $month = substr($temptimeout, 4, 2);
-                $day = substr($temptimeout, 6, 2);
-                $jam = substr($temptimeout, 8, 2);
-                $minit = substr($temptimeout, 10, 2);
-                $saat = substr($temptimeout, 12, 2);
-
-                $arr = array($year, $month, $day);
-                $datetimeoracleyear = implode("-", $arr);
-
-                $are = array($jam, $minit, $saat);
-                $datetimeoraclejam = implode(":", $are);
-
-                $ari = array($datetimeoracleyear, $datetimeoraclejam);
-                $datetimeoracleout = implode(" ", $ari);
-
-                try {
-                    $pgss->tarikh = $userekedatangan->tarikh;
-                    $pgss->clockintime = $datetimeoraclein;
-                    $pgss->clockouttime = $datetimeoracleout;
-                    $pgss->statusdesc = $userekedatangan->statusdesc;
-                    $pgss->totalworkinghour = $userekedatangan->totalworkinghour;
-                    $pgss->totalotduration = $userekedatangan->totalotduration;
-                    $pgss->waktuanjal = $userekedatangan->waktuanjal;
-                } catch (Exception $e) {
-                    $pgss->tarikh = 'Tiada Rekod';
-                    $pgss->clockintime = 'Tiada Rekod';
-                    $pgss->clockouttime = 'Tiada Rekod';
-                    $pgss->statusdesc = 'Tiada Rekod';
-                    $pgss->totalworkinghour = 'Tiada Rekod';
-                    $pgss->totalotduration = 'Tiada Rekod';
-                    $pgss->waktuanjal = 'Tiada Rekod';
-                }
-            } else {
-
-                $pgss->tarikh = 'Tiada Rekod';
-                $pgss->clockintime = 'Tiada Rekod';
-                $pgss->clockouttime = 'Tiada Rekod';
-                $pgss->statusdesc = 'Tiada Rekod';
-                $pgss->totalworkinghour = 'Tiada Rekod';
-                $pgss->totalotduration = 'Tiada Rekod';
-                $pgss->waktuanjal = 'Tiada Rekod';
-
-            }
-        }
-
-        $pengesahan_dilulus = Permohonan::where('pegawai_lulus_id', $user_id)
-        // to get only list of true permohonan
+        $pengesahan_dilulus = Permohonan::with('user')->where('pegawai_lulus_id', $user->id)
             ->where('lulus_sebelum', '=', '1')
             ->orderByDesc("created_at")
             ->get();
 
-        foreach ($pengesahan_dilulus as $pel) {
-            $uuuuid = UserPermohonan::where("permohonan_id", $pel->id)->first()->user_id;
-            $pemohon = User::where("id", $uuuuid)->first()->name;
-            $pel->nama_pemohon = $pemohon;
-        }
-
-        foreach ($pengesahan_dilulus as $pdl) {
-            $userekedatangan = Ekedatangan::where('staffno', $customerid)
-                ->where('tarikh', ">=", $pdl->mohon_mula_kerja)->first();
-
-            try {
-                $pdl->tarikh = $userekedatangan->tarikh;
-                $pdl->clockintime = $userekedatangan->clockintime;
-                $pdl->clockouttime = $userekedatangan->clockouttime;
-                $pdl->statusdesc = $userekedatangan->statusdesc;
-                $pdl->totalworkinghour = $userekedatangan->totalworkinghour;
-                $pdl->totalotduration = $userekedatangan->totalotduration;
-                $pdl->waktuanjal = $userekedatangan->waktuanjal;
-            } catch (Exception $e) {
-                $pdl->tarikh = 'tiada data';
-                $pdl->clockintime = 'tiada data';
-                $pdl->clockouttime = 'tiada data';
-                $pdl->statusdesc = 'tiada data';
-                $pdl->totalworkinghour = 'tiada data';
-                $pdl->totalotduration = 'tiada data';
-                $pdl->waktuanjal = 'tiada data';
-            }
-        }
-
-        $user = User::where('id', $user_id)->get();
-
-        $pengguna = User::all();
-
-        // status staff
-        $user_permohonan = auth()->user()->permohonans;
-
-        $mohon = $user_permohonan->count();
+        $pengesahan_dilulus = eKedatangan($user, $pengesahan_dilulus, 'pengesahan_lulus');
 
         $mohon_p = 0;
         $mohon_t = 0;
@@ -338,7 +132,7 @@ class PermohonanController extends Controller
         $mohon_gagal = 0;
         $dalam_semakan = 0;
         $mohon_pengesahan_ditolak = 0;
-        foreach ($user_permohonan as $up) {
+        foreach ($permohonans as $up) {
             if ($up->sokong_sebelum === 1 && $up->sokong_selepas === 1) {
                 $mohon_p++;
             }
@@ -370,57 +164,57 @@ class PermohonanController extends Controller
 
         // status penyelia
         $p_sokong_all = DB::table('permohonans')
-            ->where('pegawai_sokong_id', '=', $user_id)
+            ->where('pegawai_sokong_id', '=', $user->id)
             ->count();
         $p_sokong = DB::table('permohonans')
-            ->where([['pegawai_sokong_id', '=', $user_id], ['sokong_sebelum', '=', '1']])
+            ->where([['pegawai_sokong_id', '=', $user->id], ['sokong_sebelum', '=', '1']])
             ->count();
         $p_tolak_sokong = DB::table('permohonans')
-            ->where([['pegawai_sokong_id', '=', $user_id], ['sokong_sebelum', '=', '0']])
+            ->where([['pegawai_sokong_id', '=', $user->id], ['sokong_sebelum', '=', '0']])
             ->count();
         $p_sokong_proses = DB::table('permohonans')
-            ->where([['pegawai_sokong_id', '=', $user_id], ['sokong_sebelum', '=', null]])
+            ->where([['pegawai_sokong_id', '=', $user->id], ['sokong_sebelum', '=', null]])
             ->count();
 
         $p_lulus_all = DB::table('permohonans')
-            ->where('pegawai_lulus_id', '=', $user_id)
+            ->where('pegawai_lulus_id', '=', $user->id)
             ->count();
         $p_lulus = DB::table('permohonans')
-            ->where([['pegawai_lulus_id', '=', $user_id], ['lulus_sebelum', '=', '1']])
+            ->where([['pegawai_lulus_id', '=', $user->id], ['lulus_sebelum', '=', '1']])
             ->count();
         $p_tolak_lulus = DB::table('permohonans')
-            ->where([['pegawai_lulus_id', '=', $user_id], ['lulus_sebelum', '=', '0']])
+            ->where([['pegawai_lulus_id', '=', $user->id], ['lulus_sebelum', '=', '0']])
             ->count();
         $p_lulus_proses = DB::table('permohonans')
-            ->where([['pegawai_lulus_id', '=', $user_id], ['lulus_sebelum', '=', null]])
+            ->where([['pegawai_lulus_id', '=', $user->id], ['lulus_sebelum', '=', null]])
             ->count();
 
         // status kb
 
         $p_sokong_selepas_all = DB::table('permohonans')
-            ->where('pegawai_sokong_id', '=', $user_id)
+            ->where('pegawai_sokong_id', '=', $user->id)
             ->count();
         $p_sokong_selepas = DB::table('permohonans')
-            ->where([['pegawai_sokong_id', '=', $user_id], ['sokong_selepas', '=', '1']])
+            ->where([['pegawai_sokong_id', '=', $user->id], ['sokong_selepas', '=', '1']])
             ->count();
         $p_tolak_sokong_selepas = DB::table('permohonans')
-            ->where([['pegawai_sokong_id', '=', $user_id], ['sokong_selepas', '=', '0']])
+            ->where([['pegawai_sokong_id', '=', $user->id], ['sokong_selepas', '=', '0']])
             ->count();
         $p_sokong_selepas_proses = DB::table('permohonans')
-            ->where([['pegawai_sokong_id', '=', $user_id], ['sokong_selepas', '=', null]])
+            ->where([['pegawai_sokong_id', '=', $user->id], ['sokong_selepas', '=', null]])
             ->count();
 
         $p_lulus_selepas_all = DB::table('permohonans')
-            ->where('pegawai_lulus_id', '=', $user_id)
+            ->where('pegawai_lulus_id', '=', $user->id)
             ->count();
         $p_lulus_selepas = DB::table('permohonans')
-            ->where([['pegawai_lulus_id', '=', $user_id], ['lulus_selepas', '=', '1']])
+            ->where([['pegawai_lulus_id', '=', $user->id], ['lulus_selepas', '=', '1']])
             ->count();
         $p_tolak_lulus_selepas = DB::table('permohonans')
-            ->where([['pegawai_lulus_id', '=', $user_id], ['lulus_selepas', '=', '0']])
+            ->where([['pegawai_lulus_id', '=', $user->id], ['lulus_selepas', '=', '0']])
             ->count();
         $p_lulus_selepas_proses = DB::table('permohonans')
-            ->where([['pegawai_lulus_id', '=', $user_id], ['lulus_selepas', '=', null]])
+            ->where([['pegawai_lulus_id', '=', $user->id], ['lulus_selepas', '=', null]])
             ->count();
 
         $data = [
@@ -431,8 +225,8 @@ class PermohonanController extends Controller
             'pengesahan_disokongs' => $pengesahan_disokongs,
             'pengesahan_dilulus' => $pengesahan_dilulus,
             'user' => $user,
-            'mohon' => $mohon,
-            'pengguna' => $pengguna,
+            'mohon' => $permohonans->count(),
+            'pengguna' => User::all(),
             'mohon_p' => $mohon_p,
             'mohon_t' => $mohon_t,
             'mohon_dp' => $mohon_dp,
@@ -460,11 +254,8 @@ class PermohonanController extends Controller
             'p_tolak_lulus_selepas' => $p_tolak_lulus_selepas,
             'p_lulus_selepas_proses' => $p_lulus_selepas_proses,
 
-            // 'userekedatangan'=>$userekedatangan,
-            'customerid' => $customerid,
+            'customerid' => $user->user_code,
             'userspengesahan' => $userspengesahan,
-            // 'permohonan'=> $permohonan,
-            // 'user_permohonans'=>$user_permohonans,
         ];
 
         switch (auth()->user()->role) {
@@ -926,13 +717,6 @@ class PermohonanController extends Controller
     }
     public function jana_tuntutan(Request $request)
     {
-        // Aku ambik smua data permohonan filter by (current user), (current month), (lulus_selepas==1)
-        // for each stiap permohonan
-        // create satu tuntutan
-        //$user = User::where('')
-        //$permohonan_dihantar = Permohonan::where('user_id', $request->user()->id)
-        //    ->where('lulus_selepas', 1)->get();
-        // checking
 
         $permohonan_dihantar = User::find($request->user()->id)
             ->permohonans()
@@ -959,10 +743,6 @@ class PermohonanController extends Controller
 
         $tuntutan = new Tuntutan;
 
-        //$sebenar_mula_kerja_tuntutan = date("Y-m-d H:i:s", strtotime($request->sebenar_mula_kerja_tuntutan));
-        //$sebenar_akhir_kerja_tuntutan = date("Y-m-d H:i:s", strtotime($request->sebenar_akhir_kerja_tuntutan));
-        //$tuntutan->sebenar_mula_kerja_tuntutan = $sebenar_mula_kerja_tuntutan;
-        //$tuntutan->sebenar_akhir_kerja_tuntutan = $sebenar_akhir_kerja_tuntutan ;
         $tuntutan->jumlah_jam_tuntutan = $jumlah_jam_tuntutan;
         $tuntutan->jumlah_tuntutan = $jumlah_total_tuntutan;
         $tuntutan->status = $jumlah_status2;
@@ -978,14 +758,6 @@ class PermohonanController extends Controller
             // update permohonan
             $permohonan_telah_dituntut = Permohonan::find($pd->id);
             $permohonan_telah_dituntut->status_tuntutan = 1;
-
-            // //update jumlah jam
-            // $permohonan_telah_dituntut->jumlah_biasa_siang = $permohonan_telah_dituntut->jam_kerja_am_siang;
-            // $permohonan_telah_dituntut->jumlah_biasa_malam = $permohonan_telah_dituntut->jam_kerja_am_malam;
-            // $permohonan_telah_dituntut->jumlah_rehat_siang = $permohonan_telah_dituntut->jam_kerja_cuti_siang;
-            // $permohonan_telah_dituntut->jumlah_rehat_malam = $permohonan_telah_dituntut->jam_kerja_cuti_malam;
-            // $permohonan_telah_dituntut->jumlah_am_siang = $permohonan_telah_dituntut->jam_kerja_biasa_siang;
-            // $permohonan_telah_dituntut->jumlah_am_malam = $permohonan_telah_dituntut->jam_kerja_biasa_malam;
 
             $permohonan_telah_dituntut->save();
 
