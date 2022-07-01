@@ -48,10 +48,11 @@ class TuntutanController extends Controller
 
             //tumpang
             $time = explode(" ", $pl->sebenar_mula_kerja);
+            $time2 = explode(" ", $pl->sebenar_akhir_kerja);
             $sebenar_mula_kerja_ts = strtotime($time[1]);
+            $sebenar_akhir_kerja_ts = strtotime($time2[1]);
             $jumlah_jam_bekerja = strtotime($pl->sebenar_akhir_kerja) - strtotime($pl->sebenar_mula_kerja);
             $jumlah_jam_bekerja = $jumlah_jam_bekerja / 3600;
-
             $lb_siang = strtotime("06:00:00");
             $ub_siang = strtotime("21:59:00");
 
@@ -117,51 +118,133 @@ class TuntutanController extends Controller
                 $update_permohonan->save();
 
             } else {
-                // $check_weekend =
+
+                // $check_weekend
                 if ($check_am > 0) {
                     //kerja time cuti am
-                    if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang) {
+                    if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_akhir_kerja_ts <= $ub_siang) {
                         $pl->kadar_am_siang = "1.75";
                         $pl->jam_kerja_am_siang = $jumlah_jam_bekerja;
                         $update_permohonan->jumlah_am_siang = round($jumlah_jam_bekerja, 3);
                         $jumlah_jam_am = $jumlah_jam_am + round($jumlah_jam_bekerja, 3);
-                        // dd($jumlah_jam_bekerja);
 
-                    } else {
+                    } elseif ($sebenar_mula_kerja_ts >= $lb_malam && $sebenar_akhir_kerja_ts <= $ub_malam) {
                         $pl->kadar_am_malam = "2.00";
                         $pl->jam_kerja_am_malam = $jumlah_jam_bekerja;
                         $update_permohonan->jumlah_am_malam = round($jumlah_jam_bekerja, 3);
                         $jumlah_jam_am = $jumlah_jam_am + round($jumlah_jam_bekerja, 3);
+
+                    } elseif ($sebenar_mula_kerja_ts >= $lb_siang && !($sebenar_akhir_kerja_ts <= $ub_siang)) {
+                        $pl->kadar_am_siang = "1.75";
+                        $masa = (strtotime('21:59') - $sebenar_mula_kerja_ts) / 3600;
+                        $pl->jam_kerja_am_siang = $masa;
+                        $update_permohonan->jumlah_am_siang = $masa;
+                        $jumlah_jam_am = $jumlah_jam_am + $masa;
+
+                        $pl->kadar_am_malam = "2.00";
+                        $masa_akhir = ($sebenar_akhir_kerja_ts - strtotime('21:59')) / 3600;
+                        $pl->jam_kerja_am_malam = $masa_akhir;
+                        $update_permohonan->jumlah_am_malam = $masa_akhir;
+                        $jumlah_jam_am = $jumlah_jam_am + $masa_akhir;
+
+                    } elseif ($sebenar_mula_kerja_ts >= strtotime('00:00') && $sebenar_akhir_kerja_ts >= $lb_siang) {
+
+                        $pl->kadar_am_siang = "1.75";
+                        $masa = ($sebenar_akhir_kerja_ts - $ub_malam) / 3600;
+                        $pl->jam_kerja_am_siang = $masa;
+                        $update_permohonan->jumlah_am_siang = $masa;
+                        $jumlah_jam_am = $jumlah_jam_am + $masa;
+
+                        $pl->kadar_am_malam = "2.00";
+                        $masa_akhir = ($ub_malam - $sebenar_mula_kerja_ts) / 3600;
+                        $pl->jam_kerja_am_malam = $masa_akhir;
+                        $update_permohonan->jumlah_am_malam = $masa_akhir;
+                        $jumlah_jam_am = $jumlah_jam_am + $masa_akhir;
+
                     }
 
                     //cuti rehat
                 } elseif ($weekend) {
-                    if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang) {
+                    if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_akhir_kerja_ts <= $ub_siang) {
                         $pl->kadar_cuti_siang = "1.25";
                         $pl->jam_kerja_cuti_siang = $jumlah_jam_bekerja;
                         $update_permohonan->jumlah_rehat_siang = $jumlah_jam_bekerja;
                         $jumlah_jam_rehat = $jumlah_jam_rehat + $jumlah_jam_bekerja;
-                    } else {
+
+                    } elseif ($sebenar_mula_kerja_ts >= $lb_malam && $sebenar_akhir_kerja_ts <= $ub_malam) {
                         $pl->kadar_cuti_malam = "1.50";
                         $pl->jam_kerja_cuti_malam = $jumlah_jam_bekerja;
                         $update_permohonan->jumlah_rehat_malam = $jumlah_jam_bekerja;
                         $jumlah_jam_rehat = $jumlah_jam_rehat + $jumlah_jam_bekerja;
 
+                    } elseif ($sebenar_mula_kerja_ts >= $lb_siang && !($sebenar_akhir_kerja_ts <= $ub_siang)) {
+                        $pl->kadar_cuti_siang = "1.125";
+                        $masa = (strtotime('21:59') - $sebenar_mula_kerja_ts) / 3600;
+                        $pl->jam_kerja_cuti_siang = $masa;
+                        $update_permohonan->jumlah_rehat_siang = $masa;
+                        $jumlah_jam_am = $jumlah_jam_rehat + $masa;
+
+                        $pl->kadar_cuti_malam = "1.25";
+                        $masa_akhir = ($sebenar_akhir_kerja_ts - strtotime('21:59')) / 3600;
+                        $pl->jam_kerja_cuti_malam = $masa_akhir;
+                        $update_permohonan->jumlah_rehat_malam = $masa_akhir;
+                        $jumlah_jam_rehat = $jumlah_jam_rehat + $masa_akhir;
+
+                    } elseif ($sebenar_mula_kerja_ts >= strtotime('00:00') && $sebenar_akhir_kerja_ts >= $lb_siang) {
+
+                        $pl->kadar_cuti_siang = "1.125";
+                        $masa = ($sebenar_akhir_kerja_ts - $ub_malam) / 3600;
+                        $pl->jam_kerja_cuti_siang = $masa;
+                        $update_permohonan->jumlah_rehat_siang = $masa;
+                        $jumlah_jam_am = $jumlah_jam_rehat + $masa;
+
+                        $pl->kadar_cuti_malam = "1.25";
+                        $masa_akhir = ($ub_malam - $sebenar_mula_kerja_ts) / 3600;
+                        $pl->jam_kerja_cuti_malam = $masa_akhir;
+                        $update_permohonan->jumlah_rehat_malam = $masa_akhir;
+                        $jumlah_jam_rehat = $jumlah_jam_rehat + $masa_akhir;
+
                     }
                 }
                 //hari biasa
                 else {
-                    if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_mula_kerja_ts <= $ub_siang) {
+                    if ($sebenar_mula_kerja_ts >= $lb_siang && $sebenar_akhir_kerja_ts <= $ub_siang) {
                         $pl->kadar_biasa_siang = "1.125";
                         $pl->jam_kerja_biasa_siang = $jumlah_jam_bekerja;
                         $update_permohonan->jumlah_biasa_siang = $jumlah_jam_bekerja;
                         $jumlah_jam_biasa = $jumlah_jam_biasa + $jumlah_jam_bekerja;
 
-                    } else {
+                    } elseif ($sebenar_mula_kerja_ts >= $lb_malam && $sebenar_akhir_kerja_ts <= $ub_malam) {
                         $pl->kadar_biasa_malam = "1.25";
                         $pl->jam_kerja_biasa_malam = $jumlah_jam_bekerja;
                         $update_permohonan->jumlah_biasa_malam = $jumlah_jam_bekerja;
                         $jumlah_jam_biasa = $jumlah_jam_biasa + $jumlah_jam_bekerja;
+
+                    } elseif ($sebenar_mula_kerja_ts >= $lb_siang && !($sebenar_akhir_kerja_ts <= $ub_siang)) {
+                        $pl->kadar_biasa_siang = "1.125";
+                        $masa = (strtotime('21:59') - $sebenar_mula_kerja_ts) / 3600;
+                        $pl->jam_kerja_biasa_siang = $masa;
+                        $update_permohonan->jumlah_biasa_siang = $masa;
+                        $jumlah_jam_biasa = $jumlah_jam_biasa + $masa;
+
+                        $pl->kadar_biasa_malam = "1.25";
+                        $masa_akhir = ($sebenar_akhir_kerja_ts - strtotime('21:59')) / 3600;
+                        $pl->jam_kerja_biasa_malam = $masa_akhir;
+                        $update_permohonan->jumlah_biasa_malam = $masa_akhir;
+                        $jumlah_jam_biasa = $jumlah_jam_biasa + $masa_akhir;
+
+                    } elseif ($sebenar_mula_kerja_ts >= strtotime('00:00') && $sebenar_akhir_kerja_ts >= $lb_siang) {
+                        $pl->kadar_biasa_siang = "1.125";
+                        $masa = ($sebenar_akhir_kerja_ts - $ub_malam) / 3600;
+                        $pl->jam_kerja_biasa_siang = $masa;
+                        $update_permohonan->jumlah_biasa_siang = $masa;
+                        $jumlah_jam_biasa = $jumlah_jam_biasa + $masa;
+
+                        $pl->kadar_biasa_malam = "1.25";
+                        $masa_akhir = ($ub_malam - $sebenar_mula_kerja_ts) / 3600;
+                        $pl->jam_kerja_biasa_malam = $masa_akhir;
+                        $update_permohonan->jumlah_biasa_malam = $masa_akhir;
+                        $jumlah_jam_biasa = $jumlah_jam_biasa + $masa_akhir;
 
                     }
                 }
