@@ -33,14 +33,6 @@ class CreateTablePermohonanLevel extends Migration
             $table->timestamps();
         });
 
-        Schema::create('PermohonanLevel3', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Permohonan::class)->constrained()->onDelete('Cascade');
-            $table->string('pegawai_sokong_id');
-            $table->string('pegawai_lulus_id');
-            $table->foreignIdFor(User::class)->constrained()->onDelete('Cascade');
-            $table->timestamps();
-        });
     }
 
     /**
@@ -52,6 +44,5 @@ class CreateTablePermohonanLevel extends Migration
     {
         Schema::dropIfExists('PermohonanLevel1');
         Schema::dropIfExists('PermohonanLevel2');
-        Schema::dropIfExists('PermohonanLevel3');
     }
 }
