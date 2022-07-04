@@ -56,4 +56,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(OracleGaji::class, 'HR_NO_PEKERJA', 'user_code');
     }
+
 }

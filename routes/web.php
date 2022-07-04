@@ -177,4 +177,6 @@ Route::post('/tolak_permohonan_pukal', [PermohonanController::class, 'tolakPukal
 
 Route::post('/tolak_tuntutan_pukal', [TuntutanController::class, 'tolakPukal']);
 
+Route::put('/kemaskini_pegawai_level3/{permohonan}', [PermohonanController::class, 'kemaskini_level3']);
+
 require __DIR__ . '/auth.php';

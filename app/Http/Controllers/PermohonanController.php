@@ -6,6 +6,8 @@ use App\Models\Audit;
 use App\Models\Ekedatangan;
 use App\Models\Jabatan;
 use App\Models\Permohonan;
+use App\Models\PermohonanLevel1;
+use App\Models\PermohonanLevel2;
 use App\Models\PermohonanTuntutan;
 use App\Models\Tuntutan;
 use App\Models\User;
@@ -23,11 +25,15 @@ class PermohonanController extends Controller
 
         $permohonans = $user
             ->permohonans()
+            ->where('lulus_sebelum', '===', null)
             ->orderByDesc("created_at")
             ->get();
 
-        $pengesahans = $permohonans
-            ->where('lulus_sebelum', '1')
+        $pengesahans = Permohonan::where([
+            ['lulus_sebelum', '1'],
+            ['user_id', auth()->id()],
+            ['lulus_selepas', '===', null],
+        ])->get()
             ->each(function ($ps) {
                 $ps->update([
                     'sebenar_mula_kerja' => $ps->mohon_mula_kerja,
@@ -100,6 +106,10 @@ class PermohonanController extends Controller
         }
 
         $pengesahans = eKedatangan($user, $pengesahans, 'pengesahan');
+
+        $permohonanLevel2 = PermohonanLevel2::with('permohonan')->where('user_id', auth()->id())->get();
+
+        $permohonanLevel2 = eKedatangan($user, $permohonanLevel2, 'pengesahan');
 
         $userspengesahan = User::whereIn('role', array('penyelia', 'ketua_bahagian', 'ketua_jabatan'))->get();
 
@@ -256,6 +266,8 @@ class PermohonanController extends Controller
 
             'customerid' => $user->user_code,
             'userspengesahan' => $userspengesahan,
+            'permohonanLevel1' => PermohonanLevel1::with('permohonan')->where('user_id', auth()->id())->get(),
+            'permohonanLevel2' => $permohonanLevel2,
         ];
 
         switch (auth()->user()->role) {
@@ -369,7 +381,7 @@ class PermohonanController extends Controller
             $permohonan->p_pegawai_sokong_id = $request->pegawai_sokong_id;
             $permohonan->p_pegawai_lulus_id = $request->pegawai_lulus_id;
             $permohonan->jenis_masa = $request->jenis_masa;
-
+            $permohonan->user_id = auth()->id();
             $permohonan->save();
 
             $audit = new Audit;
@@ -408,7 +420,8 @@ class PermohonanController extends Controller
                     return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
                 }
 
-                // $permohonan = Permohonan::create($request->all());
+                $user_dipohon = User::where('nric', $pemohon[$i])->first();
+
                 $permohonan->mohon_mula_kerja = $mohon_mula_kerja;
                 $permohonan->mohon_akhir_kerja = $mohon_akhir_kerja;
                 $permohonan->lokasi = $request->lokasi;
@@ -418,15 +431,9 @@ class PermohonanController extends Controller
                 $permohonan->pegawai_lulus_id = $request->pegawai_lulus_id;
                 $permohonan->p_pegawai_sokong_id = $request->pegawai_sokong_id;
                 $permohonan->p_pegawai_lulus_id = $request->pegawai_lulus_id;
+                $permohonan->user_id = $user_dipohon->id;
                 $permohonan->save();
 
-                // Audit::create([
-                //     'user_id' => auth()->user()->id,
-                //     'name' => auth()->user()->name,
-                //     'peranan' => auth()->user()->role,
-                //     'description' => 'Tambah Permohonan Jenis: ' . $permohonan->jenis_permohonan,
-                //     'permohonan_id' => $permohonan->id,
-                // ]);
                 $audit = new Audit;
                 $audit->user_id = auth()->user()->id;
                 $audit->name = auth()->user()->name;
@@ -434,12 +441,6 @@ class PermohonanController extends Controller
                 $audit->description = 'Tambah Permohonan Jenis: ' . $permohonan->jenis_permohonan;
                 $audit->save();
 
-                $user_dipohon = User::where('nric', $pemohon[$i])->first();
-
-                // UserPermohonan::create([
-                //     'user_id' => $user_dipohon->id,
-                //     'permohonan_id' => $permohonan->id,
-                // ]);
                 $user_permohonan = new UserPermohonan;
                 $user_permohonan->user_id = $user_dipohon->id;
                 $user_permohonan->permohonan_id = $permohonan->id;
@@ -460,7 +461,6 @@ class PermohonanController extends Controller
     public function edit(Request $request, Permohonan $permohonan)
     {
         // Create  option on select pegawai
-
         $users = User::whereIn('role', array('penyelia', 'ketua_bahagian', 'ketua_jabatan'))->get();
         $user_permohonans = UserPermohonan::all();
 
@@ -584,8 +584,15 @@ class PermohonanController extends Controller
     {
         $permohonan = Permohonan::find($id);
         $permohonan->lulus_sebelum = true;
-        $permohonan->tarikh_lulus = Carbon::now()->format('Y-m-d H:i:s');
+        $permohonan->tarikh_lulus = now()->format('Y-m-d H:i:s');
         $permohonan->save();
+
+        PermohonanLevel1::create([
+            'permohonan_id' => $permohonan->id,
+            'pegawai_sokong_id' => $permohonan->pegawai_sokong_id,
+            'pegawai_lulus_id' => $permohonan->pegawai_lulus_id,
+            'user_id' => $permohonan->user_id,
+        ]);
 
         $redirected_url = '/permohonans/';
         return redirect($redirected_url);
@@ -653,6 +660,13 @@ class PermohonanController extends Controller
         $permohonan->lulus_selepas = true;
         $permohonan->tarikh_lulus_selepas = Carbon::now()->format('Y-m-d H:i:s');
         $permohonan->save();
+
+        PermohonanLevel2::create([
+            'permohonan_id' => $permohonan->id,
+            'pegawai_sokong_id' => $permohonan->pegawai_sokong_id,
+            'pegawai_lulus_id' => $permohonan->pegawai_lulus_id,
+            'user_id' => $permohonan->user_id,
+        ]);
 
         $redirected_url = '/permohonans/';
         return redirect($redirected_url);
@@ -849,6 +863,16 @@ class PermohonanController extends Controller
         }
         return back();
 
+    }
+
+    public function kemaskini_level3(Request $request, Permohonan $permohonan)
+    {
+
+        $permohonan->update([
+            'pegawai_sokong_id' => $request->pegawai_sokong_id,
+            'pegawai_lulus_id' => $request->pegawai_lulus_id,
+        ]);
+        return back();
     }
 
 }

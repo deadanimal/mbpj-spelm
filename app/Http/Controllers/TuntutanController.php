@@ -395,8 +395,13 @@ class TuntutanController extends Controller
         $pegawaituntutan = User::whereIn('role', array('penyelia', 'ketua_bahagian', 'ketua_jabatan'))->get();
 
         $bulan_sekarang = now()->month;
+        $hari_db = Utiliti::where('bulan', $bulan_sekarang)->first()->tarikh;
+        if (now()->day > (int) $hari_db) {
+            $bulan_sekarang++;
+            $hari_db = Utiliti::where('bulan', $bulan_sekarang)->first()->tarikh;
+        }
+        $tarikh_auto_hantar_tuntutan = $hari_db . "/" . $bulan_sekarang . "/" . now()->year;
 
-        $tarikh_auto_hantar_tuntutan = Utiliti::where('bulan', $bulan_sekarang)->first()->tarikh . "/" . $bulan_sekarang . "/" . now()->year;
         return view('tuntutan.index', [
             'tuntutan_k2' => $tuntutan_k,
             'tuntutan_k' => $tuntutan_k,
@@ -422,6 +427,9 @@ class TuntutanController extends Controller
             'tarikh_auto_hantar_tuntutan' => $tarikh_auto_hantar_tuntutan,
             // 'tuntutan_satupertiga'=> Tuntutan::where('lulus_satupertiga', 1)->get(),
             // 'tuntutan_sebulan'=> Tuntutan::where('lulus_sebulan', 1)->get(),
+            'pegawaiSokong' => User::whereIn('role', array('penyelia', 'ketua_bahagian'))->get(),
+            'pegawaiLulus' => User::whereIn('role', array('ketua_bahagian', 'ketua_jabatan'))->get(),
+
         ]);
 
     }

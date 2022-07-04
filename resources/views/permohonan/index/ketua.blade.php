@@ -22,13 +22,13 @@
                 <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
-                            href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i
-                                class="ni ni-bell-55 mr-2"></i>Sokong Permohonan kakitangan</a>
+                            href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1"
+                            aria-selected="true"><i class="ni ni-bell-55 mr-2"></i>Sokong Permohonan kakitangan</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
-                            href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i
-                                class="ni ni-calendar-grid-58 mr-2"></i>Sah Pengesahan kakitangan</a>
+                            href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2"
+                            aria-selected="false"><i class="ni ni-calendar-grid-58 mr-2"></i>Sah Pengesahan kakitangan</a>
                     </li>
                 </ul>
             </div>
@@ -183,7 +183,8 @@
                     {{-- Table pemohonan --}}
                     <div class="row ">
                         <div class="col-md-12 mb-3">
-                            <button class="btn btn-primary btn-sm " onclick="SubmitAllKakitangan(1,'.sak','sokong')">Sokong
+                            <button class="btn btn-primary btn-sm "
+                                onclick="SubmitAllKakitangan(1,'.sak','sokong')">Sokong
                                 Pilihan</button>
                             <button class="btn btn-danger btn-sm " onclick="SubmitAllKakitangan(0,'.sak','sokong')">Tolak
                                 Pilihan</button>
@@ -325,8 +326,8 @@
                                                                 Tolak
                                                                 Permohonan
                                                                 Kakitangan</h5>
-                                                            <button type="button" class="close"
-                                                                data-dismiss="modal" aria-label="Close">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
@@ -339,7 +340,8 @@
                                                                             <label for="Perkara">Sebab Tolak
                                                                                 Permohonan</label>
                                                                             <input type="hidden"
-                                                                                value="{{ $permohonan->id }}" name="id">
+                                                                                value="{{ $permohonan->id }}"
+                                                                                name="id">
 
                                                                             <div class="input-group input-group-merge">
                                                                                 <input class="form-control"
@@ -564,7 +566,8 @@
                                                                                 <div class="input-group input-group-merge">
                                                                                     <input class="form-control"
                                                                                         name="lulus_sebelum_sebab"
-                                                                                        placeholder="Sebab" type="text">
+                                                                                        placeholder="Sebab"
+                                                                                        type="text">
 
                                                                                 </div>
                                                                             </div>
@@ -910,7 +913,8 @@
                                                                                 <div class="input-group input-group-merge">
                                                                                     <input class="form-control"
                                                                                         name="sokong_selepas_sebab"
-                                                                                        placeholder="Sebab" type="text">
+                                                                                        placeholder="Sebab"
+                                                                                        type="text">
 
                                                                                 </div>
                                                                             </div>
@@ -1148,7 +1152,8 @@
                                                                                 <div class="input-group input-group-merge">
                                                                                     <input class="form-control"
                                                                                         name="lulus_selepas_sebab"
-                                                                                        placeholder="Sebab" type="text">
+                                                                                        placeholder="Sebab"
+                                                                                        type="text">
 
                                                                                 </div>
                                                                             </div>

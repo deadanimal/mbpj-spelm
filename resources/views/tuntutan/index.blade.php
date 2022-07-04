@@ -181,10 +181,6 @@
                         <div class="card-header border-0">
                             <h3 class="mb-0 ">Hantar Tuntutan Elaun Lebih Masa</h3>
                         </div>
-
-                        {{-- @if (session('status_tuntutan'))
-                        {{session('status_tuntutan')}}
-                    @endif --}}
                         <?php
                     if(Session::has('status_tuntutan')){
                         ?>
@@ -201,20 +197,45 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th> No</th>
+                                    <th> Pegawai Sokong / Pegawai Lulus</th>
                                     <th> Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
                                     <th> Hari Biasa <br> Siang / Malam</th>
                                     <th> Hari Rehat <br> Siang / Malam</th>
                                     <th> Pelepasan AM <br> Siang / Malam</th>
                                     <th> Sebab Lebih Masa</th>
-                                    {{-- <th> Tindakan</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach ($tuntutan_k2 as $tuntutan_k)
                                     <tr>
                                         <td>
                                             {{ $loop->index + 1 }}
+                                        </td>
+                                        <td>
+                                            <form action="/kemaskini_pegawai_level3/{{ $tuntutan_k->id }}"
+                                                method="post">
+                                                @method('put')
+                                                @csrf
+                                                <select name="pegawai_sokong_id" class="form-control mb-3">
+                                                    @foreach ($pegawaiSokong as $p)
+                                                        <option
+                                                            {{ $tuntutan_k->pegawai_sokong_id == $p->id ? 'selected' : '' }}
+                                                            value="{{ $p->id }}">{{ $p->name }}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                <select name="pegawai_lulus_id" class="form-control">
+                                                    @foreach ($pegawaiLulus as $p)
+                                                        <option
+                                                            {{ $tuntutan_k->pegawai_lulus_id == $p->id ? 'selected' : '' }}
+                                                            value="{{ $p->id }}">{{ $p->name }}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                <div class="text-center mt-3">
+                                                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                                </div>
+                                            </form>
                                         </td>
                                         <td>
                                             <input type="text" id="sebenar_mula_kerja_tuntutan"
@@ -1258,8 +1279,8 @@
 
                                                     <!-- Modal tolak sokong tuntutan-->
                                                     <div class="modal fade"
-                                                        id="tolaklulustuntutan{{ $lulus_tuntutan->id }}" tabindex="-1"
-                                                        role="dialog" aria-labelledby="exampleModalLabel"
+                                                        id="tolaklulustuntutan{{ $lulus_tuntutan->id }}"
+                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
