@@ -25,15 +25,15 @@ class PermohonanController extends Controller
 
         $permohonans = $user
             ->permohonans()
-            ->where('lulus_sebelum', '===', null)
+            ->whereNull('lulus_sebelum')
             ->orderByDesc("created_at")
             ->get();
 
         $pengesahans = Permohonan::where([
             ['lulus_sebelum', '1'],
             ['user_id', auth()->id()],
-            ['lulus_selepas', '===', null],
-        ])->get()
+        ])->whereNull('lulus_selepas')
+            ->get()
             ->each(function ($ps) {
                 $ps->update([
                     'sebenar_mula_kerja' => $ps->mohon_mula_kerja,
@@ -345,7 +345,10 @@ class PermohonanController extends Controller
             $permohonan = new Permohonan;
 
             $mohon_mula_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_mula_kerja));
-            $mohon_akhir_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_akhir_kerja));
+
+            $tarikh = date("Y-m-d", strtotime($request->mohon_mula_kerja));
+            $mohon_akhir_kerja = $tarikh . " " . $request->mohon_akhir_kerja . ":00";
+            $mohon_akhir_kerja = date("Y-m-d H:i:s", strtotime($mohon_akhir_kerja));
 
             // check beza jam kalau lebih 12 jam return back
             $mula_kerja = strtotime($request->mohon_mula_kerja);
@@ -364,9 +367,8 @@ class PermohonanController extends Controller
                 return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
             }
 
-            $masa_akhir = date("H:i", strtotime($request->mohon_akhir_kerja));
             $masa_mula = date("H:i", strtotime($request->mohon_mula_kerja));
-
+            $masa_akhir = date("H:i", strtotime($request->mohon_akhir_kerja));
             if ($masa_akhir < $masa_mula) {
                 return redirect()->back()->withErrors(['error_jam' => 'Masa mula melebihi masa tamat']);
             }
@@ -403,7 +405,10 @@ class PermohonanController extends Controller
                 $permohonan = new Permohonan;
 
                 $mohon_mula_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_mula_kerja));
-                $mohon_akhir_kerja = date("Y-m-d H:i:s", strtotime($request->mohon_akhir_kerja));
+
+                $tarikh = date("Y-m-d", strtotime($request->mohon_mula_kerja));
+                $mohon_akhir_kerja = $tarikh . " " . $request->mohon_akhir_kerja . ":00";
+                $mohon_akhir_kerja = date("Y-m-d H:i:s", strtotime($mohon_akhir_kerja));
 
                 $mula_kerja = strtotime($request->mohon_mula_kerja);
                 $akhir_kerja = strtotime($request->mohon_akhir_kerja);

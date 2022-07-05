@@ -236,8 +236,10 @@
                                         </td>
                                         <td>
                                             {{ $permohonan->lokasi }} <br><br>
-
-                                            {{ $permohonan->tujuan }}
+                                            <div class="text-center">
+                                                <button class="btn btn-sm btn-primary"
+                                                    onclick="tujuan('{{ $permohonan->tujuan }}')">Tujuan</button>
+                                            </div>
                                         </td>
                                         <td>
                                             {{ $permohonan->pegawaiLulus->name }}
@@ -317,7 +319,11 @@
                                         <td>
                                             {{ $p->permohonan->lokasi }} <br><br>
 
-                                            {{ $p->permohonan->tujuan }}
+                                            <div class="text-center">
+                                                <button class="btn btn-sm btn-primary"
+                                                    onclick="tujuan('{{ $p->permohonan->tujuan }}')">Tujuan</button>
+                                            </div>
+
                                         </td>
                                         <td>
                                             {{ $p->permohonan->pegawaiLulus->name }}
@@ -747,6 +753,13 @@
                 $("#rekod2val").val("1");
             }
 
+        }
+
+        function tujuan(t) {
+            Swal.fire(
+                'Tujuan',
+                t,
+            );
         }
     </script>
 

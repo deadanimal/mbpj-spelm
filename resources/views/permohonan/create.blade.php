@@ -89,16 +89,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="mohon_akhir_kerja">Pilih waktu akhir</label>
-                                                                <div class="input-group date" id="datetimepicker2">
-
-                                                                    <input type="text" class="form-control"
-                                                                        name="mohon_akhir_kerja">
-                                                                    <span class="input-group-addon input-group-append">
-                                                                        <button class="btn btn-outline-primary"
-                                                                            type="button" id="button-addon2"> <span
-                                                                                class="fa fa-calendar"></span></button>
-                                                                    </span>
-                                                                </div>
+                                                                <input type="time" class="form-control"
+                                                                    name="mohon_akhir_kerja">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -216,8 +208,8 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" name="jenis_permohonan"
-                                                            value="berkumpulan" hidden>
+                                                        <input type="text" class="form-control"
+                                                            name="jenis_permohonan" value="berkumpulan" hidden>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-lg-6">
