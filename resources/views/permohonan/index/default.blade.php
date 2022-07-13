@@ -206,8 +206,6 @@
                     </div>
 
                     <div class="table-responsive py-4">
-
-
                         <table id="permohonankakitangan"
                             class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                             <thead class="thead-light">
@@ -219,12 +217,12 @@
                                     <th>Pegawai Sokong <br><br> Pegawai Lulus </th>
                                     <th>Jenis <br><br> Permohonan</th>
                                     <th>Status</th>
-                                    <th>Kemaskini</th>
+                                    {{-- <th>Kemaskini</th> --}}
 
                                 </tr>
                             </thead>
                             <tbody class="list">
-                                @forelse($permohonans as $permohonan)
+                                @foreach ($permohonans as $permohonan)
                                     <tr>
                                         <td>
                                             {{ $loop->index + 1 }}
@@ -238,169 +236,133 @@
                                         </td>
                                         <td>
                                             {{ $permohonan->lokasi }} <br><br>
-
-                                            {{ $permohonan->tujuan }}
+                                            <div class="text-center">
+                                                <button class="btn btn-sm btn-primary"
+                                                    onclick="tujuan('{{ $permohonan->tujuan }}')">Tujuan</button>
+                                            </div>
                                         </td>
                                         <td>
-                                            @foreach ($pengguna as $user)
-                                                @if ($permohonan->pegawai_sokong_id == $user->id)
-                                                    {{ $user->name }}
-                                                    <br><br>
-                                                @endif
-                                            @endforeach
-
-                                            @foreach ($pengguna as $user)
-                                                @if ($permohonan->pegawai_lulus_id == $user->id)
-                                                    {{ $user->name }}
-                                                @endif
-                                            @endforeach
+                                            {{ $permohonan->pegawaiLulus->name }}
+                                            <br><br>
+                                            {{ $permohonan->pegawaiSokong->name }}
                                         </td>
                                         <td>
                                             @if ($permohonan->jenis_permohonan == 'individu')
                                                 <span class="badge badge-pill badge-warning">INDIVIDU</span>
-
+                                            @else
+                                                <span class="badge badge-pill badge-warning">KUMPULAN</span>
+                                            @endif
                                         <td>
                                             @if ($permohonan->sokong_sebelum === null)
                                                 <span class="badge badge-pill badge-primary"> Dalam Semakan</span>
-
-                                        <td class="kemaskini">
-                                            <a href="/permohonans/{{ $permohonan->id }}/edit"
-                                                class="btn btn-primary btn-sm"><i class="ni ni-single-copy-04"></i>
-                                            </a>
-                                            <button onclick="buangpermohonan({{ $permohonan->id }})"
-                                                class="btn btn-danger btn-sm"><i class="ni ni-basket"></i></button>
+                                            @elseif($permohonan->sokong_sebelum == 1)
+                                                <span class="badge badge-pill badge-success">Sokong PG1</span>
+                                            @elseif($permohonan->sokong_sebelum == 0)
+                                                <span class="badge badge-pill badge-danger">Ditolak PG1</span><br><br>
+                                                {{ $permohonan->sokong_sebelum_sebab }}
+                                            @endif
+                                            <br><br>
+                                            @if ($permohonan->lulus_sebelum === null)
+                                                <span class="badge badge-pill badge-primary"> Proses Semakan</span>
+                                            @elseif($permohonan->lulus_sebelum === 1)
+                                                <span class="badge badge-pill badge-success">Lulus PG2</span>
+                                            @elseif($permohonan->lulus_sebelum === 0)
+                                                <span class="badge badge-pill badge-danger">Ditolak
+                                                    PG2</span><br><br>
+                                                {{ $permohonan->lulus_sebelum_sebab }}
+                                            @endif
                                         </td>
-                                    @elseif($permohonan->sokong_sebelum === 1)
-                                        <span class="badge badge-pill badge-success">Lulus PG1</span><br><br>
-
-                                        @if ($permohonan->lulus_sebelum === null)
-                                            <span class="badge badge-pill badge-primary"> Proses Semakan</span>
-
-                                            <td>
-                                                --
-                                            </td>
-                                        @elseif($permohonan->lulus_sebelum === 1)
-                                            <span class="badge badge-pill badge-success">Lulus PG2</span>
-                                            <td>
-                                                --
-                                            </td>
-                                        @elseif($permohonan->lulus_sebelum === 0)
-                                            <span class="badge badge-pill badge-danger">Ditolak
-                                                PG2</span><br><br>
-                                            {{ $permohonan->lulus_sebelum_sebab }}
-
-                                            <td>
-                                                --
-                                            </td>
-                                        @endif
-                                    @elseif($permohonan->sokong_sebelum === 0)
-                                        <span class="badge badge-pill badge-danger">Ditolak PG1</span><br><br>
-                                        {{ $permohonan->sokong_sebelum_sebab }}
-                                        <td>
-                                            <span class="badge badge-pill badge-danger">Permohonan
-                                                Ditolak</span><br><br>
-                                        </td>
-                                @endif
-                                </td>
-                            @elseif($permohonan->jenis_permohonan == 'berkumpulan')
-                                <span class="badge badge-pill badge-default">BERKUMPULAN</span>
-
-                                <td class="status">
-                                    @if ($permohonan->sokong_sebelum === null)
-                                        <span class="badge badge-pill badge-primary">Dalam Semakan</span>
-
-                                <td class="kemaskini">
-                                    <a href="/permohonans/{{ $permohonan->id }}/edit" class="btn btn-primary btn-sm"><i
-                                            class="ni ni-single-copy-04"></i></a>
-
-                                    <button onclick="buangpermohonan({{ $permohonan->id }})"
-                                        class="btn btn-danger btn-sm"><i class="ni ni-basket"></i>
-                                    </button>
-                                </td>
-                            @elseif($permohonan->sokong_sebelum === 1)
-                                <span class="badge badge-pill badge-success">Lulus PG1</span><br><br>
-
-                                @if ($permohonan->lulus_sebelum === null)
-                                    <span class="badge badge-pill badge-primary">Dalam Semakan</span>
-                                    <td>
-                                        --
-                                    </td>
-                                @elseif($permohonan->lulus_sebelum === 1)
-                                    <span class="badge badge-pill badge-success">Lulus PG2</span>
-                                    <td>
-                                        --
-                                    </td>
-                                @elseif($permohonan->lulus_sebelum === 0)
-                                    <span class="badge badge-pill badge-danger">Ditolak
-                                        PG2</span><br><br>
-                                    {{ $permohonan->lulus_sebelum_sebab }}
-
-                                    <td>
-                                        --
-                                    </td>
-                                @endif
-                            @elseif($permohonan->sokong_sebelum === 0)
-                                <span class="badge badge-pill badge-danger">Ditolak PG1</span><br><br>
-                                {{ $permohonan->sokong_sebelum_sebab }}
-                                <td>
-                                    <span class="badge badge-pill badge-danger">Permohonan Ditolak</span><br><br>
-                                </td>
-                                @endif
-                                @endif
-
-                                <script>
-                                    function buangpermohonan(id) {
-                                        swal({
-                                            title: 'Makluman?',
-                                            text: "Hapus Permohonan?!",
-                                            type: 'warning',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#d33',
-                                            confirmButtonText: 'Buang',
-                                            cancelButtonText: 'Tutup',
-
-                                        }).then(result => {
-                                            console.log("result", result);
-                                            if (result.value == true) {
-                                                console.log("id", id);
-                                                $.ajax({
-                                                    url: "permohonans/" + id,
-                                                    type: "POST",
-                                                    data: {
-                                                        "id": id,
-                                                        "_token": "{{ csrf_token() }}",
-                                                        "_method": 'delete'
-                                                    },
-                                                    success: function(data) {
-                                                        location.reload();
-                                                    },
-                                                });
-
-                                            } else if (result.dismiss == "cancel") {
-                                                console.log("dismiss");
-                                            }
-                                        })
-                                    }
-                                </script>
-
-                            @empty
-                                @endforelse
+                                        {{-- <td>
+                                            @if ($permohonan->lulus_sebelum === null)
+                                                <a href="/permohonans/{{ $permohonan->id }}/edit"
+                                                    class="btn btn-primary btn-sm"><i class="ni ni-single-copy-04"></i>
+                                                </a>
+                                            @endif
+                                        </td> --}}
+                                @endforeach
 
                             </tbody>
-                            {{-- <tfoot>
-                            <tr>
-                                <th>No</th>
-                                <th>Mohon Mula <br><br> Mohon akhir</th>
-                                <th>Lokasi<br><br>Tujuan</th>
-                                <th>Pegawai Sokong <br><br> Pegawai Lulus </th>
-                                <th>Jenis <br><br> Permohonan</th>
-                                <th>Status</th>
-                                <th>Kemaskini</th>
-                            </tr>
-                        </tfoot> --}}
                         </table>
                     </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn-primary btn-sm" onclick="rekod1()">Rekod</button>
+                    </div>
+
+                    <div class="table-responsive py-4 d-none" id="rekod1">
+                        <table class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Mohon Mula <br><br> Mohon akhir</th>
+                                    <th>Lokasi<br><br>Tujuan</th>
+                                    <th>Pegawai Sokong <br><br> Pegawai Lulus </th>
+                                    <th>Jenis <br><br> Permohonan</th>
+                                    <th>Status</th>
+                                    {{-- <th>Kemaskini</th> --}}
+
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                @foreach ($permohonanLevel1 as $p)
+                                    <tr>
+                                        <td>
+                                            {{ $loop->index + 1 }}
+                                        </td>
+
+                                        <td>
+
+                                            {{ $p->permohonan->mohon_mula_kerja }} <br><br>
+
+                                            {{ $p->permohonan->mohon_akhir_kerja }}
+                                        </td>
+                                        <td>
+                                            {{ $p->permohonan->lokasi }} <br><br>
+
+                                            <div class="text-center">
+                                                <button class="btn btn-sm btn-primary"
+                                                    onclick="tujuan('{{ $p->permohonan->tujuan }}')">Tujuan</button>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            {{ $p->permohonan->pegawaiLulus->name }}
+                                            <br><br>
+                                            {{ $p->permohonan->pegawaiSokong->name }}
+                                        </td>
+                                        <td>
+                                            @if ($p->permohonan->jenis_permohonan == 'individu')
+                                                <span class="badge badge-pill badge-warning">INDIVIDU</span>
+                                            @else
+                                                <span class="badge badge-pill badge-warning">KUMPULAN</span>
+                                            @endif
+                                        <td>
+                                            @if ($p->permohonan->sokong_sebelum === null)
+                                                <span class="badge badge-pill badge-primary"> Dalam Semakan</span>
+                                            @elseif($p->permohonan->sokong_sebelum == 1)
+                                                <span class="badge badge-pill badge-success">Sokong PG1</span>
+                                            @elseif($p->permohonan->sokong_sebelum == 0)
+                                                <span class="badge badge-pill badge-danger">Ditolak PG1</span><br><br>
+                                                {{ $p->permohonan->sokong_sebelum_sebab }}
+                                            @endif
+                                            <br><br>
+                                            @if ($p->permohonan->lulus_sebelum === null)
+                                                <span class="badge badge-pill badge-primary"> Proses Semakan</span>
+                                            @elseif($p->permohonan->lulus_sebelum === 1)
+                                                <span class="badge badge-pill badge-success">Lulus PG2</span>
+                                            @elseif($p->permohonan->lulus_sebelum === 0)
+                                                <span class="badge badge-pill badge-danger">Ditolak
+                                                    PG2</span><br><br>
+                                                {{ $p->permohonan->lulus_sebelum_sebab }}
+                                            @endif
+                                        </td>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -597,11 +559,122 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn-primary btn-sm" onclick="rekod2()">Rekod</button>
+                    </div>
+
+                    <div class="table-responsive py-4 d-none" id="rekod2">
+                        <table class="display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Waktu Mula Kerja lulus<br><br>Waktu Akhir Kerja lulus</th>
+                                    <th>Status EKedatangan</th>
+                                    <th>Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
+                                    <th>Pegawai Sokong / Pegawai Lulus</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                @foreach ($permohonanLevel2 as $p)
+                                    <tr>
+                                        <td>
+                                            {{ $loop->index + 1 }}
+                                        </td>
+                                        <td>
+                                            {{ $p->permohonan->mohon_mula_kerja }} <br><br>
+
+                                            {{ $p->permohonan->mohon_akhir_kerja }}
+                                        </td>
+                                        <td>
+                                            <h5> Tarikh : <span style="color:rgb(255, 0, 21)">{{ $p->tarikh }}</span>
+                                            </h5>
+                                            <h5> Mula : <span style="color:rgb(255, 0, 21)">
+                                                    {{ $p->clockintime }}</span> </h5>
+                                            <h5> Akhir : <span
+                                                    style="color:rgb(255, 0, 21)">{{ $p->clockouttime }}</span>
+                                            </h5>
+                                            <h5> Status : <span
+                                                    style="color:rgb(255, 0, 21)">{{ $p->statusdesc }}</span>
+                                            </h5>
+                                            <h5> Waktu Anjal : <span
+                                                    style="color:rgb(255, 0, 21)">{{ $p->waktuanjal }}</span>
+                                            </h5>
+                                            @if (isset($p->permohonan->jenis_masa))
+                                                <div class="col-12 text-center">
+                                                    <label class="h5 my-0 py-0 mt-2 " for="">
+                                                        Jenis
+                                                        Masa</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $p->permohonan->jenis_masa }}" readonly>
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $p->permohonan->sebenar_mula_kerja }}<br><br>
+                                            {{ $p->permohonan->sebenar_akhir_kerja }}<br><br>
+                                        </td>
+                                        @if ($p->permohonan->lulus_sebelum === 1)
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="p_pegawai_sokong_id"
+                                                        value="{{ $p->permohonan->pegawaiSokong->name }}" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="p_pegawai_sokong_id"
+                                                        value="{{ $p->permohonan->pegawaiLulus->name }}" readonly>
+                                                </div>
+                                            </td>
+                                            @if ($p->permohonan->sokong_selepas === 1)
+                                                <td>
+                                                    <span class="badge badge-pill badge-success">Sokong </span><br><br>
+
+                                                    @if ($p->permohonan->lulus_selepas === 1)
+                                                        <span class="badge badge-pill badge-success">Lulus </span><br><br>
+                                                    @elseif($p->permohonan->lulus_selepas === 0)
+                                                        <span class="badge badge-pill badge-danger">Ditolak </span><br><br>
+                                                        {{ $p->permohonan->lulus_selepas_sebab }}
+                                                    @elseif($p->permohonan->lulus_selepas === null)
+                                                        <span class="badge badge-pill badge-primary">Dalam
+                                                            Semakan</span><br>
+                                                    @endif
+
+                                                </td>
+                                            @elseif($p->permohonan->sokong_selepas === 0)
+                                                <td>
+                                                    <span class="badge badge-pill badge-danger">Ditolak </span><br><br>
+                                                    {{ $p->permohonan->sokong_selepas_sebab }}
+
+                                                </td>
+                                            @elseif($p->permohonan->sokong_selepas === null)
+                                                @if ($p->permohonan->sebenar_akhir_kerja == null)
+                                                    <td>
+                                                        --
+                                                    </td>
+                                                @elseif($p->permohonan->sebenar_akhir_kerja != null)
+                                                    <td>
+                                                        <span class="badge badge-pill badge-primary"> Dalam Semakan</span>
+                                                    </td>
+                                                @endif
+                                            @endif
+                                        @elseif($p->permohonan->lulus_sebelum === 0)
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 
+    <input type="hidden" id="rekod1val" value='0'>
+    <input type="hidden" id="rekod2val" value='0'>
     <script>
         function tukarJenisMasa(el, id) {
             $.ajax({
@@ -650,6 +723,43 @@
                     console.log("dismiss");
                 }
             })
+        }
+
+        function rekod1() {
+            $("#rekod1").removeClass('d-none');
+
+            let showRekod1 = $("#rekod1val").val();
+
+            if (showRekod1 == "1") {
+                $("#rekod1").addClass('d-none');
+                $("#rekod1val").val("0");
+
+            } else {
+                $("#rekod1val").val("1");
+            }
+
+        }
+
+        function rekod2() {
+            $("#rekod2").removeClass('d-none');
+
+            let showRekod2 = $("#rekod2val").val();
+
+            if (showRekod2 == "1") {
+                $("#rekod2").addClass('d-none');
+                $("#rekod2val").val("0");
+
+            } else {
+                $("#rekod2val").val("1");
+            }
+
+        }
+
+        function tujuan(t) {
+            Swal.fire(
+                'Tujuan',
+                t,
+            );
         }
     </script>
 
@@ -802,8 +912,6 @@
 
 
             $('.delete_all').on('click', function(e) {
-
-
                 var allVals = [];
                 $(".sub_chk:checked").each(function() {
                     allVals.push($(this).attr('data-id'));
@@ -855,43 +963,7 @@
             });
 
 
-            // $('[data-toggle=confirmation]').confirmation({
-            //     rootSelector: '[data-toggle=confirmation]',
-            //     onConfirm: function(event, element) {
-            //         element.trigger('confirm');
-            //     }
-            // });
 
-
-            // $(document).on('confirm', function(e) {
-            //     var ele = e.target;
-            //     e.preventDefault();
-
-
-            //     $.ajax({
-            //         url: ele.href,
-            //         // type: 'DELETE',
-            //         headers: {
-            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         },
-            //         success: function(data) {
-            //             if (data['success']) {
-            //                 $("#" + data['tr']).slideUp("slow");
-            //                 alert(data['success']);
-            //             } else if (data['error']) {
-            //                 alert(data['error']);
-            //             } else {
-            //                 alert('Whoops Something went wrong!!');
-            //             }
-            //         },
-            //         error: function(data) {
-            //             alert(data.responseText);
-            //         }
-            //     });
-
-
-            //     return false;
-            // });
         });
     </script>
 @endsection

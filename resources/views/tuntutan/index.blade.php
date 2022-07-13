@@ -181,10 +181,6 @@
                         <div class="card-header border-0">
                             <h3 class="mb-0 ">Hantar Tuntutan Elaun Lebih Masa</h3>
                         </div>
-
-                        {{-- @if (session('status_tuntutan'))
-                        {{session('status_tuntutan')}}
-                    @endif --}}
                         <?php
                     if(Session::has('status_tuntutan')){
                         ?>
@@ -201,20 +197,45 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th> No</th>
+                                    <th> Pegawai Sokong / Pegawai Lulus</th>
                                     <th> Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
                                     <th> Hari Biasa <br> Siang / Malam</th>
                                     <th> Hari Rehat <br> Siang / Malam</th>
                                     <th> Pelepasan AM <br> Siang / Malam</th>
                                     <th> Sebab Lebih Masa</th>
-                                    {{-- <th> Tindakan</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach ($tuntutan_k2 as $tuntutan_k)
                                     <tr>
                                         <td>
                                             {{ $loop->index + 1 }}
+                                        </td>
+                                        <td>
+                                            <form action="/kemaskini_pegawai_level3/{{ $tuntutan_k->id }}"
+                                                method="post">
+                                                @method('put')
+                                                @csrf
+                                                <select name="pegawai_sokong_id" class="form-control mb-3">
+                                                    @foreach ($pegawaiSokong as $p)
+                                                        <option
+                                                            {{ $tuntutan_k->pegawai_sokong_id == $p->id ? 'selected' : '' }}
+                                                            value="{{ $p->id }}">{{ $p->name }}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                <select name="pegawai_lulus_id" class="form-control">
+                                                    @foreach ($pegawaiLulus as $p)
+                                                        <option
+                                                            {{ $tuntutan_k->pegawai_lulus_id == $p->id ? 'selected' : '' }}
+                                                            value="{{ $p->id }}">{{ $p->name }}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                <div class="text-center mt-3">
+                                                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                                </div>
+                                            </form>
                                         </td>
                                         <td>
                                             <input type="text" id="sebenar_mula_kerja_tuntutan"
@@ -228,28 +249,33 @@
                                         <td>
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniJamTuntutan({{ $tuntutan_k->id }}, this)"
-                                                value="{{ $tuntutan_k->jam_kerja_biasa_siang }}" disabled>
+                                                value="{{ $tuntutan_k->jam_kerja_biasa_siang !== null ? round($tuntutan_k->jam_kerja_biasa_siang, 3) : '' }}"
+                                                disabled>
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniJamTuntutan({{ $tuntutan_k->id }}, this)"
-                                                value="{{ $tuntutan_k->jam_kerja_biasa_malam }}" disabled>
+                                                value="{{ $tuntutan_k->jam_kerja_biasa_malam !== null ? round($tuntutan_k->jam_kerja_biasa_malam, 3) : '' }}"
+                                                disabled>
 
                                         </td>
                                         <td>
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniTotalTuntutan({{ $tuntutan_k->id }}, this)"
-                                                value="{{ $tuntutan_k->jam_kerja_cuti_siang }}" disabled>
+                                                value="{{ $tuntutan_k->jam_kerja_cuti_siang !== null ? round($tuntutan_k->jam_kerja_cuti_siang, 3) : '' }}"
+                                                disabled>
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniTotalTuntutan({{ $tuntutan_k->id }}, this)"
-                                                value="{{ $tuntutan_k->jam_kerja_cuti_malam }}" disabled>
-
+                                                value="{{ $tuntutan_k->jam_kerja_cuti_malam !== null ? round($tuntutan_k->jam_kerja_cuti_malam, 3) : '' }}"
+                                                disabled>
                                         </td>
                                         <td>
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniStatus2({{ $tuntutan_k->id }}, this)"
-                                                value="{{ $tuntutan_k->jam_kerja_am_siang }}" disabled>
+                                                value="{{ $tuntutan_k->jam_kerja_am_siang !== null ? round($tuntutan_k->jam_kerja_am_siang, 3) : '' }}"
+                                                disabled>
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniStatus2({{ $tuntutan_k->id }}, this)"
-                                                value="{{ $tuntutan_k->jam_kerja_am_malam }} " disabled>
+                                                value="{{ $tuntutan_k->jam_kerja_am_malam !== null ? round($tuntutan_k->jam_kerja_am_malam, 3) : '' }} "
+                                                disabled>
 
                                         </td>
                                         <td>
@@ -857,7 +883,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade " id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                <div class="tab-pane fade " id="tabs-icons-text-2" role="tabpanel"
+                    aria-labelledby="tabs-icons-text-2-tab">
                     <div>
                         {{-- Card tuntutan --}}
                         <div class="row">
@@ -1059,8 +1086,8 @@
                                                     </tr>
                                                     <!-- Modal tolak sokong tuntutan-->
                                                     <div class="modal fade"
-                                                        id="tolaksokongtuntutan{{ $sokong_tuntutan->id }}" tabindex="-1"
-                                                        role="dialog" aria-labelledby="exampleModalLabel"
+                                                        id="tolaksokongtuntutan{{ $sokong_tuntutan->id }}"
+                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
@@ -1075,7 +1102,8 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <div class="card-body">
-                                                                        <form method="POST" action="/tolak_sokong_tuntutan">
+                                                                        <form method="POST"
+                                                                            action="/tolak_sokong_tuntutan">
                                                                             @csrf
                                                                             <div class="col-md-12">
                                                                                 <div class="form-group">
@@ -1089,7 +1117,8 @@
                                                                                         class="input-group input-group-merge">
                                                                                         <input class="form-control"
                                                                                             name="sokong_tuntutan_sebab"
-                                                                                            placeholder="Sebab" type="text">
+                                                                                            placeholder="Sebab"
+                                                                                            type="text">
 
                                                                                     </div>
                                                                                 </div>
@@ -1250,8 +1279,8 @@
 
                                                     <!-- Modal tolak sokong tuntutan-->
                                                     <div class="modal fade"
-                                                        id="tolaklulustuntutan{{ $lulus_tuntutan->id }}" tabindex="-1"
-                                                        role="dialog" aria-labelledby="exampleModalLabel"
+                                                        id="tolaklulustuntutan{{ $lulus_tuntutan->id }}"
+                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
@@ -1266,7 +1295,8 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <div class="card-body">
-                                                                        <form method="POST" action="/tolak_lulus_tuntutan">
+                                                                        <form method="POST"
+                                                                            action="/tolak_lulus_tuntutan">
                                                                             @csrf
                                                                             <div class="col-md-12">
                                                                                 <div class="form-group">
@@ -1280,7 +1310,8 @@
                                                                                         class="input-group input-group-merge">
                                                                                         <input class="form-control"
                                                                                             name="lulus_tuntutan_sebab"
-                                                                                            placeholder="Sebab" type="text">
+                                                                                            placeholder="Sebab"
+                                                                                            type="text">
 
                                                                                     </div>
                                                                                 </div>
@@ -1508,8 +1539,8 @@
                                                     </tr>
                                                     <!-- Modal tolak sokong tuntutan-->
                                                     <div class="modal fade"
-                                                        id="tolaksokongtuntutan{{ $sokong_tuntutan->id }}" tabindex="-1"
-                                                        role="dialog" aria-labelledby="exampleModalLabel"
+                                                        id="tolaksokongtuntutan{{ $sokong_tuntutan->id }}"
+                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
@@ -1524,7 +1555,8 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <div class="card-body">
-                                                                        <form method="POST" action="/tolak_sokong_tuntutan">
+                                                                        <form method="POST"
+                                                                            action="/tolak_sokong_tuntutan">
                                                                             @csrf
                                                                             <div class="col-md-12">
                                                                                 <div>
@@ -1681,8 +1713,8 @@
 
                                                     <!-- Modal tolak sokong tuntutan-->
                                                     <div class="modal fade"
-                                                        id="tolaklulustuntutan{{ $lulus_tuntutan->id }}" tabindex="-1"
-                                                        role="dialog" aria-labelledby="exampleModalLabel"
+                                                        id="tolaklulustuntutan{{ $lulus_tuntutan->id }}"
+                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
@@ -1697,7 +1729,8 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <div class="card-body">
-                                                                        <form method="POST" action="/tolak_lulus_tuntutan">
+                                                                        <form method="POST"
+                                                                            action="/tolak_lulus_tuntutan">
                                                                             @csrf
                                                                             <div class="col-md-12">
                                                                                 <div class="form-group">
@@ -1711,12 +1744,14 @@
                                                                                         class="input-group input-group-merge">
                                                                                         <input class="form-control"
                                                                                             name="lulus_tuntutan_sebab"
-                                                                                            placeholder="Sebab" type="text">
+                                                                                            placeholder="Sebab"
+                                                                                            type="text">
 
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <button type="button" class="btn btn-secondary"
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
                                                                                 data-dismiss="modal">Tutup</button>
                                                                             <button type="submit"
                                                                                 class="btn btn-secondary">Hantar</button>
@@ -1882,7 +1917,8 @@
                                                                 name="jumlah_jam_tuntutan"
                                                                 value="{{ $sokong->jumlah_jam_tuntutan }} " disabled>
 
-                                                            <input type="text" id="jumlah_tuntutan" name="jumlah_tuntutan"
+                                                            <input type="text" id="jumlah_tuntutan"
+                                                                name="jumlah_tuntutan"
                                                                 value="{{ $sokong->jumlah_tuntutan }} " disabled>
 
                                                             <input type="text" id="status" name="status"
@@ -1950,9 +1986,8 @@
 
                                                     </tr>
                                                     <!-- Modal tolak sokong tuntutan-->
-                                                    <div class="modal fade"
-                                                        id="tolaksokongtuntutan{{ $sokong->id }}" tabindex="-1"
-                                                        role="dialog" aria-labelledby="exampleModalLabel"
+                                                    <div class="modal fade" id="tolaksokongtuntutan{{ $sokong->id }}"
+                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
@@ -1967,7 +2002,8 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <div class="card-body">
-                                                                        <form method="POST" action="/tolak_sokong_tuntutan">
+                                                                        <form method="POST"
+                                                                            action="/tolak_sokong_tuntutan">
                                                                             @csrf
                                                                             <div class="col-md-12">
                                                                                 <div class="form-group">
@@ -1981,12 +2017,14 @@
                                                                                         class="input-group input-group-merge">
                                                                                         <input class="form-control"
                                                                                             name="sokong_tuntutan_sebab"
-                                                                                            placeholder="Sebab" type="text">
+                                                                                            placeholder="Sebab"
+                                                                                            type="text">
 
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <button type="button" class="btn btn-secondary"
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
                                                                                 data-dismiss="modal">Tutup</button>
                                                                             <button type="submit"
                                                                                 class="btn btn-secondary">Hantar</button>
@@ -2147,7 +2185,8 @@
                                                 <!-- Modal tolak sokong tuntutan-->
                                                 <div class="modal fade"
                                                     id="tolaklulustuntutan{{ $lulus_tuntutan->id }}" tabindex="-1"
-                                                    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    role="dialog" aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -2174,7 +2213,8 @@
                                                                                 <div class="input-group input-group-merge">
                                                                                     <input class="form-control"
                                                                                         name="lulus_tuntutan_sebab"
-                                                                                        placeholder="Sebab" type="text">
+                                                                                        placeholder="Sebab"
+                                                                                        type="text">
 
                                                                                 </div>
                                                                             </div>
@@ -2299,8 +2339,8 @@
 
                                                 </tr>
                                                 <div class="modal fade" id="tolaksatupertiga{{ $tsp->id }}"
-                                                    tabindex="-1" role="dialog" aria-labelledby="tolaksatupertigaLabel"
-                                                    aria-hidden="true">
+                                                    tabindex="-1" role="dialog"
+                                                    aria-labelledby="tolaksatupertigaLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -2320,7 +2360,8 @@
                                                                         name="sebab_menolak">
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary btn-sm"
+                                                                    <button type="button"
+                                                                        class="btn btn-secondary btn-sm"
                                                                         data-dismiss="modal">Close</button>
                                                                     <button type="submit"
                                                                         class="btn btn-primary btn-sm">Hantar</button>
@@ -2488,7 +2529,8 @@
                         </div>
                         <div class="table-responsive pt-4">
                             <!-- Light table -->
-                            <table id="example" class="display table table-striped table-bordered dt-responsive nowrap"
+                            <table id="example"
+                                class="display table table-striped table-bordered dt-responsive nowrap"
                                 style="overflow-x:scroll; width:100%">
                                 <thead class="thead-light">
                                     <tr>
@@ -2506,11 +2548,10 @@
                                         <tr>
                                             <td>
                                                 @if ($tsp->lulus_db === null)
-                                                    <input type="checkbox" class="sga"
-                                                        id="{{ $tsp->id }}">
+                                                    <input type="checkbox" class="sga" id="{{ $tsp->id }}">
                                                 @else
-                                                    <input type="checkbox" class=""
-                                                        id="{{ $tsp->id }}" disabled>
+                                                    <input type="checkbox" class="" id="{{ $tsp->id }}"
+                                                        disabled>
                                                 @endif
                                             </td>
                                             <td>{{ $loop->index + 1 }}</td>
@@ -2532,7 +2573,8 @@
                                                 @if ($tsp->lulus_db === null)
                                                     <a href="/lulus_tuntutan_sebulan/{{ $tsp->id }}"
                                                         class="btn btn-success btn-sm ">Sah</a>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        data-toggle="modal"
                                                         data-target="#tolaksebulan{{ $tsp->id }}">
                                                         Tolak
                                                     </button>
@@ -2555,7 +2597,8 @@
                                                         @csrf
                                                         <div class="modal-body">
                                                             <label for="">Sebab Ditolak</label>
-                                                            <input type="text" class="form-control" name="sebab_ditolak">
+                                                            <input type="text" class="form-control"
+                                                                name="sebab_ditolak">
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
@@ -2588,8 +2631,8 @@
                         </div>
 
                         {{-- Modal Tolak Sebulan All --}}
-                        <div class="modal fade" id="tolakPukalSebulanGajiTuntutanModal" tabindex="-1" role="dialog"
-                            aria-hidden="true">
+                        <div class="modal fade" id="tolakPukalSebulanGajiTuntutanModal" tabindex="-1"
+                            role="dialog" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -2639,7 +2682,8 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col">
-                                                <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH TUNTUTAN ELAUN
+                                                <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH TUNTUTAN
+                                                    ELAUN
                                                     LEBIH MASA
                                                 </h5>
                                                 <span class="h2 font-weight-bold mb-0">0</span>
@@ -2660,7 +2704,8 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col">
-                                                <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH
+                                                <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN
+                                                    LEBIH
                                                     MASA
                                                     LULUS
                                                 </h5>
@@ -2705,7 +2750,8 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col">
-                                                <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH
+                                                <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN
+                                                    LEBIH
                                                     MASA
                                                 </h5>
                                                 <span class="h2 font-weight-bold mb-0">0</span>
@@ -2748,7 +2794,8 @@
                                 ?>
 
                                     <!-- Light table -->
-                                    <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                                    <table id="example"
+                                        class="table table-striped table-bordered dt-responsive nowrap"
                                         style="overflow-x:scroll; width:100%">
                                         <thead class="thead-light">
 
@@ -2839,7 +2886,8 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-primary">
-                                                        <h5 class="text-white modal-title" id="exampleModalLabel">Makluman
+                                                        <h5 class="text-white modal-title" id="exampleModalLabel">
+                                                            Makluman
                                                         </h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
@@ -3018,7 +3066,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade " id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                <div class="tab-pane fade " id="tabs-icons-text-2" role="tabpanel"
+                    aria-labelledby="tabs-icons-text-2-tab">
                     <div>
                         {{-- semakan tuntutan kakitangan --}}
                         @if (auth()->user()->role == 'kerani_pemeriksa')

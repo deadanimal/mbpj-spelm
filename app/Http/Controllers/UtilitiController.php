@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Audit;
 use App\Models\Utiliti;
 use Illuminate\Http\Request;
 
@@ -48,7 +49,12 @@ class UtilitiController extends Controller
                     'tarikh' => $request->tarikh[$i - 1],
                 ]);
             }
-
+            Audit::create([
+                'user_id' => auth()->id(),
+                'name' => auth()->user()->name,
+                'peranan' => auth()->user()->role,
+                'description' => 'Tarikh Auto Hantar Tuntutan Dikemaskini',
+            ]);
         }
 
         return back()->with('success', 'Disimpan');
