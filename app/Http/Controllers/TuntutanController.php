@@ -321,8 +321,9 @@ class TuntutanController extends Controller
 
         foreach ($periksa_tuntutans as $npt) {
             $uuuuid = Tuntutan::where("id", $npt->id)->first()->user_id;
-            $pemohon = User::where("id", $uuuuid)->first()->name;
-            $npt->nama_pemohon = $pemohon;
+            $pemohon = User::where("id", $uuuuid)->first();
+            $npt->nama_pemohon = $pemohon->name;
+            $npt->usercode = $pemohon->user_code;
 
             $pegawai_sokong = User::where("id", $npt->pegawai_sokong_id)->first()->name;
             $npt->pegawai_sokong = $pegawai_sokong;
@@ -1204,6 +1205,19 @@ class TuntutanController extends Controller
                 }
                 break;
         }
+        return back();
+    }
+
+    public function updateWaktuTuntutan(Permohonan $permohonan, Request $request)
+    {
+        $mk = $request->tarikh . " " . $request->masa_mula;
+        $tk = $request->tarikh . " " . $request->masa_tamat;
+
+        $permohonan->update([
+            'sebenar_mula_kerja' => $mk,
+            'sebenar_akhir_kerja' => $tk,
+        ]);
+
         return back();
     }
 

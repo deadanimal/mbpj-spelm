@@ -192,9 +192,8 @@
                     ?>
 
                         <!-- Light table -->
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="overflow-x:scroll; width:100%">
-                            <thead class="thead-light">
+                        <table id="example" class="table table-striped table-bordered ">
+                            <thead class="thead-light text-center">
                                 <tr>
                                     <th> No</th>
                                     <th> Pegawai Sokong / Pegawai Lulus</th>
@@ -202,7 +201,7 @@
                                     <th> Hari Biasa <br> Siang / Malam</th>
                                     <th> Hari Rehat <br> Siang / Malam</th>
                                     <th> Pelepasan AM <br> Siang / Malam</th>
-                                    <th> Sebab Lebih Masa</th>
+                                    <th> Sebab <br> Lebih <br> Masa</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -250,7 +249,7 @@
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniJamTuntutan({{ $tuntutan_k->id }}, this)"
                                                 value="{{ $tuntutan_k->jam_kerja_biasa_siang !== null ? round($tuntutan_k->jam_kerja_biasa_siang, 3) : '' }}"
-                                                disabled>
+                                                disabled> <br> <br>
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniJamTuntutan({{ $tuntutan_k->id }}, this)"
                                                 value="{{ $tuntutan_k->jam_kerja_biasa_malam !== null ? round($tuntutan_k->jam_kerja_biasa_malam, 3) : '' }}"
@@ -261,7 +260,7 @@
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniTotalTuntutan({{ $tuntutan_k->id }}, this)"
                                                 value="{{ $tuntutan_k->jam_kerja_cuti_siang !== null ? round($tuntutan_k->jam_kerja_cuti_siang, 3) : '' }}"
-                                                disabled>
+                                                disabled><br> <br>
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniTotalTuntutan({{ $tuntutan_k->id }}, this)"
                                                 value="{{ $tuntutan_k->jam_kerja_cuti_malam !== null ? round($tuntutan_k->jam_kerja_cuti_malam, 3) : '' }}"
@@ -271,7 +270,7 @@
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniStatus2({{ $tuntutan_k->id }}, this)"
                                                 value="{{ $tuntutan_k->jam_kerja_am_siang !== null ? round($tuntutan_k->jam_kerja_am_siang, 3) : '' }}"
-                                                disabled>
+                                                disabled><br> <br>
                                             <input class="text-center" type="text" style="width:60px;"
                                                 onchange="KemaskiniStatus2({{ $tuntutan_k->id }}, this)"
                                                 value="{{ $tuntutan_k->jam_kerja_am_malam !== null ? round($tuntutan_k->jam_kerja_am_malam, 3) : '' }} "
@@ -281,21 +280,6 @@
                                         <td>
                                             {{ $tuntutan_k->tujuan }}
                                         </td>
-                                        {{-- <td >
-                                <select name="pegawai_sokong_id" class="form-control">
-                                    <option hidden value="{{$tuntutan_k->pegawai_sokong_id}}" selected>
-                                        {{$tuntutan_k->pegawai_sokong}} <br>
-                                    </option>
-                                    
-                                </select><br>
-                            
-                                <select name="pegawai_lulus_id" class="form-control">
-                                    <option hidden value="{{$tuntutan_k->pegawai_lulus_id}}" selected>
-                                        {{$tuntutan_k->pegawai_lulus}} 
-                                    </option>
-                                    
-                                </select>                                
-                            </td> --}}
 
                                     </tr>
                                 @endforeach
@@ -3090,6 +3074,7 @@
                                                 <tr>
                                                     {{-- <th><input type="checkbox" id="PeriksaTuntutanAll"></th> --}}
                                                     <th> No</th>
+                                                    <th> ID Pemohon</th>
                                                     <th> Nama Pemohon</th>
                                                     <th> Jenis</th>
                                                     <th> Status</th>
@@ -3108,6 +3093,10 @@
                                                         </td>
 
                                                         <td>
+                                                            {{ $periksa_tuntutan->usercode }}
+                                                        </td>
+
+                                                        <td>
                                                             {{ $periksa_tuntutan->nama_pemohon }}
                                                         </td>
 
@@ -3115,78 +3104,60 @@
                                                             {{ $periksa_tuntutan->jenis }}
                                                         </td>
                                                         <td>
-                                                            @switch($periksa_tuntutan->periksa_tuntutan)
-                                                                @case(null)
-                                                                    <span class="badge badge-pill badge-primary">Perlu
+                                                            @if ($periksa_tuntutan->periksa_tuntutan === null)
+                                                                <span class="badge badge-pill badge-primary">Perlu
+                                                                    Semakan</span>
+                                                            @elseif($periksa_tuntutan->periksa_tuntutan == 0)
+                                                                <span class="badge badge-pill badge-danger"> Tuntutan
+                                                                    Ditolak</span>
+                                                            @elseif($periksa_tuntutan->periksa_tuntutan == 1)
+                                                                @if ($periksa_tuntutan->lulus_tuntutan === null)
+                                                                    <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan</span>
-                                                                @break
+                                                                @elseif($periksa_tuntutan->lulus_tuntutan == 0)
+                                                                    <span class="badge badge-pill badge-danger">Kelulusan
+                                                                        Ditolak Pegawai</span>
+                                                                @elseif ($periksa_tuntutan->semak_tuntutan === null)
+                                                                    <span class="badge badge-pill badge-primary">Dalam
+                                                                        Proses</span>
+                                                                @elseif($periksa_tuntutan->semak_tuntutan == 1)
+                                                                    <span class="badge badge-pill badge-success">Lulus
+                                                                        Semakan</span>
+                                                                @else
+                                                                    <span class="badge badge-pill badge-success">Tuntutan
+                                                                        Diperiksa</span><br><br>
+                                                                @endif
+                                                            @endif
 
-                                                                @case(0)
-                                                                    <span class="badge badge-pill badge-danger"> Tuntutan
-                                                                        Ditolak</span>
-                                                                @break
-
-                                                                @case(1)
-                                                                    @if ($periksa_tuntutan->lulus_tuntutan === null)
-                                                                        <span class="badge badge-pill badge-primary">Dalam
-                                                                            Semakan</span>
-                                                                    @elseif($periksa_tuntutan->lulus_tuntutan === 0)
-                                                                        <span class="badge badge-pill badge-danger">Kelulusan
-                                                                            Ditolak Pegawai</span>
-                                                                    @elseif ($periksa_tuntutan->semak_tuntutan === null)
-                                                                        <span class="badge badge-pill badge-primary">Dalam
-                                                                            Proses</span>
-                                                                    @elseif($periksa_tuntutan->semak_tuntutan === 1)
-                                                                        <span class="badge badge-pill badge-success">Lulus
-                                                                            Semakan</span>
-                                                                    @else
-                                                                        <span class="badge badge-pill badge-success">Tuntutan
-                                                                            Diperiksa</span><br><br>
-                                                                    @endif
-                                                                @break
-
-                                                                @default
-                                                            @endswitch
                                                         </td>
                                                         <td>
-                                                            @switch($periksa_tuntutan->periksa_tuntutan)
-                                                                @case(null)
+                                                            @if ($periksa_tuntutan->periksa_tuntutan === null)
+                                                                <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                    class="btn btn-danger btn-sm">Periksa</a><br>
+                                                            @elseif($periksa_tuntutan->periksa_tuntutan == 0)
+                                                                <span class="badge badge-pill badge-danger"> Tuntutan
+                                                                    Ditolak</span>
+                                                            @elseif($periksa_tuntutan->periksa_tuntutan == 1)
+                                                                @if ($periksa_tuntutan->lulus_tuntutan === null)
                                                                     <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                        class="btn btn-danger btn-sm">Periksa</a><br>
-                                                                @break
+                                                                        class="btn btn-success btn-sm">Lihat</a><br>
+                                                                @elseif($periksa_tuntutan->lulus_tuntutan === 0)
 
-                                                                @case(0)
+                                                                @elseif ($periksa_tuntutan->semak_tuntutan === null)
                                                                     <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                        class="btn btn-danger btn-sm">Periksa</a><br>
-                                                                @break
-
-                                                                @case(1)
-                                                                    @if ($periksa_tuntutan->lulus_tuntutan === null)
-                                                                        <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                            class="btn btn-success btn-sm">Lihat</a><br>
-                                                                    @elseif($periksa_tuntutan->lulus_tuntutan === 0)
-
-                                                                    @elseif ($periksa_tuntutan->semak_tuntutan === null)
-                                                                        <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                            class="btn btn-success btn-sm">Lihat</a><br>
-                                                                    @elseif($periksa_tuntutan->semak_tuntutan === 1)
-                                                                        <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                            class="btn btn-success btn-sm">Lihat</a><br>
-                                                                    @else
-                                                                        <span class="badge badge-pill badge-success">Tuntutan
-                                                                            Diperiksa</span><br><br>
-                                                                    @endif
-                                                                @break
-
-                                                                @default
-                                                            @endswitch
-
+                                                                        class="btn btn-success btn-sm">Lihat</a><br>
+                                                                @elseif($periksa_tuntutan->semak_tuntutan === 1)
+                                                                    <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                        class="btn btn-success btn-sm">Lihat</a><br>
+                                                                @else
+                                                                    <span class="badge badge-pill badge-success">Tuntutan
+                                                                        Diperiksa</span><br><br>
+                                                                @endif
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
-
                                             </tbody>
-
                                         </table>
 
                                     </div>

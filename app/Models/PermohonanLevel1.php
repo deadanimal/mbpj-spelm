@@ -10,6 +10,7 @@ class PermohonanLevel1 extends Model
     use HasFactory;
     protected $table = 'PermohonanLevel1';
     protected $guarded = ['id'];
+    public $timestamps = false;
 
     public function permohonan()
     {

@@ -23,11 +23,13 @@ class PermohonanController extends Controller
     {
         $user = auth()->user();
 
-        $permohonans = $user
-            ->permohonans()
-            ->whereNull('lulus_sebelum')
-            ->orderByDesc("created_at")
-            ->get();
+        $permohonans = Permohonan::where('user_id', auth()->id())->whereNull('lulus_sebelum')->orderByDesc("created_at")->get();
+
+        // $user
+        //     ->permohonans()
+        //     ->whereNull('lulus_sebelum')
+        //     ->orderByDesc("created_at")
+        //     ->get();
 
         $pengesahans = Permohonan::where([
             ['lulus_sebelum', '1'],
@@ -39,7 +41,6 @@ class PermohonanController extends Controller
                     'sebenar_mula_kerja' => $ps->mohon_mula_kerja,
                     'sebenar_akhir_kerja' => $ps->mohon_akhir_kerja,
                 ]);
-
                 $ps->sebenar_mula_kerja_formatted = str_replace(' ', 'T', $ps->mohon_mula_kerja);
                 $ps->sebenar_akhir_kerja_formatted = str_replace(' ', 'T', $ps->mohon_akhir_kerja);
 
@@ -588,9 +589,13 @@ class PermohonanController extends Controller
     public function lulus_sebelum($id)
     {
         $permohonan = Permohonan::find($id);
+        dd($permohonan);
         $permohonan->lulus_sebelum = true;
         $permohonan->tarikh_lulus = now()->format('Y-m-d H:i:s');
         $permohonan->save();
+
+        $permohonanLevel1 = new PermohonanLevel1;
+        $permohonanLevel1->permohonan_id = $permohonan->id;
 
         PermohonanLevel1::create([
             'permohonan_id' => $permohonan->id,

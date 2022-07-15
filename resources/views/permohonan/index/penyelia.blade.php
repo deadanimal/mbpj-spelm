@@ -25,8 +25,8 @@
                 <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0 " id="tabs-icons-text-1-tab" data-toggle="tab"
-                            href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i
-                                class="ni ni-bell-55 mr-2"></i>Permohonan Penyelia</a>
+                            href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1"
+                            aria-selected="true"><i class="ni ni-bell-55 mr-2"></i>Permohonan Penyelia</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0" id="penyeliasokongkakitangan-tab" data-toggle="tab"
@@ -36,8 +36,8 @@
 
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab"
-                            href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false"><i
-                                class="ni ni-calendar-grid-58 mr-2"></i>Semak Pengesahan Kakitangan</a>
+                            href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3"
+                            aria-selected="false"><i class="ni ni-calendar-grid-58 mr-2"></i>Semak Pengesahan Kakitangan</a>
                     </li>
                 </ul>
             </div>
@@ -343,7 +343,8 @@
                                                                         </option>
 
                                                                         @foreach ($userspengesahan as $userspengesahan1)
-                                                                            <option value="{{ $userspengesahan1->id }} ">
+                                                                            <option
+                                                                                value="{{ $userspengesahan1->id }} ">
                                                                                 {{ $userspengesahan1->name }} -
                                                                                 {{ $userspengesahan1->role }} </option>
                                                                         @endforeach
@@ -351,8 +352,7 @@
                                                                 </div>
                                                                 <div class="form-group">
 
-                                                                    <select name="p_pegawai_lulus_id"
-                                                                        class="form-control"
+                                                                    <select name="p_pegawai_lulus_id" class="form-control"
                                                                         style="width:100px ; height:35px;">
                                                                         <option
                                                                             value="{{ $permohonan->p_pegawai_lulus_id }}">
@@ -516,7 +516,7 @@
                                                         {{ $loop->iteration }}
                                                     </td>
                                                     <td class="nama pemohon">
-                                                        {{ $permohonan->nama_pemohon }} <br><br>
+                                                        {{ $permohonan->user->name }} <br><br>
 
                                                         @if ($permohonan->jenis_permohonan == 'individu')
                                                             <span class="badge badge-pill badge-warning">INDIVIDU</span>
@@ -661,7 +661,8 @@
                                                                                 <div class="input-group input-group-merge">
                                                                                     <input class="form-control"
                                                                                         name="sokong_sebelum_sebab"
-                                                                                        placeholder="Sebab" type="text">
+                                                                                        placeholder="Sebab"
+                                                                                        type="text">
 
                                                                                 </div>
                                                                             </div>
@@ -939,9 +940,9 @@
 
                                                 </tr>
                                                 <!-- Modal tolak sokong selepas -->
-                                                <div class="modal fade"
-                                                    id="tolaksokongselepas{{ $permohonan->id }}" tabindex="-1"
-                                                    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="tolaksokongselepas{{ $permohonan->id }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -968,7 +969,8 @@
                                                                                 <div class="input-group input-group-merge">
                                                                                     <input class="form-control"
                                                                                         name="sokong_selepas_sebab"
-                                                                                        placeholder="Sebab" type="text">
+                                                                                        placeholder="Sebab"
+                                                                                        type="text">
 
                                                                                 </div>
                                                                             </div>
