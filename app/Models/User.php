@@ -43,9 +43,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // public function permohonans()
+    // {
+    //     return $this->belongsToMany(Permohonan::class, 'user_permohonans', 'user_id', 'permohonan_id');
+    // }
     public function permohonans()
     {
-        return $this->belongsToMany(Permohonan::class, 'user_permohonans', 'user_id', 'permohonan_id');
+        return $this->hasMany(Permohonan::class);
     }
     public function tuntutans()
     {

@@ -229,15 +229,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="mohon_akhir_kerja">Pilih waktu akhir</label>
-                                                                <div class="input-group date" id="datetimepicker4">
-                                                                    <input type="text" class="form-control"
-                                                                        name="mohon_akhir_kerja">
-                                                                    <span class="input-group-addon input-group-append">
-                                                                        <button class="btn btn-outline-primary"
-                                                                            type="button" id="button-addon2"> <span
-                                                                                class="fa fa-calendar"></span></button>
-                                                                    </span>
-                                                                </div>
+                                                                <input type="time" class="form-control"
+                                                                    name="mohon_akhir_kerja">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -269,17 +262,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-4">
-                                                            <label for="Perkara">IC Pemohon</label><br>
-                                                            <div class=" mb-4" id="multiSelect">
-                                                                <select multiple placeholder="Sila Pilih"
-                                                                    data-silent-initial-value-set="true" required>
-                                                                </select>
-                                                            </div>
-                                                        </div>
 
-                                                        <div class="col-lg-4">
 
+                                                        <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="pegawai_sokong_id">Pilih pegawai
                                                                     sokong</label>
@@ -295,7 +280,8 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-4">
+
+                                                        <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="pegawai_lulus_id">Pilih pegawai
                                                                     lulus</label>
@@ -311,9 +297,34 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        <div class="container">
+
+
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label for="">IC Pemohon</label><br>
+
+                                                            <div class=" mb-4 h-50" id="multiSelect">
+                                                                <select multiple placeholder="Sila Pilih"
+                                                                    data-silent-initial-value-set="true" required>
+                                                                </select>
+                                                            </div>
+
+
+                                                        </div>
+
+                                                        <div class="col-6">
+                                                            <label for="">Pemohon yang telah dipilih</label>
+
+                                                            <div>
+                                                                <ul id="telah-dipilih"></ul>
+                                                            </div>
+
+                                                        </div>
+
                                                         <div class="col-12 text-right">
                                                             <button type="submit"
-                                                                class="btn btn-primary btn-sm">Hantar</button>
+                                                                class="btn btn-primary ">Hantar</button>
                                                         </div>
 
                                                     </div>
@@ -326,130 +337,160 @@
                         </div>
                     </div>
 
+
                 </div>
             </div>
         </div>
-    @endsection
-    @section('script')
-        <script src="/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-        <script src="/assets/vendor/select2/dist/js/select2.min.js"></script>
-        <script src="/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-        <script src="/assets/vendor/moment.min.js"></script>
-        <script src="/assets/vendor/bootstrap-datetimepicker.js"></script>
-        <script src="/assets/vendor/nouislider/distribute/nouislider.min.js"></script>
-        <script src="/assets/vendor/quill/dist/quill.min.js"></script>
-        <script src="/assets/vendor/dropzone/dist/min/dropzone.min.js"></script>
-        <script src="/assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                var pemohon = @json($pemohon->toArray());
-                myOptions = [];
-                pemohon.forEach(e => {
-                    myOption = {
-                        label: e.name,
-                        value: e.nric,
-                        description: e.nric,
-                    }
-                    myOptions.push(myOption);
-                });
+    </div>
+@endsection
+@section('script')
+    <script src="/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="/assets/vendor/select2/dist/js/select2.min.js"></script>
+    <script src="/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="/assets/vendor/moment.min.js"></script>
+    <script src="/assets/vendor/bootstrap-datetimepicker.js"></script>
+    <script src="/assets/vendor/nouislider/distribute/nouislider.min.js"></script>
+    <script src="/assets/vendor/quill/dist/quill.min.js"></script>
+    <script src="/assets/vendor/dropzone/dist/min/dropzone.min.js"></script>
+    <script src="/assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
 
-                VirtualSelect.init({
-                    ele: '#multiSelect',
-                    options: myOptions,
-                    hasOptionDescription: true,
-                    required: true,
-                    noOptionsText: 'Tiada',
-                    noSearchResultsTex: 'Tiada',
-                    optionSelectedText: 'pemohon telah dipilih',
-                    optionsSelectedText: 'pemohon telah dipilih',
-                    allOptionsSelectedText: 'Semua telah dipilih',
-                    maxWidth: '1000px',
-                    placeholder: 'Sila Pilih',
-                    searchPlaceholderText: 'Cari...',
-                    name: 'pemohon',
-                    multiple: true
-                });
+            var pemohon = @json($pemohon->toArray());
+            myOptions = [];
+            pemohon.forEach(e => {
+                myOption = {
+                    label: e.name,
+                    value: e.nric,
+                    description: e.nric,
+                }
+                myOptions.push(myOption);
             });
 
-
-
-            $(function() {
-                $('#datetimepicker1').datetimepicker({
-
-                    icons: {
-                        todayBtn: "linked",
-                        time: "fa fa-clock",
-                        date: "fa fa-calendar-day",
-                        up: "fa fa-chevron-up",
-                        down: "fa fa-chevron-down",
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-screenshot',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-remove'
-                    }
-
-
-                });
-
-                $('#datetimepicker2').datetimepicker({
-                    icons: {
-                        time: "fa fa-clock",
-                        date: "fa fa-calendar-day",
-                        up: "fa fa-chevron-up",
-                        down: "fa fa-chevron-down",
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-screenshot',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-remove'
-                    }
-                });
+            VirtualSelect.init({
+                ele: '#multiSelect',
+                options: myOptions,
+                hasOptionDescription: true,
+                required: true,
+                noOptionsText: 'Tiada',
+                noSearchResultsTex: 'Tiada',
+                optionSelectedText: 'pemohon telah dipilih',
+                optionsSelectedText: 'pemohon telah dipilih',
+                allOptionsSelectedText: 'Semua telah dipilih',
+                maxWidth: '1000px',
+                placeholder: 'Sila Pilih',
+                searchPlaceholderText: 'Cari...',
+                name: 'pemohon',
+                dropboxWidth: 100,
+                multiple: true
             });
-        </script>
-        <script type="text/javascript">
-            $(function() {
-                $('#datetimepicker3').datetimepicker({
+        });
 
-                    icons: {
-                        todayBtn: "linked",
-                        time: "fa fa-clock",
-                        date: "fa fa-calendar-day",
-                        up: "fa fa-chevron-up",
-                        down: "fa fa-chevron-down",
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-screenshot',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-remove'
-                    }
+        $("#multiSelect").change(function() {
+            $("#telah-dipilih").html('')
+            var current = this.value;
+            var pemohon = @json($pemohon->toArray());
+            pemohon.forEach(el => {
+                if (current.includes(el.nric)) {
+                    $("#telah-dipilih").append(`<li>` + el.name + `</li>`);
+                }
+            });
+        });
+        $("#pemohon-kumpulan-btn").click(function() {
+            var pemohon = @json($pemohon->toArray());
+
+            var current_id = $("#current-id-pemohon").val();
+
+            pemohon.forEach(el => {
+                if (current_id == el.id) {
+                    $("#telah-dipilih-data").append(
+                        `<input class="form-control" type="hidden" name="pemohon[]" value="` +
+                        el.id + `"></input>`
+                    );
+                    $("#telah-dipilih-nama").append(
+                        `<li>` + el.name + `</li>`
+                    );
+                }
+            });
+        });
+
+        $(function() {
+            $('#datetimepicker1').datetimepicker({
+
+                icons: {
+                    todayBtn: "linked",
+                    time: "fa fa-clock",
+                    date: "fa fa-calendar-day",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
 
 
-                });
-
-                $('#datetimepicker4').datetimepicker({
-                    icons: {
-                        time: "fa fa-clock",
-                        date: "fa fa-calendar-day",
-                        up: "fa fa-chevron-up",
-                        down: "fa fa-chevron-down",
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-screenshot',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-remove'
-                    }
-                });
             });
 
-            function kirabezajam() {
-                alert("test");
-                $jam_mula = $("input [name=mohon_mula_kerja").val();
-                $jam_akhir = $("input [name=mohon_akhir_kerja").val();
-                alert($jam_mula);
-            }
-        </script>
-        {{-- <script>
+            $('#datetimepicker2').datetimepicker({
+                icons: {
+                    time: "fa fa-clock",
+                    date: "fa fa-calendar-day",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            $('#datetimepicker3').datetimepicker({
+
+                icons: {
+                    todayBtn: "linked",
+                    time: "fa fa-clock",
+                    date: "fa fa-calendar-day",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+
+
+            });
+
+            $('#datetimepicker4').datetimepicker({
+                icons: {
+                    time: "fa fa-clock",
+                    date: "fa fa-calendar-day",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
+        });
+
+        function kirabezajam() {
+            alert("test");
+            $jam_mula = $("input [name=mohon_mula_kerja").val();
+            $jam_akhir = $("input [name=mohon_akhir_kerja").val();
+            alert($jam_mula);
+        }
+    </script>
+    {{-- <script>
         function myFunction() {
             var x = document.getElementById("mySelect").value;
             if (x == "individu") {
@@ -460,5 +501,5 @@
         }
 
     </script> --}}
-        {{-- <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/js/demo.min.js"></script> --}}
-    @endsection
+    {{-- <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/js/demo.min.js"></script> --}}
+@endsection

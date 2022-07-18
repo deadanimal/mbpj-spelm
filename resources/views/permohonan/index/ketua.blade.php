@@ -225,7 +225,7 @@
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->nama_pemohon }}<br><br>
+                                                        {{ $permohonan->user->name }}<br><br>
 
                                                         @if ($permohonan->jenis_permohonan == 'individu')
                                                             <span class="badge badge-pill badge-warning">INDIVIDU</span>
@@ -421,7 +421,7 @@
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->nama_pemohon }}<br><br>
+                                                        {{ $permohonan->user->name }}<br><br>
                                                         @if ($permohonan->jenis_permohonan == 'individu')
                                                             <span class="badge badge-pill badge-warning">INDIVIDU</span>
                                                         @elseif($permohonan->jenis_permohonan == 'berkumpulan')
@@ -448,10 +448,10 @@
                                                         @if ($permohonan->sokong_sebelum === null)
                                                             <span class="badge badge-pill badge-primary">Semakan Pegawai
                                                                 Sokong</span>
-                                                        @elseif($permohonan->sokong_sebelum === 1)
+                                                        @elseif($permohonan->sokong_sebelum == 1)
                                                             <span class="badge badge-pill badge-success">Lulus Permohonan
                                                                 PG1</span>
-                                                        @elseif($permohonan->sokong_sebelum === 0)
+                                                        @elseif($permohonan->sokong_sebelum == 0)
                                                             <span class="badge badge-pill badge-danger">Ditolak Permohonan
                                                                 PG1</span><br>
                                                             <span>Sebab Ditolak :
@@ -462,10 +462,10 @@
                                                         @if ($permohonan->lulus_sebelum === null)
                                                             <span class="badge badge-pill badge-primary">Semakan Pegawai
                                                                 Lulus</span>
-                                                        @elseif($permohonan->lulus_sebelum === 1)
+                                                        @elseif($permohonan->lulus_sebelum == 1)
                                                             <span class="badge badge-pill badge-success">Lulus Permohonan
                                                                 PG2</span>
-                                                        @elseif($permohonan->lulus_sebelum === 0)
+                                                        @elseif($permohonan->lulus_sebelum == 0)
                                                             <span class="badge badge-pill badge-danger">Ditolak Permohonan
                                                                 PG2</span><br>
                                                             <span>Sebab Ditolak :
