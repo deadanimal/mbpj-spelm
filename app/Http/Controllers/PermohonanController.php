@@ -114,19 +114,38 @@ class PermohonanController extends Controller
 
         $userspengesahan = User::whereIn('role', array('penyelia', 'ketua_bahagian', 'ketua_jabatan'))->get();
 
-        $permohonan_disokongs = Permohonan::with('user')->where('pegawai_sokong_id', $user->id)
+        $permohonan_disokongs = Permohonan::with('user')
+            ->where('pegawai_sokong_id', $user->id)
+            ->whereNull('lulus_sebelum')
             ->orderBy("created_at", "desc")
             ->get();
+
+        $permohonan_disokongs_selesai = Permohonan::with('user')
+            ->where('pegawai_sokong_id', $user->id)
+            ->where('lulus_sebelum', '!=', null)
+            ->orderBy("created_at", "desc")
+            ->get();
+
         $permohonan_dilulus = Permohonan::with('user')->where('pegawai_lulus_id', $user->id)
             ->orderByDesc("created_at")
             ->get();
 
         $pengesahan_disokongs = Permohonan::with('user')->where('pegawai_sokong_id', $user->id)
             ->where('lulus_sebelum', '=', '1')
+            ->whereNull('lulus_selepas')
+            ->orderByDesc("created_at")
+            ->get();
+
+        $pengesahan_disokongs_selesai = Permohonan::with('user')->where('pegawai_sokong_id', $user->id)
+            ->where('lulus_sebelum', '=', '1')
+            ->where('lulus_selepas', '!=', null)
             ->orderByDesc("created_at")
             ->get();
 
         $pengesahan_disokongs = eKedatangan($user, $pengesahan_disokongs, 'pengesahan_sokong');
+        $pengesahan_disokongs_selesai = eKedatangan($user, $pengesahan_disokongs_selesai, 'pengesahan_sokong');
+
+        $permohonan_disokongs_selesai = eKedatangan($user, $permohonan_disokongs_selesai, 'pengesahan_sokong');
 
         $pengesahan_dilulus = Permohonan::with('user')->where('pegawai_lulus_id', $user->id)
             ->where('lulus_sebelum', '=', '1')
@@ -232,8 +251,10 @@ class PermohonanController extends Controller
             'permohonans' => $permohonans,
             'pengesahans' => $pengesahans,
             'permohonan_disokongs' => $permohonan_disokongs,
+            'permohonan_disokongs_selesai' => $permohonan_disokongs_selesai,
             'permohonan_dilulus' => $permohonan_dilulus,
             'pengesahan_disokongs' => $pengesahan_disokongs,
+            'pengesahan_disokongs_selesai' => $pengesahan_disokongs_selesai,
             'pengesahan_dilulus' => $pengesahan_dilulus,
             'user' => $user,
             'mohon' => $permohonans->count(),
@@ -590,13 +611,9 @@ class PermohonanController extends Controller
     public function lulus_sebelum($id)
     {
         $permohonan = Permohonan::find($id);
-        dd($permohonan);
         $permohonan->lulus_sebelum = true;
         $permohonan->tarikh_lulus = now()->format('Y-m-d H:i:s');
         $permohonan->save();
-
-        $permohonanLevel1 = new PermohonanLevel1;
-        $permohonanLevel1->permohonan_id = $permohonan->id;
 
         PermohonanLevel1::create([
             'permohonan_id' => $permohonan->id,
@@ -819,10 +836,19 @@ class PermohonanController extends Controller
                 ]);
                 break;
             case 'lulus':
-                Permohonan::find($request->permohonan_id)->update([
+                $permohonan = Permohonan::find($request->permohonan_id);
+                PermohonanLevel1::create([
+                    'permohonan_id' => $permohonan->id,
+                    'pegawai_sokong_id' => $permohonan->pegawai_sokong_id,
+                    'pegawai_lulus_id' => $permohonan->pegawai_lulus_id,
+                    'user_id' => $permohonan->user_id,
+                ]);
+
+                $permohonan->update([
                     'lulus_sebelum' => $request->kelulusan,
                     'tarikh_lulus' => Carbon::now()->format('Y-m-d H:i:s'),
                 ]);
+
                 break;
             case 'sokongPengesahan':
                 Permohonan::find($request->permohonan_id)->update([
@@ -831,10 +857,19 @@ class PermohonanController extends Controller
                 ]);
                 break;
             case 'lulusPengesahan':
-                Permohonan::find($request->permohonan_id)->update([
+                $permohonan = Permohonan::find($request->permohonan_id);
+                PermohonanLevel2::create([
+                    'permohonan_id' => $permohonan->id,
+                    'pegawai_sokong_id' => $permohonan->pegawai_sokong_id,
+                    'pegawai_lulus_id' => $permohonan->pegawai_lulus_id,
+                    'user_id' => $permohonan->user_id,
+                ]);
+
+                $permohonan->update([
                     'lulus_selepas' => $request->kelulusan,
                     'tarikh_lulus_selepas' => Carbon::now()->format('Y-m-d H:i:s'),
                 ]);
+
                 break;
         }
 
