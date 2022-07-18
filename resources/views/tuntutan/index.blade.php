@@ -460,6 +460,8 @@
                                         <td>
                                             <a href="/tuntutans/{{ $tuntutan_lulus->id }}/"
                                                 class="btn btn-primary btn-sm">Lihat</a>
+                                            <a class="btn btn-primary btn-sm"
+                                                href="/laporan_tuntutan/{{ $tuntutan_lulus->id }}">Laporan</a>
                                         </td>
 
                                     </tr>

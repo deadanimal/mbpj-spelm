@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bahagian;
 use App\Models\Ekedatangan;
 use App\Models\OracleCutiAm;
 use App\Models\OracleGaji;
@@ -791,23 +792,27 @@ class TuntutanController extends Controller
     {
 
         $getpermohonan = UserPermohonan::where('user_id', $request->user()->id)->get();
-        $getuser = User::where('id', $request->user()->id)->first();
 
         //get laporan
 
         $permohonanT = PermohonanTuntutan::where('tuntutan_id', $tuntutan)
             ->get();
 
+        $getuser = Permohonan::find($permohonanT[0]->permohonan_id)->user;
+
+        $maklumat_pekerjaan = OracleGaji::where('hr_no_pekerja', $getuser->user_code)->first();
+        $bahagian_code = $maklumat_pekerjaan->HR_BAHAGIAN;
+
+        $gaji = $maklumat_pekerjaan->HR_GAJI_POKOK;
+        $bahagian = Bahagian::where('ge_kod_bahagian', $bahagian_code)->first()->GE_KETERANGAN;
+
+        //done
+
         $semak_tuntutan = [];
         foreach ($permohonanT as $pydt) {
             $temp = Permohonan::where('id', $pydt->permohonan_id)->first();
             array_push($semak_tuntutan, $temp);
         }
-        // dd($semak_tuntutan);
-
-        // $permohonan = count(UserPermohonan::where('user_id',$id)->where('permohonan_id')->get());
-        // $tidak_hadir = count(UserRollcall::where('penguatkuasa_id',$id)->where('lulus', 0)->get());
-        // $belum_hadir = count(UserRollcall::where('penguatkuasa_id',$id)->where('lulus', null)->get());
 
         $currentdate = Carbon::now()->format('Y-m-d ');
 
@@ -837,10 +842,10 @@ class TuntutanController extends Controller
         //cetakan
         $pdf = PDF::loadView('tuntutan.laporan_tuntutan', [
             "getuser" => $getuser,
+            "bahagian" => $bahagian,
+            "gaji" => $gaji,
             "semak_tuntutan" => $semak_tuntutan,
-            // "tidak_hadir" => $tidak_hadir,
-            // "belum_hadir" => $belum_hadir,
-            // "laporan_permohonan_ind" => $tajuk_rollcall,
+
             "currentdate" => $currentdate,
 
         ])->setPaper('a4');

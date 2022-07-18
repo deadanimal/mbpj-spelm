@@ -361,12 +361,13 @@ class PermohonanController extends Controller
             // }
 
             // check date kalau x sama return back
-            $tarikh_mula = date("d", strtotime($request->mohon_mula_kerja));
-            $tarikh_akhir = date("d", strtotime($request->mohon_akhir_kerja));
+            // $tarikh_mula = date("d", strtotime($request->mohon_mula_kerja));
+            // $tarikh_akhir = date("d", strtotime($request->mohon_akhir_kerja));
 
-            if ($tarikh_mula != $tarikh_akhir) {
-                return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
-            }
+            // dd($tarikh_mula, $tarikh_akhir, $mohon_mula_kerja, $mohon_akhir_kerja);
+            // if ($tarikh_mula != $tarikh_akhir) {
+            //     return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
+            // }
 
             $masa_mula = date("H:i", strtotime($request->mohon_mula_kerja));
             $masa_akhir = date("H:i", strtotime($request->mohon_akhir_kerja));
@@ -419,12 +420,12 @@ class PermohonanController extends Controller
                     return redirect()->back()->withErrors(['error_jam' => 'Jumlah jam permohonan kerja lebih masa  anda melebihi had masa 12 jam']);
                 }
 
-                $tarikh_mula = date("d", strtotime($request->mohon_mula_kerja));
-                $tarikh_akhir = date("d", strtotime($request->mohon_akhir_kerja));
+                // $tarikh_mula = date("d", strtotime($request->mohon_mula_kerja));
+                // $tarikh_akhir = date("d", strtotime($request->mohon_akhir_kerja));
 
-                if ($tarikh_mula != $tarikh_akhir) {
-                    return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
-                }
+                // if ($tarikh_mula != $tarikh_akhir) {
+                //     return redirect()->back()->withErrors(['error_tarikh' => 'Sila buat permohonan asing untuk tarikh berbeza']);
+                // }
 
                 $user_dipohon = User::where('nric', $pemohon[$i])->first();
 
