@@ -144,7 +144,8 @@
                                                             <label class="form-control-label" for="input-first-name">No
                                                                 Pekerja</label>
                                                             <input type="text" id="input-first-name" class="form-control"
-                                                                placeholder="{{ Auth()->user()->user_code }}" value="" disabled>
+                                                                placeholder="{{ Auth()->user()->user_code }}" value=""
+                                                                disabled>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -152,7 +153,8 @@
                                                             <label class="form-control-label" for="input-username">No. K/P
                                                                 Baru</label>
                                                             <input type="text" id="input-username" class="form-control"
-                                                                placeholder="{{ Auth()->user()->nric }}" value="" disabled>
+                                                                placeholder="{{ Auth()->user()->nric }}" value=""
+                                                                disabled>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -185,7 +187,7 @@
                             <form action="/laporan_sebulan_pergaji" method="post">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6 mt-4">
+                                    <div class="col-md-3 mt-4">
                                         <label class="h4">Jabatan</label>
                                         <select class="form-control" name="jabatan" required id="jabatan">
                                             <option selected disabled hidden>Pilih</option>
@@ -195,9 +197,26 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-6 mt-4">
+                                    <div class="col-md-3 mt-4">
                                         <label class="h4">Bahagian</label>
                                         <select class="form-control" name="bahagian" required id="bahagian">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mt-4">
+                                        <label class="h4">Bulan</label>
+                                        <select class="form-control" name="bulan" required>
+                                            @for ($i = 1; $i <= 12; $i++)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mt-4">
+                                        <label class="h4">Tahun</label>
+                                        <select class="form-control" name="tahun" required>
+                                            @for ($i = now()->year - 10; $i <= now()->year; $i++)
+                                                <option {{ $i == now()->year ? 'selected' : '' }} value="{{ $i }}">
+                                                    {{ $i }}</option>
+                                            @endfor
                                         </select>
                                     </div>
                                     <div class="col text-right mt-3">
@@ -270,7 +289,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="h4">Tahun</label>
-                                        <input type="text" class="form-control tahun" name="tahun" autocomplete="off" required>
+                                        <input type="text" class="form-control tahun" name="tahun" autocomplete="off"
+                                            required>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="h4">Bulan</label>
@@ -318,7 +338,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="h4">Tahun</label>
-                                        <input type="text" class="form-control tahun" name="tahun" autocomplete="off" required>
+                                        <input type="text" class="form-control tahun" name="tahun" autocomplete="off"
+                                            required>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="h4">Bulan</label>
@@ -409,7 +430,8 @@
             <div class="row align-items-center justify-content-lg-between">
                 <div class="col-lg-6">
                     <div class="copyright text-center  text-lg-left  text-muted">
-                        &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem Pengurusan Elaun
+                        &copy; 2021 <a href="" class="font-weight-bold ml-1" target="">Sistem Pengurusan
+                            Elaun
                             Lebih
                             Masa
                         </a>

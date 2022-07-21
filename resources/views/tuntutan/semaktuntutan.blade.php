@@ -519,11 +519,12 @@
                                             data-target="#hantarperiksa">
                                             Hantar Untuk Semakan
                                         </button>
-
-                                        <button type="button" class="btn btn-primary btn-sm " data-toggle="modal"
-                                            data-target="#mohon_kemaskini">
-                                            Mohon Kemaskini
-                                        </button>
+                                        @if ($tuntutan->mohon_kemaskini_periksa === null)
+                                            <button type="button" class="btn btn-primary btn-sm " data-toggle="modal"
+                                                data-target="#mohon_kemaskini">
+                                                Mohon Kemaskini
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -620,15 +621,16 @@
 
                                                 <td>
                                                     @if ($tuntutan->mohon_kemaskini_periksa)
-                                                        {{ date('d-m-Y H:i:s', strtotime($permohonan->sebenar_mula_kerja)) }}
-                                                        <br>
-                                                        {{ date('d-m-Y H:i:s', strtotime($permohonan->sebenar_akhir_kerja)) }}
-                                                        <br><br>
-
-                                                        <button type="button" class="btn btn-primary btn-sm"
-                                                            data-toggle="modal" data-target="#kemaskini_tuntutan">
-                                                            Kemaskini
-                                                        </button>
+                                                        <div class="text-center mb-4">
+                                                            {{ date('d-m-Y H:i:s', strtotime($permohonan->sebenar_mula_kerja)) }}
+                                                            <br>
+                                                            {{ date('d-m-Y H:i:s', strtotime($permohonan->sebenar_akhir_kerja)) }}
+                                                            <br>
+                                                            <button type="button" class="btn btn-primary btn-sm"
+                                                                data-toggle="modal" data-target="#kemaskini_tuntutan">
+                                                                Kemaskini
+                                                            </button>
+                                                        </div>
                                                     @else
                                                         {{ date('d-m-Y H:i:s', strtotime($permohonan->sebenar_mula_kerja)) }}
                                                         <br>
@@ -666,7 +668,7 @@
                                                                                 <label for="">Masa Mula</label>
                                                                                 <input class="form-control" type="time"
                                                                                     name="masa_mula"
-                                                                                    value="{{ date('h:i', strtotime($permohonan->sebenar_mula_kerja)) }}">
+                                                                                    value="{{ date('H:i', strtotime($permohonan->sebenar_mula_kerja)) }}">
                                                                             </div>
                                                                             <div class="col-6 mb-3">
                                                                                 <label for="">Masa
@@ -765,11 +767,11 @@
                                                 </td>
                                                 <td>
                                                     <input class="text-center" type="text" name="jumlah_am_siang[]"
-                                                        value="{{ $permohonan['jumlah_am_siang'] }}"
-                                                        style="width: 70px;" disabled><br><br>
+                                                        value="{{ $permohonan['jumlah_am_siang'] }}" style="width: 70px;"
+                                                        disabled><br><br>
                                                     <input class="text-center" type="text" name="jumlah_am_malam[]"
-                                                        value="{{ $permohonan['jumlah_am_malam'] }}"
-                                                        style="width: 70px;" disabled><br><br>
+                                                        value="{{ $permohonan['jumlah_am_malam'] }}" style="width: 70px;"
+                                                        disabled><br><br>
                                                 </td>
                                                 <input type="hidden" name="permohonan_id[]"
                                                     value="{{ $permohonan->id }}">
@@ -1133,11 +1135,12 @@
                                             data-target="#hantarsemak">
                                             Muktamad Semakan
                                         </button>
-
-                                        <button type="button" class="btn btn-primary btn-sm " data-toggle="modal"
-                                            data-target="#mohon_kemaskini2">
-                                            Mohon Kemaskini
-                                        </button>
+                                        @if ($tuntutan->mohon_kemaskini_semak === null)
+                                            <button type="button" class="btn btn-primary btn-sm " data-toggle="modal"
+                                                data-target="#mohon_kemaskini2">
+                                                Mohon Kemaskini
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -1156,7 +1159,8 @@
                                             Sila pastikan tuntutan DISEMAK dan DITANDA .<br><br> Anda bersetuju dengan
                                             tuntutan berikut ?
                                         </div>
-                                        <form method="POST" action="/semak_tuntutan/{{ $tuntutan->id }}/">
+                                        <form method="POST" action="/semak_tuntutan/{{ $tuntutan->id }}/"
+                                            id="form_selesai_semak">
                                             @csrf
 
                                             <div class="modal-footer">
@@ -1220,177 +1224,247 @@
 
 
                                     <!-- Light table -->
-                                    <form action="/kemaskini_permohonan_semakan_kerani" method="post">
-                                        @csrf
-                                        <table id="example"
-                                            class="display table table-striped table-bordered dt-responsive nowrap"
-                                            style="width:100%">
-                                            <thead class="thead-light">
+
+                                    <table id="example"
+                                        class="display table table-striped table-bordered dt-responsive nowrap"
+                                        style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th> Waktu Mula Sebenar <br><br> Waktu Akhir Sebenar</th>
+                                                <th> Hari Biasa <br> Siang / Malam</th>
+                                                <th> Hari Rehat <br> Siang / Malam</th>
+                                                <th> Pelepasan AM <br> Siang / Malam</th>
+                                                <th> Tindakan <br>Periksa </th>
+                                                <th> Tindakan <br>Semakan </th>
+                                                {{-- <th> Tindakan</th> --}}
+
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                            @foreach ($permohonan_ygdituntut as $permohonan)
                                                 <tr>
-                                                    <th>No</th>
-                                                    <th> Waktu Mula Sebenar <br><br> Waktu Akhir Sebenar</th>
-                                                    <th> Hari Biasa <br> Siang / Malam</th>
-                                                    <th> Hari Rehat <br> Siang / Malam</th>
-                                                    <th> Pelepasan AM <br> Siang / Malam</th>
-                                                    <th> Tindakan <br>Periksa </th>
-                                                    <th> Tindakan <br>Semakan </th>
-                                                    {{-- <th> Tindakan</th> --}}
 
-                                                </tr>
-                                            </thead>
-
-
-                                            <tbody>
-                                                @foreach ($permohonan_ygdituntut as $permohonan)
-                                                    <tr>
-
-                                                        <td>
-                                                            {{ $loop->index + 1 }}
-                                                        </td>
-
-                                                        <td>
-                                                            {{ $permohonan['sebenar_mula_kerja'] }}<br><br>
-
-                                                            {{ $permohonan['sebenar_akhir_kerja'] }} <br> <br>
-                                                            @if ($permohonan->jenis_masa)
-                                                                <div class="row">
-                                                                    <div class="col-md-12 text-center">
-                                                                        <div class="form-group">
-                                                                            <label for="jenis_masa">Jenis Masa</label>
-                                                                            <select name="jenis_masa[]"
-                                                                                class="form-control"
-                                                                                onchange="tukarJenisMasa(this,{{ $permohonan->id }})">
-                                                                                <option
-                                                                                    {{ $permohonan->jenis_masa == 'Hari Biasa Siang' ? 'selected' : '' }}
-                                                                                    value="Hari Biasa Siang">Hari Biasa
-                                                                                    Siang
-                                                                                </option>
-                                                                                <option
-                                                                                    {{ $permohonan->jenis_masa == 'Hari Biasa Malam' ? 'selected' : '' }}
-                                                                                    value="Hari Biasa Malam">Hari Biasa
-                                                                                    Malam
-                                                                                </option>
-                                                                                <option
-                                                                                    {{ $permohonan->jenis_masa == 'Hari Rehat Siang' ? 'selected' : '' }}
-                                                                                    value="Hari Rehat Siang">Hari Rehat
-                                                                                    Siang
-                                                                                </option>
-                                                                                <option
-                                                                                    {{ $permohonan->jenis_masa == 'Hari Rehat Malam' ? 'selected' : '' }}
-                                                                                    value="Hari Rehat Malam">Hari Rehat
-                                                                                    Malam
-                                                                                </option>
-                                                                                <option
-                                                                                    {{ $permohonan->jenis_masa == 'Pelepasan Am Siang' ? 'selected' : '' }}
-                                                                                    value="Pelepasan Am Siang">Pelepasan Am
-                                                                                    Siang</option>
-                                                                                <option
-                                                                                    {{ $permohonan->jenis_masa == 'Pelepasan Am Malam' ? 'selected' : '' }}
-                                                                                    value="Pelepasan Am Malam">Pelepasan Am
-                                                                                    Malam</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            @endif
-
-                                                        </td>
-                                                        <td>
-                                                            <input class="text-center" type="text"
-                                                                name="jumlah_biasa_siang[]"
-                                                                value="{{ $permohonan['jumlah_biasa_siang'] }}"
-                                                                style="width: 70px;"><br><br>
-                                                            <input class="text-center" type="text"
-                                                                name="jumlah_biasa_malam[]"
-                                                                value="{{ $permohonan['jumlah_biasa_malam'] }}"
-                                                                style="width: 70px;"><br><br>
-                                                        </td>
-                                                        <td>
-                                                            <input class="text-center" type="text"
-                                                                name="jumlah_rehat_siang[]"
-                                                                value="{{ $permohonan['jumlah_rehat_siang'] }}"
-                                                                style="width: 70px;"><br><br>
-                                                            <input class="text-center" type="text"
-                                                                name="jumlah_rehat_malam[]"
-                                                                value="{{ $permohonan['jumlah_rehat_malam'] }}"
-                                                                style="width: 70px;"><br><br>
-
-                                                        </td>
-                                                        <td>
-                                                            <input class="text-center" type="text"
-                                                                name="jumlah_am_siang[]"
-                                                                value="{{ $permohonan['jumlah_am_siang'] }}"
-                                                                style="width: 70px;"><br><br>
-                                                            <input class="text-center" type="text"
-                                                                name="jumlah_am_malam[]"
-                                                                value="{{ $permohonan['jumlah_am_malam'] }}"
-                                                                style="width: 70px;"><br><br>
-                                                        </td>
-                                                        <td>
-                                                            @if ($permohonan->tindakan_periksa == 1)
-                                                                <input type="checkbox" checked="true">
-                                                            @elseif($permohonan->tindakan_periksa == 0)
-                                                                <input type="checkbox" check="false">
-                                                            @endif
-                                                            <h5 class="d-inline">Disahkan</h5>
-
-                                                        </td>
-                                                        <input type="hidden" name="permohonan_id[]"
-                                                            value="{{ $permohonan->id }}">
-                                                        <td>
-                                                            @if ($permohonan->tindakan_semakan == 1)
-                                                                <input type="checkbox" checked="true"
-                                                                    class="periksa_checkbox"
-                                                                    onchange="kemaskinitindakansemakan({{ $permohonan->id }}, this)"
-                                                                    value={{ $permohonan->tindakan_semakan }}>
-                                                            @elseif($permohonan->tindakan_semakan == 0)
-                                                                <input type="checkbox" check="false"
-                                                                    class="periksa_checkbox"
-                                                                    onchange="kemaskinitindakansemakan({{ $permohonan->id }}, this)"
-                                                                    value={{ $permohonan->tindakan_semakan }}>
-                                                            @endif
-                                                            <h5 class="d-inline">Disahkan</h5>
-                                                            <br>
-                                                            <button type="button"
-                                                                onclick="buangPermohonanPemeriksa({{ $permohonan->id }})"
-                                                                class="btn btn-sm btn-danger mt-3">Buang</button>
-                                                            <br>
-                                                        </td>
-
-                                                        {{-- <td >
-                                                <a href="" class="btn btn-primary btn-sm "> Mohon Kemaskini</a><br>
-                                            </td> --}}
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-
-                                            <tfoot>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>Jumlah:{{ $jumlah_jam_keseluruhan_show_biasa }} </td>
-                                                    <td>Jumlah:{{ $jumlah_jam_keseluruhan_show_rehat }}</td>
-                                                    <td>Jumlah:{{ $jumlah_jam_keseluruhan_show_am }} </td>
-                                                    <td></td>
-
-                                                    <td>Jumlah Jam :
-                                                        {{ $jumlah_jam_keseluruhan_show_biasa + $jumlah_jam_keseluruhan_show_rehat + $jumlah_jam_keseluruhan_show_am }}
+                                                    <td>
+                                                        {{ $loop->index + 1 }}
                                                     </td>
 
+                                                    <td>
+                                                        @if ($tuntutan->mohon_kemaskini_semak)
+                                                            <div class="text-center mb-4">
+                                                                {{ date('d-m-Y H:i:s', strtotime($permohonan->sebenar_mula_kerja)) }}
+                                                                <br>
+                                                                {{ date('d-m-Y H:i:s', strtotime($permohonan->sebenar_akhir_kerja)) }}
+                                                                <br>
+                                                                <button type="button" class="btn btn-primary btn-sm"
+                                                                    data-toggle="modal"
+                                                                    data-target="#kemaskini_tuntutan2">
+                                                                    Kemaskini
+                                                                </button>
+                                                            </div>
+                                                        @else
+                                                            {{ date('d-m-Y H:i:s', strtotime($permohonan->sebenar_mula_kerja)) }}
+                                                            <br>
+                                                            {{ date('d-m-Y H:i:s', strtotime($permohonan->sebenar_akhir_kerja)) }}
+                                                            <br><br>
+                                                        @endif
+
+                                                        <div class="modal fade" id="kemaskini_tuntutan2" tabindex="-1"
+                                                            role="dialog" aria-labelledby="exampleModalLabel"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                                            Tuntutan</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form
+                                                                        action="/update-waktu-tuntutan/{{ $permohonan->id }}"
+                                                                        method="post">
+                                                                        @csrf
+
+                                                                        <div class="modal-body">
+                                                                            <div class="row">
+                                                                                <div class="col-12 mb-3">
+                                                                                    <label for="">Tarikh</label>
+                                                                                    <input type="date"
+                                                                                        class="form-control"
+                                                                                        name="tarikh"
+                                                                                        value="{{ date('Y-m-d', strtotime($permohonan->sebenar_mula_kerja)) }}">
+                                                                                </div>
+                                                                                <div class="col-6 mb-3">
+                                                                                    <label for="">Masa
+                                                                                        Mula</label>
+                                                                                    <input class="form-control"
+                                                                                        type="time" name="masa_mula"
+                                                                                        value="{{ date('H:i', strtotime($permohonan->sebenar_mula_kerja)) }}">
+                                                                                </div>
+                                                                                <div class="col-6 mb-3">
+                                                                                    <label for="">Masa
+                                                                                        Tamat</label>
+                                                                                    <input class="form-control"
+                                                                                        type="time" name="masa_tamat"
+                                                                                        value="{{ date('H:i', strtotime($permohonan->sebenar_akhir_kerja)) }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"data-dismiss="modal">Tutup</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Simpan</button>
+                                                                        </div>
+
+                                                                    </form>
 
 
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        @if ($permohonan->jenis_masa)
+                                                            <div class="row">
+                                                                <div class="col-md-12 text-center">
+                                                                    <div class="form-group">
+                                                                        <label for="jenis_masa">Jenis Masa</label>
+                                                                        <select name="jenis_masa[]" class="form-control"
+                                                                            onchange="tukarJenisMasa(this,{{ $permohonan->id }})">
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Hari Biasa Siang' ? 'selected' : '' }}
+                                                                                value="Hari Biasa Siang">Hari Biasa
+                                                                                Siang
+                                                                            </option>
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Hari Biasa Malam' ? 'selected' : '' }}
+                                                                                value="Hari Biasa Malam">Hari Biasa
+                                                                                Malam
+                                                                            </option>
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Hari Rehat Siang' ? 'selected' : '' }}
+                                                                                value="Hari Rehat Siang">Hari Rehat
+                                                                                Siang
+                                                                            </option>
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Hari Rehat Malam' ? 'selected' : '' }}
+                                                                                value="Hari Rehat Malam">Hari Rehat
+                                                                                Malam
+                                                                            </option>
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Pelepasan Am Siang' ? 'selected' : '' }}
+                                                                                value="Pelepasan Am Siang">Pelepasan Am
+                                                                                Siang</option>
+                                                                            <option
+                                                                                {{ $permohonan->jenis_masa == 'Pelepasan Am Malam' ? 'selected' : '' }}
+                                                                                value="Pelepasan Am Malam">Pelepasan Am
+                                                                                Malam</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
+                                                        <input class="text-center" type="text"
+                                                            name="jumlah_biasa_siang[]"
+                                                            value="{{ $permohonan['jumlah_biasa_siang'] }}"
+                                                            style="width: 70px;" disabled><br><br>
+                                                        <input class="text-center" type="text"
+                                                            name="jumlah_biasa_malam[]"
+                                                            value="{{ $permohonan['jumlah_biasa_malam'] }}"
+                                                            style="width: 70px;" disabled><br><br>
+                                                    </td>
+                                                    <td>
+                                                        <input class="text-center" type="text"
+                                                            name="jumlah_rehat_siang[]"
+                                                            value="{{ $permohonan['jumlah_rehat_siang'] }}"
+                                                            style="width: 70px;" disabled><br><br>
+                                                        <input class="text-center" type="text"
+                                                            name="jumlah_rehat_malam[]"
+                                                            value="{{ $permohonan['jumlah_rehat_malam'] }}"
+                                                            style="width: 70px;" disabled><br><br>
+
+                                                    </td>
+                                                    <td>
+                                                        <input class="text-center" type="text"
+                                                            name="jumlah_am_siang[]"
+                                                            value="{{ $permohonan['jumlah_am_siang'] }}"
+                                                            style="width: 70px;" disabled><br><br>
+                                                        <input class="text-center" type="text"
+                                                            name="jumlah_am_malam[]"
+                                                            value="{{ $permohonan['jumlah_am_malam'] }}"
+                                                            style="width: 70px;" disabled><br><br>
+                                                    </td>
+                                                    <td>
+                                                        @if ($permohonan->tindakan_periksa == 1)
+                                                            <input type="checkbox" checked="true">
+                                                        @elseif($permohonan->tindakan_periksa == 0)
+                                                            <input type="checkbox" check="false">
+                                                        @endif
+                                                        <h5 class="d-inline">Disahkan</h5>
+
+                                                    </td>
+                                                    <input type="hidden" name="permohonan_id[]"
+                                                        value="{{ $permohonan->id }}">
+                                                    <td>
+                                                        @if ($permohonan->tindakan_semakan == 1)
+                                                            <input type="checkbox" checked="true"
+                                                                class="periksa_checkbox"
+                                                                onchange="kemaskinitindakansemakan({{ $permohonan->id }}, this)"
+                                                                value={{ $permohonan->tindakan_semakan }}>
+                                                        @elseif($permohonan->tindakan_semakan == 0)
+                                                            <input type="checkbox" check="false"
+                                                                class="periksa_checkbox"
+                                                                onchange="kemaskinitindakansemakan({{ $permohonan->id }}, this)"
+                                                                value={{ $permohonan->tindakan_semakan }}>
+                                                        @endif
+                                                        <h5 class="d-inline">Disahkan</h5>
+                                                        <br>
+                                                        <button type="button"
+                                                            onclick="buangPermohonanPemeriksa({{ $permohonan->id }})"
+                                                            class="btn btn-sm btn-danger mt-3">Buang</button>
+                                                        <br>
+                                                    </td>
+
+                                                    {{-- <td >
+                                                <a href="" class="btn btn-primary btn-sm "> Mohon Kemaskini</a><br>
+                                            </td> --}}
                                                 </tr>
-                                            </tfoot>
+                                            @endforeach
+                                        </tbody>
+
+                                        <tfoot>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Jumlah:{{ $jumlah_jam_keseluruhan_show_biasa }} </td>
+                                                <td>Jumlah:{{ $jumlah_jam_keseluruhan_show_rehat }}</td>
+                                                <td>Jumlah:{{ $jumlah_jam_keseluruhan_show_am }} </td>
+                                                <td></td>
+
+                                                <td>Jumlah Jam :
+                                                    {{ $jumlah_jam_keseluruhan_show_biasa + $jumlah_jam_keseluruhan_show_rehat + $jumlah_jam_keseluruhan_show_am }}
+                                                </td>
 
 
-                                        </table>
-                                        <div class="row">
-                                            <div class="col text-right">
-                                                <button type="submit" id="btn_update_semakan"
-                                                    class="btn btn-success mr-3 my-3">Simpan</button>
-                                            </div>
+
+                                            </tr>
+                                        </tfoot>
+
+
+                                    </table>
+                                    <div class="row">
+                                        <div class="col text-right">
+                                            <button type="submit" id="btn_update_semakan"
+                                                class="btn btn-success mr-3 my-3">Simpan</button>
                                         </div>
-                                    </form>
+                                    </div>
 
 
                                 </div>
@@ -1684,11 +1758,12 @@
                 }
             });
             if (disahkan) {
-                $(this).closest("form").submit();
+                $("#form_selesai_semak").submit();
             } else {
                 alert("Anda masih belum sahkan semua permohonan")
             }
         });
+
 
         function buangPermohonanPemeriksa(permohonan_id) {
             $.ajax({

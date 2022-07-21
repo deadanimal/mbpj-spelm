@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Bahagian;
 use App\Models\Jabatan;
 use App\Models\Laporan;
+use App\Models\OracleGaji;
 use App\Models\Permohonan;
+use App\Models\PermohonanTuntutan;
 use App\Models\Tuntutan;
 use App\Models\User;
 use App\Models\UserPermohonan;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -98,26 +99,69 @@ class LaporanController extends Controller
     {
         //
     }
-    public function filter_laporan(Request $request, $id)
+    public function filter_laporan($id)
     {
 
         $getpermohonan = UserPermohonan::where('user_id', $id)->get();
         $getuser = User::where('id', $id)->first();
-        $permohonan = count(UserPermohonan::where('user_id', $id)->where('permohonan_id')->get());
-        // $tidak_hadir = count(UserRollcall::where('penguatkuasa_id',$id)->where('lulus', 0)->get());
-        // $belum_hadir = count(UserRollcall::where('penguatkuasa_id',$id)->where('lulus', null)->get());
 
-        $currentdate = Carbon::now()->format('Y-m-d ');
+        $maklumat_pekerjaan = OracleGaji::where('hr_no_pekerja', $getuser->user_code)->first();
+        $gaji = $maklumat_pekerjaan->HR_GAJI_POKOK;
+        $gaji_calculated = ($gaji * 12) / (313 * 8);
 
+        $currentdate = now()->format('Y-m-d ');
+
+        $tuntutans = Tuntutan::where('user_id', $id)->get()->each(function ($t) {
+            $t->pegawaiSokong = User::find($t->pegawai_sokong_id)->name;
+            $t->pegawaiLulus = User::find($t->pegawai_lulus_id)->name;
+
+        });
+
+        $a = 0;
+        $b = 0;
+        $c = 0;
+        $d = 0;
+        $e = 0;
+        $f = 0;
+
+        foreach ($tuntutans as $tuntutan) {
+            $permohonansT = PermohonanTuntutan::where('tuntutan_id', $tuntutan->id)->get();
+
+            foreach ($permohonansT as $permohonanT) {
+                $permohonan = Permohonan::find($permohonanT->permohonan_id);
+                $a += $permohonan->jumlah_biasa_siang;
+                $b += $permohonan->jumlah_biasa_malam;
+                $c += $permohonan->jumlah_rehat_siang;
+                $d += $permohonan->jumlah_rehat_malam;
+                $e += $permohonan->jumlah_am_siang;
+                $f += $permohonan->jumlah_am_malam;
+            }
+            $tuntutan['jumlah_jam'] = $a + $b + $c + $d + $e + $f;
+
+            //Dapatan
+            $aa = 1.125 * $a;
+            $bb = 1.250 * $b;
+            $cc = 1.250 * $c;
+            $dd = 1.500 * $d;
+            $ee = 1.750 * $e;
+            $ff = 2.000 * $a;
+
+            $jumlah = $aa + $bb + $cc + $dd + $ee + $ff;
+            $tuntutan['dapatan'] = $jumlah * $gaji_calculated;
+            //reset
+            $a = 0;
+            $b = 0;
+            $c = 0;
+            $d = 0;
+            $e = 0;
+            $f = 0;
+
+        }
         //cetakan
         $pdf = PDF::loadView('laporan.laporan_permohonan', [
             "getuser" => $getuser,
-            // "hadir" => $hadir,
-            // "tidak_hadir" => $tidak_hadir,
-            // "belum_hadir" => $belum_hadir,
-            // "laporan_permohonan_ind" => $tajuk_rollcall,
             "currentdate" => $currentdate,
-
+            "tuntutans" => $tuntutans,
         ])->setPaper('a4');
 
         $pdf->save('laporan_permohonan.pdf');
@@ -213,12 +257,18 @@ class LaporanController extends Controller
             ->where('GE_KOD_BAHAGIAN', substr($request->bahagian, 2, 2))
             ->first();
 
+        $tuntutan = Tuntutan::with('user')
+            ->whereYear('created_at', '=', $request->tahun)
+            ->whereMonth('created_at', '=', $request->bulan);
+
         switch (auth()->user()->role) {
             case 'datuk_bandar':
                 $role = 'sebulan_gaji';
+                $tuntutan->where('lulus_db');
                 break;
             case 'ketua_jabatan':
                 $role = 'pergaji';
+                $tuntutan->where('lulus_kj');
                 break;
 
             default:
@@ -229,10 +279,11 @@ class LaporanController extends Controller
         if ($role == 'invalid') {
             abort(404);
         }
+
         $pdf = PDF::loadView('laporan.' . $role, [
             'jabatan' => $jabatan,
             'bahagian' => $bahagian,
-            'tuntutans' => Tuntutan::with('user')->get(),
+            'tuntutans' => $tuntutan->get(),
         ]);
 
         $pdf->save($role . '.pdf');

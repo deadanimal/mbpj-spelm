@@ -339,8 +339,8 @@
                                             <th>Jumlah OT <br><br>Status Datang</th>
                                             <th>Jumlah OT<br><br>Waktu Anjal</th> --}}
                                                 <th>Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
+                                                <th>Pegawai Sokong <br> <br> Pegawai Lulus</th>
                                                 <th>Status</th>
-                                                <th>Tindakan</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list">
@@ -365,19 +365,14 @@
                                                         <h5> Akhir : <span
                                                                 style="color:rgb(255, 0, 21)">{{ $permohonan->clockouttime }}</span>
                                                         </h5>
-                                                        <h5> Jumlah OT : <span
-                                                                style="color:rgb(255, 0, 21)">{{ $permohonan->totalworkinghour }}</span>
-                                                        </h5>
+                                                        {{-- <h5>  Jumlah OT  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalworkinghour}}</span> </h5> --}}
                                                         <h5> Status : <span
                                                                 style="color:rgb(255, 0, 21)">{{ $permohonan->statusdesc }}</span>
                                                         </h5>
-                                                        <h5> Jumlah Jam : <span
-                                                                style="color:rgb(255, 0, 21)">{{ $permohonan->totalotduration }}</span>
-                                                        </h5>
+                                                        {{-- <h5>  Jumlah Jam  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalotduration}}</span> </h5> --}}
                                                         <h5> Waktu Anjal : <span
                                                                 style="color:rgb(255, 0, 21)">{{ $permohonan->waktuanjal }}</span>
                                                         </h5>
-
 
                                                     </td>
                                                     <td>
@@ -385,18 +380,17 @@
                                                             <form action="/update-masa-mula-akhir/{{ $permohonan->id }}"
                                                                 method="post">
                                                                 @csrf
-                                                                <input name="masa_mula" type="datetime-local"
+                                                                <input name="masa_mula" type="time"
                                                                     class="form-control"
                                                                     onchange="kemaskiniMasaSebenarMulaSaya({{ $permohonan->id }}, this)"
-                                                                    value={{ $permohonan->sebenar_mula_kerja_formatted }}><br>
-                                                                <input name=" masa_akhir" type="datetime-local"
+                                                                    value={{ date('H:i', strtotime($permohonan->sebenar_mula_kerja)) }}><br>
+                                                                <input name=" masa_akhir" type="time"
                                                                     class="form-control"
                                                                     onchange="kemaskiniMasaSebenarAkhirSaya({{ $permohonan->id }}, this)"
-                                                                    value={{ $permohonan->sebenar_akhir_kerja_formatted }}><br>
+                                                                    value={{ date('H:i', strtotime($permohonan->sebenar_akhir_kerja)) }}><br>
                                                                 <div class="text-center">
-                                                                    <button type="submit"
-                                                                        class="btn btn-sm btn-success">Sah
-                                                                        Masa</button>
+                                                                    <button type="submit" class="btn btn-sm btn-success">
+                                                                        Sah Masa</button>
                                                                 </div>
                                                             </form>
                                                         @else
@@ -415,38 +409,35 @@
                                                                 <div class="form-group">
 
                                                                     <select name="p_pegawai_sokong_id"
-                                                                        class="form-control"
-                                                                        style="width:100px ; height:35px;">
-                                                                        <option
-                                                                            value="{{ $permohonan->p_pegawai_sokong_id }}">
-                                                                            {{ $permohonan->p_pegawai_sokong_id }}
-                                                                        </option>
-
+                                                                        class="form-control">
                                                                         @foreach ($userspengesahan as $userspengesahan1)
                                                                             <option
+                                                                                {{ $permohonan->pegawaiSokong->id == $userspengesahan1->id ? 'selected' : '' }}
                                                                                 value="{{ $userspengesahan1->id }} ">
                                                                                 {{ $userspengesahan1->name }} -
-                                                                                {{ $userspengesahan1->role }} </option>
+                                                                                {{ $userspengesahan1->role }}
+                                                                            </option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
 
-                                                                    <select name="p_pegawai_lulus_id" class="form-control"
-                                                                        style="width:100px ; height:35px;">
-                                                                        <option
-                                                                            value="{{ $permohonan->p_pegawai_lulus_id }}">
-                                                                            {{ $permohonan->p_pegawai_lulus_id }}
-                                                                        </option>
+                                                                    <select name="p_pegawai_lulus_id"
+                                                                        class="form-control">
                                                                         @foreach ($userspengesahan as $userspengesahan2)
-                                                                            <option value="{{ $userspengesahan2->id }}">
+                                                                            <option
+                                                                                {{ $permohonan->pegawaiLulus->id == $userspengesahan2->id ? 'selected' : '' }}
+                                                                                value="{{ $userspengesahan2->id }}">
                                                                                 {{ $userspengesahan2->name }} -
                                                                                 {{ $userspengesahan2->role }} </option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
-                                                                <button type="submit"
-                                                                    class="btn btn-primary btn-sm">Kemaskini</button><br>
+                                                                <div class="text-center">
+
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary btn-sm">Kemaskini</button>
+                                                                </div>
                                                             </form>
 
                                                         </td>
@@ -876,8 +867,6 @@
                                                                         data-dismiss="modal">Tutup</button>
                                                                     <button type="submit"
                                                                         class="btn btn-success btn-sm">Hantar</button>
-
-
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -885,8 +874,6 @@
                                                 </div>
                                             @endforeach
                                         </tbody>
-
-
                                     </table>
                                 </div>
 
@@ -1166,17 +1153,19 @@
                                                     </td>
                                                     <td>
                                                         @if ($permohonan->sokong_selepas === null)
-                                                            {{ $permohonan->sebenar_mula_kerja }}<br><br>
-                                                            <input type="datetime-local"
-                                                                onchange="kemaskiniMasaSebenarMula({{ $permohonan->id }}, this)"
-                                                                value={{ $permohonan->sebenar_mula_kerja }}><br><br>
+                                                            <input name="masa_mula" type="time" class="form-control"
+                                                                onchange="kemaskiniMasaSebenarMulaSaya({{ $permohonan->id }}, this)"
+                                                                value={{ date('H:i', strtotime($permohonan->sebenar_mula_kerja)) }}><br>
+                                                            <input name=" masa_akhir" type="time" class="form-control"
+                                                                onchange="kemaskiniMasaSebenarAkhirSaya({{ $permohonan->id }}, this)"
+                                                                value={{ date('H:i', strtotime($permohonan->sebenar_akhir_kerja)) }}><br>
                                                         @elseif($permohonan->sokong_selepas === 1)
                                                             {{ $permohonan->sebenar_mula_kerja }}<br><br>
                                                         @elseif($permohonan->sokong_selepas === 0)
                                                             {{ $permohonan->sebenar_mula_kerja }}<br><br>
                                                         @endif
 
-                                                        @if ($permohonan->sokong_selepas === null)
+                                                        {{-- @if ($permohonan->sokong_selepas === null)
                                                             {{ $permohonan->sebenar_akhir_kerja }}<br><br>
 
                                                             <input type="datetime-local"
@@ -1186,7 +1175,7 @@
                                                             {{ $permohonan->sebenar_akhir_kerja }}
                                                         @elseif($permohonan->sokong_selepas === 0)
                                                             {{ $permohonan->sebenar_akhir_kerja }}
-                                                        @endif
+                                                        @endif --}}
                                                     </td>
                                                     <td>
                                                         {{ $permohonan->pegawaiSokong->name }}
@@ -1202,8 +1191,6 @@
                                                             </td>
                                                             <td>
                                                                 @if ($permohonan->sah_mula_kerja)
-                                                                    <a href="" class="btn btn-primary btn-sm"><i
-                                                                            class="ni ni-single-copy-04"></i></a>
                                                                     <button type="button" class="btn btn-danger btn-sm"
                                                                         data-toggle="modal"
                                                                         data-target="#tolaksokongselepas{{ $permohonan->id }}">
@@ -1336,7 +1323,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="list">
-                                            @foreach ($pengesahan_disokongs_selesai as $p)
+                                            @foreach ($pengesahan_disokongs_rekod as $p)
                                                 <tr>
                                                     <td>
                                                         {{ $loop->index + 1 }}
@@ -1795,34 +1782,30 @@
 
         }
 
-        function kemaskiniMasaSebenarMulaSaya(obj, obj2) {
+        function kemaskiniMasaSebenarMulaSaya(id, obj2) {
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "/permohonans-ubah-masa_mula_saya/" + obj,
-                type: "POST",
+                method: "POST",
+                url: "/permohonans-ubah-masa_mula_saya/" + id,
                 data: {
+                    "_token": "{{ csrf_token() }}",
                     "masa_sebenar_baru_mula_saya": obj2.value
-                }
-
+                },
+            }).done(function(response) {
+                location.reload();
             });
-            window.location.reload();
         }
 
-        function kemaskiniMasaSebenarAkhirSaya(obj, obj2) {
+        function kemaskiniMasaSebenarAkhirSaya(id, obj2) {
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "/permohonans-ubah-masa_akhir_saya/" + obj,
-                type: "POST",
+                method: "POST",
+                url: "/permohonans-ubah-masa_akhir_saya/" + id,
                 data: {
+                    "_token": "{{ csrf_token() }}",
                     "masa_sebenar_baru_akhir_saya": obj2.value
-                }
-
+                },
+            }).done(function(response) {
+                location.reload();
             });
-            window.location.reload();
 
         }
     </script>

@@ -171,8 +171,8 @@
                 <div class="col-md-12 mb-3 text-right">
                     <p class="col d-inline h4 text-red">Tuntutan akan dihantar secara automatik pada
                         {{ $tarikh_auto_hantar_tuntutan }} </p>
-                    <a type="button" class="btn btn-primary btn-sm " data-toggle="modal" data-target="#PastiTuntutan"
-                        href="/bulktuntutan">Hantar Tuntutan</a>
+                    <a type="button" class="btn btn-primary btn-sm text-white" data-toggle="modal"
+                        data-target="#PastiTuntutan">Hantar Tuntutan</a>
                 </div>
                 <div class="col-md-12">
 
@@ -181,15 +181,7 @@
                         <div class="card-header border-0">
                             <h3 class="mb-0 ">Hantar Tuntutan Elaun Lebih Masa</h3>
                         </div>
-                        <?php
-                    if(Session::has('status_tuntutan')){
-                        ?>
-                        <script>
-                            alert("{{ Session::get('status_tuntutan') }}");
-                        </script>
-                        <?php
-                    }
-                    ?>
+
 
                         <!-- Light table -->
                         <table id="example" class="table table-striped table-bordered ">
@@ -211,30 +203,37 @@
                                             {{ $loop->index + 1 }}
                                         </td>
                                         <td>
-                                            <form action="/kemaskini_pegawai_level3/{{ $tuntutan_k->id }}"
-                                                method="post">
-                                                @method('put')
-                                                @csrf
-                                                <select name="pegawai_sokong_id" class="form-control mb-3">
-                                                    @foreach ($pegawaiSokong as $p)
-                                                        <option
-                                                            {{ $tuntutan_k->pegawai_sokong_id == $p->id ? 'selected' : '' }}
-                                                            value="{{ $p->id }}">{{ $p->name }}</option>
-                                                    @endforeach
-                                                </select>
 
-                                                <select name="pegawai_lulus_id" class="form-control">
-                                                    @foreach ($pegawaiLulus as $p)
-                                                        <option
-                                                            {{ $tuntutan_k->pegawai_lulus_id == $p->id ? 'selected' : '' }}
-                                                            value="{{ $p->id }}">{{ $p->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                            @if ($loop->first)
+                                                <form action="/kemaskini_pegawai_level3/{{ $tuntutan_k->id }}"
+                                                    method="POST">
+                                                    @method('put')
+                                                    @csrf
+                                                    <select name="pegawai_sokong_id" class="form-control mb-3">
+                                                        @foreach ($pegawaiSokong as $p)
+                                                            <option
+                                                                {{ $tuntutan_k->pegawai_sokong_id == $p->id ? 'selected' : '' }}
+                                                                value="{{ $p->id }}">{{ $p->name }}</option>
+                                                        @endforeach
+                                                    </select>
 
-                                                <div class="text-center mt-3">
-                                                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
-                                                </div>
-                                            </form>
+                                                    <select name="pegawai_lulus_id" class="form-control">
+                                                        @foreach ($pegawaiLulus as $p)
+                                                            <option
+                                                                {{ $tuntutan_k->pegawai_lulus_id == $p->id ? 'selected' : '' }}
+                                                                value="{{ $p->id }}">{{ $p->name }}</option>
+                                                        @endforeach
+                                                    </select>
+
+                                                    <div class="text-center mt-4">
+                                                        <button class="btn btn-primary btn-sm">Simpan</button>
+                                                    </div>
+                                                </form>
+                                            @else
+                                                {{ $tuntutan_k->pegawaiSokong->name }} <br> <br>
+                                                {{ $tuntutan_k->pegawaiLulus->name }}
+                                            @endif
+
                                         </td>
                                         <td>
                                             <input type="text" id="sebenar_mula_kerja_tuntutan"
@@ -295,6 +294,7 @@
                                     <td id="jumlah_jam_am">Jumlah:{{ round($jumlah_jam_am, 3) }} </td>
                                     <td id="jumlah_jam_keseluruhan">Jumlah Jam : {{ round($jumlah_jam_keseluruhan, 3) }}
                                     </td>
+                                    <td>RM{{ round($jumlah_harga_tuntutan_index, 3) }}</td>
 
 
                                 </tr>
@@ -314,9 +314,12 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
+
                                         <div class="modal-body text-red">
-                                            Sila pastikan Tuntutan yang akan dihantar disemak dan anda bersetuju dengan
-                                            jumlah tuntutan berikut
+                                            Sila pastikan Tuntutan yang akan dihantar
+                                            disemak dan
+                                            anda bersetuju dengan jumlah tuntutan berikut
+
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary btn-sm"
@@ -324,6 +327,7 @@
                                             <a href="/bulktuntutan" class="btn btn-primary btn-sm float-right">Hantar
                                                 Tuntutan</a>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -569,155 +573,198 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- Tuntutan sebagai kakitangan --}}
+                        {{-- Tuntutan Kakitangan --}}
                         <div class="row ">
-                            <div class="col-md-12 mb-3">
-                                <a type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal"
-                                    data-target="#PastiTuntutan" href="/bulktuntutan">Hantar Tuntutan</a>
+                            <div class="col-md-12 mb-3 text-right">
+                                <p class="col d-inline h4 text-red">Tuntutan akan dihantar secara automatik pada
+                                    {{ $tarikh_auto_hantar_tuntutan }} </p>
+                                <a type="button" class="btn btn-primary btn-sm text-white" data-toggle="modal"
+                                    data-target="#PastiTuntutan">Hantar Tuntutan</a>
                             </div>
                             <div class="col-md-12">
+
                                 <div class="card">
                                     <!-- Card header -->
-                                    <div class="card-header  border-0 bg-default mb-4">
-                                        <h3 class="mb-0 text-white ">Hantar Tuntutan Elaun Lebih Masa</h3>
+                                    <div class="card-header border-0">
+                                        <h3 class="mb-0 ">Hantar Tuntutan Elaun Lebih Masa</h3>
                                     </div>
 
-                                    {{-- @if (session('status_tuntutan'))
-                                    {{session('status_tuntutan')}}
-                                @endif --}}
-                                    <?php
-                                if(Session::has('status_tuntutan')){
-                                    ?>
-                                    <script>
-                                        alert("{{ Session::get('status_tuntutan') }}");
-                                    </script>
-                                    <?php
-                                }
-                                ?>
-
-                                    <!-- Light table -->
-                                    <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                                        style="overflow-x:scroll; width:100%">
-                                        <thead class="thead-light">
-
-                                            <tr>
-
-                                                <th> No</th>
-                                                <th> Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
-                                                <th> Hari Biasa <br> Siang / Malam</th>
-                                                <th> Hari Rehat <br> Siang / Malam</th>
-                                                <th> Pelepasan AM <br> Siang / Malam</th>
-                                                <th> Sebab Lebih Masa</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($tuntutan_k2 as $tuntutan_k)
+                                    <div class="table-responsive">
+                                        <!-- Light table -->
+                                        <table id="example" class="table table-striped table-bordered ">
+                                            <thead class="thead-light text-center">
                                                 <tr>
-                                                    <td>
-                                                        {{ $loop->index + 1 }}
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" id="sebenar_mula_kerja_tuntutan"
-                                                            name="sebenar_mula_kerja_tuntutan"
-                                                            value="{{ $tuntutan_k->sebenar_mula_kerja }}"
-                                                            disabled><br><br>
+                                                    <th> No</th>
+                                                    <th> Pegawai Sokong / Pegawai Lulus</th>
+                                                    <th> Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
+                                                    <th> Hari Biasa <br> Siang / Malam</th>
+                                                    <th> Hari Rehat <br> Siang / Malam</th>
+                                                    <th> Pelepasan AM <br> Siang / Malam</th>
+                                                    <th> Sebab <br> Lebih <br> Masa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($tuntutan_k2 as $tuntutan_k)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $loop->index + 1 }}
+                                                        </td>
+                                                        <td>
 
-                                                        <input type="text" id="sebenar_akhir_kerja_tuntutan"
-                                                            name="sebenar_akhir_kerja_tuntutan"
-                                                            value="{{ $tuntutan_k->sebenar_akhir_kerja }}" disabled>
-                                                    </td>
-                                                    <td>
-                                                        <input class="text-center" type="text" style="width:60px;"
-                                                            onchange="KemaskiniJamTuntutan({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_biasa_siang }}" disabled>
-                                                        <input class="text-center" type="text" style="width:60px;"
-                                                            onchange="KemaskiniJamTuntutan({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_biasa_malam }}" disabled>
+                                                            @if ($loop->first)
+                                                                <form
+                                                                    action="/kemaskini_pegawai_level3/{{ $tuntutan_k->id }}"
+                                                                    method="POST">
+                                                                    @method('put')
+                                                                    @csrf
+                                                                    <select name="pegawai_sokong_id"
+                                                                        class="form-control mb-3">
+                                                                        @foreach ($pegawaiSokong as $p)
+                                                                            <option
+                                                                                {{ $tuntutan_k->pegawai_sokong_id == $p->id ? 'selected' : '' }}
+                                                                                value="{{ $p->id }}">
+                                                                                {{ $p->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
 
-                                                    </td>
-                                                    <td>
-                                                        <input class="text-center" type="text" style="width:60px;"
-                                                            onchange="KemaskiniTotalTuntutan({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_cuti_siang }}" disabled>
-                                                        <input class="text-center" type="text" style="width:60px;"
-                                                            onchange="KemaskiniTotalTuntutan({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_cuti_malam }}" disabled>
+                                                                    <select name="pegawai_lulus_id" class="form-control">
+                                                                        @foreach ($pegawaiLulus as $p)
+                                                                            <option
+                                                                                {{ $tuntutan_k->pegawai_lulus_id == $p->id ? 'selected' : '' }}
+                                                                                value="{{ $p->id }}">
+                                                                                {{ $p->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
 
-                                                    </td>
-                                                    <td>
-                                                        <input class="text-center" type="text" style="width:60px;"
-                                                            onchange="KemaskiniStatus2({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_am_siang }}" disabled>
-                                                        <input class="text-center" type="text" style="width:60px;"
-                                                            onchange="KemaskiniStatus2({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_am_malam }} " disabled>
+                                                                    <div class="text-center mt-4">
+                                                                        <button
+                                                                            class="btn btn-primary btn-sm">Simpan</button>
+                                                                    </div>
+                                                                </form>
+                                                            @else
+                                                                {{ $tuntutan_k->pegawaiSokong->name }} <br> <br>
+                                                                {{ $tuntutan_k->pegawaiLulus->name }}
+                                                            @endif
 
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="sebenar_mula_kerja_tuntutan"
+                                                                name="sebenar_mula_kerja_tuntutan"
+                                                                value="{{ $tuntutan_k->sebenar_mula_kerja }}"
+                                                                disabled><br><br>
+
+                                                            <input type="text" id="sebenar_akhir_kerja_tuntutan"
+                                                                name="sebenar_akhir_kerja_tuntutan"
+                                                                value="{{ $tuntutan_k->sebenar_akhir_kerja }}" disabled>
+                                                        </td>
+                                                        <td>
+                                                            <input class="text-center" type="text" style="width:60px;"
+                                                                onchange="KemaskiniJamTuntutan({{ $tuntutan_k->id }}, this)"
+                                                                value="{{ $tuntutan_k->jam_kerja_biasa_siang !== null ? round($tuntutan_k->jam_kerja_biasa_siang, 3) : '' }}"
+                                                                disabled> <br> <br>
+                                                            <input class="text-center" type="text" style="width:60px;"
+                                                                onchange="KemaskiniJamTuntutan({{ $tuntutan_k->id }}, this)"
+                                                                value="{{ $tuntutan_k->jam_kerja_biasa_malam !== null ? round($tuntutan_k->jam_kerja_biasa_malam, 3) : '' }}"
+                                                                disabled>
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="text-center" type="text" style="width:60px;"
+                                                                onchange="KemaskiniTotalTuntutan({{ $tuntutan_k->id }}, this)"
+                                                                value="{{ $tuntutan_k->jam_kerja_cuti_siang !== null ? round($tuntutan_k->jam_kerja_cuti_siang, 3) : '' }}"
+                                                                disabled><br> <br>
+                                                            <input class="text-center" type="text" style="width:60px;"
+                                                                onchange="KemaskiniTotalTuntutan({{ $tuntutan_k->id }}, this)"
+                                                                value="{{ $tuntutan_k->jam_kerja_cuti_malam !== null ? round($tuntutan_k->jam_kerja_cuti_malam, 3) : '' }}"
+                                                                disabled>
+                                                        </td>
+                                                        <td>
+                                                            <input class="text-center" type="text" style="width:60px;"
+                                                                onchange="KemaskiniStatus2({{ $tuntutan_k->id }}, this)"
+                                                                value="{{ $tuntutan_k->jam_kerja_am_siang !== null ? round($tuntutan_k->jam_kerja_am_siang, 3) : '' }}"
+                                                                disabled><br> <br>
+                                                            <input class="text-center" type="text" style="width:60px;"
+                                                                onchange="KemaskiniStatus2({{ $tuntutan_k->id }}, this)"
+                                                                value="{{ $tuntutan_k->jam_kerja_am_malam !== null ? round($tuntutan_k->jam_kerja_am_malam, 3) : '' }} "
+                                                                disabled>
+
+                                                        </td>
+                                                        <td>
+                                                            {{ $tuntutan_k->tujuan }}
+                                                        </td>
+
+                                                    </tr>
+                                                @endforeach
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+
+                                                    <td id="jumlah_jam_biasa">Jumlah:{{ round($jumlah_jam_biasa, 3) }}
                                                     </td>
-                                                    <td>
-                                                        {{ $tuntutan_k->tujuan }}
+                                                    <td id="jumlah_jam_rehat">Jumlah:{{ round($jumlah_jam_rehat, 3) }}
                                                     </td>
+                                                    <td id="jumlah_jam_am">Jumlah:{{ round($jumlah_jam_am, 3) }} </td>
+                                                    <td id="jumlah_jam_keseluruhan">Jumlah Jam :
+                                                        {{ round($jumlah_jam_keseluruhan, 3) }}
+                                                    </td>
+                                                    <td>RM{{ round($jumlah_harga_tuntutan_index, 3) }}</td>
 
 
                                                 </tr>
-                                            @endforeach
+                                            </tfoot>
 
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
+                                            <!--calculate shift-->
 
-                                                <td id="jumlah_jam_biasa">Jumlah:{{ $jumlah_jam_biasa }} </td>
-                                                <td id="jumlah_jam_rehat">Jumlah:{{ $jumlah_jam_rehat }} </td>
-                                                <td id="jumlah_jam_am">Jumlah:{{ $jumlah_jam_am }} </td>
-                                                <td>Jumlah Jam : {{ $jumlah_jam_keseluruhan }}</td>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="PastiTuntutan" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-primary">
+                                                            <h5 class="text-white modal-title" id="exampleModalLabel">
+                                                                Makluman
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
 
+                                                        <div class="modal-body text-red">
+                                                            Sila pastikan Tuntutan yang akan dihantar
+                                                            disemak dan
+                                                            anda bersetuju dengan jumlah tuntutan berikut
 
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary btn-sm"
+                                                                data-dismiss="modal">Tutup</button>
+                                                            <a href="/bulktuntutan"
+                                                                class="btn btn-primary btn-sm float-right">Hantar
+                                                                Tuntutan</a>
+                                                        </div>
 
-                                            </tr>
-                                        </tfoot>
-
-                                        <!--calculate shift-->
-
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="PastiTuntutan" tabindex="-1" role="dialog"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header bg-primary">
-                                                        <h5 class="text-white modal-title" id="exampleModalLabel">Makluman
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body text-red">
-                                                        Sila pastikan Tuntutan yang akan dihantar disemak dan anda bersetuju
-                                                        dengan jumlah tuntutan berikut
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary btn-sm "
-                                                            data-dismiss="modal">Tutup</button>
-                                                        <a href="/bulktuntutan"
-                                                            class="btn btn-primary btn-sm float-right">Hantar Tuntutan</a>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                    </table>
+                                        </table>
+
+                                    </div>
 
                                 </div>
                             </div>
                         </div>
-                        {{-- Tuntutan sebagai kakitangan diluluskan --}}
+                        {{-- Tuntutan Kakitangan diluluskan --}}
                         <div class="row ">
                             <div class="col-md-12">
                                 <div class="card">
                                     <!-- Card header -->
-                                    <div class="card-header bg-default  border-0 mb-3">
-                                        <h3 class="text-white mb-0">Tuntutan Dalam Proses Semakan</h3>
+                                    <div class="card-header border-0">
+                                        <h3 class="mb-0">Tuntutan Dalam Proses Semakan</h3>
                                     </div>
                                     <!-- Light table -->
                                     <table id="example"
@@ -725,16 +772,12 @@
                                         style="width:100%">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th>No</th>
-                                                {{-- <th> Tuntutan ID</th>
-                                    
-                                        <th> Jumlah Jam Tuntutan</th>
-                                        <th> Jumlah Tuntutan</th>
-                                        <th> Status</th> --}}
+                                                <th> No</th>
                                                 <th> Status Dalaman</th>
                                                 <th> Status Perbendaharaan</th>
-                                                <th> Kemaskini </th>
-                                                <th> Tindakan </th>
+                                                {{-- <th> Tindakan </th> --}}
+                                                <th> ETC </th>
+
 
                                             </tr>
                                         </thead>
@@ -744,6 +787,8 @@
                                                     <td>
                                                         {{ $loop->index + 1 }}
                                                     </td>
+
+
                                                     @if ($tuntutan_lulus->sokong_tuntutan === null)
                                                         <td>
                                                             <span class="badge badge-pill badge-primary">Dalam
@@ -766,8 +811,14 @@
 
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-pill badge-primary">Dalam Semakan
-                                                                Kerani</span><br><br>
+                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                                <span class="badge badge-pill badge-primary">Dalam
+                                                                    Semakan</span><br><br>
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                                <span class="badge badge-pill badge-success">Tuntutan
+                                                                    Diluluskan</span>
+                                                                <br><br>
+                                                            @endif
                                                         </td>
                                                     @elseif($tuntutan_lulus->sokong_tuntutan === 1)
                                                         <td>
@@ -790,8 +841,34 @@
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-pill badge-primary">Dalam Semakan
-                                                                Kerani</span><br><br>
+                                                            {{-- Status periksa di kakitangan --}}
+                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                                <span class="badge badge-pill badge-primary">Dalam
+                                                                    Semakan</span> :
+                                                                KERANI PEMERIKSA<br><br>
+
+                                                                @if ($tuntutan_lulus->semak_tuntutan === null)
+                                                                    <span class="badge badge-pill badge-primary">Dalam
+                                                                        Semakan</span> :
+                                                                    KERANI SEMAKAN<br><br>
+                                                                @elseif($tuntutan_lulus->semak_tuntutan === 1)
+                                                                    <span class="badge badge-pill badge-success">Tuntutan
+                                                                        Diluluskan</span> : KERANI SEMAKAN <br><br>
+                                                                @endif
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                                <span class="badge badge-pill badge-success">Tuntutan
+                                                                    Diperiksa</span>
+                                                                : KERANI PEMERIKSA <br><br>
+
+                                                                @if ($tuntutan_lulus->semak_tuntutan === null)
+                                                                    <span class="badge badge-pill badge-primary">Dalam
+                                                                        Semakan</span> :
+                                                                    KERANI SEMAKAN<br><br>
+                                                                @elseif($tuntutan_lulus->semak_tuntutan === 1)
+                                                                    <span class="badge badge-pill badge-success">Tuntutan
+                                                                        Diluluskan</span> : KERANI SEMAKAN <br><br>
+                                                                @endif
+                                                            @endif
                                                         </td>
                                                     @elseif($tuntutan_lulus->sokong_tuntutan === 0)
                                                         <td>
@@ -812,51 +889,21 @@
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-pill badge-primary">Dalam Semakan
-                                                                Kerani</span><br><br>
+                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                                <span class="badge badge-pill badge-primary">Dalam
+                                                                    Semakan</span><br><br>
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                                <span class="badge badge-pill badge-success">Tuntutan
+                                                                    Diluluskan</span>
+                                                                <br><br>
+                                                            @endif
                                                         </td>
                                                     @endif
                                                     <td>
-                                                        <form method="POST"
-                                                            action="/kemaskinipegawaituntutan/{{ $tuntutan_lulus->id }}">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="form-group">
-
-                                                                <select name="pegawai_sokong_id" class="form-control"
-                                                                    style="width:100px ; height:35px;">
-                                                                    @foreach ($pegawaituntutan as $pegawaituntutan1)
-                                                                        <option
-                                                                            {{ $tuntutan_lulus->pegawai_sokong_id == $pegawaituntutan1->id ? 'selected' : '' }}
-                                                                            value="{{ $pegawaituntutan1->id }} ">
-                                                                            {{ $pegawaituntutan1->name }} -
-                                                                            {{ $pegawaituntutan1->role }} </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-
-                                                                <select name="pegawai_lulus_id" class="form-control"
-                                                                    style="width:100px ; height:35px;">
-                                                                    <option
-                                                                        value="{{ $tuntutan_lulus->pegawai_lulus_id }}">
-                                                                        {{ $tuntutan_lulus->pegawai_lulus_id }}</option>
-                                                                    @foreach ($pegawaituntutan as $pegawaituntutan2)
-                                                                        <option
-                                                                            {{ $tuntutan_lulus->pegawai_lulus_id == $pegawaituntutan2->id ? 'selected' : '' }}
-                                                                            value="{{ $pegawaituntutan2->id }}">
-                                                                            {{ $pegawaituntutan2->name }} -
-                                                                            {{ $pegawaituntutan2->role }} </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <button type="submit"
-                                                                class="btn btn-primary btn-sm">Kemaskini</button><br>
-                                                        </form>
-                                                    </td>
-                                                    <td>
                                                         <a href="/tuntutans/{{ $tuntutan_lulus->id }}/"
                                                             class="btn btn-primary btn-sm">Lihat</a>
+                                                        <a class="btn btn-primary btn-sm"
+                                                            href="/laporan_tuntutan/{{ $tuntutan_lulus->id }}">Laporan</a>
                                                     </td>
 
                                                 </tr>
@@ -2753,48 +2800,34 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- Tuntutan sebagai kakitangan --}}
+                        {{-- Tuntutan Kakitangan --}}
                         <div class="row ">
-                            <div class="col-md-12 mb-3">
-                                <a type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal"
-                                    data-target="#PastiTuntutan" href="/bulktuntutan">Hantar Tuntutan</a>
+                            <div class="col-md-12 mb-3 text-right">
+                                <p class="col d-inline h4 text-red">Tuntutan akan dihantar secara automatik pada
+                                    {{ $tarikh_auto_hantar_tuntutan }} </p>
+                                <a type="button" class="btn btn-primary btn-sm text-white" data-toggle="modal"
+                                    data-target="#PastiTuntutan">Hantar Tuntutan</a>
                             </div>
                             <div class="col-md-12">
+
                                 <div class="card">
                                     <!-- Card header -->
-                                    <div class="card-header bg-default border-0 mb-3">
-                                        <h3 class="text-white mb-0">Hantar Tuntutan Elaun Lebih Masa</h3>
+                                    <div class="card-header border-0">
+                                        <h3 class="mb-0 ">Hantar Tuntutan Elaun Lebih Masa</h3>
                                     </div>
 
-                                    {{-- @if (session('status_tuntutan'))
-                                    {{session('status_tuntutan')}}
-                                @endif --}}
-                                    <?php
-                                if(Session::has('status_tuntutan')){
-                                    ?>
-                                    <script>
-                                        alert("{{ Session::get('status_tuntutan') }}");
-                                    </script>
-                                    <?php
-                                }
-                                ?>
 
                                     <!-- Light table -->
-                                    <table id="example"
-                                        class="table table-striped table-bordered dt-responsive nowrap"
-                                        style="overflow-x:scroll; width:100%">
-                                        <thead class="thead-light">
-
+                                    <table id="example" class="table table-striped table-bordered ">
+                                        <thead class="thead-light text-center">
                                             <tr>
-
                                                 <th> No</th>
+                                                <th> Pegawai Sokong / Pegawai Lulus</th>
                                                 <th> Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
                                                 <th> Hari Biasa <br> Siang / Malam</th>
                                                 <th> Hari Rehat <br> Siang / Malam</th>
                                                 <th> Pelepasan AM <br> Siang / Malam</th>
-                                                <th> Sebab Lebih Masa</th>
-                                                {{-- <th> Pegawai </th> --}}
-                                                {{-- <th> Tindakan</th> --}}
+                                                <th> Sebab <br> Lebih <br> Masa</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -2802,6 +2835,43 @@
                                                 <tr>
                                                     <td>
                                                         {{ $loop->index + 1 }}
+                                                    </td>
+                                                    <td>
+
+                                                        @if ($loop->first)
+                                                            <form
+                                                                action="/kemaskini_pegawai_level3/{{ $tuntutan_k->id }}"
+                                                                method="POST">
+                                                                @method('put')
+                                                                @csrf
+                                                                <select name="pegawai_sokong_id"
+                                                                    class="form-control mb-3">
+                                                                    @foreach ($pegawaiSokong as $p)
+                                                                        <option
+                                                                            {{ $tuntutan_k->pegawai_sokong_id == $p->id ? 'selected' : '' }}
+                                                                            value="{{ $p->id }}">
+                                                                            {{ $p->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+
+                                                                <select name="pegawai_lulus_id" class="form-control">
+                                                                    @foreach ($pegawaiLulus as $p)
+                                                                        <option
+                                                                            {{ $tuntutan_k->pegawai_lulus_id == $p->id ? 'selected' : '' }}
+                                                                            value="{{ $p->id }}">
+                                                                            {{ $p->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+
+                                                                <div class="text-center mt-4">
+                                                                    <button class="btn btn-primary btn-sm">Simpan</button>
+                                                                </div>
+                                                            </form>
+                                                        @else
+                                                            {{ $tuntutan_k->pegawaiSokong->name }} <br> <br>
+                                                            {{ $tuntutan_k->pegawaiLulus->name }}
+                                                        @endif
+
                                                     </td>
                                                     <td>
                                                         <input type="text" id="sebenar_mula_kerja_tuntutan"
@@ -2816,31 +2886,35 @@
                                                     <td>
                                                         <input class="text-center" type="text" style="width:60px;"
                                                             onchange="KemaskiniJamTuntutan({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_biasa_siang }}" disabled>
+                                                            value="{{ $tuntutan_k->jam_kerja_biasa_siang !== null ? round($tuntutan_k->jam_kerja_biasa_siang, 3) : '' }}"
+                                                            disabled> <br> <br>
                                                         <input class="text-center" type="text" style="width:60px;"
                                                             onchange="KemaskiniJamTuntutan({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_biasa_malam }}" disabled>
+                                                            value="{{ $tuntutan_k->jam_kerja_biasa_malam !== null ? round($tuntutan_k->jam_kerja_biasa_malam, 3) : '' }}"
+                                                            disabled>
 
                                                     </td>
                                                     <td>
                                                         <input class="text-center" type="text" style="width:60px;"
                                                             onchange="KemaskiniTotalTuntutan({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_cuti_siang }}" disabled>
+                                                            value="{{ $tuntutan_k->jam_kerja_cuti_siang !== null ? round($tuntutan_k->jam_kerja_cuti_siang, 3) : '' }}"
+                                                            disabled><br> <br>
                                                         <input class="text-center" type="text" style="width:60px;"
                                                             onchange="KemaskiniTotalTuntutan({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_cuti_malam }}" disabled>
-
+                                                            value="{{ $tuntutan_k->jam_kerja_cuti_malam !== null ? round($tuntutan_k->jam_kerja_cuti_malam, 3) : '' }}"
+                                                            disabled>
                                                     </td>
                                                     <td>
                                                         <input class="text-center" type="text" style="width:60px;"
                                                             onchange="KemaskiniStatus2({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_am_siang }}" disabled>
+                                                            value="{{ $tuntutan_k->jam_kerja_am_siang !== null ? round($tuntutan_k->jam_kerja_am_siang, 3) : '' }}"
+                                                            disabled><br> <br>
                                                         <input class="text-center" type="text" style="width:60px;"
                                                             onchange="KemaskiniStatus2({{ $tuntutan_k->id }}, this)"
-                                                            value="{{ $tuntutan_k->jam_kerja_am_malam }} " disabled>
+                                                            value="{{ $tuntutan_k->jam_kerja_am_malam !== null ? round($tuntutan_k->jam_kerja_am_malam, 3) : '' }} "
+                                                            disabled>
 
                                                     </td>
-
                                                     <td>
                                                         {{ $tuntutan_k->tujuan }}
                                                     </td>
@@ -2853,13 +2927,17 @@
                                             <tr>
                                                 <td></td>
                                                 <td></td>
-                                                <td id="jumlah_jam_biasa">Jumlah:{{ $jumlah_jam_biasa }} </td>
-                                                <td id="jumlah_jam_rehat">Jumlah:{{ $jumlah_jam_rehat }} </td>
-                                                <td id="jumlah_jam_am">Jumlah:{{ $jumlah_jam_am }} </td>
-                                                <td id="jumlah_jam_keseluruhan">Jumlah Jam :
-                                                    {{ $jumlah_jam_keseluruhan }}
+
+                                                <td id="jumlah_jam_biasa">Jumlah:{{ round($jumlah_jam_biasa, 3) }}
                                                 </td>
-                                                {{-- <td></td> --}}
+                                                <td id="jumlah_jam_rehat">Jumlah:{{ round($jumlah_jam_rehat, 3) }}
+                                                </td>
+                                                <td id="jumlah_jam_am">Jumlah:{{ round($jumlah_jam_am, 3) }} </td>
+                                                <td id="jumlah_jam_keseluruhan">Jumlah Jam :
+                                                    {{ round($jumlah_jam_keseluruhan, 3) }}
+                                                </td>
+                                                <td>RM{{ round($jumlah_harga_tuntutan_index, 3) }}</td>
+
 
                                             </tr>
                                         </tfoot>
@@ -2873,23 +2951,27 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-primary">
                                                         <h5 class="text-white modal-title" id="exampleModalLabel">
-                                                            Makluman
-                                                        </h5>
+                                                            Makluman</h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
+
                                                     <div class="modal-body text-red">
-                                                        Sila pastikan Tuntutan yang akan dihantar disemak dan anda bersetuju
-                                                        dengan jumlah tuntutan berikut
+                                                        Sila pastikan Tuntutan yang akan dihantar
+                                                        disemak dan
+                                                        anda bersetuju dengan jumlah tuntutan berikut
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary btn-sm"
                                                             data-dismiss="modal">Tutup</button>
                                                         <a href="/bulktuntutan"
-                                                            class="btn btn-primary float-right btn-sm">Hantar Tuntutan</a>
+                                                            class="btn btn-primary btn-sm float-right">Hantar
+                                                            Tuntutan</a>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -2899,13 +2981,13 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- Tuntutan sebagai kakitangan diluluskan --}}
+                        {{-- Tuntutan Kakitangan diluluskan --}}
                         <div class="row ">
                             <div class="col-md-12">
                                 <div class="card">
                                     <!-- Card header -->
-                                    <div class="card-header bg-default border-0 mb-3">
-                                        <h3 class="text-white mb-0">Tuntutan Dalam Proses Semakan</h3>
+                                    <div class="card-header border-0">
+                                        <h3 class="mb-0">Tuntutan Dalam Proses Semakan</h3>
                                     </div>
                                     <!-- Light table -->
                                     <table id="example"
@@ -2913,12 +2995,12 @@
                                         style="width:100%">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th>No</th>
-
+                                                <th> No</th>
                                                 <th> Status Dalaman</th>
                                                 <th> Status Perbendaharaan</th>
-                                                <th> Kemaskini </th>
-                                                <th> Tindakan </th>
+                                                {{-- <th> Tindakan </th> --}}
+                                                <th> ETC </th>
+
 
                                             </tr>
                                         </thead>
@@ -2928,7 +3010,6 @@
                                                     <td>
                                                         {{ $loop->index + 1 }}
                                                     </td>
-
 
 
                                                     @if ($tuntutan_lulus->sokong_tuntutan === null)
@@ -2953,8 +3034,14 @@
 
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-pill badge-primary">Dalam Semakan
-                                                                Kerani</span><br><br>
+                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                                <span class="badge badge-pill badge-primary">Dalam
+                                                                    Semakan</span><br><br>
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                                <span class="badge badge-pill badge-success">Tuntutan
+                                                                    Diluluskan</span>
+                                                                <br><br>
+                                                            @endif
                                                         </td>
                                                     @elseif($tuntutan_lulus->sokong_tuntutan === 1)
                                                         <td>
@@ -2977,8 +3064,34 @@
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-pill badge-primary">Dalam Semakan
-                                                                Kerani</span><br><br>
+                                                            {{-- Status periksa di kakitangan --}}
+                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                                <span class="badge badge-pill badge-primary">Dalam
+                                                                    Semakan</span> :
+                                                                KERANI PEMERIKSA<br><br>
+
+                                                                @if ($tuntutan_lulus->semak_tuntutan === null)
+                                                                    <span class="badge badge-pill badge-primary">Dalam
+                                                                        Semakan</span> :
+                                                                    KERANI SEMAKAN<br><br>
+                                                                @elseif($tuntutan_lulus->semak_tuntutan === 1)
+                                                                    <span class="badge badge-pill badge-success">Tuntutan
+                                                                        Diluluskan</span> : KERANI SEMAKAN <br><br>
+                                                                @endif
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                                <span class="badge badge-pill badge-success">Tuntutan
+                                                                    Diperiksa</span>
+                                                                : KERANI PEMERIKSA <br><br>
+
+                                                                @if ($tuntutan_lulus->semak_tuntutan === null)
+                                                                    <span class="badge badge-pill badge-primary">Dalam
+                                                                        Semakan</span> :
+                                                                    KERANI SEMAKAN<br><br>
+                                                                @elseif($tuntutan_lulus->semak_tuntutan === 1)
+                                                                    <span class="badge badge-pill badge-success">Tuntutan
+                                                                        Diluluskan</span> : KERANI SEMAKAN <br><br>
+                                                                @endif
+                                                            @endif
                                                         </td>
                                                     @elseif($tuntutan_lulus->sokong_tuntutan === 0)
                                                         <td>
@@ -2999,47 +3112,21 @@
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-pill badge-primary">Dalam Semakan
-                                                                Kerani</span><br><br>
+                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                                <span class="badge badge-pill badge-primary">Dalam
+                                                                    Semakan</span><br><br>
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                                <span class="badge badge-pill badge-success">Tuntutan
+                                                                    Diluluskan</span>
+                                                                <br><br>
+                                                            @endif
                                                         </td>
                                                     @endif
                                                     <td>
-                                                        <form method="POST"
-                                                            action="/kemaskinipegawaituntutan/{{ $tuntutan_lulus->id }}">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="form-group">
-
-                                                                <select name="pegawai_sokong_id" class="form-control">
-                                                                    @foreach ($pegawaituntutan as $pegawaituntutan1)
-                                                                        <option
-                                                                            {{ $tuntutan_lulus->pegawai_sokong_id == $pegawaituntutan1->id ? 'selected' : '' }}
-                                                                            value="{{ $pegawaituntutan1->id }} ">
-                                                                            {{ $pegawaituntutan1->name }} -
-                                                                            {{ $pegawaituntutan1->role }} </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-
-                                                                <select name="pegawai_lulus_id" class="form-control">
-                                                                    @foreach ($pegawaituntutan as $pegawaituntutan2)
-                                                                        <option
-                                                                            {{ $tuntutan_lulus->pegawai_lulus_id == $pegawaituntutan2->id ? 'selected' : '' }}
-                                                                            value="{{ $pegawaituntutan2->id }}">
-                                                                            {{ $pegawaituntutan2->name }} -
-                                                                            {{ $pegawaituntutan2->role }} </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <button type="submit"
-                                                                class="btn btn-primary btn-sm">Kemaskini</button><br>
-                                                        </form>
-                                                    </td>
-
-                                                    <td>
                                                         <a href="/tuntutans/{{ $tuntutan_lulus->id }}/"
                                                             class="btn btn-primary btn-sm">Lihat</a>
+                                                        <a class="btn btn-primary btn-sm"
+                                                            href="/laporan_tuntutan/{{ $tuntutan_lulus->id }}">Laporan</a>
                                                     </td>
 
                                                 </tr>

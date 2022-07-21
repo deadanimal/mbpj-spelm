@@ -136,14 +136,14 @@
                 <td>1 1/8</td>
                 <td> {{ $a = number_format((float) $permohonan->jumlah_biasa_siang, 3, '.', '') ?? '0.000' }}</td>
                 <td> {{ '1.125 x ' . $a }} </td>
-                <td>{{ 1.125 * $a }} JAM</td>
+                <td>{{ $aa = 1.125 * $a }} JAM</td>
             </tr>
             <tr>
                 <th>Malam</th>
                 <td>1 1/4</td>
                 <td>{{ $b = number_format((float) $permohonan->jumlah_biasa_malam, 3, '.', '') ?? '0.000' }}</td>
                 <td>{{ '1.250 x ' . $b }}</td>
-                <td>{{ 1.25 * $b }} JAM</td>
+                <td>{{ $bb = 1.25 * $b }} JAM</td>
             </tr>
             <tr>
                 <th rowspan="2">Hari Rehat </th>
@@ -151,14 +151,14 @@
                 <td>1 1/4</td>
                 <td> {{ $c = number_format((float) $permohonan->jumlah_rehat_siang, 3, '.', '') ?? '0.000' }}</td>
                 <td>{{ '1.250 x ' . $c }}</td>
-                <td>{{ 1.25 * $c }} JAM</td>
+                <td>{{ $cc = 1.25 * $c }} JAM</td>
             </tr>
             <tr>
                 <th>Malam</th>
                 <td>1 1/2</td>
                 <td>{{ $d = number_format((float) $permohonan->jumlah_rehat_malam, 3, '.', '') ?? '0.000' }}</td>
                 <td>{{ '1.500 x ' . $d }}</td>
-                <td>{{ 1.5 * $d }} JAM</td>
+                <td>{{ $dd = 1.5 * $d }} JAM</td>
             </tr>
             <tr>
                 <th rowspan="2">Hari Pelepasan Am </th>
@@ -166,14 +166,32 @@
                 <td>1 3/4</td>
                 <td> {{ $e = number_format((float) $permohonan->jumlah_am_siang, 3, '.', '') ?? '0.000' }}</td>
                 <td>{{ '1.750 x ' . $e }}</td>
-                <td>{{ 1.75 * $e }} JAM</td>
+                <td>{{ $ee = 1.75 * $e }} JAM</td>
             </tr>
             <tr>
                 <th>Malam</th>
                 <td>2</td>
-                <td>{{ $f = number_format((float) $permohonan->jumlaham_malam, 3, '.', '') ?? '0.000' }}</td>
+                <td>{{ $f = number_format((float) $permohonan->jumlah_am_malam, 3, '.', '') ?? '0.000' }}</td>
                 <td>{{ '2.000 x ' . $f }}</td>
-                <td>{{ 2 * $f }} JAM</td>
+                <td>{{ $ff = 2 * $f }} JAM</td>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Jumlah : {{ $a + $b + $c + $d + $e + $f }}</th>
+                <th>Jumlah Jam Diperoleh</th>
+                <th>Jumlah : {{ $last = $aa + $bb + $cc + $dd + $ee + $ff }}</th>
+            </tr>
+            {{ $jumlaa = ($gaji * 12) / (313 * 8) }}
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                {{ $last2 = $last * $jumlaa }}
+                <th>Jumlah : {{ number_format((float) $last2, 3, '.', '') ?? '0.000' }}</th>
             </tr>
         </tbody>
     </table>

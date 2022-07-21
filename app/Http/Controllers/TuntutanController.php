@@ -10,6 +10,7 @@ use App\Models\Permohonan;
 use App\Models\PermohonansDibuang;
 use App\Models\PermohonanTuntutan;
 use App\Models\PermohonanTuntutanDibuang;
+use App\Models\SelesaiSemak;
 use App\Models\Tuntutan;
 use App\Models\User;
 use App\Models\UserPermohonan;
@@ -404,8 +405,22 @@ class TuntutanController extends Controller
         }
         $tarikh_auto_hantar_tuntutan = $hari_db . "/" . $bulan_sekarang . "/" . now()->year;
 
+        //Simpan RM Tuntutan
+
+        $maklumat_pekerjaan = OracleGaji::where('hr_no_pekerja', auth()->user()->user_code)->first();
+        $gaji = $maklumat_pekerjaan->HR_GAJI_POKOK;
+
+        $jumlah_harga_tuntutan_index = 0;
+        foreach ($tuntutan_k as $t) {
+            $temp = (1.125 * $t->jumlah_biasa_siang) + (1.250 * $t->jumlah_biasa_malam) + (1.250 * $t->jumlah_rehat_siang) + (1.500 * $t->jumlah_rehat_malam) + (1.750 * $t->jumlah_am_siang) + (2.000 * $t->jumlah_am_malam);
+            $jumlah_harga_tuntutan_index = $jumlah_harga_tuntutan_index + $temp;
+        }
+        $jumlaa = ($gaji * 12) / (313 * 8);
+        $lasttt = $jumlah_harga_tuntutan_index * $jumlaa;
+
         return view('tuntutan.index', [
             'tuntutan_k2' => $tuntutan_k,
+            'jumlah_harga_tuntutan_index' => $lasttt,
             'tuntutan_k' => $tuntutan_k,
             // 'tuntutans'=>$tuntutans,
             'sokong_tuntutan' => $sokong_tuntutan,
@@ -443,7 +458,6 @@ class TuntutanController extends Controller
         $permohonan = Session::get('permohonan_id');
         // dd($permohonan);
         $tuntutan = new Tuntutan;
-
         $sebenar_mula_kerja_tuntutan = date("Y-m-d H:i:s", strtotime($request->sebenar_mula_kerja_tuntutan));
         $sebenar_akhir_kerja_tuntutan = date("Y-m-d H:i:s", strtotime($request->sebenar_akhir_kerja_tuntutan));
         $tuntutan->sebenar_mula_kerja_tuntutan = $sebenar_mula_kerja_tuntutan;
@@ -453,10 +467,50 @@ class TuntutanController extends Controller
         $tuntutan->status = $request->status;
         $tuntutan->pegawai_sokong_id = $request->pegawai_sokong_id;
         $tuntutan->pegawai_lulus_id = $request->pegawai_lulus_id;
-
         $tuntutan->user_id = $request->user()->id;
-
         $tuntutan->save();
+
+        $getuser = User::find($tuntutan->user_id);
+
+        $maklumat_pekerjaan = OracleGaji::where('hr_no_pekerja', $getuser->user_code)->first();
+        $gaji = $maklumat_pekerjaan->HR_GAJI_POKOK;
+        $gaji_calculated = ($gaji * 12) / (313 * 8);
+
+        $a = 0;
+        $b = 0;
+        $c = 0;
+        $d = 0;
+        $e = 0;
+        $f = 0;
+
+        $permohonansT = PermohonanTuntutan::where('tuntutan_id', $tuntutan->id)->get();
+
+        foreach ($permohonansT as $permohonanT) {
+            $permohonan = Permohonan::find($permohonanT->permohonan_id);
+            $a += $permohonan->jumlah_biasa_siang;
+            $b += $permohonan->jumlah_biasa_malam;
+            $c += $permohonan->jumlah_rehat_siang;
+            $d += $permohonan->jumlah_rehat_malam;
+            $e += $permohonan->jumlah_am_siang;
+            $f += $permohonan->jumlah_am_malam;
+        }
+        $jumlah_jam_tuntutan = $a + $b + $c + $d + $e + $f;
+
+        //Dapatan
+        $aa = 1.125 * $a;
+        $bb = 1.250 * $b;
+        $cc = 1.250 * $c;
+        $dd = 1.500 * $d;
+        $ee = 1.750 * $e;
+        $ff = 2.000 * $a;
+
+        $jumlah = $aa + $bb + $cc + $dd + $ee + $ff;
+        $jumlah_tuntutan = $jumlah * $gaji_calculated;
+
+        Tuntutan::find($tuntutan->id)->update([
+            'jumlah_jam_tuntutan' => $jumlah_jam_tuntutan,
+            'jumlah_tuntutan' => $jumlah_tuntutan,
+        ]);
 
         $permohonan_tuntutans = new PermohonanTuntutan;
         $permohonan_tuntutans->tuntutan_id = $tuntutan->id;
@@ -728,15 +782,29 @@ class TuntutanController extends Controller
     }
     public function semak_tuntutan(Request $request, $id)
     {
-
         $tuntutan = Tuntutan::find($id);
         $tuntutan->semak_tuntutan = true;
-        $tuntutan->kerani_semakan_id = $request->user()->id;
+        $tuntutan->kerani_semakan_id = auth()->id();
         $tuntutan->save();
 
-        $redirected_url = '/tuntutans/';
+        $UserTuntutan = User::find($tuntutan->user_id);
+        SelesaiSemak::create([
+            'PA_NO_PEKERJA' => $UserTuntutan->user_code,
+            'PA_KOD_ELAUN' => $tuntutan->id,
+            'PA_JUMLAH_ELAUN' => $tuntutan->jumlah_tuntutan,
+            'PA_BULAN_TUNTUTAN' => now()->monthName,
+            'PA_TAHUN_TUNTUTAN' => now()->year,
+            'PA_PROSES_IND' => '',
+            'PA_TARIKH_PROSES' => now()->toDateString(),
+            'PA_VOT_ELAUN' => '',
+            'PA_TARIKH_KEYIN' => '',
+            'PA_JUMLAH_MASA' => $tuntutan->jumlah_jam_tuntutan,
+            'PA_UBAH_OLEH' => auth()->user()->name,
+            'PA_TARIKH_UBAH' => now(),
+        ]);
 
-        return redirect($redirected_url)->with('success2', 'lulus semakan');
+        notify()->success('Semakan Berjaya Dihantar');
+        return redirect('/tuntutans');
 
     }
     public function tolak_semak_tuntutan(Request $request)
@@ -1222,6 +1290,30 @@ class TuntutanController extends Controller
             'sebenar_mula_kerja' => $mk,
             'sebenar_akhir_kerja' => $tk,
         ]);
+
+        $a = strtotime($permohonan->sebenar_mula_kerja);
+        $b = strtotime($permohonan->sebenar_akhir_kerja);
+        $beza = ($b - $a) / 3600;
+
+        if (isset($permohonan->jumlah_biasa_siang)) {
+            $permohonan->jumlah_biasa_siang = $beza;
+        }
+        if (isset($permohonan->jumlah_biasa_malam)) {
+            $permohonan->jumlah_biasa_malam = $beza;
+        }
+        if (isset($permohonan->jumlah_rehat_siang)) {
+            $permohonan->jumlah_rehat_siang = $beza;
+        }
+        if (isset($permohonan->jumlah_rehat_malam)) {
+            $permohonan->jumlah_rehat_malam = $beza;
+        }
+        if (isset($permohonan->jumlah_am_siang)) {
+            $permohonan->jumlah_am_siang = $beza;
+        }
+        if (isset($permohonan->jumlah_am_malam)) {
+            $permohonan->jumlah_am_malam = $beza;
+        }
+        $permohonan->save();
 
         return back();
     }
