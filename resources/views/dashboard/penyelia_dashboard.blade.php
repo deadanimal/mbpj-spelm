@@ -5,7 +5,6 @@
         width: 100%;
         height: 500px;
     }
-
 </style>
 
 <!-- Resources -->
@@ -136,7 +135,7 @@
                     </div>
                     <!-- Card stats -->
                     <div class="row">
-                        <div class="col-xl-3 col-md-6">
+                        <div class="col-xl-4 col-md-6">
                             <div class="card card-stats">
                                 <!-- Card body -->
                                 <div class="card-body">
@@ -156,7 +155,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-6">
+                        <div class="col-xl-4 col-md-6">
                             <div class="card card-stats">
                                 <!-- Card body -->
                                 <div class="card-body">
@@ -178,7 +177,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-6">
+                        <div class="col-xl-4 col-md-6">
                             <div class="card card-stats">
                                 <!-- Card body -->
                                 <div class="card-body">
@@ -197,7 +196,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-6">
+                        {{-- <div class="col-xl-3 col-md-6">
                             <div class="card card-stats">
                                 <!-- Card body -->
                                 <div class="card-body">
@@ -217,7 +216,7 @@
 
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
 
@@ -461,7 +460,8 @@
                     <div class="row align-items-center justify-content-lg-between">
                         <div class="col-lg-6">
                             <div class="copyright text-center  text-lg-left  text-muted">
-                                &copy; 2021 <a href="#" class="font-weight-bold ml-1" target="_blank">Sistem Pengurusan
+                                &copy; 2021 <a href="#" class="font-weight-bold ml-1" target="_blank">Sistem
+                                    Pengurusan
                                     Elaun Lebih Masa
                                 </a>
                             </div>

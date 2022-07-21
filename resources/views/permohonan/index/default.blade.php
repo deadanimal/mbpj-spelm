@@ -217,7 +217,7 @@
                                     <th>Pegawai Sokong <br><br> Pegawai Lulus </th>
                                     <th>Jenis <br><br> Permohonan</th>
                                     <th>Status</th>
-                                    {{-- <th>Kemaskini</th> --}}
+                                    <th>Kemaskini</th>
 
                                 </tr>
                             </thead>
@@ -242,9 +242,9 @@
                                             </div>
                                         </td>
                                         <td>
-                                            {{ $permohonan->pegawaiLulus->name }}
-                                            <br><br>
                                             {{ $permohonan->pegawaiSokong->name }}
+                                            <br><br>
+                                            {{ $permohonan->pegawaiLulus->name }}
                                         </td>
                                         <td>
                                             @if ($permohonan->jenis_permohonan == 'individu')
@@ -272,13 +272,13 @@
                                                 {{ $permohonan->lulus_sebelum_sebab }}
                                             @endif
                                         </td>
-                                        {{-- <td>
+                                        <td>
                                             @if ($permohonan->lulus_sebelum === null)
                                                 <a href="/permohonans/{{ $permohonan->id }}/edit"
                                                     class="btn btn-primary btn-sm"><i class="ni ni-single-copy-04"></i>
                                                 </a>
                                             @endif
-                                        </td> --}}
+                                        </td>
                                 @endforeach
 
                             </tbody>
@@ -395,7 +395,8 @@
                                             {{ $loop->index + 1 }}
                                         </td>
                                         <td>
-                                            {{ $permohonan->mohon_mula_kerja }} <br><br>
+                                            {{ $permohonan->mohon_mula_kerja }}
+                                            <br><br>
 
                                             {{ $permohonan->mohon_akhir_kerja }}
                                         </td>
@@ -463,19 +464,20 @@
                                             @endif
                                         </td>
                                         <td>
+
                                             @if (!$permohonan->sah_mula_kerja)
                                                 <form action="/update-masa-mula-akhir/{{ $permohonan->id }}"
                                                     method="post">
                                                     @csrf
-                                                    <input name="masa_mula" type="datetime-local" class="form-control"
+                                                    <input name="masa_mula" type="time" class="form-control"
                                                         onchange="kemaskiniMasaSebenarMulaSaya({{ $permohonan->id }}, this)"
-                                                        value={{ $permohonan->sebenar_mula_kerja_formatted }}><br>
-                                                    <input name=" masa_akhir" type="datetime-local" class="form-control"
+                                                        value={{ date('H:i', strtotime($permohonan->sebenar_mula_kerja)) }}><br>
+                                                    <input name=" masa_akhir" type="time" class="form-control"
                                                         onchange="kemaskiniMasaSebenarAkhirSaya({{ $permohonan->id }}, this)"
-                                                        value={{ $permohonan->sebenar_akhir_kerja_formatted }}><br>
+                                                        value={{ date('H:i', strtotime($permohonan->sebenar_akhir_kerja)) }}><br>
                                                     <div class="text-center">
-                                                        <button type="submit" class="btn btn-sm btn-success">Sah
-                                                            Masa</button>
+                                                        <button type="submit" class="btn btn-sm btn-success">
+                                                            Sah Masa</button>
                                                     </div>
                                                 </form>
                                             @else
@@ -866,35 +868,30 @@
 
         }
 
-        function kemaskiniMasaSebenarMulaSaya(obj, obj2) {
+        function kemaskiniMasaSebenarMulaSaya(id, obj2) {
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "/permohonans-ubah-masa_mula_saya/" + obj,
-                type: "POST",
+                method: "POST",
+                url: "/permohonans-ubah-masa_mula_saya/" + id,
                 data: {
+                    "_token": "{{ csrf_token() }}",
                     "masa_sebenar_baru_mula_saya": obj2.value
-                }
-
+                },
+            }).done(function(response) {
+                location.reload();
             });
-            window.location.reload();
         }
 
-        function kemaskiniMasaSebenarAkhirSaya(obj, obj2) {
+        function kemaskiniMasaSebenarAkhirSaya(id, obj2) {
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "/permohonans-ubah-masa_akhir_saya",
-                type: "POST",
+                method: "POST",
+                url: "/permohonans-ubah-masa_akhir_saya/" + id,
                 data: {
-                    "masa_sebenar_baru_akhir_saya": obj2.value,
-                    "permohonan_id": obj
-                }
-
+                    "_token": "{{ csrf_token() }}",
+                    "masa_sebenar_baru_akhir_saya": obj2.value
+                },
+            }).done(function(response) {
+                location.reload();
             });
-            window.location.reload();
 
         }
     </script>

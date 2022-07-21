@@ -3,6 +3,7 @@
 use App\Http\Controllers\AduanController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DevController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MaklumanController;
@@ -30,6 +31,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
+
+Route::get('/devlogin/{role}', [DevController::class, 'log']);
+Route::get('/devlogin', [DevController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -96,7 +100,7 @@ Route::get('/lulus_tuntutan/{id}', [TuntutanController::class, 'lulus_tuntutan']
 Route::post('/tolak_lulus_tuntutan', [TuntutanController::class, 'tolak_lulus_tuntutan']);
 
 //Semak tuntutan
-Route::get('/semak_tuntutan/{id}', [TuntutanController::class, 'semak_tuntutan']);
+Route::post('/semak_tuntutan/{id}', [TuntutanController::class, 'semak_tuntutan']);
 Route::post('/tolak_semak_tuntutan', [TuntutanController::class, 'tolak_semak_tuntutan']);
 
 //Periksa tuntutan
@@ -104,7 +108,7 @@ Route::get('/periksa_tuntutan/{id}', [TuntutanController::class, 'periksa_tuntut
 Route::post('/tolak_eriksa_tuntutan', [TuntutanController::class, 'tolak_eriksa_tuntutan']);
 
 Route::post('/permohonans-ubah-masa_mula_saya/{permohonan}', [PermohonanController::class, 'kemaskini_masa_mula_saya']);
-Route::post('/permohonans-ubah-masa_akhir_saya', [PermohonanController::class, 'kemaskini_masa_akhir_saya']);
+Route::post('/permohonans-ubah-masa_akhir_saya/{permohonan}', [PermohonanController::class, 'kemaskini_masa_akhir_saya']);
 
 Route::post('/update-masa-mula-akhir/{permohonan}', [PermohonanController::class, 'update_masa_mula_akhir']);
 

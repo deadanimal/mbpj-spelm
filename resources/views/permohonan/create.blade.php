@@ -67,8 +67,8 @@
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
 
-                                                        <input type="text" class="form-control" name="jenis_permohonan"
-                                                            value="individu" hidden>
+                                                        <input type="text" required class="form-control"
+                                                            name="jenis_permohonan" value="individu" hidden>
 
                                                     </div>
                                                     <div class="row">
@@ -76,7 +76,7 @@
                                                             <div class="form-group">
                                                                 <label for="mohon_mula_kerja">Pilih waktu mula</label>
                                                                 <div class="input-group date" id="datetimepicker1">
-                                                                    <input type="text" class="form-control"
+                                                                    <input type="text" required class="form-control"
                                                                         name="mohon_mula_kerja">
                                                                     <span class="input-group-addon input-group-append">
                                                                         <button class="btn btn-outline-primary"
@@ -100,7 +100,7 @@
                                                                 <label for="lokasi">Lokasi kerja lebih masa</label>
                                                                 <div class="input-group input-group-merge">
                                                                     <input class="form-control" name="lokasi"
-                                                                        placeholder="lokasi" type="text">
+                                                                        placeholder="lokasi" type="text" required>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text"><i
                                                                                 class="fas fa-map-marker"></i></span>
@@ -114,7 +114,7 @@
 
                                                                 <div class="input-group input-group-merge">
                                                                     <input class="form-control" name="tujuan"
-                                                                        placeholder="tujuan" type="text">
+                                                                        placeholder="tujuan" type="text" required>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text"><i
                                                                                 class="fas fa-eye"></i></span>
@@ -125,15 +125,16 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="pegawai_sokong_id">Pilih pegawai
-                                                                    sokong</label>
+                                                                    sokong </label>
                                                                 <select name="pegawai_sokong_id" class="form-control">
                                                                     <option hidden selected> Pilih pegawai sokong
                                                                     </option>
                                                                     @foreach ($pegawaisokong as $user)
-                                                                        <option value="{{ $user->id }}">
-                                                                            {{ $user->role }} - {{ $user->name }}
-
-                                                                        </option>
+                                                                        @if (auth()->user()->id != $user->id)
+                                                                            <option value="{{ $user->id }}">
+                                                                                {{ $user->role }} - {{ $user->name }}
+                                                                            </option>
+                                                                        @endif
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -146,9 +147,11 @@
                                                                     <option hidden selected> Pilih pegawai lulus
                                                                     </option>
                                                                     @foreach ($pegawailulus as $user)
-                                                                        <option value="{{ $user->id }}">
-                                                                            {{ $user->role }} - {{ $user->name }}
-                                                                        </option>
+                                                                        @if (auth()->user()->id != $user->id)
+                                                                            <option value="{{ $user->id }}">
+                                                                                {{ $user->role }} - {{ $user->name }}
+                                                                            </option>
+                                                                        @endif
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -208,7 +211,7 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control"
+                                                        <input type="text" required class="form-control"
                                                             name="jenis_permohonan" value="berkumpulan" hidden>
                                                     </div>
                                                     <div class="row">
@@ -216,7 +219,7 @@
                                                             <div class="form-group">
                                                                 <label for="mohon_mula_kerja">Pilih waktu mula</label>
                                                                 <div class="input-group date" id="datetimepicker3">
-                                                                    <input type="text" class="form-control"
+                                                                    <input type="text" required class="form-control"
                                                                         name="mohon_mula_kerja">
                                                                     <span class="input-group-addon input-group-append">
                                                                         <button class="btn btn-outline-primary"
@@ -240,7 +243,7 @@
                                                                 <label for="lokasi">Lokasi kerja lebih masa</label>
                                                                 <div class="input-group input-group-merge">
                                                                     <input class="form-control" name="lokasi"
-                                                                        placeholder="lokasi" type="text">
+                                                                        placeholder="lokasi" type="text" required>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text"><i
                                                                                 class="fas fa-map-marker"></i></span>
@@ -254,7 +257,7 @@
 
                                                                 <div class="input-group input-group-merge">
                                                                     <input class="form-control" name="tujuan"
-                                                                        placeholder="tujuan" type="text">
+                                                                        placeholder="tujuan" type="text" required>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text"><i
                                                                                 class="fas fa-eye"></i></span>
@@ -267,15 +270,17 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="pegawai_sokong_id">Pilih pegawai
-                                                                    sokong</label>
+                                                                    sokong </label>
                                                                 <select name="pegawai_sokong_id" class="form-control"
                                                                     required>
                                                                     <option hidden selected disabled> Pilih pegawai sokong
                                                                     </option>
                                                                     @foreach ($pegawaisokong as $user)
-                                                                        <option value="{{ $user->id }}">
-                                                                            {{ $user->role }} - {{ $user->name }}
-                                                                        </option>
+                                                                        @if (auth()->user()->id != $user->id)
+                                                                            <option value="{{ $user->id }}">
+                                                                                {{ $user->role }} - {{ $user->name }}
+                                                                            </option>
+                                                                        @endif
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -290,9 +295,11 @@
                                                                     <option hidden selected disabled> Pilih pegawai lulus
                                                                     </option>
                                                                     @foreach ($pegawailulus as $user)
-                                                                        <option value="{{ $user->id }}">
-                                                                            {{ $user->role }} - {{ $user->name }}
-                                                                        </option>
+                                                                        @if (auth()->user()->id != $user->id)
+                                                                            <option value="{{ $user->id }}">
+                                                                                {{ $user->role }} - {{ $user->name }}
+                                                                            </option>
+                                                                        @endif
                                                                     @endforeach
                                                                 </select>
                                                             </div>

@@ -177,6 +177,7 @@ return [
 
         // Yajra\Oci8\Oci8ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
 
     ],
 

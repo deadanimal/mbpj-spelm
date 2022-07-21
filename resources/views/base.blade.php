@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Sistem Pengurusan Elaun Lebih Masa
     </title>
+    @notifyCss
 
     <link rel="stylesheet" href="/assets/vendor/nucleo/css/nucleo.css" type="text/css">
     <link rel="stylesheet" href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
@@ -23,7 +24,6 @@
     {{-- multiple select --}}
     <link rel="stylesheet" href="/assets/virtual-select-master/dist/virtual-select.min.css" />
     <script src="/assets/virtual-select-master/dist/virtual-select.min.js"></script>
-
 </head>
 
 <body>
@@ -220,6 +220,9 @@
                 </div>
             </div>
         </nav>
+        <div class="position-fixed" style="z-index: 999">
+            <x:notify-messages />
+        </div>
         @yield('content')
     </div>
 
@@ -252,7 +255,7 @@
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script> --}}
     <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
-
+    @notifyJs
     <script>
         $(document).ready(function() {
             var table = $('#example').DataTable({});
