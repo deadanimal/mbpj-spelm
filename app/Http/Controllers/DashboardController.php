@@ -72,13 +72,21 @@ class DashboardController extends Controller
 
             function checkMP()
             {
-                $MaklumatPekerjaan = OracleGaji::where('HR_NO_PEKERJA', auth()->user()->user_code)->first();
+                abort_if(auth()->user()->usercode == null, 466);
+                $MaklumatPekerjaan = OracleGaji::where('hr_no_pekerja', auth()->user()->user_code)->first();
                 if ($MaklumatPekerjaan == null) {
                     echo '<script>alert("User Tiada Maklumat Pekerjaan")</script>';
                     abort(500);
                 }
                 return $MaklumatPekerjaan;
             }
+
+                $bilPermohonan = Permohonan::all()->count(); 
+                $bilPermohonanLulus = Permohonan::where(['sokong_sebelum'=>1,'lulus_sebelum'=>1,'sokong_selepas'=>1,'lulus_selepas'=>1])->get()->count();
+                $bilTuntutan = Tuntutan::all()->count();
+                $bilTuntutanLulus = Tuntutan::where(['sokong_tuntutan'=>1,'lulus_tuntutan'=>1])->get()->count();
+
+
             switch ($role) {
                 case 'kakitangan':
                     return view('dashboard.kakitangan_dashboard', $data);
@@ -117,25 +125,26 @@ class DashboardController extends Controller
 
                 case 'ketua_bahagian':
                     $MaklumatPekerjaan = checkMP();
-                    $listUnit = OracleUnit::where('GE_KOD_BAHAGIAN', $MaklumatPekerjaan->HR_BAHAGIAN)->get();
+                    $listUnit = OracleUnit::where('ge_kod_bahagian', $MaklumatPekerjaan->hr_bahagian)->get();
                     foreach ($listUnit as $lu) {
-                        $lu['bil'] = OracleGaji::where('HR_UNIT', $lu->GE_KOD_UNIT)->count();
+                        $lu['bil'] = OracleGaji::where('hr_unit', $lu->ge_kod_unit)->count();
                     }
-                    return view('dashboard.ketua_bahagian_dashboard', compact('listUnit'));
+                    
+                    return view('dashboard.ketua_bahagian_dashboard', compact('listUnit','bilPermohonan','bilPermohonanLulus','bilTuntutan','bilTuntutanLulus'));
                     break;
                 case 'ketua_jabatan':
                     $MaklumatPekerjaan = checkMP();
-                    $kodJabatan = $MaklumatPekerjaan->HR_JABATAN;
-                    $listBahagian = Bahagian::where('GE_KOD_JABATAN', $kodJabatan)->get();
+                    $kodJabatan = $MaklumatPekerjaan->hr_jabatan;
+                    $listBahagian = Bahagian::where('ge_kod_jabatan', $kodJabatan)->get();
                     foreach ($listBahagian as $lb) {
-                        $lb['bil'] = OracleGaji::where('HR_BAHAGIAN', $lb->GE_KOD_BAHAGIAN)->count();
+                        $lb['bil'] = OracleGaji::where('hr_bahagian', $lb->ge_kod_bahagian)->count();
                     }
-                    return view('dashboard.ketua_jabatan_dashboard', compact('listBahagian'));
+                    return view('dashboard.ketua_jabatan_dashboard', compact('listBahagian','bilPermohonan','bilPermohonanLulus','bilTuntutan','bilTuntutanLulus'));
                     break;
                 case 'datuk_bandar':
                     $listJabatan = Jabatan::all();
                     foreach ($listJabatan as $j) {
-                        $j['bil'] = OracleGaji::where('HR_JABATAN', $j->GE_KOD_JABATAN)->count();
+                        $j['bil'] = OracleGaji::where('hr_jabatan', $j->ge_kod_jabatan)->count();
                     }
                     return view('dashboard.datuk_bandar_dashboard', compact('listJabatan'));
                     break;

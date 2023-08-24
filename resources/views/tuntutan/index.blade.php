@@ -184,9 +184,13 @@
 
 
                         <!-- Light table -->
-                        <table id="example" class="table table-striped table-bordered ">
+                        <table id="example" class="table table-striped table-bordered" 
+                            style=" display: block;
+                                overflow-x: auto;
+                                white-space: nowrap;">
                             <thead class="thead-light text-center">
                                 <tr>
+                                    <th><input type="checkbox" id="kHantarTuntutanAll" /></th>
                                     <th> No</th>
                                     <th> Pegawai Sokong / Pegawai Lulus</th>
                                     <th> Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
@@ -200,11 +204,16 @@
                                 @foreach ($tuntutan_k2 as $tuntutan_k)
                                     <tr>
                                         <td>
-                                            {{ $loop->index + 1 }}
+                                            <input type="checkbox" class="khta" id="idKTuntutan" name="idKTuntutan[]" value="{{ $tuntutan_k->id }}">
                                         </td>
                                         <td>
+                                            {{ $loop->index + 1 }}
+                                        </td>
+                                        <td class="justify-content-center">
 
                                             @if ($loop->first)
+                                            <p class="col h4 text-red text-center">Sila Kemaskini dan Pastikan Pegawai Sokong / Lulus Sebelum tuntutan dihantar   
+                                            </p><br>
                                                 <form action="/kemaskini_pegawai_level3/{{ $tuntutan_k->id }}"
                                                     method="POST">
                                                     @method('put')
@@ -229,6 +238,7 @@
                                                         <button class="btn btn-primary btn-sm">Simpan</button>
                                                     </div>
                                                 </form>
+
                                             @else
                                                 {{ $tuntutan_k->pegawaiSokong->name }} <br> <br>
                                                 {{ $tuntutan_k->pegawaiLulus->name }}
@@ -324,8 +334,13 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary btn-sm"
                                                 data-dismiss="modal">Tutup</button>
-                                            <a href="/bulktuntutan" class="btn btn-primary btn-sm float-right">Hantar
-                                                Tuntutan</a>
+                                            <form action="/bulktuntutan" method="get">
+                                                <input type="hidden" id="tuntutanArray" name="tuntutans[]">
+                                                <button type="submit" class="btn btn-primary btn-sm float-right" onclick="PassIdTuntutan()">Hantar
+                                                Tuntutan</button>
+                                            </form>
+                                            {{-- <a href="/bulktuntutan" class="btn btn-primary btn-sm float-right">Hantar
+                                                Tuntutan</a> --}}
                                         </div>
 
                                     </div>
@@ -337,6 +352,7 @@
                     </div>
                 </div>
             </div>
+            
             {{-- Tuntutan Kakitangan diluluskan --}}
             <div class="row ">
                 <div class="col-md-12">
@@ -367,95 +383,95 @@
                                         </td>
 
 
-                                        @if ($tuntutan_lulus->sokong_tuntutan === null)
+                                        @if ($tuntutan_lulus->sokong_tuntutan == null)
                                             <td>
                                                 <span class="badge badge-pill badge-primary">Dalam Semakan</span>:
                                                 {{ $tuntutan_lulus->pegawai_sokong }}<br><br>
 
-                                                @if ($tuntutan_lulus->lulus_tuntutan === null)
+                                                @if ($tuntutan_lulus->lulus_tuntutan == null)
                                                     <span class="badge badge-pill badge-primary">Dalam Semakan</span>:
                                                     {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                @elseif($tuntutan_lulus->lulus_tuntutan === 1)
+                                                @elseif($tuntutan_lulus->lulus_tuntutan == 1)
                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                         Diluluskan</span>: {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                @elseif($tuntutan_lulus->lulus_tuntutan === 0)
+                                                @elseif($tuntutan_lulus->lulus_tuntutan == 0)
                                                     <span class="badge badge-pill badge-danger">Tuntutan Ditolak</span>:
                                                     {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
                                                 @endif
 
                                             </td>
                                             <td>
-                                                @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                @if ($tuntutan_lulus->periksa_tuntutan == null)
                                                     <span class="badge badge-pill badge-primary">Dalam
                                                         Semakan</span><br><br>
-                                                @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                @elseif($tuntutan_lulus->periksa_tuntutan == 1)
                                                     <span class="badge badge-pill badge-success">Tuntutan Diluluskan</span>
                                                     <br><br>
                                                 @endif
                                             </td>
-                                        @elseif($tuntutan_lulus->sokong_tuntutan === 1)
+                                        @elseif($tuntutan_lulus->sokong_tuntutan == 1)
                                             <td>
                                                 <span class="badge badge-pill badge-success">Tuntutan disokong</span>:
                                                 {{ $tuntutan_lulus->pegawai_sokong }}<br><br>
 
-                                                @if ($tuntutan_lulus->lulus_tuntutan === null)
+                                                @if ($tuntutan_lulus->lulus_tuntutan == null)
                                                     <span class="badge badge-pill badge-primary">Dalam Semakan</span>:
                                                     {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                @elseif($tuntutan_lulus->lulus_tuntutan === 1)
+                                                @elseif($tuntutan_lulus->lulus_tuntutan == 1)
                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                         Diluluskan</span>: {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                @elseif($tuntutan_lulus->lulus_tuntutan === 0)
+                                                @elseif($tuntutan_lulus->lulus_tuntutan == 0)
                                                     <span class="badge badge-pill badge-danger">Tuntutan Ditolak</span>:
                                                     {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
                                                 @endif
                                             </td>
                                             <td>
                                                 {{-- Status periksa di kakitangan --}}
-                                                @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                @if ($tuntutan_lulus->periksa_tuntutan == null)
                                                     <span class="badge badge-pill badge-primary">Dalam Semakan</span> :
                                                     KERANI PEMERIKSA<br><br>
 
-                                                    @if ($tuntutan_lulus->semak_tuntutan === null)
+                                                    @if ($tuntutan_lulus->semak_tuntutan == null)
                                                         <span class="badge badge-pill badge-primary">Dalam Semakan</span> :
                                                         KERANI SEMAKAN<br><br>
-                                                    @elseif($tuntutan_lulus->semak_tuntutan === 1)
+                                                    @elseif($tuntutan_lulus->semak_tuntutan == 1)
                                                         <span class="badge badge-pill badge-success">Tuntutan
                                                             Diluluskan</span> : KERANI SEMAKAN <br><br>
                                                     @endif
-                                                @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                @elseif($tuntutan_lulus->periksa_tuntutan == 1)
                                                     <span class="badge badge-pill badge-success">Tuntutan Diperiksa</span>
                                                     : KERANI PEMERIKSA <br><br>
 
-                                                    @if ($tuntutan_lulus->semak_tuntutan === null)
+                                                    @if ($tuntutan_lulus->semak_tuntutan == null)
                                                         <span class="badge badge-pill badge-primary">Dalam Semakan</span> :
                                                         KERANI SEMAKAN<br><br>
-                                                    @elseif($tuntutan_lulus->semak_tuntutan === 1)
+                                                    @elseif($tuntutan_lulus->semak_tuntutan == 1)
                                                         <span class="badge badge-pill badge-success">Tuntutan
                                                             Diluluskan</span> : KERANI SEMAKAN <br><br>
                                                     @endif
                                                 @endif
                                             </td>
-                                        @elseif($tuntutan_lulus->sokong_tuntutan === 0)
+                                        @elseif($tuntutan_lulus->sokong_tuntutan == 0)
                                             <td>
                                                 <span class="badge badge-pill badge-danger">Tuntutan Ditolak</span> :
                                                 {{ $tuntutan_lulus->pegawai_sokong }}<br><br>
 
-                                                @if ($tuntutan_lulus->lulus_tuntutan === null)
+                                                @if ($tuntutan_lulus->lulus_tuntutan == null)
                                                     <span class="badge badge-pill badge-primary">Dalam
                                                         Semakan</span><br><br>
-                                                @elseif($tuntutan_lulus->lulus_tuntutan === 1)
+                                                @elseif($tuntutan_lulus->lulus_tuntutan == 1)
                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                         Diluluskan</span><br><br>
-                                                @elseif($tuntutan_lulus->lulus_tuntutan === 0)
+                                                @elseif($tuntutan_lulus->lulus_tuntutan == 0)
                                                     <span class="badge badge-pill badge-danger">Tuntutan Ditolak</span> :
                                                     {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                @if ($tuntutan_lulus->periksa_tuntutan == null)
                                                     <span class="badge badge-pill badge-primary">Dalam
                                                         Semakan</span><br><br>
-                                                @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                @elseif($tuntutan_lulus->periksa_tuntutan == 1)
                                                     <span class="badge badge-pill badge-success">Tuntutan Diluluskan</span>
                                                     <br><br>
                                                 @endif
@@ -594,6 +610,7 @@
                                         <table id="example" class="table table-striped table-bordered ">
                                             <thead class="thead-light text-center">
                                                 <tr>
+                                                    <th><input type="checkbox" id="pHantarTuntutanAll"></th>
                                                     <th> No</th>
                                                     <th> Pegawai Sokong / Pegawai Lulus</th>
                                                     <th> Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
@@ -607,11 +624,16 @@
                                                 @foreach ($tuntutan_k2 as $tuntutan_k)
                                                     <tr>
                                                         <td>
-                                                            {{ $loop->index + 1 }}
+                                                            <input type="checkbox" class="phta" id="{{ $tuntutan_k->id }}">
                                                         </td>
                                                         <td>
+                                                            {{ $loop->index + 1 }}
+                                                        </td>
+                                                        <td class="justify-content-center">
 
                                                             @if ($loop->first)
+                                                            <p class="col h4 text-red text-center">Sila Kemaskini dan Pastikan Pegawai Sokong / Lulus Sebelum tuntutan dihantar   
+                                                            </p><br>
                                                                 <form
                                                                     action="/kemaskini_pegawai_level3/{{ $tuntutan_k->id }}"
                                                                     method="POST">
@@ -789,21 +811,21 @@
                                                     </td>
 
 
-                                                    @if ($tuntutan_lulus->sokong_tuntutan === null)
+                                                    @if ($tuntutan_lulus->sokong_tuntutan == null)
                                                         <td>
                                                             <span class="badge badge-pill badge-primary">Dalam
                                                                 Semakan</span>:
                                                             {{ $tuntutan_lulus->pegawai_sokong }}<br><br>
 
-                                                            @if ($tuntutan_lulus->lulus_tuntutan === null)
+                                                            @if ($tuntutan_lulus->lulus_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diluluskan</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 0)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 0)
                                                                 <span class="badge badge-pill badge-danger">Tuntutan
                                                                     Ditolak</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
@@ -811,30 +833,30 @@
 
                                                         </td>
                                                         <td>
-                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                            @if ($tuntutan_lulus->periksa_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span><br><br>
-                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diluluskan</span>
                                                                 <br><br>
                                                             @endif
                                                         </td>
-                                                    @elseif($tuntutan_lulus->sokong_tuntutan === 1)
+                                                    @elseif($tuntutan_lulus->sokong_tuntutan == 1)
                                                         <td>
                                                             <span class="badge badge-pill badge-success">Tuntutan
                                                                 disokong</span>:
                                                             {{ $tuntutan_lulus->pegawai_sokong }}<br><br>
 
-                                                            @if ($tuntutan_lulus->lulus_tuntutan === null)
+                                                            @if ($tuntutan_lulus->lulus_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diluluskan</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 0)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 0)
                                                                 <span class="badge badge-pill badge-danger">Tuntutan
                                                                     Ditolak</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
@@ -842,57 +864,57 @@
                                                         </td>
                                                         <td>
                                                             {{-- Status periksa di kakitangan --}}
-                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                            @if ($tuntutan_lulus->periksa_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span> :
                                                                 KERANI PEMERIKSA<br><br>
 
-                                                                @if ($tuntutan_lulus->semak_tuntutan === null)
+                                                                @if ($tuntutan_lulus->semak_tuntutan == null)
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan</span> :
                                                                     KERANI SEMAKAN<br><br>
-                                                                @elseif($tuntutan_lulus->semak_tuntutan === 1)
+                                                                @elseif($tuntutan_lulus->semak_tuntutan == 1)
                                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                                         Diluluskan</span> : KERANI SEMAKAN <br><br>
                                                                 @endif
-                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diperiksa</span>
                                                                 : KERANI PEMERIKSA <br><br>
 
-                                                                @if ($tuntutan_lulus->semak_tuntutan === null)
+                                                                @if ($tuntutan_lulus->semak_tuntutan == null)
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan</span> :
                                                                     KERANI SEMAKAN<br><br>
-                                                                @elseif($tuntutan_lulus->semak_tuntutan === 1)
+                                                                @elseif($tuntutan_lulus->semak_tuntutan == 1)
                                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                                         Diluluskan</span> : KERANI SEMAKAN <br><br>
                                                                 @endif
                                                             @endif
                                                         </td>
-                                                    @elseif($tuntutan_lulus->sokong_tuntutan === 0)
+                                                    @elseif($tuntutan_lulus->sokong_tuntutan == 0)
                                                         <td>
                                                             <span class="badge badge-pill badge-danger">Tuntutan
                                                                 Ditolak</span> :
                                                             {{ $tuntutan_lulus->pegawai_sokong }}<br><br>
 
-                                                            @if ($tuntutan_lulus->lulus_tuntutan === null)
+                                                            @if ($tuntutan_lulus->lulus_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span><br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diluluskan</span><br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 0)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 0)
                                                                 <span class="badge badge-pill badge-danger">Tuntutan
                                                                     Ditolak</span> :
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                            @if ($tuntutan_lulus->periksa_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span><br><br>
-                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diluluskan</span>
                                                                 <br><br>
@@ -1063,7 +1085,7 @@
                                                             {{ $sokong_tuntutan->pegawai_lulus }}
                                                         </td>
 
-                                                        @if ($sokong_tuntutan->sokong_tuntutan === null)
+                                                        @if ($sokong_tuntutan->sokong_tuntutan == null)
                                                             <td>
                                                                 <span class="badge badge-pill badge-primary">Perlu
                                                                     Semakan</span>
@@ -1079,17 +1101,17 @@
                                                                     Tolak
                                                                 </button>
                                                             </td>
-                                                        @elseif($sokong_tuntutan->sokong_tuntutan === 1)
+                                                        @elseif($sokong_tuntutan->sokong_tuntutan == 1)
                                                             <td>
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     disokong</span>
                                                             </td>
-                                                            @if ($sokong_tuntutan->lulus_tuntutan === null)
+                                                            @if ($sokong_tuntutan->lulus_tuntutan == null)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan</span>
                                                                 </td>
-                                                            @elseif($sokong_tuntutan->lulus_tuntutan === 1)
+                                                            @elseif($sokong_tuntutan->lulus_tuntutan == 1)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                                         Diluluskan</span>
@@ -1098,13 +1120,13 @@
                                                             class="btn btn-primary btn-sm">Lihat</a> --}}
 
                                                                 </td>
-                                                            @elseif($sokong_tuntutan->lulus_tuntutan === 0)
+                                                            @elseif($sokong_tuntutan->lulus_tuntutan == 0)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-danger">Kelulusan
                                                                         Ditolak Pegawai</span>
                                                                 </td>
                                                             @endif
-                                                        @elseif($sokong_tuntutan->sokong_tuntutan === 0)
+                                                        @elseif($sokong_tuntutan->sokong_tuntutan == 0)
                                                             <td>
                                                                 <span class="badge badge-pill badge-danger"> Tuntutan
                                                                     Ditolak</span>
@@ -1233,13 +1255,12 @@
                                                 </td> --}}
 
                                                         <td>
-                                                            {{ $lulus_tuntutan->pegawai_sokong }} <br><br>
-
-                                                            {{ $lulus_tuntutan->pegawai_lulus }}
+                                                            {{ $lulus_tuntutan->pegawai_lulus }} <br><br>
+                                                            {{ $lulus_tuntutan->pegawai_sokong }}
                                                         </td>
 
-                                                        @if ($lulus_tuntutan->sokong_tuntutan === null)
-                                                            @if ($lulus_tuntutan->lulus_tuntutan === null)
+                                                        @if ($lulus_tuntutan->sokong_tuntutan == null)
+                                                            @if ($lulus_tuntutan->lulus_tuntutan == null)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan Pegawai Sokong</span>
@@ -1247,7 +1268,7 @@
                                                                 <td>
                                                                     --
                                                                 </td>
-                                                            @elseif($lulus_tuntutan->lulus_tuntutan === 1)
+                                                            @elseif($lulus_tuntutan->lulus_tuntutan == 1)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                                         disokong</span><br><br>
@@ -1258,7 +1279,7 @@
                                                                         Semakan</span>
 
                                                                 </td>
-                                                            @elseif($lulus_tuntutan->lulus_tuntutan === 0)
+                                                            @elseif($lulus_tuntutan->lulus_tuntutan == 0)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-danger"> Tuntutan
                                                                         Ditolak</span>
@@ -1269,33 +1290,33 @@
 
                                                                 </td>
                                                             @endif
-                                                        @elseif ($lulus_tuntutan->sokong_tuntutan === 1)
+                                                        @elseif ($lulus_tuntutan->sokong_tuntutan == 1)
                                                             <td>
-                                                                <span class="badge badge-pill badge-success"> Tuntutan
-                                                                    Disokong</span><br><br>
                                                                 <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
                                                                     class="btn btn-primary btn-sm">Lihat</a>
+                                                                <span class="badge badge-pill badge-success"> Tuntutan
+                                                                    Disokong</span><br><br>
                                                             </td>
                                                             <td>
-                                                                @if ($lulus_tuntutan->lulus_tuntutan === null)
+                                                                @if ($lulus_tuntutan->lulus_tuntutan == null)
                                                                     <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
                                                                         class="btn btn-primary btn-sm">Lihat</a>
                                                                     <a href="/lulus_tuntutan/{{ $lulus_tuntutan->id }}/"
-                                                                        class="btn btn-success btn-sm">Sokong</a>
+                                                                        class="btn btn-success btn-sm">Lulus</a>
                                                                     <button type="button" class="btn btn-danger btn-sm"
                                                                         data-toggle="modal"
                                                                         data-target="#tolaksokongtuntutan{{ $lulus_tuntutan->id }}">
                                                                         Tolak
                                                                     </button>
-                                                                @elseif($lulus_tuntutan->lulus_tuntutan === 1)
+                                                                @elseif($lulus_tuntutan->lulus_tuntutan == 1)
                                                                     <span class="badge badge-pill badge-success">Lulus
                                                                         Tuntutan </span>
-                                                                @elseif($lulus_tuntutan->lulus_tuntutan === 0)
+                                                                @elseif($lulus_tuntutan->lulus_tuntutan == 0)
                                                                     <span class="badge badge-pill badge-danger"> Tuntutan
                                                                         Ditolak</span>
                                                                 @endif
                                                             </td>
-                                                        @elseif($lulus_tuntutan->sokong_tuntutan === 0)
+                                                        @elseif($lulus_tuntutan->sokong_tuntutan == 0)
                                                             <td>
                                                                 <span class="badge badge-pill badge-danger"> Tuntutan
                                                                     Ditolak</span>
@@ -1472,7 +1493,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- Sokong tuntutan ketua jabatan --}}
+                        {{-- Sokong tuntutan ketua Bahagian --}}
                         <div class="row ">
                             <div class="col-md-12">
                                 <div class="card">
@@ -1514,7 +1535,7 @@
                                                             {{ $sokong_tuntutan->pegawai_lulus }}
                                                         </td>
 
-                                                        @if ($sokong_tuntutan->sokong_tuntutan === null)
+                                                        @if ($sokong_tuntutan->sokong_tuntutan == null)
                                                             <td>
                                                                 <span class="badge badge-pill badge-primary">Perlu
                                                                     Semakan</span>
@@ -1532,17 +1553,17 @@
                                                                     <i class="ni ni-basket"></i>
                                                                 </button>
                                                             </td>
-                                                        @elseif($sokong_tuntutan->sokong_tuntutan === 1)
+                                                        @elseif($sokong_tuntutan->sokong_tuntutan == 1)
                                                             <td>
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     disokong</span>
                                                             </td>
-                                                            @if ($sokong_tuntutan->lulus_tuntutan === null)
+                                                            @if ($sokong_tuntutan->lulus_tuntutan == null)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan</span>
                                                                 </td>
-                                                            @elseif($sokong_tuntutan->lulus_tuntutan === 1)
+                                                            @elseif($sokong_tuntutan->lulus_tuntutan == 1)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                                         Diluluskan</span>
@@ -1551,13 +1572,13 @@
                                                                         class="btn btn-primary btn-sm">Lihat</a>
 
                                                                 </td>
-                                                            @elseif($sokong_tuntutan->lulus_tuntutan === 0)
+                                                            @elseif($sokong_tuntutan->lulus_tuntutan == 0)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-danger">Kelulusan
                                                                         Ditolak Pegawai</span>
                                                                 </td>
                                                             @endif
-                                                        @elseif($sokong_tuntutan->sokong_tuntutan === 0)
+                                                        @elseif($sokong_tuntutan->sokong_tuntutan == 0)
                                                             <td>
                                                                 <span class="badge badge-pill badge-danger"> Tuntutan
                                                                     Ditolak</span>
@@ -1633,7 +1654,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- Lulus tuntutan ketua jabatan --}}
+                        {{-- Lulus tuntutan ketua bahagian --}}
                         <div class="row ">
                             <div class="col-md-12">
                                 <div class="card">
@@ -1668,13 +1689,12 @@
                                                             {{ $lulus_tuntutan->nama_pemohon }}
                                                         </td>
                                                         <td>
-                                                            {{ $lulus_tuntutan->pegawai_sokong }} <br><br>
-
-                                                            {{ $lulus_tuntutan->pegawai_lulus }}
+                                                            {{ $lulus_tuntutan->pegawai_lulus }}<br><br>
+                                                            {{ $lulus_tuntutan->pegawai_sokong }} 
                                                         </td>
 
-                                                        @if ($lulus_tuntutan->sokong_tuntutan === null)
-                                                            @if ($lulus_tuntutan->lulus_tuntutan === null)
+                                                        @if ($lulus_tuntutan->sokong_tuntutan == null)
+                                                            @if ($lulus_tuntutan->lulus_tuntutan == null)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan Pegawai Sokong</span>
@@ -1682,7 +1702,7 @@
                                                                 <td>
                                                                     --
                                                                 </td>
-                                                            @elseif($lulus_tuntutan->lulus_tuntutan === 1)
+                                                            @elseif($lulus_tuntutan->lulus_tuntutan == 1)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                                         disokong</span><br><br>
@@ -1693,7 +1713,7 @@
                                                                         Semakan</span>
 
                                                                 </td>
-                                                            @elseif($lulus_tuntutan->lulus_tuntutan === 0)
+                                                            @elseif($lulus_tuntutan->lulus_tuntutan == 0)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-danger"> Tuntutan
                                                                         Ditolak</span>
@@ -1704,14 +1724,14 @@
 
                                                                 </td>
                                                             @endif
-                                                        @elseif ($lulus_tuntutan->sokong_tuntutan === 1)
+                                                        @elseif ($lulus_tuntutan->sokong_tuntutan == 1)
                                                             <td>
                                                                 <span class="badge badge-pill badge-success"> Tuntutan
                                                                     Disokong</span><br><br>
 
                                                             </td>
                                                             <td>
-                                                                @if ($lulus_tuntutan->lulus_tuntutan === null)
+                                                                @if ($lulus_tuntutan->lulus_tuntutan == null)
                                                                     <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
                                                                         class="btn btn-primary btn-sm">Lihat</a><br>
                                                                     <a href="/lulus_tuntutan/{{ $lulus_tuntutan->id }}/"
@@ -1721,15 +1741,15 @@
                                                                         data-target="#tolaksokongtuntutan{{ $lulus_tuntutan->id }}">
                                                                         Tolak
                                                                     </button>
-                                                                @elseif($lulus_tuntutan->lulus_tuntutan === 1)
+                                                                @elseif($lulus_tuntutan->lulus_tuntutan == 1)
                                                                     <span class="badge badge-pill badge-success">Lulus
                                                                         Tuntutan </span>
-                                                                @elseif($lulus_tuntutan->lulus_tuntutan === 0)
+                                                                @elseif($lulus_tuntutan->lulus_tuntutan == 0)
                                                                     <span class="badge badge-pill badge-danger"> Tuntutan
                                                                         Ditolak</span>
                                                                 @endif
                                                             </td>
-                                                        @elseif($lulus_tuntutan->sokong_tuntutan === 0)
+                                                        @elseif($lulus_tuntutan->sokong_tuntutan == 0)
                                                             <td>
                                                                 <span class="badge badge-pill badge-danger"> Tuntutan
                                                                     Ditolak</span>
@@ -1964,7 +1984,7 @@
                                                             {{ $sokong->pegawai_lulus }}
                                                         </td>
 
-                                                        @if ($sokong_tuntutan->sokong_tuntutan === null)
+                                                        @if ($sokong_tuntutan->sokong_tuntutan == null)
                                                             <td>
                                                                 <span class="badge badge-pill badge-primary">Perlu
                                                                     Semakan</span>
@@ -1980,32 +2000,22 @@
                                                                     Tolak
                                                                 </button>
                                                             </td>
-                                                        @elseif($sokong_tuntutan->sokong_tuntutan === 1)
+                                                        @elseif($sokong_tuntutan->sokong_tuntutan == 1)
                                                             <td>
-                                                                <span class="badge badge-pill badge-success">Tuntutan
-                                                                    disokong</span>
+                                                                <span class="badge badge-pill badge-success">Tuntutan disokong</span>
+                                                                @if ($sokong_tuntutan->lulus_tuntutan == null)
+                                                                    <br><span class="badge badge-pill badge-primary">Dalam Semakan</span>
+                                                                @elseif($sokong_tuntutan->lulus_tuntutan == 1)
+                                                                    <span class="badge badge-pill badge-success">Tuntutan Diluluskan</span>
+                                                                @elseif($sokong_tuntutan->lulus_tuntutan == 0)
+                                                                    <span class="badge badge-pill badge-danger">Kelulusan Ditolak Pegawai</span>
+                                                                @endif
                                                             </td>
-                                                            @if ($sokong_tuntutan->lulus_tuntutan === null)
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-primary">Dalam
-                                                                        Semakan</span>
-                                                                </td>
-                                                            @elseif($sokong_tuntutan->lulus_tuntutan === 1)
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-success">Tuntutan
-                                                                        Diluluskan</span>
-
-                                                                    <a href="/tuntutans/{{ $sokong->id }}/"
+                                                            <td>
+                                                                <a href="/tuntutans/{{ $sokong->id }}/"
                                                                         class="btn btn-primary btn-sm">Lihat</a>
-
-                                                                </td>
-                                                            @elseif($sokong_tuntutan->lulus_tuntutan === 0)
-                                                                <td>
-                                                                    <span class="badge badge-pill badge-danger">Kelulusan
-                                                                        Ditolak Pegawai</span>
-                                                                </td>
-                                                            @endif
-                                                        @elseif($sokong_tuntutan->sokong_tuntutan === 0)
+                                                            </td>
+                                                        @elseif($sokong_tuntutan->sokong_tuntutan == 0)
                                                             <td>
                                                                 <span class="badge badge-pill badge-danger"> Tuntutan
                                                                     Ditolak</span>
@@ -2138,13 +2148,13 @@
                                                     </td>
 
                                                     <td>
-                                                        {{ $lulus_tuntutan->pegawai_sokong }} <br><br>
+                                                        {{ $lulus_tuntutan->pegawai_lulus }} <br><br>
+                                                        {{ $lulus_tuntutan->pegawai_sokong }}
 
-                                                        {{ $lulus_tuntutan->pegawai_lulus }}
                                                     </td>
 
-                                                    @if ($lulus_tuntutan->sokong_tuntutan === null)
-                                                        @if ($lulus_tuntutan->lulus_tuntutan === null)
+                                                    @if ($lulus_tuntutan->sokong_tuntutan == null)
+                                                        @if ($lulus_tuntutan->lulus_tuntutan == null)
                                                             <td>
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan Pegawai Sokong</span>
@@ -2152,7 +2162,7 @@
                                                             <td>
                                                                 --
                                                             </td>
-                                                        @elseif($lulus_tuntutan->lulus_tuntutan === 1)
+                                                        @elseif($lulus_tuntutan->lulus_tuntutan == 1)
                                                             <td>
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     disokong</span><br><br>
@@ -2163,7 +2173,7 @@
                                                                     Semakan</span>
 
                                                             </td>
-                                                        @elseif($lulus_tuntutan->lulus_tuntutan === 0)
+                                                        @elseif($lulus_tuntutan->lulus_tuntutan == 0)
                                                             <td>
                                                                 <span class="badge badge-pill badge-danger"> Tuntutan
                                                                     Ditolak</span>
@@ -2174,33 +2184,40 @@
 
                                                             </td>
                                                         @endif
-                                                    @elseif ($lulus_tuntutan->sokong_tuntutan === 1)
+                                                    @elseif ($lulus_tuntutan->sokong_tuntutan == 1)
                                                         <td>
                                                             <span class="badge badge-pill badge-success"> Tuntutan
                                                                 Disokong</span><br><br>
-                                                            <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
-                                                                class="btn btn-primary btn-sm">Lihat</a>
-                                                        </td>
-                                                        <td>
-                                                            @if ($lulus_tuntutan->lulus_tuntutan === null)
+                                                            {{-- <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
+                                                                class="btn btn-primary btn-sm">Lihat</a> --}}
+                                                            @if($lulus_tuntutan->lulus_tuntutan == null)
                                                                 <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
                                                                     class="btn btn-primary btn-sm">Lihat</a>
+                                                            @elseif($lulus_tuntutan->lulus_tuntutan == 1)
+                                                                <span class="badge badge-pill badge-success">Lulus
+                                                                    Tuntutan </span>
+                                                            @elseif($lulus_tuntutan->lulus_tuntutan == 0)
+                                                                <span class="badge badge-pill badge-danger"> Tuntutan
+                                                                    Ditolak</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($lulus_tuntutan->lulus_tuntutan == null)
+                                                                {{-- <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
+                                                                    class="btn btn-primary btn-sm">Lihat</a> --}}
                                                                 <a href="/lulus_tuntutan/{{ $lulus_tuntutan->id }}/"
-                                                                    class="btn btn-success btn-sm">Sokong</a>
+                                                                    class="btn btn-success btn-sm">Lulus</a>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     data-toggle="modal"
                                                                     data-target="#tolaksokongtuntutan{{ $lulus_tuntutan->id }}">
                                                                     Tolak
                                                                 </button>
-                                                            @elseif($lulus_tuntutan->lulus_tuntutan === 1)
-                                                                <span class="badge badge-pill badge-success">Lulus
-                                                                    Tuntutan </span>
-                                                            @elseif($lulus_tuntutan->lulus_tuntutan === 0)
-                                                                <span class="badge badge-pill badge-danger"> Tuntutan
-                                                                    Ditolak</span>
+                                                            @else
+                                                                <a href="/tuntutans/{{ $lulus_tuntutan->id }}/"
+                                                                    class="btn btn-primary btn-sm">Lihat</a>
                                                             @endif
                                                         </td>
-                                                    @elseif($lulus_tuntutan->sokong_tuntutan === 0)
+                                                    @elseif($lulus_tuntutan->sokong_tuntutan == 0)
                                                         <td>
                                                             <span class="badge badge-pill badge-danger"> Tuntutan
                                                                 Ditolak</span>
@@ -2343,7 +2360,7 @@
                                                         <td>
                                                             <a href="/semaksatupertiga/{{ $tsp->id }}"
                                                                 class="btn btn-primary btn-sm ">Semak</a>
-                                                            @if ($tsp->lulus_kj === null)
+                                                            @if ($tsp->lulus_kj == null)
                                                                 <a href="/lulus_tuntutan_satu_pertiga/{{ $tsp->id }}"
                                                                     class="btn btn-success btn-sm ">Lulus</a>
                                                                 <button type="button" class="btn btn-danger btn-sm"
@@ -2361,7 +2378,7 @@
                                                         <td>
                                                             <a href="/semaksatupertiga/{{ $tsp->id }}"
                                                                 class="btn btn-primary btn-sm ">Semak</a>
-                                                            @if ($tsp->lulus_db === null && $tsp->lulus_kj === null)
+                                                            @if ($tsp->lulus_db == null && $tsp->lulus_kj == null)
                                                                 <a href="/lulus_tuntutan_satu_pertiga/{{ $tsp->id }}"
                                                                     class="btn btn-success btn-sm ">Lulus</a>
                                                             @endif
@@ -2580,7 +2597,7 @@
                                     @foreach ($semak_sebulan as $tsp)
                                         <tr>
                                             <td>
-                                                @if ($tsp->lulus_db === null)
+                                                @if ($tsp->lulus_db == null)
                                                     <input type="checkbox" class="sga" id="{{ $tsp->id }}">
                                                 @else
                                                     <input type="checkbox" class="" id="{{ $tsp->id }}"
@@ -2596,14 +2613,14 @@
                                             @elseif($tsp->lulus_db == '0')
                                                 <td><span class="badge badge-pill badge-danger">Ditolak</span>
                                                 </td>
-                                            @elseif($tsp->lulus_db === null)
+                                            @elseif($tsp->lulus_db == null)
                                                 <td><span class="badge badge-pill badge-primary">Belum
                                                         Dinilai</span></td>
                                             @endif
                                             <td>
                                                 <a href="/semaksebulan/{{ $tsp->id }}"
                                                     class="btn btn-primary btn-sm ">Semak</a>
-                                                @if ($tsp->lulus_db === null)
+                                                @if ($tsp->lulus_db == null)
                                                     <a href="/lulus_tuntutan_sebulan/{{ $tsp->id }}"
                                                         class="btn btn-success btn-sm ">Sah</a>
                                                     <button type="button" class="btn btn-danger btn-sm"
@@ -2821,6 +2838,7 @@
                                     <table id="example" class="table table-striped table-bordered ">
                                         <thead class="thead-light text-center">
                                             <tr>
+                                                <th><input type="checkbox" id="kpHantarTuntutanAll" /></th>
                                                 <th> No</th>
                                                 <th> Pegawai Sokong / Pegawai Lulus</th>
                                                 <th> Waktu Mula Sebenar<br><br>Waktu Akhir Sebenar</th>
@@ -2833,6 +2851,9 @@
                                         <tbody>
                                             @foreach ($tuntutan_k2 as $tuntutan_k)
                                                 <tr>
+                                                    <td>
+                                                        <input type="checkbox" class="kphta" id="{{ $tuntutan_k->id }}">
+                                                    </td>
                                                     <td>
                                                         {{ $loop->index + 1 }}
                                                     </td>
@@ -3012,21 +3033,21 @@
                                                     </td>
 
 
-                                                    @if ($tuntutan_lulus->sokong_tuntutan === null)
+                                                    @if ($tuntutan_lulus->sokong_tuntutan == null)
                                                         <td>
                                                             <span class="badge badge-pill badge-primary">Dalam
                                                                 Semakan</span>:
                                                             {{ $tuntutan_lulus->pegawai_sokong }}<br><br>
 
-                                                            @if ($tuntutan_lulus->lulus_tuntutan === null)
+                                                            @if ($tuntutan_lulus->lulus_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diluluskan</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 0)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 0)
                                                                 <span class="badge badge-pill badge-danger">Tuntutan
                                                                     Ditolak</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
@@ -3034,30 +3055,30 @@
 
                                                         </td>
                                                         <td>
-                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                            @if ($tuntutan_lulus->periksa_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span><br><br>
-                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diluluskan</span>
                                                                 <br><br>
                                                             @endif
                                                         </td>
-                                                    @elseif($tuntutan_lulus->sokong_tuntutan === 1)
+                                                    @elseif($tuntutan_lulus->sokong_tuntutan == 1)
                                                         <td>
                                                             <span class="badge badge-pill badge-success">Tuntutan
                                                                 disokong</span>:
                                                             {{ $tuntutan_lulus->pegawai_sokong }}<br><br>
 
-                                                            @if ($tuntutan_lulus->lulus_tuntutan === null)
+                                                            @if ($tuntutan_lulus->lulus_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diluluskan</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 0)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 0)
                                                                 <span class="badge badge-pill badge-danger">Tuntutan
                                                                     Ditolak</span>:
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
@@ -3065,57 +3086,57 @@
                                                         </td>
                                                         <td>
                                                             {{-- Status periksa di kakitangan --}}
-                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                            @if ($tuntutan_lulus->periksa_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span> :
                                                                 KERANI PEMERIKSA<br><br>
 
-                                                                @if ($tuntutan_lulus->semak_tuntutan === null)
+                                                                @if ($tuntutan_lulus->semak_tuntutan == null)
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan</span> :
                                                                     KERANI SEMAKAN<br><br>
-                                                                @elseif($tuntutan_lulus->semak_tuntutan === 1)
+                                                                @elseif($tuntutan_lulus->semak_tuntutan == 1)
                                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                                         Diluluskan</span> : KERANI SEMAKAN <br><br>
                                                                 @endif
-                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diperiksa</span>
                                                                 : KERANI PEMERIKSA <br><br>
 
-                                                                @if ($tuntutan_lulus->semak_tuntutan === null)
+                                                                @if ($tuntutan_lulus->semak_tuntutan == null)
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan</span> :
                                                                     KERANI SEMAKAN<br><br>
-                                                                @elseif($tuntutan_lulus->semak_tuntutan === 1)
+                                                                @elseif($tuntutan_lulus->semak_tuntutan == 1)
                                                                     <span class="badge badge-pill badge-success">Tuntutan
                                                                         Diluluskan</span> : KERANI SEMAKAN <br><br>
                                                                 @endif
                                                             @endif
                                                         </td>
-                                                    @elseif($tuntutan_lulus->sokong_tuntutan === 0)
+                                                    @elseif($tuntutan_lulus->sokong_tuntutan == 0)
                                                         <td>
                                                             <span class="badge badge-pill badge-danger">Tuntutan
                                                                 Ditolak</span> :
                                                             {{ $tuntutan_lulus->pegawai_sokong }}<br><br>
 
-                                                            @if ($tuntutan_lulus->lulus_tuntutan === null)
+                                                            @if ($tuntutan_lulus->lulus_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span><br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diluluskan</span><br><br>
-                                                            @elseif($tuntutan_lulus->lulus_tuntutan === 0)
+                                                            @elseif($tuntutan_lulus->lulus_tuntutan == 0)
                                                                 <span class="badge badge-pill badge-danger">Tuntutan
                                                                     Ditolak</span> :
                                                                 {{ $tuntutan_lulus->pegawai_lulus }}<br><br>
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            @if ($tuntutan_lulus->periksa_tuntutan === null)
+                                                            @if ($tuntutan_lulus->periksa_tuntutan == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan</span><br><br>
-                                                            @elseif($tuntutan_lulus->periksa_tuntutan === 1)
+                                                            @elseif($tuntutan_lulus->periksa_tuntutan == 1)
                                                                 <span class="badge badge-pill badge-success">Tuntutan
                                                                     Diluluskan</span>
                                                                 <br><br>
@@ -3193,54 +3214,135 @@
                                                             {{ $periksa_tuntutan->jenis }}
                                                         </td>
                                                         <td>
-                                                            @if ($periksa_tuntutan->periksa_tuntutan === null)
-                                                                <span class="badge badge-pill badge-primary">Perlu
-                                                                    Semakan</span>
-                                                            @elseif($periksa_tuntutan->periksa_tuntutan == 0)
-                                                                <span class="badge badge-pill badge-danger"> Tuntutan
-                                                                    Ditolak</span>
-                                                            @elseif($periksa_tuntutan->periksa_tuntutan == 1)
-                                                                @if ($periksa_tuntutan->lulus_tuntutan === null)
-                                                                    <span class="badge badge-pill badge-primary">Dalam
+
+                                                            
+                                                                @if ($periksa_tuntutan->periksa_tuntutan == null)
+                                                                    <span class="badge badge-pill badge-primary">Perlu
                                                                         Semakan</span>
-                                                                @elseif($periksa_tuntutan->lulus_tuntutan == 0)
-                                                                    <span class="badge badge-pill badge-danger">Kelulusan
-                                                                        Ditolak Pegawai</span>
-                                                                @elseif ($periksa_tuntutan->semak_tuntutan === null)
-                                                                    <span class="badge badge-pill badge-primary">Dalam
-                                                                        Proses</span>
-                                                                @elseif($periksa_tuntutan->semak_tuntutan == 1)
-                                                                    <span class="badge badge-pill badge-success">Lulus
-                                                                        Semakan</span>
-                                                                @else
-                                                                    <span class="badge badge-pill badge-success">Tuntutan
-                                                                        Diperiksa</span><br><br>
+                                                                @elseif($periksa_tuntutan->periksa_tuntutan == 0)
+                                                                    <span class="badge badge-pill badge-danger"> Tuntutan
+                                                                        Ditolak</span>
+                                                                @elseif($periksa_tuntutan->periksa_tuntutan == 1)
+                                                                    @if ($periksa_tuntutan->lulus_tuntutan == null)
+                                                                        <span class="badge badge-pill badge-primary">Dalam
+                                                                            Semakan</span>
+                                                                    @elseif($periksa_tuntutan->lulus_tuntutan == 0)
+                                                                        <span class="badge badge-pill badge-danger">Kelulusan
+                                                                            Ditolak Pegawai</span>
+                                                                    @elseif ($periksa_tuntutan->semak_tuntutan == null)
+                                                                        <span class="badge badge-pill badge-primary">Dalam
+                                                                            Proses</span>
+                                                                    @elseif($periksa_tuntutan->semak_tuntutan == 1)
+                                                                        <span class="badge badge-pill badge-success">Lulus
+                                                                            Semakan</span>
+                                                                    @else
+                                                                        <span class="badge badge-pill badge-success">Tuntutan
+                                                                            Diperiksa</span><br><br>
+                                                                    @endif
                                                                 @endif
-                                                            @endif
+                                                                
 
                                                         </td>
                                                         <td>
-                                                            @if ($periksa_tuntutan->periksa_tuntutan === null)
-                                                                <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                    class="btn btn-danger btn-sm">Periksa</a><br>
-                                                            @elseif($periksa_tuntutan->periksa_tuntutan == 0)
-                                                                <span class="badge badge-pill badge-danger"> Tuntutan
-                                                                    Ditolak</span>
-                                                            @elseif($periksa_tuntutan->periksa_tuntutan == 1)
-                                                                @if ($periksa_tuntutan->lulus_tuntutan === null)
+                                                            {{-- @if ($periksa_tuntutan->sokong_tuntutan == 1 && $periksa_tuntutan->lulus_tuntutan ==1)
+                                                                @if ($periksa_tuntutan->periksa_tuntutan == null)
                                                                     <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                        class="btn btn-success btn-sm">Lihat</a><br>
-                                                                @elseif($periksa_tuntutan->lulus_tuntutan === 0)
+                                                                        class="btn btn-danger btn-sm">Periksa</a><br>
+                                                                @elseif($periksa_tuntutan->periksa_tuntutan == 0)
+                                                                    <span class="badge badge-pill badge-danger"> Tuntutan
+                                                                        Ditolak</span>
+                                                                @elseif($periksa_tuntutan->periksa_tuntutan == 1)
+                                                                    @if ($periksa_tuntutan->lulus_tuntutan == null)
+                                                                        <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                            class="btn btn-success btn-sm">Lihat</a><br>
+                                                                    @elseif($periksa_tuntutan->lulus_tuntutan == 0)
 
-                                                                @elseif ($periksa_tuntutan->semak_tuntutan === null)
-                                                                    <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                        class="btn btn-success btn-sm">Lihat</a><br>
-                                                                @elseif($periksa_tuntutan->semak_tuntutan === 1)
-                                                                    <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
-                                                                        class="btn btn-success btn-sm">Lihat</a><br>
+                                                                    @elseif ($periksa_tuntutan->semak_tuntutan == null)
+                                                                        <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                            class="btn btn-success btn-sm">Lihat</a><br>
+                                                                    @elseif($periksa_tuntutan->semak_tuntutan == 1)
+                                                                        <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                            class="btn btn-success btn-sm">Lihat</a><br>
+                                                                    @else
+                                                                        <span class="badge badge-pill badge-success">Tuntutan
+                                                                            Diperiksa</span><br><br>
+                                                                    @endif
+                                                                @endif
+                                                                
                                                                 @else
-                                                                    <span class="badge badge-pill badge-success">Tuntutan
-                                                                        Diperiksa</span><br><br>
+
+                                                                Semakan Jabatan Dalaman
+    
+                                                                @endif --}}
+
+
+                                                                @if ($periksa_tuntutan->sokong_tuntutan == 1 && $periksa_tuntutan->lulus_tuntutan == 1)
+                                                                {{-- @if ($periksa_tuntutan->lulus_satupertiga == null && $periksa_tuntutan->lulus_sebulan == null) --}}
+                                                                   @if ($periksa_tuntutan->jenis == 'Biasa')    
+                                                                        @if ($periksa_tuntutan->periksa_tuntutan == null)
+                                                                            <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                                class="btn btn-danger btn-sm">Periksa</a><br>
+                                                                        @elseif($periksa_tuntutan->periksa_tuntutan == 0)
+                                                                            <span class="badge badge-pill badge-danger">
+                                                                                Tuntutan
+                                                                                Ditolak</span>
+                                                                        @elseif($periksa_tuntutan->periksa_tuntutan == 1)
+                                                                            @if ($periksa_tuntutan->lulus_tuntutan == null)
+                                                                                <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                                    class="btn btn-success btn-sm">Lihat</a><br>
+                                                                            @elseif($periksa_tuntutan->lulus_tuntutan == 0)
+                                                                            @elseif ($periksa_tuntutan->semak_tuntutan == null)
+                                                                                <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                                    class="btn btn-success btn-sm">Lihat</a><br>
+                                                                            @elseif($periksa_tuntutan->semak_tuntutan == 1)
+                                                                                <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                                    class="btn btn-success btn-sm">Lihat</a><br>
+                                                                            @else
+                                                                                <span
+                                                                                    class="badge badge-pill badge-success">Tuntutan
+                                                                                    Diperiksa</span><br><br>
+                                                                            @endif
+                                                                        @endif
+                                                                    @elseif ($periksa_tuntutan->jenis == 'Satu Pertiga')
+                                                                            @if ($periksa_tuntutan->lulus_kj == 1)
+                                                                                @if ($periksa_tuntutan->lulus_tuntutan == null)
+                                                                                    <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                                        class="btn btn-success btn-sm">Lihat</a><br>
+                                                                                @elseif($periksa_tuntutan->lulus_tuntutan == 0)
+                                                                                @elseif ($periksa_tuntutan->semak_tuntutan == null)
+                                                                                    <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                                        class="btn btn-success btn-sm">Lihat</a><br>
+                                                                                @elseif($periksa_tuntutan->semak_tuntutan == 1)
+                                                                                    <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                                        class="btn btn-success btn-sm">Lihat</a><br>
+                                                                                @else
+                                                                                    <span
+                                                                                        class="badge badge-pill badge-success">Tuntutan
+                                                                                        Diperiksa</span><br><br>
+                                                                                @endif
+                                                                    @else
+                                                                        Perlu Semakan Ketua Jabatan
+                                                                    @endif
+                                                                    @elseif ($periksa_tuntutan->jenis == 'Sebulan')
+                                                                        @if ($periksa_tuntutan->lulus_kj == 1 || $periksa_tuntutan->lulus_db == 1)
+                                                                            @if ($periksa_tuntutan->lulus_tuntutan == null)
+                                                                                <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                                    class="btn btn-success btn-sm">Lihat</a><br>
+                                                                            @elseif($periksa_tuntutan->lulus_tuntutan == 0)
+                                                                            @elseif ($periksa_tuntutan->semak_tuntutan == null)
+                                                                                <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                                    class="btn btn-danger btn-sm">Periksa</a><br>
+                                                                            @elseif($periksa_tuntutan->semak_tuntutan == 1)
+                                                                                <a href="/tuntutans/{{ $periksa_tuntutan->id }}/"
+                                                                                    class="btn btn-success btn-sm">Lihat</a><br>
+                                                                            @else
+                                                                                <span
+                                                                                    class="badge badge-pill badge-success">Tuntutan
+                                                                                    Diperiksa</span><br><br>
+                                                                            @endif
+                                                                        @else
+                                                                        Perlu Semakan Ketua Jabatan atau Datuk Bandar
+                                                                    @endif
                                                                 @endif
                                                             @endif
                                                         </td>
@@ -3295,16 +3397,16 @@
                                                         </td>
 
 
-                                                        @if ($semak_tuntutan->semak_tuntutan === null)
+                                                        @if ($semak_tuntutan->semak_tuntutan == null)
                                                             <td>
                                                                 <span class="badge badge-pill badge-primary">Perlu
                                                                     Semakan</span>
                                                             </td>
                                                             <td>
-                                                                @if ($semak_tuntutan->periksa_tuntutan === null)
+                                                                @if ($semak_tuntutan->periksa_tuntutan == null)
                                                                     <span class="badge badge-pill badge-danger"> Semakan
                                                                         Pemeriksa</span>
-                                                                @elseif($semak_tuntutan->periksa_tuntutan === 1)
+                                                                @elseif($semak_tuntutan->periksa_tuntutan == 1)
                                                                     <span class="badge badge-pill badge-success"> Tuntutan
                                                                         Diperiksa </span><br><br>
 
@@ -3316,15 +3418,15 @@
                                                         Tolak
                                                     </button> --}}
                                                             </td>
-                                                        @elseif($semak_tuntutan->semak_tuntutan === 1)
+                                                        @elseif($semak_tuntutan->semak_tuntutan == 1)
                                                             <td>
-                                                                @if ($semak_tuntutan->semak_tuntutan === null)
+                                                                @if ($semak_tuntutan->semak_tuntutan == null)
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Proses</span>
-                                                                @elseif($semak_tuntutan->semak_tuntutan === 0)
+                                                                @elseif($semak_tuntutan->semak_tuntutan == 0)
                                                                     <span
                                                                         class="badge badge-pill badge-danger">Ditolak</span>
-                                                                @elseif($semak_tuntutan->semak_tuntutan === 1)
+                                                                @elseif($semak_tuntutan->semak_tuntutan == 1)
                                                                     <span class="badge badge-pill badge-success">Lulus
                                                                         Semakan</span>
                                                                 @endif
@@ -3337,20 +3439,20 @@
                                                                 <a href="/tuntutans/{{ $semak_tuntutan->id }}/"
                                                                     class="btn btn-default btn-sm">Lihat</a>
                                                             </td>
-                                                            @if ($semak_tuntutan->lulus_tuntutan === null)
+                                                            @if ($semak_tuntutan->lulus_tuntutan == null)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         Semakan</span>
                                                                 </td>
-                                                            @elseif($semak_tuntutan->semak_tuntutan === 1)
+                                                            @elseif($semak_tuntutan->semak_tuntutan == 1)
 
-                                                            @elseif($semak_tuntutan->lulus_tuntutan === 0)
+                                                            @elseif($semak_tuntutan->lulus_tuntutan == 0)
                                                                 <td>
                                                                     <span class="badge badge-pill badge-danger">Kelulusan
                                                                         Ditolak Pegawai</span>
                                                                 </td>
                                                             @endif
-                                                        @elseif($semak_tuntutan->semak_tuntutan === 0)
+                                                        @elseif($semak_tuntutan->semak_tuntutan == 0)
                                                             <td>
                                                                 <span class="badge badge-pill badge-danger"> Tuntutan
                                                                     Ditolak</span>
@@ -3437,6 +3539,12 @@
 @endsection
 @section('script')
     <script>
+
+        function PassIdTuntutan(){
+            var tuntutans = document.getElementById("idKTuntutan").value;
+            document.getElementById("tuntutanArray").value = tuntutans;
+        }
+
         $("#submitSatuPerTigaAll").click(function() {
             if ($(this).prop('checked')) {
                 $(".sspta").prop('checked', true);
@@ -3584,5 +3692,30 @@
 
             });
         }
+
+        $(document).ready(function() {
+            $("#kHantarTuntutanAll").click(function() {
+                if ($(this).prop('checked')) {
+                    $('.khta').prop('checked', true)
+                } else {
+                    $('.khta').prop('checked', false)
+                }
+            });
+            $("#pHantarTuntutanAll").click(function() {
+                if ($(this).prop('checked')) {
+                    $('.phta').prop('checked', true)
+                } else {
+                    $('.phta').prop('checked', false)
+                }
+            });
+            $("#kpHantarTuntutanAll").click(function() {
+                if ($(this).prop('checked')) {
+                    $('.kphta').prop('checked', true)
+                } else {
+                    $('.kphta').prop('checked', false)
+                }
+            });
+            
+        });
     </script>
 @endsection

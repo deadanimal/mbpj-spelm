@@ -47,35 +47,6 @@
     <p style="margin-top: 0pt; margin-bottom: 9pt; line-height: 110%; font-size: 11pt; text-align: left;"><span
             style="font-family:'Avenir Next Regular';">&nbsp;No Pekerja : {{ $getuser->user_code }}</span></p>
 
-    <h3 style="margin-top: 50px;">Permohonan Dilulus</h3>
-    <table class="center div-center">
-        <thead>
-            <th style="width: 20%">No.</th>
-            <th>
-                Pegawai Sokong
-                <br>
-                Pegawai Lulus
-            </th>
-
-            <th>
-                Jumlah Jam
-            </th>
-            <th>
-                Dapatan (RM)
-            </th>
-        </thead>
-        <tbody>
-            @foreach ($tuntutans as $tuntutan)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $tuntutan->pegawaiSokong }} <br> <br> {{ $tuntutan->pegawaiLulus }}</td>
-                    <td>{{ $tuntutan->jumlah_jam }}</td>
-                    <td>RM {{ round($tuntutan->dapatan, 2) }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
     <h3 style="margin-top: 50px;">Tuntutan</h3>
     <table class="center div-center">
         <thead>

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class UserPermohonan extends Model
 {
     use HasFactory;
+    public $table = 'MYCLAIM.USER_PERMOHONANS';
+
+    //  protected $connection = 'oracle';
+
+
 }

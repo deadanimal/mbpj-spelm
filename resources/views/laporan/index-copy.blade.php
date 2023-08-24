@@ -341,7 +341,7 @@
                                         <select class="form-control" name="jabatan" required id="jabatan">
                                             <option selected disabled hidden>Pilih</option>
                                             @foreach ($jabatan as $j)
-                                                <option value="{{ $j->GE_KOD_JABATAN }}">{{ $j->GE_KETERANGAN_JABATAN }}
+                                                <option value="{{ $j->GE_KOD_JABATAN }}">{{ $j->ge_keterangan_jabatan }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -367,7 +367,7 @@
                         $("#bahagian").html('');
                         bahagian.forEach(b => {
                             if (b.GE_KOD_JABATAN == selected) {
-                                $("#bahagian").append(new Option(b.GE_KETERANGAN, b.GE_KOD_JABATAN + b
+                                $("#bahagian").append(new Option(b.ge_keterangan, b.GE_KOD_JABATAN + b
                                     .GE_KOD_BAHAGIAN));
                             }
                         });
@@ -437,7 +437,7 @@
                                         <select class="form-control selectpicker" multiple data-live-search="true" name="jabatan[]"
                                             required id="jabatan">
                                             @foreach ($jabatan as $j)
-                                                <option value="{{ $j->GE_KOD_JABATAN }}">{{ $j->GE_KETERANGAN_JABATAN }}
+                                                <option value="{{ $j->GE_KOD_JABATAN }}">{{ $j->ge_keterangan_jabatan }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -500,7 +500,7 @@
                         bahagian.forEach(b => {
                             selected.forEach(s => {
                                 if (b.GE_KOD_JABATAN == s) {
-                                    $("#bahagian").append(new Option(b.GE_KETERANGAN, b.GE_KOD_JABATAN + b
+                                    $("#bahagian").append(new Option(b.ge_keterangan, b.GE_KOD_JABATAN + b
                                         .GE_KOD_BAHAGIAN));
                                 }
                             });

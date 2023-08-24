@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Audit extends Model
 {
     use HasFactory;
+    public $table = 'MYCLAIM.AUDITS';
+    protected $guarded = ['id'];
+
 }

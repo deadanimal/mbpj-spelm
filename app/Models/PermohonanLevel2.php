@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class PermohonanLevel2 extends Model
 {
     use HasFactory;
-    protected $table = 'PermohonanLevel2';
+    //  protected $connection = 'oracle';
+
+    protected $table = 'MYCLAIM.PERMOHONANLEVEL2';
     protected $guarded = ['id'];
 
     public function permohonan()

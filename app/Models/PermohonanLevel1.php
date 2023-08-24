@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class PermohonanLevel1 extends Model
 {
     use HasFactory;
-    protected $table = 'PermohonanLevel1';
+    //  protected $connection = 'oracle';
+
+    protected $table = 'MYCLAIM.PERMOHONANLEVEL1';
     protected $guarded = ['id'];
     public $timestamps = false;
 

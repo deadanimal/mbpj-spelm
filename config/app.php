@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        // Yajra\Oci8\Oci8ServiceProvider::class,
+        Yajra\Oci8\Oci8ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
 

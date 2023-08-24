@@ -284,7 +284,6 @@ class TuntutanController extends Controller
 
             $npt->nama_pemohon = $pemohon;
         }
-
         // lulus tuntutan
 
         $lulus_tuntutan = Tuntutan::where('pegawai_lulus_id', $user_id)
@@ -303,6 +302,7 @@ class TuntutanController extends Controller
 
             $npt->nama_pemohon = $pemohon;
         }
+// dd($lulus_tuntutan);
         // semak tuntutan kerani semakan
         $semak_tuntutans = Tuntutan::orderBy('created_at', 'DESC')->get();
 
@@ -375,6 +375,7 @@ class TuntutanController extends Controller
 
             $sspt->nama_pemohon = $pemohon;
         }
+
         $semak_sebulan = Tuntutan::where('lulus_satupertiga', 1)
             ->where('lulus_sebulan', 1)
             ->orderByDesc("created_at")
@@ -408,7 +409,7 @@ class TuntutanController extends Controller
         //Simpan RM Tuntutan
 
         $maklumat_pekerjaan = OracleGaji::where('hr_no_pekerja', auth()->user()->user_code)->first();
-        $gaji = $maklumat_pekerjaan->HR_GAJI_POKOK;
+        $gaji = $maklumat_pekerjaan->hr_gaji_pokok;
 
         $jumlah_harga_tuntutan_index = 0;
         foreach ($tuntutan_k as $t) {
@@ -417,7 +418,7 @@ class TuntutanController extends Controller
         }
         $jumlaa = ($gaji * 12) / (313 * 8);
         $lasttt = $jumlah_harga_tuntutan_index * $jumlaa;
-
+// dd($lulus_tuntutan);
         return view('tuntutan.index', [
             'tuntutan_k2' => $tuntutan_k,
             'jumlah_harga_tuntutan_index' => $lasttt,
@@ -473,7 +474,7 @@ class TuntutanController extends Controller
         $getuser = User::find($tuntutan->user_id);
 
         $maklumat_pekerjaan = OracleGaji::where('hr_no_pekerja', $getuser->user_code)->first();
-        $gaji = $maklumat_pekerjaan->HR_GAJI_POKOK;
+        $gaji = $maklumat_pekerjaan->hr_gaji_pokok;
         $gaji_calculated = ($gaji * 12) / (313 * 8);
 
         $a = 0;
@@ -869,10 +870,10 @@ class TuntutanController extends Controller
         $getuser = Permohonan::find($permohonanT[0]->permohonan_id)->user;
 
         $maklumat_pekerjaan = OracleGaji::where('hr_no_pekerja', $getuser->user_code)->first();
-        $bahagian_code = $maklumat_pekerjaan->HR_BAHAGIAN;
+        $bahagian_code = $maklumat_pekerjaan->hr_bahagian;
 
-        $gaji = $maklumat_pekerjaan->HR_GAJI_POKOK;
-        $bahagian = Bahagian::where('ge_kod_bahagian', $bahagian_code)->first()->GE_KETERANGAN;
+        $gaji = $maklumat_pekerjaan->hr_gaji_pokok;
+        $bahagian = Bahagian::where('ge_kod_bahagian', $bahagian_code)->first()->ge_keterangan;
 
         //done
 
@@ -907,13 +908,19 @@ class TuntutanController extends Controller
             }
         }
 
+        $nama['KB'] = User::where('ROLE','ketua_bahagian')->where('STATUS', 'aktif')->first();
+        $nama['KJ'] = User::where('ROLE','ketua_jabatan')->where('STATUS', 'aktif')->first();
+        $nama['DB'] = User::where('ROLE','datuk_bandar')->where('STATUS', 'aktif')->first();
+        $nama['KS'] = User::where('ROLE','kerani_semakan')->where('STATUS', 'aktif')->first();
+        $nama['KP'] = User::where('ROLE','kerani_pemeriksa')->where('STATUS', 'aktif')->first();
+
         //cetakan
         $pdf = PDF::loadView('tuntutan.laporan_tuntutan', [
             "getuser" => $getuser,
             "bahagian" => $bahagian,
             "gaji" => $gaji,
             "semak_tuntutan" => $semak_tuntutan,
-
+            "nama"=> $nama,
             "currentdate" => $currentdate,
 
         ])->setPaper('a4');

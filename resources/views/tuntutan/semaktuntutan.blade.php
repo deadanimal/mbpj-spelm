@@ -544,13 +544,14 @@
                                             tuntutan berikut dihantar ke kerani semakan ?
                                         </div>
 
-                                        <form method="GET" action="/periksa_tuntutan/{{ $tuntutan->id }}/">
+                                        <form method="GET" action="/periksa_tuntutan/{{ $tuntutan->id }}/" id="periksa_form">
+                                           
                                             @csrf
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary btn-sm "
                                                     data-dismiss="modal">Tutup</button>
                                                 <button type="submit"
-                                                    class="btn btn-primary btn-sm periksa_tuntutan_lulus">Hantar</button>
+                                                    class="btn btn-primary btn-sm check_form_btn" id="btn_periksa_form">Hantar</button>
                                         </form>
                                     </div>
                                 </div>
@@ -779,11 +780,11 @@
                                                     @if ($permohonan->tindakan_periksa == 1)
                                                         <input type="checkbox" checked="true" class="periksa_checkbox"
                                                             onchange="kemaskinitindakanperiksa({{ $permohonan->id }}, this)"
-                                                            value={{ $permohonan->tindakan_periksa }}>
+                                                            value={{ $permohonan->tindakan_periksa }} disabled>
                                                     @elseif($permohonan->tindakan_periksa == 0)
                                                         <input type="checkbox" check="false" class="periksa_checkbox"
                                                             onchange="kemaskinitindakanperiksa({{ $permohonan->id }}, this)"
-                                                            value={{ $permohonan->tindakan_periksa }}>
+                                                            value={{ $permohonan->tindakan_periksa }} disabled>
                                                     @endif
                                                     <h5 class="d-inline">Disahkan</h5>
                                                     <br>
@@ -1159,8 +1160,8 @@
                                             Sila pastikan tuntutan DISEMAK dan DITANDA .<br><br> Anda bersetuju dengan
                                             tuntutan berikut ?
                                         </div>
-                                        <form method="POST" action="/semak_tuntutan/{{ $tuntutan->id }}/"
-                                            id="form_selesai_semak">
+                                        <form method="GET" action="/semak_tuntutan/{{ $tuntutan->id }}/"
+                                            id="semak_form">
                                             @csrf
 
                                             <div class="modal-footer">
@@ -1168,7 +1169,7 @@
                                                     data-dismiss="modal">Tutup</button>
 
                                                 <button type="submit"
-                                                    class="btn btn-primary btn-sm periksa_tuntutan_lulus">Hantar</button>
+                                                    class="btn btn-primary btn-sm check_form_btn" id="btn_semak_form">Hantar</button>
                                             </div>
                                         </form>
 
@@ -1403,9 +1404,9 @@
                                                     </td>
                                                     <td>
                                                         @if ($permohonan->tindakan_periksa == 1)
-                                                            <input type="checkbox" checked="true">
+                                                            <input type="checkbox" checked="true" disabled>
                                                         @elseif($permohonan->tindakan_periksa == 0)
-                                                            <input type="checkbox" check="false">
+                                                            <input type="checkbox" check="false" disabled>
                                                         @endif
                                                         <h5 class="d-inline">Disahkan</h5>
 
@@ -1417,12 +1418,12 @@
                                                             <input type="checkbox" checked="true"
                                                                 class="periksa_checkbox"
                                                                 onchange="kemaskinitindakansemakan({{ $permohonan->id }}, this)"
-                                                                value={{ $permohonan->tindakan_semakan }}>
+                                                                value={{ $permohonan->tindakan_semakan }} disabled>
                                                         @elseif($permohonan->tindakan_semakan == 0)
                                                             <input type="checkbox" check="false"
                                                                 class="periksa_checkbox"
                                                                 onchange="kemaskinitindakansemakan({{ $permohonan->id }}, this)"
-                                                                value={{ $permohonan->tindakan_semakan }}>
+                                                                value={{ $permohonan->tindakan_semakan }} disabled>
                                                         @endif
                                                         <h5 class="d-inline">Disahkan</h5>
                                                         <br>
@@ -1459,12 +1460,6 @@
 
 
                                     </table>
-                                    <div class="row">
-                                        <div class="col text-right">
-                                            <button type="submit" id="btn_update_semakan"
-                                                class="btn btn-success mr-3 my-3">Simpan</button>
-                                        </div>
-                                    </div>
 
 
                                 </div>
@@ -1749,7 +1744,7 @@
 @endsection
 @section('script')
     <script>
-        $(".periksa_tuntutan_lulus").click(function(e) {
+        $("#btn_semak_form").click(function(e) {
             e.preventDefault();
             let disahkan = true;
             jQuery.each($(".periksa_checkbox"), function(key, val) {
@@ -1758,7 +1753,22 @@
                 }
             });
             if (disahkan) {
-                $("#form_selesai_semak").submit();
+                $('#semak_form').submit();
+            } else {
+                alert("Anda masih belum sahkan semua permohonan")
+            }
+        });
+
+          $("#btn_periksa_form").click(function(e) {
+            e.preventDefault();
+            let disahkan = true;
+            jQuery.each($(".periksa_checkbox"), function(key, val) {
+                if (!val.checked) {
+                    disahkan = false;
+                }
+            });
+            if (disahkan) {
+                $('#periksa_form').submit();
             } else {
                 alert("Anda masih belum sahkan semua permohonan")
             }

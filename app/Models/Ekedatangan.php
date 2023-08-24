@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Ekedatangan extends Model
 {
     use HasFactory;
-    // protected $connection = 'oracle';
-    // public $table = 'EKEDATANGAN.OT';
+    // protected $connection = 'oracle2';
+    public $table = 'EKEDATANGAN.OT';
 }

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class PRUSER extends Model
 {
     use HasFactory;
-    protected $table = 'PRUSER';
+    // protected $table = 'PRUSER';
+    // protected $connection = 'oracle2';
+    // protected $connection = 'oracle';
+
+    public $table = 'MAJLIS.PRUSER';
     public $timestamps = false;
 }

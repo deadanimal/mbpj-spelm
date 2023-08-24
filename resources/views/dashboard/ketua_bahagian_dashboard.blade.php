@@ -3,9 +3,8 @@
 <style>
     #chartdiv {
         width: 100%;
-        height: 500px;
+        height: 800px;
     }
-
 </style>
 
 <!-- Resources -->
@@ -23,7 +22,7 @@
         let units = [];
         unit.forEach(e => {
             dataUnit = {
-                units: e.GE_KETERANGAN,
+                units: e.ge_keterangan,
                 users: e.bil,
             };
             units.push(dataUnit);
@@ -33,6 +32,8 @@
         // chart.padding(0, 300, 0, 300);
         chart.legend = new am4charts.Legend();
 
+
+
         // Add and configure Series
         var pieSeries = chart.series.push(new am4charts.PieSeries());
         pieSeries.dataFields.value = "users";
@@ -41,6 +42,7 @@
 
         // design
         chart.innerRadius = am4core.percent(40);
+        var categoryAxis = chart.categoryAxis;
         pieSeries.slices.template.stroke = am4core.color("#4a2abb");
         pieSeries.slices.template.strokeWidth = 2;
         pieSeries.slices.template.strokeOpacity = 1;
@@ -87,7 +89,7 @@
                                             <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PERMOHONAN LEBIH
                                                 MASA
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">0</span>
+                                            <span class="h2 font-weight-bold mb-0">{{ $bilPermohonan }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -107,7 +109,7 @@
                                             <h5 class="card-title text-uppercase text-muted mb-0"> PERMOHONAN KERJA LEBIH
                                                 MASA LULUS
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">0</span>
+                                            <span class="h2 font-weight-bold mb-0">{{ $bilPermohonanLulus }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -127,7 +129,7 @@
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">0</span>
+                                            <span class="h2 font-weight-bold mb-0">{{ $bilTuntutan }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -146,9 +148,9 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
-                                                (RM)
+                                                Lulus
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">0</span>
+                                            <span class="h2 font-weight-bold mb-0">{{ $bilTuntutanLulus }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -161,129 +163,34 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card card-stats">
-                                <!-- Card body -->
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PERMOHONAN LEBIH
-                                                MASA
-                                            </h5>
-                                            <span class="h2 font-weight-bold mb-0">0</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div
-                                                class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                                                <i class="ni ni-chart-bar-32"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card card-stats">
-                                <!-- Card body -->
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0"> PERMOHONAN KERJA LEBIH
-                                                MASA LULUS
-                                            </h5>
-                                            <span class="h2 font-weight-bold mb-0">0</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div
-                                                class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                                                <i class="ni ni-chart-bar-32"></i>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card card-stats">
-                                <!-- Card body -->
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
-                                            </h5>
-                                            <span class="h2 font-weight-bold mb-0">0</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div
-                                                class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                                                <i class="ni ni-chart-bar-32"></i>
-                                            </div>
-                                        </div>
-                                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mt--12">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card card-stats">
-                                <!-- Card body -->
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0"> TUNTUTAN ELAUN LEBIH MASA
-                                                (RM)
-                                            </h5>
-                                            <span class="h2 font-weight-bold mb-0">0</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div
-                                                class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                                                <i class="ni ni-chart-bar-32"></i>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="card-body">
+                            <div id="chartdiv"></div>
 
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
-            <div class="container-fluid mt--6">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card bg-default">
-                            <div class="card-header ">
-                                <div class="row align-items-center">
-                                    <div class="col">
 
-
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div id="chartdiv"></div>
-
-                                </div>
-                            </div>
-                        </div>
+        <!-- Footer -->
+        <footer class="footer pt-0">
+            <div class="row align-items-center justify-content-lg-between">
+                <div class="col-lg-6">
+                    <div class="copyright text-center  text-lg-left  text-muted">
+                        &copy; 2021 <a href="#" class="font-weight-bold ml-1" target="_blank">Sistem Pengurusan
+                            Elaun Lebih Masa
+                        </a>
                     </div>
                 </div>
-
-                <!-- Footer -->
-                <footer class="footer pt-0">
-                    <div class="row align-items-center justify-content-lg-between">
-                        <div class="col-lg-6">
-                            <div class="copyright text-center  text-lg-left  text-muted">
-                                &copy; 2021 <a href="#" class="font-weight-bold ml-1" target="_blank">Sistem Pengurusan
-                                    Elaun Lebih Masa
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
             </div>
-        @endsection
+        </footer>
+    @endsection

@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Makluman extends Model
 {
     use HasFactory;
+    public $table = 'MYCLAIM.MAKLUMEN';
+
 }

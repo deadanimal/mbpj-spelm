@@ -52,7 +52,7 @@
                         <div class="card">
                             <!-- Card header -->
                             <div class="card-header bg-primary border-0">
-                                <h3 class="mb-0 text-white">Bantuan Helpesk</h3>
+                                <h3 class="mb-0 text-white">Bantuan Helpdesk</h3>
                             </div>
                                 @foreach ($maklumans as $makluman)
                                 <div class="card-body">

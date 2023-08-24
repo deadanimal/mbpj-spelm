@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Jabatan extends Model
 {
     use HasFactory;
-    protected $table = 'ge_jabatan';
+    // protected $table = 'ge_jabatan';
+
+    // protected $connection = 'oracle2';
+    public $table = 'MAJLIS.GE_JABATAN';
 
     // public function bahagian()
     // {

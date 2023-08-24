@@ -73,9 +73,9 @@
             @isset($j->bahagians)
                 @foreach ($j->bahagians as $b)
                     @isset($b->tuntutans_data)
-                        <h6 style="margin: 0px 4px;">JABATAN: &nbsp;&nbsp;&nbsp;&nbsp; {{ $j->GE_KETERANGAN_JABATAN }}
+                        <h6 style="margin: 0px 4px;">JABATAN: &nbsp;&nbsp;&nbsp;&nbsp; {{ $j->ge_keterangan_jabatan }}
                         </h6>
-                        <h6 style="margin: 4px 4px;">BAHAGIAN: &nbsp;&nbsp;&nbsp;&nbsp; {{ $b->GE_KETERANGAN }}
+                        <h6 style="margin: 4px 4px;">BAHAGIAN: &nbsp;&nbsp;&nbsp;&nbsp; {{ $b->ge_keterangan }}
                         </h6>
                         <h6 style="margin: 8px 3px 0px;"> UNIT: &nbsp;&nbsp;&nbsp;&nbsp; {{ $loop->iteration }}
                         </h6>

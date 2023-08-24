@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Oracle extends Model
 {
     use HasFactory;
-    // protected $connection = 'oracle';
-    // public $table = 'MAJLIS.PRUSER';
+    // protected $connection = 'oracle2';
+    public $table = 'MAJLIS.PRUSER';
 
 }

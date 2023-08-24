@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tuntutan extends Model
 {
     use HasFactory;
+    public $table = 'MYCLAIM.TUNTUTANS';
+
     protected $guarded = ['id'];
+    //  protected $connection = 'oracle';
 
     // public function tuntutans()
     // {

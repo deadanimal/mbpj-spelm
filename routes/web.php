@@ -100,7 +100,7 @@ Route::get('/lulus_tuntutan/{id}', [TuntutanController::class, 'lulus_tuntutan']
 Route::post('/tolak_lulus_tuntutan', [TuntutanController::class, 'tolak_lulus_tuntutan']);
 
 //Semak tuntutan
-Route::post('/semak_tuntutan/{id}', [TuntutanController::class, 'semak_tuntutan']);
+Route::get('/semak_tuntutan/{id}', [TuntutanController::class, 'semak_tuntutan']);
 Route::post('/tolak_semak_tuntutan', [TuntutanController::class, 'tolak_semak_tuntutan']);
 
 //Periksa tuntutan

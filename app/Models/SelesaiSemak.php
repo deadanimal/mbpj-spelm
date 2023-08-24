@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class SelesaiSemak extends Model
 {
     use HasFactory;
-    protected $table = 'SelesaiSemak';
+    //  protected $connection = 'oracle';
+
+    public $table = 'MYCLAIM.SELESAISEMAK';
+
     protected $guarded = ['id'];
 }

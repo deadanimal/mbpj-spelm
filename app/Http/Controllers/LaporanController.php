@@ -106,7 +106,7 @@ class LaporanController extends Controller
         $getuser = User::where('id', $id)->first();
 
         $maklumat_pekerjaan = OracleGaji::where('hr_no_pekerja', $getuser->user_code)->first();
-        $gaji = $maklumat_pekerjaan->HR_GAJI_POKOK;
+        $gaji = $maklumat_pekerjaan->hr_gaji_pokok;
         $gaji_calculated = ($gaji * 12) / (313 * 8);
 
         $currentdate = now()->format('Y-m-d ');
@@ -144,7 +144,7 @@ class LaporanController extends Controller
             $cc = 1.250 * $c;
             $dd = 1.500 * $d;
             $ee = 1.750 * $e;
-            $ff = 2.000 * $a;
+            $ff = 2.000 * $f;
 
             $jumlah = $aa + $bb + $cc + $dd + $ee + $ff;
             $tuntutan['dapatan'] = $jumlah * $gaji_calculated;
@@ -155,6 +155,12 @@ class LaporanController extends Controller
             $d = 0;
             $e = 0;
             $f = 0;
+            $aa = 0;
+            $bb = 0;
+            $cc = 0;
+            $dd = 0;
+            $ee = 0;
+            $ff = 0;
 
         }
         //cetakan
@@ -183,19 +189,19 @@ class LaporanController extends Controller
 
         //Get Jabatan and Bahagian
         foreach ($request->jabatan as $j) {
-            $jabatans[] = Jabatan::where('GE_KOD_JABATAN', $j)->first();
+            $jabatans[] = Jabatan::where('ge_kod_jabatan', $j)->first();
         }
 
         foreach ($request->bahagian as $b) {
-            $bahagians[] = Bahagian::where('GE_KOD_JABATAN', substr($b, 0, 2))
-                ->where('GE_KOD_BAHAGIAN', substr($b, 2, 2))
+            $bahagians[] = Bahagian::where('ge_kod_jabatan', substr($b, 0, 2))
+                ->where('ge_kod_bahagian', substr($b, 2, 2))
                 ->first();
         }
 
         foreach ($jabatans as $j) {
             $temp = null;
             foreach ($bahagians as $b) {
-                if ($b->GE_KOD_JABATAN == $j->GE_KOD_JABATAN) {
+                if ($b->ge_kod_jabatan == $j->ge_kod_jabatan) {
                     $temp[] = $b;
                 }
             }
@@ -211,14 +217,14 @@ class LaporanController extends Controller
                         if ($tuntutan->user->department_code != null) {
 
                             if (strlen($tuntutan->user->department_code) == 6) {
-                                if (substr($tuntutan->user->department_code, 0, 2) == $j->GE_KOD_JABATAN) {
-                                    if (substr($tuntutan->user->department_code, 2, 4) == $j->GE_KOD_BAHAGIAN) {
+                                if (substr($tuntutan->user->department_code, 0, 2) == $j->ge_kod_jabatan) {
+                                    if (substr($tuntutan->user->department_code, 2, 4) == $j->ge_kod_bahagian) {
                                         $temp2[] = $tuntutan;
                                     }
                                 }
                             } elseif (strlen($tuntutan->user->department_code) == 5) {
-                                if (substr("0" . $tuntutan->user->department_code, 0, 2) == $j->GE_KOD_JABATAN) {
-                                    if (substr("0" . $tuntutan->user->department_code, 2, 2) == $b->GE_KOD_BAHAGIAN) {
+                                if (substr("0" . $tuntutan->user->department_code, 0, 2) == $j->ge_kod_jabatan) {
+                                    if (substr("0" . $tuntutan->user->department_code, 2, 2) == $b->ge_kod_bahagian) {
                                         $temp2[] = $tuntutan;
                                     }
                                 }
@@ -251,10 +257,10 @@ class LaporanController extends Controller
 
     public function sebulan_pergaji(Request $request)
     {
-        $jabatan = Jabatan::where('GE_KOD_JABATAN', $request->jabatan)->first();
+        $jabatan = Jabatan::where('ge_kod_jabatan', $request->jabatan)->first();
 
-        $bahagian = Bahagian::where('GE_KOD_JABATAN', substr($request->bahagian, 0, 2))
-            ->where('GE_KOD_BAHAGIAN', substr($request->bahagian, 2, 2))
+        $bahagian = Bahagian::where('ge_kod_jabatan', substr($request->bahagian, 0, 2))
+            ->where('ge_kod_bahagian', substr($request->bahagian, 2, 2))
             ->first();
 
         $tuntutan = Tuntutan::with('user')

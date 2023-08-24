@@ -46,17 +46,19 @@
                 <div class="container-fluid mt--6">
 
                     {{-- Card --}}
+
                     <div class="row">
-                        <div class="col-xl-4 col-md-6">
+                        <div class="col-xl-3 col-md-6">
                             <div class="card card-stats">
                                 <!-- Card body -->
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PERMOHONAN
-                                                DISOKONG
+                                                Disokong
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_sokong }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">{{ $permohonan_disokongs_rekod->where('sokong_sebelum', '1')->count() }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div
@@ -69,53 +71,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6">
-                            <div class="card card-stats">
-                                <!-- Card body -->
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PERMOHONAN
-                                                SOKONG
-                                                DITOLAK
-                                            </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_tolak_sokong }}</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div
-                                                class="icon icon-shape bg-gradient-success text-white rounded-circle shadow">
-                                                <i class="ni ni-chart-bar-32"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-md-6">
-                            <div class="card card-stats">
-                                <!-- Card body -->
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PERMOHONAN
-                                                SOKONG
-                                                PERLU SEMAKAN
-                                            </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_sokong_proses }}</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div
-                                                class="icon icon-shape bg-gradient-success text-white rounded-circle shadow">
-                                                <i class="ni ni-chart-bar-32"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-4 col-md-6">
+                        <div class="col-xl-3 col-md-6">
                             <div class="card card-stats">
                                 <!-- Card body -->
                                 <div class="card-body">
@@ -124,7 +80,8 @@
                                             <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PERMOHONAN
                                                 DILULUSKAN
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_lulus }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">{{ $permohonan_dilulus_rekod->where('lulus_sebelum', '1')->count() }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div
@@ -137,7 +94,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6">
+                        <div class="col-xl-3 col-md-6">
                             <div class="card card-stats">
                                 <!-- Card body -->
                                 <div class="card-body">
@@ -147,7 +104,8 @@
                                                 LULUS
                                                 DITOLAK
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_tolak_lulus }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">{{ $permohonan_dilulus_rekod->where('lulus_sebelum', '0')->count() }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div
@@ -159,7 +117,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6">
+                        <div class="col-xl-3 col-md-6">
                             <div class="card card-stats">
                                 <!-- Card body -->
                                 <div class="card-body">
@@ -169,7 +127,7 @@
                                                 LULUS
                                                 PERLU DISEMAK
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_lulus_proses }}</span>
+                                            <span class="h2 font-weight-bold mb-0">{{ $permohonan_dilulus->count() }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div
@@ -187,8 +145,7 @@
                     {{-- Table :Permohonan_Disokongs --}}
                     <div class="row ">
                         <div class="col-md-12 mb-3">
-                            <button class="btn btn-primary btn-sm "
-                                onclick="SubmitAllKakitangan(1,'.sak','sokong')">Sokong
+                            <button class="btn btn-primary btn-sm " onclick="SubmitAllKakitangan(1,'.sak','sokong')">Sokong
                                 Pilihan</button>
                             <button class="btn btn-danger btn-sm " onclick="SubmitAllKakitangan(0,'.sak','sokong')">Tolak
                                 Pilihan</button>
@@ -208,6 +165,7 @@
                                                 <th>No</th>
                                                 <th>Nama Pemohon</th>
                                                 <th>Waktu Mula<br><br>Waktu Akhir</th>
+                                                <th>Jumlah Jam</th>
                                                 <th>Lokasi<br><br>Tujuan</th>
                                                 <th>Pegawai Sokong <br><br>Pegawai Lulus</th>
                                                 <th>Status</th>
@@ -227,7 +185,7 @@
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->user->name }}<br><br>
+                                                        {{ $permohonan->user->name ?? '' }}<br><br>
 
                                                         @if ($permohonan->jenis_permohonan == 'individu')
                                                             <span class="badge badge-pill badge-warning">INDIVIDU</span>
@@ -236,9 +194,12 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->mohon_mula_kerja }}<br><br>
-
-                                                        {{ $permohonan->mohon_akhir_kerja }}
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_mula_kerja)) }}
+                                                        <br><br>
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_akhir_kerja)) }}
+                                                    </td>
+                                                    <td>
+                                                        {{$permohonan->kadar_jam}}
                                                     </td>
                                                     <td>
                                                         {{ $permohonan->lokasi }}<br><br>
@@ -252,33 +213,33 @@
                                                     </td>
 
 
-                                                    @if ($permohonan->sokong_sebelum === null)
+                                                    @if ($permohonan->sokong_sebelum == null)
                                                         <td>
                                                             <span class="badge badge-pill badge-primary">Perlu
                                                                 Semakan</span>
                                                         </td>
                                                         <td>
                                                             <a href="/permohonans/{{ $permohonan->id }}/edit"
-                                                                class="btn btn-primary btn-sm"><i
-                                                                    class="ni ni-single-copy-04"></i></a>
+                                                                class="btn btn-primary btn-sm"> Kemaskini <i
+                                                                    class="ni ni-single-copy-04"></i></a><br>
 
                                                             <button type="button" class="btn btn-danger btn-sm"
                                                                 data-toggle="modal"
-                                                                data-target="#tolaksokongansebelum{{ $permohonan->id }}">
+                                                                data-target="#tolaksokongansebelum{{ $permohonan->id }}">Tolak
                                                                 <i class="ni ni-basket"></i>
-                                                            </button>
+                                                            </button><br>
 
                                                             <a href="/sokong_sebelum/{{ $permohonan->id }}/"
-                                                                class="btn btn-success btn-sm"><i
+                                                                class="btn btn-success btn-sm">Sokong <i
                                                                     class="ni ni-like-2"></i></a>
                                                         </td>
-                                                    @elseif($permohonan->sokong_sebelum === 1)
+                                                    @elseif($permohonan->sokong_sebelum == 1)
                                                         <td>
                                                             <span class="badge badge-pill badge-success">Lulus
                                                                 Permohonan
                                                                 PG1</span><br><br>
 
-                                                            @if ($permohonan->lulus_sebelum === null)
+                                                            @if ($permohonan->lulus_sebelum == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan
                                                                     PG2</span>
@@ -286,14 +247,14 @@
                                                         <td>
                                                             --
                                                         </td>
-                                                    @elseif($permohonan->lulus_sebelum === 1)
+                                                    @elseif($permohonan->lulus_sebelum == 1)
                                                         <span class="badge badge-pill badge-success">Lulus Permohonan
                                                             PG2</span>
                                                         </td>
                                                         <td>
                                                             --
                                                         </td>
-                                                    @elseif($permohonan->lulus_sebelum === 0)
+                                                    @elseif($permohonan->lulus_sebelum == 0)
                                                         <span class="badge badge-pill badge-danger">Ditolak Permohonan
                                                             PG2</span><br><br>
                                                         {{ $permohonan->lulus_sebelum_sebab }}
@@ -303,7 +264,7 @@
                                                         </td>
                                                     @endif
                                                     </td>
-                                                @elseif($permohonan->sokong_sebelum === 0)
+                                                @elseif($permohonan->sokong_sebelum == 0)
                                                     <td>
                                                         <span class="badge badge-pill badge-danger">Ditolak Permohonan
                                                             PG1</span><br><br>
@@ -390,6 +351,7 @@
                                                 <th>No</th>
                                                 <th>Nama Pemohon</th>
                                                 <th>Waktu Mula<br><br>Waktu Akhir</th>
+                                                <th>Jumlah Jam</th>
                                                 <th>Lokasi<br><br>Tujuan</th>
                                                 <th>Pegawai Sokong <br><br>Pegawai Lulus</th>
                                                 <th>Status</th>
@@ -409,7 +371,7 @@
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->user->name }}<br><br>
+                                                        {{ $permohonan->user->name ?? '' }}<br><br>
 
                                                         @if ($permohonan->jenis_permohonan == 'individu')
                                                             <span class="badge badge-pill badge-warning">INDIVIDU</span>
@@ -418,9 +380,12 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->mohon_mula_kerja }}<br><br>
-
-                                                        {{ $permohonan->mohon_akhir_kerja }}
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_mula_kerja)) }}
+                                                        <br><br>
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_akhir_kerja)) }}
+                                                    </td>
+                                                    <td>
+                                                        {{$permohonan->kadar_jam}}
                                                     </td>
                                                     <td>
                                                         {{ $permohonan->lokasi }}<br><br>
@@ -428,39 +393,42 @@
                                                         {{ $permohonan->tujuan }}
                                                     </td>
                                                     <td>
+                                                        <h5> <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalotduration}}</span> </h5>
+                                                    </td>
+
+                                                    <td>
                                                         {{ $permohonan->pegawaiSokong->name }}
                                                         <br><br>
                                                         {{ $permohonan->pegawaiLulus->name }}
                                                     </td>
 
 
-                                                    @if ($permohonan->sokong_sebelum === null)
+                                                    @if ($permohonan->sokong_sebelum == null)
                                                         <td>
                                                             <span class="badge badge-pill badge-primary">Perlu
                                                                 Semakan</span>
                                                         </td>
                                                         <td>
                                                             <a href="/permohonans/{{ $permohonan->id }}/edit"
-                                                                class="btn btn-primary btn-sm"><i
-                                                                    class="ni ni-single-copy-04"></i></a>
+                                                                class="btn btn-primary btn-sm"> Kemaskini <i
+                                                                    class="ni ni-single-copy-04"></i></a><br>
 
                                                             <button type="button" class="btn btn-danger btn-sm"
                                                                 data-toggle="modal"
-                                                                data-target="#tolaksokongansebelum{{ $permohonan->id }}">
+                                                                data-target="#tolaksokongansebelum{{ $permohonan->id }}">Tolak
                                                                 <i class="ni ni-basket"></i>
-                                                            </button>
-
+                                                            </button><br>
                                                             <a href="/sokong_sebelum/{{ $permohonan->id }}/"
-                                                                class="btn btn-success btn-sm"><i
+                                                                class="btn btn-success btn-sm"> Sokong <i
                                                                     class="ni ni-like-2"></i></a>
                                                         </td>
-                                                    @elseif($permohonan->sokong_sebelum === 1)
+                                                    @elseif($permohonan->sokong_sebelum == 1)
                                                         <td>
                                                             <span class="badge badge-pill badge-success">Lulus
                                                                 Permohonan
                                                                 PG1</span><br><br>
 
-                                                            @if ($permohonan->lulus_sebelum === null)
+                                                            @if ($permohonan->lulus_sebelum == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam
                                                                     Semakan
                                                                     PG2</span>
@@ -468,14 +436,14 @@
                                                         <td>
                                                             --
                                                         </td>
-                                                    @elseif($permohonan->lulus_sebelum === 1)
+                                                    @elseif($permohonan->lulus_sebelum == 1)
                                                         <span class="badge badge-pill badge-success">Lulus Permohonan
                                                             PG2</span>
                                                         </td>
                                                         <td>
                                                             --
                                                         </td>
-                                                    @elseif($permohonan->lulus_sebelum === 0)
+                                                    @elseif($permohonan->lulus_sebelum == 0)
                                                         <span class="badge badge-pill badge-danger">Ditolak Permohonan
                                                             PG2</span><br><br>
                                                         {{ $permohonan->lulus_sebelum_sebab }}
@@ -485,7 +453,7 @@
                                                         </td>
                                                     @endif
                                                     </td>
-                                                @elseif($permohonan->sokong_sebelum === 0)
+                                                @elseif($permohonan->sokong_sebelum == 0)
                                                     <td>
                                                         <span class="badge badge-pill badge-danger">Ditolak Permohonan
                                                             PG1</span><br><br>
@@ -590,6 +558,7 @@
                                                 <th>No</th>
                                                 <th>Nama Pemohon</th>
                                                 <th>Waktu Mula<br><br>Waktu Akhir</th>
+                                                <th>Jumlah Jam</th>
                                                 <th>Lokasi<br><br>Tujuan</th>
                                                 <th>Pegawai Sokong <br><br>Pegawai Lulus</th>
                                                 <th>Status</th>
@@ -600,8 +569,7 @@
                                             @foreach ($permohonan_dilulus as $permohonan)
                                                 <tr>
                                                     <td>
-                                                        <input
-                                                            {{ $permohonan->lulus_sebelum !== null ? 'disabled' : '' }}
+                                                        <input {{ $permohonan->lulus_sebelum !== null ? 'disabled' : '' }}
                                                             type="checkbox"
                                                             class="{{ $permohonan->lulus_sebelum !== null ? '' : 'lak' }}"
                                                             id="{{ $permohonan->id }}">
@@ -610,7 +578,7 @@
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->user->name }}<br><br>
+                                                        {{ $permohonan->user->name ?? '' }}<br><br>
                                                         @if ($permohonan->jenis_permohonan == 'individu')
                                                             <span class="badge badge-pill badge-warning">INDIVIDU</span>
                                                         @elseif($permohonan->jenis_permohonan == 'berkumpulan')
@@ -618,9 +586,12 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->mohon_mula_kerja }}<br><br>
-
-                                                        {{ $permohonan->mohon_akhir_kerja }}
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_mula_kerja)) }}
+                                                        <br><br>
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_akhir_kerja)) }}
+                                                    </td>
+                                                    <td>
+                                                        {{$permohonan->kadar_jam}}
                                                     </td>
                                                     <td>
                                                         {{ $permohonan->lokasi }}<br><br>
@@ -634,7 +605,7 @@
                                                     </td>
 
                                                     <td>
-                                                        @if ($permohonan->sokong_sebelum === null)
+                                                        @if ($permohonan->sokong_sebelum == null)
                                                             <span class="badge badge-pill badge-primary">Semakan Pegawai
                                                                 Sokong</span>
                                                         @elseif($permohonan->sokong_sebelum == 1)
@@ -648,7 +619,7 @@
                                                             </span>
                                                         @endif
                                                         <br><br>
-                                                        @if ($permohonan->lulus_sebelum === null)
+                                                        @if ($permohonan->lulus_sebelum == null)
                                                             <span class="badge badge-pill badge-primary">Semakan Pegawai
                                                                 Lulus</span>
                                                         @elseif($permohonan->lulus_sebelum == 1)
@@ -663,7 +634,7 @@
                                                         @endif
                                                         <br><br>
 
-                                                        @if (isset($permohonan->jenis_masa) && $permohonan->lulus_sebelum === null)
+                                                        @if (isset($permohonan->jenis_masa) && $permohonan->lulus_sebelum == null)
                                                             <div class="col-12 text-center">
                                                                 <label class="h5 my-0 py-0 mt-2"> Jenis Masa</label>
                                                             </div>
@@ -704,19 +675,20 @@
                                                     </td>
 
                                                     <td>
-                                                        @if ($permohonan->lulus_sebelum === null)
+                                                        @if ($permohonan->lulus_sebelum == null)
                                                             <a href="/permohonans/{{ $permohonan->id }}/edit"
-                                                                class="btn btn-primary btn-sm"><i
-                                                                    class="ni ni-single-copy-04"></i></a>
+                                                                class="btn btn-primary btn-sm"> Kemaskini<i
+                                                                    class="ni ni-single-copy-04"></i></a><br>
 
                                                             <button type="button" class="btn btn-danger btn-sm"
                                                                 data-toggle="modal"
                                                                 data-target="#tolaklulussebelum{{ $permohonan->id }}">
+                                                                Tolak
                                                                 <i class="ni ni-basket"></i>
-                                                            </button>
+                                                            </button><br>
 
                                                             <a href="/lulus_sebelum/{{ $permohonan->id }}/"
-                                                                class="btn btn-success btn-sm"><i
+                                                                class="btn btn-success btn-sm">Lulus <i
                                                                     class="ni ni-like-2"></i></a>
                                                         @else
                                                             --
@@ -803,8 +775,7 @@
                                             @foreach ($permohonan_dilulus_rekod as $permohonan)
                                                 <tr>
                                                     <td>
-                                                        <input
-                                                            {{ $permohonan->lulus_sebelum !== null ? 'disabled' : '' }}
+                                                        <input {{ $permohonan->lulus_sebelum !== null ? 'disabled' : '' }}
                                                             type="checkbox"
                                                             class="{{ $permohonan->lulus_sebelum !== null ? '' : 'lak' }}"
                                                             id="{{ $permohonan->id }}">
@@ -813,7 +784,7 @@
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->user->name }}<br><br>
+                                                        {{ $permohonan->user->name ?? '' }}<br><br>
                                                         @if ($permohonan->jenis_permohonan == 'individu')
                                                             <span class="badge badge-pill badge-warning">INDIVIDU</span>
                                                         @elseif($permohonan->jenis_permohonan == 'berkumpulan')
@@ -821,9 +792,9 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->mohon_mula_kerja }}<br><br>
-
-                                                        {{ $permohonan->mohon_akhir_kerja }}
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_mula_kerja)) }}
+                                                        <br><br>
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_akhir_kerja)) }}
                                                     </td>
                                                     <td>
                                                         {{ $permohonan->lokasi }}<br><br>
@@ -837,7 +808,7 @@
                                                     </td>
 
                                                     <td>
-                                                        @if ($permohonan->sokong_sebelum === null)
+                                                        @if ($permohonan->sokong_sebelum == null)
                                                             <span class="badge badge-pill badge-primary">Semakan Pegawai
                                                                 Sokong</span>
                                                         @elseif($permohonan->sokong_sebelum == 1)
@@ -851,7 +822,7 @@
                                                             </span>
                                                         @endif
                                                         <br><br>
-                                                        @if ($permohonan->lulus_sebelum === null)
+                                                        @if ($permohonan->lulus_sebelum == null)
                                                             <span class="badge badge-pill badge-primary">Semakan Pegawai
                                                                 Lulus</span>
                                                         @elseif($permohonan->lulus_sebelum == 1)
@@ -866,7 +837,7 @@
                                                         @endif
                                                         <br><br>
 
-                                                        @if (isset($permohonan->jenis_masa) && $permohonan->lulus_sebelum === null)
+                                                        @if (isset($permohonan->jenis_masa) && $permohonan->lulus_sebelum == null)
                                                             <div class="col-12 text-center">
                                                                 <label class="h5 my-0 py-0 mt-2"> Jenis Masa</label>
                                                             </div>
@@ -907,19 +878,20 @@
                                                     </td>
 
                                                     <td>
-                                                        @if ($permohonan->lulus_sebelum === null)
+                                                        @if ($permohonan->lulus_sebelum == null)
                                                             <a href="/permohonans/{{ $permohonan->id }}/edit"
-                                                                class="btn btn-primary btn-sm"><i
-                                                                    class="ni ni-single-copy-04"></i></a>
+                                                                class="btn btn-primary btn-sm"> Kemaskini <i
+                                                                    class="ni ni-single-copy-04"></i></a><br>
 
                                                             <button type="button" class="btn btn-danger btn-sm"
                                                                 data-toggle="modal"
                                                                 data-target="#tolaklulussebelum{{ $permohonan->id }}">
+                                                                Tolak
                                                                 <i class="ni ni-basket"></i>
-                                                            </button>
+                                                            </button><br>
 
                                                             <a href="/lulus_sebelum/{{ $permohonan->id }}/"
-                                                                class="btn btn-success btn-sm"><i
+                                                                class="btn btn-success btn-sm"> Lulus <i
                                                                     class="ni ni-like-2"></i></a>
                                                         @else
                                                             --
@@ -1006,7 +978,8 @@
                                             <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PENGESAHAN
                                                 DISOKONG
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_sokong_selepas }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">{{ $pengesahan_dilulus_rekod->where('sokong_selepas', '1')->count() }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -1027,7 +1000,8 @@
                                             <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PENGESAHAN SOKONG
                                                 DITOLAK
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_tolak_sokong_selepas }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">{{ $pengesahan_disokongs_rekod->where('sokong_selepas', '0')->count() }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -1047,7 +1021,8 @@
                                             <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PENGESAHAN SOKONG
                                                 PERLU SEMAKAN
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_sokong_selepas_proses }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">{{ $pengesahan_disokongs->count() }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -1069,7 +1044,8 @@
                                             <h5 class="card-title text-uppercase text-muted mb-0"> JUMLAH PENGESAHAN
                                                 DILULUSKAN
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_lulus_selepas }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">{{ $pengesahan_dilulus_rekod->where('lulus_selepas', '1')->count() }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -1090,7 +1066,8 @@
                                             <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PENGESAHAN LULUS
                                                 DITOLAK
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_tolak_lulus_selepas }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">{{ $pengesahan_dilulus_rekod->where('lulus_selepas', '0')->count() }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -1110,7 +1087,8 @@
                                             <h5 class="card-title text-uppercase text-muted mb-0">JUMLAH PENGESAHAN LULUS
                                                 PERLU DISEMAK
                                             </h5>
-                                            <span class="h2 font-weight-bold mb-0">{{ $p_lulus_selepas_proses }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">{{ $pengesahan_dilulus->count() }}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -1148,6 +1126,7 @@
                                                 <th>No</th>
                                                 <th>Nama Pemohon</th>
                                                 <th>Waktu Mula Kerja lulus <br>Waktu Akhir Kerja lulus</th>
+                                                <th>Jumlah Jam</th>
                                                 <th>Ekedatangan</th>
                                                 <th>Waktu Mula Sebenar<br>Waktu Akhir Sebenar</th>
                                                 <th>Pegawai Sokong<br>Pegawai Lulus</th>
@@ -1159,7 +1138,7 @@
                                             @foreach ($pengesahan_disokongs as $permohonan)
                                                 <tr>
                                                     <td>
-                                                        @if ($permohonan->sah_mula_kerja && $permohonan->sokong_selepas === null)
+                                                        @if ($permohonan->sah_mula_kerja && $permohonan->sokong_selepas == null)
                                                             <input type="checkbox" class="spa"
                                                                 id="{{ $permohonan->id }}">
                                                         @else
@@ -1171,30 +1150,66 @@
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->user->name }}
+                                                        {{ $permohonan->user->name ?? '' }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->mohon_mula_kerja }}
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_mula_kerja)) }}
                                                         <br><br>
-                                                        {{ $permohonan->mohon_akhir_kerja }}
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_akhir_kerja)) }}
                                                     </td>
                                                     <td>
-                                                        <h5> Tarikh : <span
-                                                                style="color:rgb(255, 0, 21)">{{ $permohonan->tarikh }}</span>
+                                                        {{$permohonan->kadar_jam}}
+                                                    </td>
+                                                    <td>
+                                                        <h5> Tarikh :  
+                                                            @if ($permohonan->tarikh == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->tarikh}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)">{{  date('d-m-Y', strtotime($permohonan->tarikh)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('d-m-Y', strtotime($permohonan->tarikh)) }}</span>
+                                                                @endif
+                                                            @endif
                                                         </h5>
-                                                        <h5> Mula : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->clockintime }}</span> </h5>
-                                                        <h5> Akhir : <span
-                                                                style="color:rgb(255, 0, 21)">{{ $permohonan->clockouttime }}</span>
+                                                        <h5> Mula : 
+                                                            @if ($permohonan->clockintime == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->clockintime}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)"> {{  date('H:i:s', strtotime($permohonan->clockintime)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('H:i:s', strtotime($permohonan->clockintime)) }}</span>
+                                                                @endif
+                                                            @endif                                                        
+                                                        <h5> Akhir : 
+                                                            @if ($permohonan->clockouttime == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->clockouttime}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)">{{  date('H:i:s', strtotime($permohonan->clockouttime)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('H:i:s', strtotime($permohonan->clockouttime)) }}</span>
+                                                                @endif
+                                                            @endif                                                        
                                                         </h5>
                                                         {{-- <h5>  Jumlah OT  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalworkinghour}}</span> </h5> --}}
-                                                        <h5> Status : <span
-                                                                style="color:rgb(255, 0, 21)">{{ $permohonan->statusdesc }}</span>
+                                                        <h5> Status : 
+                                                            @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)) || $permohonan->statusdesc == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{ $permohonan->statusdesc }}</span>
+                                                            @else
+                                                                <span>{{ $permohonan->statusdesc }}</span>
+                                                            @endif
                                                         </h5>
                                                         {{-- <h5>  Jumlah Jam  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalotduration}}</span> </h5> --}}
-                                                        <h5> Waktu Anjal : <span
-                                                                style="color:rgb(255, 0, 21)">{{ $permohonan->waktuanjal }}</span>
+                                                        <h5> Waktu Anjal :
+                                                            @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)) || $permohonan->waktuanjal == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{ $permohonan->waktuanjal }}</span>
+                                                            @else
+                                                                <span>{{ $permohonan->waktuanjal }}</span>
+                                                            @endif 
                                                         </h5>
+
                                                         @if (isset($permohonan->jenis_masa) && $permohonan->sah_mula_kerja)
                                                             <div class="row">
 
@@ -1240,7 +1255,7 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($permohonan->sokong_selepas === null && $permohonan->sah_mula_kerja)
+                                                        @if ($permohonan->sokong_selepas == null && $permohonan->sah_mula_kerja)
                                                             <input name="masa_mula" type="time" class="form-control"
                                                                 onchange="kemaskiniMasaSebenarMulaSaya({{ $permohonan->id }}, this)"
                                                                 value={{ date('H:i', strtotime($permohonan->sebenar_mula_kerja)) }}><br>
@@ -1248,8 +1263,8 @@
                                                                 onchange="kemaskiniMasaSebenarAkhirSaya({{ $permohonan->id }}, this)"
                                                                 value={{ date('H:i', strtotime($permohonan->sebenar_akhir_kerja)) }}><br>
                                                         @else
-                                                            {{ $permohonan->sebenar_mula_kerja }}<br><br>
-                                                            {{ $permohonan->sebenar_akhir_kerja }}
+                                                            {{  date('d-m-Y H:i:s', strtotime($permohonan->sebenar_mula_kerja)) }}<br><br>
+                                                            {{  date('d-m-Y H:i:s', strtotime($permohonan->sebenar_akhir_kerja)) }}
                                                         @endif
                                                     </td>
                                                     <td>
@@ -1260,10 +1275,10 @@
 
                                                     @if ($permohonan->sah_mula_kerja)
                                                         <td>
-                                                            @if ($permohonan->sokong_selepas === null)
+                                                            @if ($permohonan->sokong_selepas == null)
                                                                 <span class="badge badge-pill badge-primary">Perlu
                                                                     Semakan</span><br>
-                                                            @elseif($permohonan->sokong_selepas === 0)
+                                                            @elseif($permohonan->sokong_selepas == 0)
                                                                 <span class="badge badge-pill badge-danger">Ditolak
                                                                     Pengesahan </span><br><br>
                                                                 {{ $permohonan->sokong_selepas_sebab }}
@@ -1271,25 +1286,25 @@
 
                                                                 <span class="badge badge-pill badge-danger"> Pengesahan
                                                                     Ditolak</span><br><br>
-                                                            @elseif($permohonan->sokong_selepas === 1)
+                                                            @elseif($permohonan->sokong_selepas == 1)
                                                                 <span class="badge badge-pill badge-success">Lulus
                                                                     Pengesahan </span><br><br>
 
-                                                                @if ($permohonan->lulus_selepas === 1)
+                                                                @if ($permohonan->lulus_selepas == 1)
                                                                     <span class="badge badge-pill badge-success">Lulus
                                                                         Pengesahan </span><br>
-                                                                @elseif($permohonan->lulus_selepas === 0)
+                                                                @elseif($permohonan->lulus_selepas == 0)
                                                                     <span class="badge badge-pill badge-danger">Ditolak
                                                                         Pengesahan </span><br>
                                                                     {{ $permohonan->lulus_selepas_sebab }}
-                                                                @elseif($permohonan->lulus_selepas === null)
+                                                                @elseif($permohonan->lulus_selepas == null)
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         semakan </span><br>
                                                                 @endif
                                                             @endif
                                                         </td>
                                                         <td class="kemaskini">
-                                                            @if ($permohonan->sokong_selepas === null)
+                                                            @if ($permohonan->sokong_selepas == null)
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     data-toggle="modal"
                                                                     data-target="#tolaksokongselepas{{ $permohonan->id }}">
@@ -1382,6 +1397,7 @@
                                                 <th>No</th>
                                                 <th>Nama Pemohon</th>
                                                 <th>Waktu Mula Kerja lulus <br>Waktu Akhir Kerja lulus</th>
+                                                <th>Jumlah Jam</th>
                                                 <th>Ekedatangan</th>
                                                 <th>Waktu Mula Sebenar<br>Waktu Akhir Sebenar</th>
                                                 <th>Pegawai Sokong<br>Pegawai Lulus</th>
@@ -1393,12 +1409,11 @@
                                             @foreach ($pengesahan_disokongs_rekod as $permohonan)
                                                 <tr>
                                                     <td>
-                                                        @if ($permohonan->sah_mula_kerja && $permohonan->sokong_selepas === null)
+                                                        @if ($permohonan->sah_mula_kerja && $permohonan->sokong_selepas == null)
                                                             <input type="checkbox" class="spa"
                                                                 id="{{ $permohonan->id }}">
                                                         @else
-                                                            <input type="checkbox" id="{{ $permohonan->id }}"
-                                                                disabled>
+                                                            <input type="checkbox" id="{{ $permohonan->id }}" disabled>
                                                         @endif
                                                     </td>
 
@@ -1406,30 +1421,66 @@
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->user->name }}
+                                                        {{ $permohonan->user->name ?? '' }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->mohon_mula_kerja }}
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_mula_kerja)) }}
                                                         <br><br>
-                                                        {{ $permohonan->mohon_akhir_kerja }}
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_akhir_kerja)) }}
                                                     </td>
                                                     <td>
-                                                        <h5> Tarikh : <span
-                                                                style="color:rgb(255, 0, 21)">{{ $permohonan->tarikh }}</span>
+                                                        {{$permohonan->kadar_jam}}
+                                                    </td>
+                                                    <td>
+                                                        <h5> Tarikh :  
+                                                            @if ($permohonan->tarikh == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->tarikh}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)">{{  date('d-m-Y', strtotime($permohonan->tarikh)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('d-m-Y', strtotime($permohonan->tarikh)) }}</span>
+                                                                @endif
+                                                            @endif
                                                         </h5>
-                                                        <h5> Mula : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->clockintime }}</span> </h5>
-                                                        <h5> Akhir : <span
-                                                                style="color:rgb(255, 0, 21)">{{ $permohonan->clockouttime }}</span>
+                                                        <h5> Mula : 
+                                                            @if ($permohonan->clockintime == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->clockintime}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)"> {{  date('H:i:s', strtotime($permohonan->clockintime)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('H:i:s', strtotime($permohonan->clockintime)) }}</span>
+                                                                @endif
+                                                            @endif                                                        
+                                                        <h5> Akhir : 
+                                                            @if ($permohonan->clockouttime == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->clockouttime}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)">{{  date('H:i:s', strtotime($permohonan->clockouttime)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('H:i:s', strtotime($permohonan->clockouttime)) }}</span>
+                                                                @endif
+                                                            @endif                                                        
                                                         </h5>
                                                         {{-- <h5>  Jumlah OT  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalworkinghour}}</span> </h5> --}}
-                                                        <h5> Status : <span
-                                                                style="color:rgb(255, 0, 21)">{{ $permohonan->statusdesc }}</span>
+                                                        <h5> Status : 
+                                                            @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)) || $permohonan->statusdesc == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{ $permohonan->statusdesc }}</span>
+                                                            @else
+                                                                <span>{{ $permohonan->statusdesc }}</span>
+                                                            @endif
                                                         </h5>
                                                         {{-- <h5>  Jumlah Jam  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalotduration}}</span> </h5> --}}
-                                                        <h5> Waktu Anjal : <span
-                                                                style="color:rgb(255, 0, 21)">{{ $permohonan->waktuanjal }}</span>
+                                                        <h5> Waktu Anjal :
+                                                            @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)) || $permohonan->waktuanjal == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{ $permohonan->waktuanjal }}</span>
+                                                            @else
+                                                                <span>{{ $permohonan->waktuanjal }}</span>
+                                                            @endif 
                                                         </h5>
+
                                                         @if (isset($permohonan->jenis_masa) && $permohonan->sah_mula_kerja)
                                                             <div class="row">
 
@@ -1475,7 +1526,7 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($permohonan->sokong_selepas === null && $permohonan->sah_mula_kerja)
+                                                        @if ($permohonan->sokong_selepas == null && $permohonan->sah_mula_kerja)
                                                             <input name="masa_mula" type="time" class="form-control"
                                                                 onchange="kemaskiniMasaSebenarMulaSaya({{ $permohonan->id }}, this)"
                                                                 value={{ date('H:i', strtotime($permohonan->sebenar_mula_kerja)) }}><br>
@@ -1483,8 +1534,8 @@
                                                                 onchange="kemaskiniMasaSebenarAkhirSaya({{ $permohonan->id }}, this)"
                                                                 value={{ date('H:i', strtotime($permohonan->sebenar_akhir_kerja)) }}><br>
                                                         @else
-                                                            {{ $permohonan->sebenar_mula_kerja }}<br><br>
-                                                            {{ $permohonan->sebenar_akhir_kerja }}
+                                                            {{  date('d-m-Y H:i:s', strtotime($permohonan->sebenar_mula_kerja)) }}<br><br>
+                                                            {{  date('d-m-Y H:i:s', strtotime($permohonan->sebenar_akhir_kerja)) }}
                                                         @endif
                                                     </td>
                                                     <td>
@@ -1495,10 +1546,10 @@
 
                                                     @if ($permohonan->sah_mula_kerja)
                                                         <td>
-                                                            @if ($permohonan->sokong_selepas === null)
+                                                            @if ($permohonan->sokong_selepas == null)
                                                                 <span class="badge badge-pill badge-primary">Perlu
                                                                     Semakan</span><br>
-                                                            @elseif($permohonan->sokong_selepas === 0)
+                                                            @elseif($permohonan->sokong_selepas == 0)
                                                                 <span class="badge badge-pill badge-danger">Ditolak
                                                                     Pengesahan </span><br><br>
                                                                 {{ $permohonan->sokong_selepas_sebab }}
@@ -1506,25 +1557,25 @@
 
                                                                 <span class="badge badge-pill badge-danger"> Pengesahan
                                                                     Ditolak</span><br><br>
-                                                            @elseif($permohonan->sokong_selepas === 1)
+                                                            @elseif($permohonan->sokong_selepas == 1)
                                                                 <span class="badge badge-pill badge-success">Lulus
                                                                     Pengesahan </span><br><br>
 
-                                                                @if ($permohonan->lulus_selepas === 1)
+                                                                @if ($permohonan->lulus_selepas == 1)
                                                                     <span class="badge badge-pill badge-success">Lulus
                                                                         Pengesahan </span><br>
-                                                                @elseif($permohonan->lulus_selepas === 0)
+                                                                @elseif($permohonan->lulus_selepas == 0)
                                                                     <span class="badge badge-pill badge-danger">Ditolak
                                                                         Pengesahan </span><br>
                                                                     {{ $permohonan->lulus_selepas_sebab }}
-                                                                @elseif($permohonan->lulus_selepas === null)
+                                                                @elseif($permohonan->lulus_selepas == null)
                                                                     <span class="badge badge-pill badge-primary">Dalam
                                                                         semakan </span><br>
                                                                 @endif
                                                             @endif
                                                         </td>
                                                         <td class="kemaskini">
-                                                            @if ($permohonan->sokong_selepas === null)
+                                                            @if ($permohonan->sokong_selepas == null)
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     data-toggle="modal"
                                                                     data-target="#tolaksokongselepas{{ $permohonan->id }}">
@@ -1634,6 +1685,7 @@
                                                 <th>No</th>
                                                 <th>Nama Pemohon</th>
                                                 <th>Waktu Mula Kerja lulus <br>Waktu Akhir Kerja lulus</th>
+                                                <th>Jumlah Jam</th>
                                                 <th>Ekedatangan</th>
                                                 <th>Waktu Mula Sebenar<br>Waktu Akhir Sebenar</th>
                                                 <th>Pegawai Sokong<br>Pegawai Lulus</th>
@@ -1645,39 +1697,78 @@
                                             @foreach ($pengesahan_dilulus as $permohonan)
                                                 <tr>
                                                     <td>
-                                                        @if ($permohonan->sah_mula_kerja && $permohonan->sokong_selepas !== null && $permohonan->lulus_selepas === null)
+                                                        @if ($permohonan->sah_mula_kerja && $permohonan->sokong_selepas !== null && $permohonan->lulus_selepas == null)
                                                             <input type="checkbox" class="lpa"
                                                                 id="{{ $permohonan->id }}">
                                                         @else
-                                                            <input type="checkbox" disabled
-                                                                id="{{ $permohonan->id }}">
+                                                            <input type="checkbox" disabled id="{{ $permohonan->id }}">
                                                         @endif
                                                     </td>
                                                     <td>
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->nama_pemohon }}
+                                                        {{ $permohonan->user->name ?? '' }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->mohon_mula_kerja }}<br><br>
-
-                                                        {{ $permohonan->mohon_akhir_kerja }}
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_mula_kerja)) }}
+                                                        <br><br>
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_akhir_kerja)) }}
                                                     </td>
                                                     <td>
-                                                        <h5> Tarikh : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->tarikh }}</span> </h5>
-                                                        <h5> Mula : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->clockintime }}</span> </h5>
-                                                        <h5> Akhir : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->clockouttime }}</span> </h5>
+                                                        {{$permohonan->kadar_jam}}
+                                                    </td>
+                                                    <td>
+                                                       <h5> Tarikh :  
+                                                            @if ($permohonan->tarikh == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->tarikh}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)">{{  date('d-m-Y', strtotime($permohonan->tarikh)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('d-m-Y', strtotime($permohonan->tarikh)) }}</span>
+                                                                @endif
+                                                            @endif
+                                                        </h5>
+                                                        <h5> Mula : 
+                                                            @if ($permohonan->clockintime == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->clockintime}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)"> {{  date('H:i:s', strtotime($permohonan->clockintime)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('H:i:s', strtotime($permohonan->clockintime)) }}</span>
+                                                                @endif
+                                                            @endif                                                        
+                                                        <h5> Akhir : 
+                                                            @if ($permohonan->clockouttime == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->clockouttime}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)">{{  date('H:i:s', strtotime($permohonan->clockouttime)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('H:i:s', strtotime($permohonan->clockouttime)) }}</span>
+                                                                @endif
+                                                            @endif                                                        
+                                                        </h5>
                                                         {{-- <h5>  Jumlah OT  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalworkinghour}}</span> </h5> --}}
-                                                        <h5> Status : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->statusdesc }}</span> </h5>
+                                                        <h5> Status : 
+                                                            @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)) || $permohonan->statusdesc == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{ $permohonan->statusdesc }}</span>
+                                                            @else
+                                                                <span>{{ $permohonan->statusdesc }}</span>
+                                                            @endif
+                                                        </h5>
                                                         {{-- <h5>  Jumlah Jam  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalotduration}}</span> </h5> --}}
-                                                        <h5> Waktu Anjal : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->waktuanjal }}</span> </h5>
-                                                        @if (isset($permohonan->jenis_masa) && isset($permohonan->sokong_selepas) && $permohonan->lulus_selepas === null)
+                                                        <h5> Waktu Anjal :
+                                                            @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)) || $permohonan->waktuanjal == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{ $permohonan->waktuanjal }}</span>
+                                                            @else
+                                                                <span>{{ $permohonan->waktuanjal }}</span>
+                                                            @endif 
+                                                        </h5>
+
+                                                        @if (isset($permohonan->jenis_masa) && isset($permohonan->sokong_selepas) && $permohonan->lulus_selepas == null)
                                                             <div class="row">
 
                                                                 <div class="col-12 text-center">
@@ -1722,7 +1813,7 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($permohonan->lulus_selepas === null && isset($permohonan->sokong_selepas))
+                                                        @if ($permohonan->lulus_selepas == null && isset($permohonan->sokong_selepas))
                                                             <input name="masa_mula" type="time" class="form-control"
                                                                 onchange="kemaskiniMasaSebenarMulaSaya({{ $permohonan->id }}, this)"
                                                                 value={{ date('H:i', strtotime($permohonan->sebenar_mula_kerja)) }}><br>
@@ -1730,8 +1821,8 @@
                                                                 onchange="kemaskiniMasaSebenarAkhirSaya({{ $permohonan->id }}, this)"
                                                                 value={{ date('H:i', strtotime($permohonan->sebenar_akhir_kerja)) }}><br>
                                                         @else
-                                                            {{ $permohonan->sebenar_mula_kerja }}<br><br>
-                                                            {{ $permohonan->sebenar_akhir_kerja }}<br><br>
+                                                            {{  date('d-m-Y H:i:s', strtotime($permohonan->sebenar_mula_kerja)) }}<br><br>
+                                                            {{  date('d-m-Y H:i:s', strtotime($permohonan->sebenar_akhir_kerja)) }}<br><br>
                                                         @endif
                                                     </td>
                                                     <td>
@@ -1741,7 +1832,7 @@
                                                     </td>
 
                                                     <td>
-                                                        @if ($permohonan->sokong_selepas === null)
+                                                        @if ($permohonan->sokong_selepas == null)
                                                             <span class="badge badge-pill badge-primary">Dalam
                                                                 Proses</span>
                                                         @elseif($permohonan->sokong_selepas == 1)
@@ -1755,32 +1846,33 @@
                                                         <br><br>
 
                                                         @if ($permohonan->sokong_selepas !== null)
-                                                            @if ($permohonan->lulus_selepas === null)
+                                                            @if ($permohonan->lulus_selepas == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam Semakan
                                                                 </span>
-                                                            @elseif($permohonan->lulus_selepas === 0)
+                                                            @elseif($permohonan->lulus_selepas == 0)
                                                                 <span class="badge badge-pill badge-danger">Ditolak
                                                                     Pengesahan
                                                                 </span><br>
                                                                 Sebab Ditolak: {{ $permohonan->lulus_selepas_sebab }}
-                                                            @elseif($permohonan->lulus_selepas === 1)
+                                                            @elseif($permohonan->lulus_selepas == 1)
                                                                 <span class="badge badge-pill badge-success">Lulus
                                                                 </span>
                                                             @endif
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($permohonan->sokong_selepas == 1 && $permohonan->lulus_selepas === null)
+                                                        @if ($permohonan->sokong_selepas == 1 && $permohonan->lulus_selepas == null)
                                                             @if ($permohonan->sah_mula_kerja)
-                                                                <a href="/lulus_selepas/{{ $permohonan->id }}/"
-                                                                    class="btn btn-success btn-sm"><i
-                                                                        class="ni ni-like-2"></i>
-                                                                </a>
                                                                 <button type="button" class="btn btn-danger btn-sm"
                                                                     data-toggle="modal"
                                                                     data-target="#tolaklulusselepas{{ $permohonan->id }}">
+                                                                    Tolak
                                                                     <i class="ni ni-basket"></i>
-                                                                </button>
+                                                                </button><br>
+                                                                <a href="/lulus_selepas/{{ $permohonan->id }}/"
+                                                                    class="btn btn-success btn-sm"> Lulus <i
+                                                                        class="ni ni-like-2"></i>
+                                                                </a>
                                                             @else
                                                                 Pemohon Belum Sahkan Masa
                                                             @endif
@@ -1858,6 +1950,7 @@
                                                 <th>No</th>
                                                 <th>Nama Pemohon</th>
                                                 <th>Waktu Mula Kerja lulus <br>Waktu Akhir Kerja lulus</th>
+                                                <th>Jumlah Jam</th>
                                                 <th>Ekedatangan</th>
                                                 <th>Waktu Mula Sebenar<br>Waktu Akhir Sebenar</th>
                                                 <th>Pegawai Sokong<br>Pegawai Lulus</th>
@@ -1869,39 +1962,78 @@
                                             @foreach ($pengesahan_dilulus_rekod as $permohonan)
                                                 <tr>
                                                     <td>
-                                                        @if ($permohonan->sah_mula_kerja && $permohonan->sokong_selepas !== null && $permohonan->lulus_selepas === null)
+                                                        @if ($permohonan->sah_mula_kerja && $permohonan->sokong_selepas !== null && $permohonan->lulus_selepas == null)
                                                             <input type="checkbox" class="lpa"
                                                                 id="{{ $permohonan->id }}">
                                                         @else
-                                                            <input type="checkbox" disabled
-                                                                id="{{ $permohonan->id }}">
+                                                            <input type="checkbox" disabled id="{{ $permohonan->id }}">
                                                         @endif
                                                     </td>
                                                     <td>
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->nama_pemohon }}
+                                                        {{ $permohonan->user->name }}
                                                     </td>
                                                     <td>
-                                                        {{ $permohonan->mohon_mula_kerja }}<br><br>
-
-                                                        {{ $permohonan->mohon_akhir_kerja }}
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_mula_kerja)) }}
+                                                        <br><br>
+                                                        {{  date('d-m-Y H:i:s', strtotime($permohonan->mohon_akhir_kerja)) }}
                                                     </td>
                                                     <td>
-                                                        <h5> Tarikh : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->tarikh }}</span> </h5>
-                                                        <h5> Mula : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->clockintime }}</span> </h5>
-                                                        <h5> Akhir : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->clockouttime }}</span> </h5>
+                                                        {{$permohonan->kadar_jam}}
+                                                    </td>
+                                                    <td>
+                                                        <h5> Tarikh :  
+                                                            @if ($permohonan->tarikh == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->tarikh}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)">{{  date('d-m-Y', strtotime($permohonan->tarikh)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('d-m-Y', strtotime($permohonan->tarikh)) }}</span>
+                                                                @endif
+                                                            @endif
+                                                        </h5>
+                                                        <h5> Mula : 
+                                                            @if ($permohonan->clockintime == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->clockintime}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)"> {{  date('H:i:s', strtotime($permohonan->clockintime)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('H:i:s', strtotime($permohonan->clockintime)) }}</span>
+                                                                @endif
+                                                            @endif                                                        
+                                                        <h5> Akhir : 
+                                                            @if ($permohonan->clockouttime == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{$permohonan->clockouttime}}</span>
+                                                            @else
+                                                                @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)))
+                                                                    <span style="color:rgb(255, 0, 21)">{{  date('H:i:s', strtotime($permohonan->clockouttime)) }}</span>
+                                                                @else
+                                                                    <span>{{  date('H:i:s', strtotime($permohonan->clockouttime)) }}</span>
+                                                                @endif
+                                                            @endif                                                        
+                                                        </h5>
                                                         {{-- <h5>  Jumlah OT  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalworkinghour}}</span> </h5> --}}
-                                                        <h5> Status : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->statusdesc }}</span> </h5>
+                                                        <h5> Status : 
+                                                            @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)) || $permohonan->statusdesc == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{ $permohonan->statusdesc }}</span>
+                                                            @else
+                                                                <span>{{ $permohonan->statusdesc }}</span>
+                                                            @endif
+                                                        </h5>
                                                         {{-- <h5>  Jumlah Jam  : <span style ="color:rgb(255, 0, 21)">{{$permohonan->totalotduration}}</span> </h5> --}}
-                                                        <h5> Waktu Anjal : <span style="color:rgb(255, 0, 21)">
-                                                                {{ $permohonan->waktuanjal }}</span> </h5>
-                                                        @if (isset($permohonan->jenis_masa) && isset($permohonan->sokong_selepas) && $permohonan->lulus_selepas === null)
+                                                        <h5> Waktu Anjal :
+                                                            @if (date('H:i:s', strtotime($permohonan->clockintime)) != date('H:i:s', strtotime($permohonan->mohon_mula_kerja)) || $permohonan->waktuanjal == "Tiada Rekod")
+                                                                <span style="color:rgb(255, 0, 21)">{{ $permohonan->waktuanjal }}</span>
+                                                            @else
+                                                                <span>{{ $permohonan->waktuanjal }}</span>
+                                                            @endif 
+                                                        </h5>
+
+                                                        @if (isset($permohonan->jenis_masa) && isset($permohonan->sokong_selepas) && $permohonan->lulus_selepas == null)
                                                             <div class="row">
 
                                                                 <div class="col-12 text-center">
@@ -1946,7 +2078,7 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($permohonan->lulus_selepas === null && isset($permohonan->sokong_selepas))
+                                                        @if ($permohonan->lulus_selepas == null && isset($permohonan->sokong_selepas))
                                                             <input name="masa_mula" type="time" class="form-control"
                                                                 onchange="kemaskiniMasaSebenarMulaSaya({{ $permohonan->id }}, this)"
                                                                 value={{ date('H:i', strtotime($permohonan->sebenar_mula_kerja)) }}><br>
@@ -1954,8 +2086,8 @@
                                                                 onchange="kemaskiniMasaSebenarAkhirSaya({{ $permohonan->id }}, this)"
                                                                 value={{ date('H:i', strtotime($permohonan->sebenar_akhir_kerja)) }}><br>
                                                         @else
-                                                            {{ $permohonan->sebenar_mula_kerja }}<br><br>
-                                                            {{ $permohonan->sebenar_akhir_kerja }}<br><br>
+                                                            {{  date('d-m-Y H:i:s', strtotime($permohonan->sebenar_mula_kerja)) }}<br><br>
+                                                            {{  date('d-m-Y H:i:s', strtotime($permohonan->sebenar_akhir_kerja)) }}<br><br>
                                                         @endif
                                                     </td>
                                                     <td>
@@ -1965,7 +2097,7 @@
                                                     </td>
 
                                                     <td>
-                                                        @if ($permohonan->sokong_selepas === null)
+                                                        @if ($permohonan->sokong_selepas == null)
                                                             <span class="badge badge-pill badge-primary">Dalam
                                                                 Proses</span>
                                                         @elseif($permohonan->sokong_selepas == 1)
@@ -1979,22 +2111,22 @@
                                                         <br><br>
 
                                                         @if ($permohonan->sokong_selepas !== null)
-                                                            @if ($permohonan->lulus_selepas === null)
+                                                            @if ($permohonan->lulus_selepas == null)
                                                                 <span class="badge badge-pill badge-primary">Dalam Semakan
                                                                 </span>
-                                                            @elseif($permohonan->lulus_selepas === 0)
+                                                            @elseif($permohonan->lulus_selepas == 0)
                                                                 <span class="badge badge-pill badge-danger">Ditolak
                                                                     Pengesahan
                                                                 </span><br>
                                                                 Sebab Ditolak: {{ $permohonan->lulus_selepas_sebab }}
-                                                            @elseif($permohonan->lulus_selepas === 1)
+                                                            @elseif($permohonan->lulus_selepas == 1)
                                                                 <span class="badge badge-pill badge-success">Lulus
                                                                 </span>
                                                             @endif
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($permohonan->sokong_selepas == 1 && $permohonan->lulus_selepas === null)
+                                                        @if ($permohonan->sokong_selepas == 1 && $permohonan->lulus_selepas == null)
                                                             @if ($permohonan->sah_mula_kerja)
                                                                 <a href="/lulus_selepas/{{ $permohonan->id }}/"
                                                                     class="btn btn-success btn-sm"><i
@@ -2313,7 +2445,6 @@
                             <input type="hidden" name="jenis" value="lulus_selepas">
                         `);
                     }
-                    console.log(jenis);
                     jQuery.each($(childElement), function(key, val) {
                         if ($(val).prop('checked')) {
                             let permohonan_id = val.id;

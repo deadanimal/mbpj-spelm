@@ -12,7 +12,7 @@ class CreatePermohonanTuntutanDibuangsTable extends Migration
      */
     public function up()
     {
-        DB::statement('CREATE TABLE permohonan_tuntutan_dibuangs LIKE permohonan_tuntutans; ');
+        // DB::statement('CREATE TABLE permohonan_tuntutan_dibuangs LIKE permohonan_tuntutans; ');
 
     }
 

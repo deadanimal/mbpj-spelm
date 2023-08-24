@@ -17,19 +17,19 @@ class CreateTablePermohonanLevel extends Migration
     {
         Schema::create('PermohonanLevel1', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Permohonan::class)->constrained()->onDelete('Cascade');
+            $table->foreignIdFor(Permohonan::class);
             $table->string('pegawai_sokong_id');
             $table->string('pegawai_lulus_id');
-            $table->foreignIdFor(User::class)->constrained()->onDelete('Cascade');
+            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
 
         Schema::create('PermohonanLevel2', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Permohonan::class)->constrained()->onDelete('Cascade');
+            $table->foreignIdFor(Permohonan::class);
             $table->string('pegawai_sokong_id');
             $table->string('pegawai_lulus_id');
-            $table->foreignIdFor(User::class)->constrained()->onDelete('Cascade');
+            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
 

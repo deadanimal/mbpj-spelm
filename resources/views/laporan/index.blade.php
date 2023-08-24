@@ -192,7 +192,7 @@
                                         <select class="form-control" name="jabatan" required id="jabatan">
                                             <option selected disabled hidden>Pilih</option>
                                             @foreach ($jabatan as $j)
-                                                <option value="{{ $j->GE_KOD_JABATAN }}">{{ $j->GE_KETERANGAN_JABATAN }}
+                                                <option value="{{ $j->ge_kod_jabatan }}">{{ $j->ge_keterangan_jabatan }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -234,9 +234,9 @@
                         var bahagian = @json($bahagian->toArray());
                         $("#bahagian").html('');
                         bahagian.forEach(b => {
-                            if (b.GE_KOD_JABATAN == selected) {
-                                $("#bahagian").append(new Option(b.GE_KETERANGAN, b.GE_KOD_JABATAN + b
-                                    .GE_KOD_BAHAGIAN));
+                            if (b.ge_kod_jabatan == selected) {
+                                $("#bahagian").append(new Option(b.ge_keterangan, b.ge_kod_jabatan + b
+                                    .ge_kod_bahagian));
                             }
                         });
                     });
@@ -306,7 +306,7 @@
                                         <select class="form-control" multiple multiselect-search="true"
                                             multiselect-select-all="true" name="jabatan[]" required id="jabatan">
                                             @foreach ($jabatan as $j)
-                                                <option value="{{ $j->GE_KOD_JABATAN }}">{{ $j->GE_KETERANGAN_JABATAN }}
+                                                <option value="{{ $j->ge_kod_jabatan }}">{{ $j->ge_keterangan_jabatan }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -368,9 +368,9 @@
                         var option = '';
                         bahagian.forEach(b => {
                             selected.forEach(s => {
-                                if (b.GE_KOD_JABATAN == s) {
-                                    option += `<option value=` + b.GE_KOD_JABATAN + b.GE_KOD_BAHAGIAN + `>` + b
-                                        .GE_KETERANGAN + `</option>`;
+                                if (b.ge_kod_jabatan == s) {
+                                    option += `<option value=` + b.ge_kod_jabatan + b.ge_kod_bahagian + `>` + b
+                                        .ge_keterangan + `</option>`;
                                 }
                             });
                         });

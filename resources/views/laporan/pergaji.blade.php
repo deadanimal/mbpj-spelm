@@ -55,9 +55,9 @@
         <h5 class="borang-c2">BORANG C2</h5>
     </header>
     <main>
-        <p style="margin-top: 30px;">Jabatan/Unit : {{ $jabatan->GE_KETERANGAN_JABATAN }} </p>
+        <p style="margin-top: 30px;">Jabatan/Unit : {{ $jabatan->ge_keterangan_jabatan }} </p>
         <p style="margin-top: 5px;display:inline-block;margin-right:250px;">Bahagian / Seksyen :
-            {{ $bahagian->GE_KETERANGAN }}
+            {{ $bahagian->ge_keterangan }}
         </p>
         <p style="margin-top: 5px;display:inline-block;">Tarikh : 01.01.2022</p>
         <p style="margin-top: 15px;">Y.Bhg. Datuk Bandar,</p>

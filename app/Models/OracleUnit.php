@@ -9,5 +9,7 @@ class OracleUnit extends Model
 {
     use HasFactory;
 
-    protected $table = 'GE_UNIT';
+    // protected $table = 'GE_UNIT';
+    //    protected $connection = 'oracle';
+    public $table = 'MAJLIS.GE_UNIT';
 }

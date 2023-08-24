@@ -9,7 +9,7 @@ class OracleCutiAm extends Model
 {
     use HasFactory;
     // protected $connection = 'oracle';
-    // public $table = 'SPP.HR_CUTI_UMUM';
-    public $table = 'HR_CUTI_UMUM';
+    public $table = 'SPP.HR_CUTI_UMUM';
+    // public $table = 'HR_CUTI_UMUM';
 
 }

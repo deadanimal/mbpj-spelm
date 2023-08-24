@@ -11,7 +11,10 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    public $table = 'MYCLAIM.USERS';
 
+
+    //  protected $connection = 'oracle';
     /**
      * The attributes that are mass assignable.
      *

@@ -14,7 +14,7 @@
         let jabatans = [];
         jabatan.forEach(e => {
             datajabatan = {
-                jabatans: e.GE_KETERANGAN_JABATAN,
+                jabatans: e.ge_keterangan_jabatan,
                 users: e.bil,
             };
             jabatans.push(datajabatan);

@@ -9,7 +9,10 @@ class Bahagian extends Model
 {
     use HasFactory;
 
-    protected $table = 'ge_bahagian';
+    // protected $table = 'ge_bahagian';
+    // protected $connection = 'oracle2';
+
+    public $table = 'MAJLIS.GE_BAHAGIAN';
 
     // public function jabatan()
     // {

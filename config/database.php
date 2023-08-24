@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'oracle'),
 
     /*
     |--------------------------------------------------------------------------
@@ -65,16 +65,16 @@ return [
         
         'oracle' => [
             'driver'        => 'oracle',
-            'tns'           => env('DB_TNS2', ''),
-            'host'          => env('DB_HOST2', ''),
-            'port'          => env('DB_PORT2', '1521'),
-            'database'      => env('DB_DATABASE2', ''),
-            'username'      => env('DB_USERNAME2', ''),
-            'password'      => env('DB_PASSWORD2', ''),
-            'charset'       => env('DB_CHARSET2', 'AL32UTF8'),
-            'prefix'        => env('DB_PREFIX2', ''),
-            'prefix_schema' => env('DB_SCHEMA_PREFIX2', ''),
-            'edition'       => env('DB_EDITION2', 'ora$base'),
+            'tns'           => env('DB_TNS', ''),
+            'host'          => env('DB_HOST', ''),
+            'port'          => env('DB_PORT', '1521'),
+            'database'      => env('DB_DATABASE', ''),
+            'username'      => env('DB_USERNAME', ''),
+            'password'      => env('DB_PASSWORD', ''),
+            'charset'       => env('DB_CHARSET', 'AL32UTF8'),
+            'prefix'        => env('DB_PREFIX', ''),
+            'prefix_schema' => env('DB_SCHEMA_PREFIX', ''),
+            'edition'       => env('DB_EDITION', 'ora$base'),
         ],
         'pgsql' => [
             'driver' => 'pgsql',

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class OracleCuti extends Model
 {
     use HasFactory;
-    // protected $connection = 'oracle';
-    // public $table = 'SPP.HR_CUTI';
+    // protected $connection = 'oracle2';
+    public $table = 'SPP.HR_CUTI';
 
 }

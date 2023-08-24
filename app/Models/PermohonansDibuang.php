@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PermohonansDibuang extends Model
 {
     use HasFactory;
-    protected $table = "permohonans_dibuang";
+    //  protected $connection = 'oracle';
+
+    protected $table = "MYCLAIM.PERMOHONANS_DIBUANG";
     protected $guarded = [""];
 }

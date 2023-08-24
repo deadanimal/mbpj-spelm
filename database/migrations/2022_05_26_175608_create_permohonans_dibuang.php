@@ -13,7 +13,7 @@ class CreatePermohonansDibuang extends Migration
      */
     public function up()
     {
-        DB::statement('CREATE TABLE permohonans_dibuang LIKE permohonans; ');
+        // DB::statement('CREATE TABLE permohonans_dibuang LIKE permohonans; ');
     }
 
     /**
